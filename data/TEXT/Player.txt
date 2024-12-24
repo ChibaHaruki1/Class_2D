@@ -1,0 +1,18 @@
+	D3DXLoadMeshFromX("data\\TEXTURE\\Model15part\\body000.x", D3DXMESH_SYSTEMMEM, pDevice, NULL, &aModel[0].pBuffMat, NULL, &aModel[0].dwNumMat, &aModel[0].pMesh);
+	D3DXLoadMeshFromX("data\\TEXTURE\\Model15part\\armor.x", D3DXMESH_SYSTEMMEM, pDevice, NULL, &aModel[1].pBuffMat, NULL, &aModel[1].dwNumMat, &aModel[1].pMesh);
+	D3DXLoadMeshFromX("data\\TEXTURE\\Model15part\\kabuto.x", D3DXMESH_SYSTEMMEM, pDevice, NULL, &aModel[2].pBuffMat, NULL, &aModel[2].dwNumMat, &aModel[2].pMesh);
+	D3DXLoadMeshFromX("data\\TEXTURE\\Model15part\\rightarmup.x", D3DXMESH_SYSTEMMEM, pDevice, NULL, &aModel[3].pBuffMat, NULL, &aModel[3].dwNumMat, &aModel[3].pMesh);
+	D3DXLoadMeshFromX("data\\TEXTURE\\Model15part\\rightarmdown.x", D3DXMESH_SYSTEMMEM, pDevice, NULL, &aModel[4].pBuffMat, NULL, &aModel[4].dwNumMat, &aModel[4].pMesh);
+	D3DXLoadMeshFromX("data\\TEXTURE\\Model15part\\righthand.x", D3DXMESH_SYSTEMMEM, pDevice, NULL, &aModel[5].pBuffMat, NULL, &aModel[5].dwNumMat, &aModel[5].pMesh);
+	D3DXLoadMeshFromX("data\\TEXTURE\\Model15part\\leftarmup.x", D3DXMESH_SYSTEMMEM, pDevice, NULL, &aModel[6].pBuffMat, NULL, &aModel[6].dwNumMat, &aModel[6].pMesh);
+	D3DXLoadMeshFromX("data\\TEXTURE\\Model15part\\leftarmdown.x", D3DXMESH_SYSTEMMEM, pDevice, NULL, &aModel[7].pBuffMat, NULL, &aModel[7].dwNumMat, &aModel[7].pMesh);
+	D3DXLoadMeshFromX("data\\TEXTURE\\Model15part\\lefthand.x", D3DXMESH_SYSTEMMEM, pDevice, NULL, &aModel[8].pBuffMat, NULL, &aModel[8].dwNumMat, &aModel[8].pMesh);
+	D3DXLoadMeshFromX("data\\TEXTURE\\Model15part\\rightlegup.x", D3DXMESH_SYSTEMMEM, pDevice, NULL, &aModel[9].pBuffMat, NULL, &aModel[9].dwNumMat, &aModel[9].pMesh);
+	D3DXLoadMeshFromX("data\\TEXTURE\\Model15part\\rightlegdown000.x", D3DXMESH_SYSTEMMEM, pDevice, NULL, &aModel[10].pBuffMat, NULL, &aModel[10].dwNumMat, &aModel[10].pMesh);
+	D3DXLoadMeshFromX("data\\TEXTURE\\Model15part\\rightfoot.x", D3DXMESH_SYSTEMMEM, pDevice, NULL, &aModel[11].pBuffMat, NULL, &aModel[11].dwNumMat, &aModel[11].pMesh);
+	D3DXLoadMeshFromX("data\\TEXTURE\\Model15part\\leftlegup.x", D3DXMESH_SYSTEMMEM, pDevice, NULL, &aModel[12].pBuffMat, NULL, &aModel[12].dwNumMat, &aModel[12].pMesh);
+	D3DXLoadMeshFromX("data\\TEXTURE\\Model15part\\leftlegdown000.x", D3DXMESH_SYSTEMMEM, pDevice, NULL, &aModel[13].pBuffMat, NULL, &aModel[13].dwNumMat, &aModel[13].pMesh);
+	D3DXLoadMeshFromX("data\\TEXTURE\\Model15part\\leftfoot.x", D3DXMESH_SYSTEMMEM, pDevice, NULL, &aModel[14].pBuffMat, NULL, &aModel[14].dwNumMat, &aModel[14].pMesh);
+	
+	
+	END_SCRIPT		# この行は絶対消さないこと！
