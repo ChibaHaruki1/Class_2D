@@ -32,7 +32,7 @@ END_WALLROADBLOCKSET
 #1番目のブロックの情報設定
 #=====================================
 WALLROADBLOCK001SET
-		POS = 6500.0 -725.0 0.0 
+		POS = 6490.0 -725.0 0.0 
 END_WALLROADBLOCK001SET
 
 
@@ -54,7 +54,7 @@ END_SMALLBLOCKSET
 #1番目のブロックの情報設定
 #=====================================
 SMALLBLOCKSET
-		POS = 3650.0 1783.5 -0.0 
+		POS = 3650.0 1783.0 -0.0 
 END_SMALLBLOCKSET
 
 

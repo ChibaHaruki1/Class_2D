@@ -94,7 +94,7 @@ CManagerEnemyInMotion* CManagerEnemyInMotion::Create(D3DXVECTOR3 pos, CObjectX::
 		//初期化に成功した時
 		if (SUCCEEDED(pEnemyInMotion->Init()))
 		{
-			pEnemyInMotion->m_pos = pos; //位置の同期
+			pEnemyInMotion->GetPos() = pos; //位置の同期
 			return pEnemyInMotion;       //情報を返す
 		}
 	}
@@ -162,7 +162,7 @@ void CEnemyInMotion::Update()
 			if (JumpNumber == -1)
 			{
 				//自機と地面用ブロックが当たったら
-				if (m_pCollision->ColiisionBox1(m_pos, CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), m_ModelSize, CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize() * 1.1f, m_move) == true)
+				if (m_pCollision->ColiisionBox1(GetPos(), CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), m_ModelSize, CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize() * 1.1f, m_move) == true)
 				{
 					if (JumpRecastTime <= 0)
 					{
@@ -185,11 +185,11 @@ void CEnemyInMotion::Update()
 				else
 				{
 					//地面用ブロックの上に乗っている時
-					if (m_pCollision->ColiisionBoxInside(m_pos, CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), m_ModelSize, CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize(), m_move) == true)
+					if (m_pCollision->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), m_ModelSize, CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize(), m_move) == true)
 					{
 						GravityTogether(); //重力を同期させる
 
-						m_pos.y = CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize().y +
+						GetPos().y = CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize().y +
 							CManager::GetInstance()->GetFiledBlock(nCount)->GetPos().y;//y軸の位置を設定
 					}
 				}
@@ -198,7 +198,7 @@ void CEnemyInMotion::Update()
 			else if (JumpNumber == 0)
 			{
 				//自機と地面用ブロックが当たったら
-				if (m_pCollision->ColiisionBox1(m_pos, CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), m_ModelSize, CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize() * 1.0f, m_move) == true)
+				if (m_pCollision->ColiisionBox1(GetPos(), CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), m_ModelSize, CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize() * 1.0f, m_move) == true)
 				{
 					JumpRecastTime = 5;
 					JumpNumber = -1;
@@ -207,11 +207,11 @@ void CEnemyInMotion::Update()
 				else
 				{
 					//地面用ブロックの上に乗っている時
-					if (m_pCollision->ColiisionBoxInside(m_pos, CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), m_ModelSize, CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize(), m_move) == true)
+					if (m_pCollision->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), m_ModelSize, CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize(), m_move) == true)
 					{
 						GravityTogether(); //重力を同期させる
 
-						m_pos.y = CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize().y +
+						GetPos().y = CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize().y +
 							CManager::GetInstance()->GetFiledBlock(nCount)->GetPos().y;//y軸の位置を設定
 					}
 				}
@@ -327,8 +327,8 @@ void CEnemyInMotion001::Update()
 				CManager::GetInstance()->GetExplosion()->SetSize(200.0f, 200.0f, 0.0f);                                           //爆発エフェクトの位置を設定
 				CManager::GetInstance()->GetExplosion001()->SetSize(200.0f, 200.0f, 0.0);                                         //爆発エフェクトの位置を設定
 
-				CManager::GetInstance()->GetExplosion()->SetEffect(m_pos);                                                        //爆発エフェクトの位置を設定
-				CManager::GetInstance()->GetExplosion001()->SetEffect(m_pos);
+				CManager::GetInstance()->GetExplosion()->SetEffect(GetPos());                                                        //爆発エフェクトの位置を設定
+				CManager::GetInstance()->GetExplosion001()->SetEffect(GetPos());
 			}
 			else if (m_nDieFrame <= 20)
 			{
@@ -345,8 +345,8 @@ void CEnemyInMotion001::Update()
 				CManager::GetInstance()->GetExplosion()->SetSize(200.0f, 200.0f, 0.0f);                                           //爆発エフェクトの位置を設定
 				CManager::GetInstance()->GetExplosion001()->SetSize(200.0f, 200.0f, 0.0);                                         //爆発エフェクトの位置を設定
 
-				CManager::GetInstance()->GetExplosion()->SetEffect(D3DXVECTOR3(m_pos.x + m_nRandom, m_pos.y + m_nRandom, m_pos.z));                                                        //爆発エフェクトの位置を設定
-				CManager::GetInstance()->GetExplosion001()->SetEffect(D3DXVECTOR3(m_pos.x + m_nRandom, m_pos.y + m_nRandom, m_pos.z));
+				CManager::GetInstance()->GetExplosion()->SetEffect(D3DXVECTOR3(GetPos().x + m_nRandom, GetPos().y + m_nRandom, GetPos().z));                                                        //爆発エフェクトの位置を設定
+				CManager::GetInstance()->GetExplosion001()->SetEffect(D3DXVECTOR3(GetPos().x + m_nRandom, GetPos().y + m_nRandom, GetPos().z));
 			}
 
 			else if (m_nDieFrame <= 40)
@@ -363,8 +363,8 @@ void CEnemyInMotion001::Update()
 				CManager::GetInstance()->GetExplosion()->SetSize(200.0f, 200.0f, 0.0f);                                           //爆発エフェクトの位置を設定
 				CManager::GetInstance()->GetExplosion001()->SetSize(200.0f, 200.0f, 0.0);                                         //爆発エフェクトの位置を設定
 
-				CManager::GetInstance()->GetExplosion()->SetEffect(D3DXVECTOR3(m_pos.x + m_nRandom, m_pos.y + m_nRandom, m_pos.z));                                                        //爆発エフェクトの位置を設定
-				CManager::GetInstance()->GetExplosion001()->SetEffect(D3DXVECTOR3(m_pos.x + m_nRandom, m_pos.y + m_nRandom, m_pos.z));
+				CManager::GetInstance()->GetExplosion()->SetEffect(D3DXVECTOR3(GetPos().x + m_nRandom, GetPos().y + m_nRandom, GetPos().z));                                                        //爆発エフェクトの位置を設定
+				CManager::GetInstance()->GetExplosion001()->SetEffect(D3DXVECTOR3(GetPos().x + m_nRandom, GetPos().y + m_nRandom, GetPos().z));
 			}
 
 			else if (m_nDieFrame <= 60)
@@ -381,8 +381,8 @@ void CEnemyInMotion001::Update()
 				CManager::GetInstance()->GetExplosion()->SetSize(250.0f, 250.0f, 0.0f);                                           //爆発エフェクトの位置を設定
 				CManager::GetInstance()->GetExplosion001()->SetSize(250.0f, 250.0f, 0.0);                                         //爆発エフェクトの位置を設定
 
-				CManager::GetInstance()->GetExplosion()->SetEffect(D3DXVECTOR3(m_pos.x + m_nRandom, m_pos.y + m_nRandom, m_pos.z));                                                        //爆発エフェクトの位置を設定
-				CManager::GetInstance()->GetExplosion001()->SetEffect(D3DXVECTOR3(m_pos.x + m_nRandom, m_pos.y + m_nRandom, m_pos.z));
+				CManager::GetInstance()->GetExplosion()->SetEffect(D3DXVECTOR3(GetPos().x + m_nRandom, GetPos().y + m_nRandom, GetPos().z));                                                        //爆発エフェクトの位置を設定
+				CManager::GetInstance()->GetExplosion001()->SetEffect(D3DXVECTOR3(GetPos().x + m_nRandom, GetPos().y + m_nRandom, GetPos().z));
 			}
 
 			else
@@ -484,7 +484,7 @@ void CEnemyInMotion001::WhenCollisionBlock()
 			if (JumpNumber == -1)
 			{
 				//自機と地面用ブロックが当たったら
-				if (m_pCollision->ColiisionBox1(m_pos, CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), m_ModelSize, CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize() * 1.1f, m_move) == true)
+				if (m_pCollision->ColiisionBox1(GetPos(), CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), m_ModelSize, CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize() * 1.1f, m_move) == true)
 				{
 					if (JumpRecastTime <= 0)
 					{
@@ -508,11 +508,11 @@ void CEnemyInMotion001::WhenCollisionBlock()
 				else
 				{
 					//地面用ブロックの上に乗っている時
-					if (m_pCollision->ColiisionBoxInside(m_pos, CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), m_ModelSize, CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize(), m_move) == true)
+					if (m_pCollision->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), m_ModelSize, CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize(), m_move) == true)
 					{
 						GravityTogether(); //重力を同期させる
 
-						m_pos.y = CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize().y +
+						GetPos().y = CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize().y +
 							CManager::GetInstance()->GetFiledBlock(nCount)->GetPos().y;//y軸の位置を設定
 					}
 				}
@@ -521,7 +521,7 @@ void CEnemyInMotion001::WhenCollisionBlock()
 			else if (JumpNumber == 0)
 			{
 				//自機と地面用ブロックが当たったら
-				if (m_pCollision->ColiisionBox1(m_pos, CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), m_ModelSize, CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize() * 1.0f, m_move) == true)
+				if (m_pCollision->ColiisionBox1(GetPos(), CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), m_ModelSize, CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize() * 1.0f, m_move) == true)
 				{
 					JumpRecastTime = 5;
 					JumpNumber = -1;
@@ -530,11 +530,11 @@ void CEnemyInMotion001::WhenCollisionBlock()
 				else
 				{
 					//地面用ブロックの上に乗っている時
-					if (m_pCollision->ColiisionBoxInside(m_pos, CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), m_ModelSize, CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize(), m_move) == true)
+					if (m_pCollision->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), m_ModelSize, CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize(), m_move) == true)
 					{
 						GravityTogether(); //重力を同期させる
 
-						m_pos.y = CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize().y +
+						GetPos().y = CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize().y +
 							CManager::GetInstance()->GetFiledBlock(nCount)->GetPos().y;//y軸の位置を設定
 					}
 				}
@@ -547,16 +547,16 @@ void CEnemyInMotion001::WhenCollisionBlock()
 	{
 		if (CManager::GetInstance()->GetRoadBlock(nCount2) != nullptr)
 		{
-			if (m_pCollision->ColiisionBox(m_pos, CManager::GetInstance()->GetRoadBlock(nCount2)->GetPos(), m_ModelSize, CManager::GetInstance()->GetRoadBlock(nCount2)->GetModelSize() * 1.01f, m_move) == true)
+			if (m_pCollision->ColiisionBox(GetPos(), CManager::GetInstance()->GetRoadBlock(nCount2)->GetPos(), m_ModelSize, CManager::GetInstance()->GetRoadBlock(nCount2)->GetModelSize() * 1.01f, m_move) == true)
 			{
 
 			}
 			else
 			{
-				if (m_pCollision->ColiisionBoxInside(m_pos, CManager::GetInstance()->GetRoadBlock(nCount2)->GetPos(), m_ModelSize, CManager::GetInstance()->GetRoadBlock(nCount2)->GetModelSize(), m_move) == true)
+				if (m_pCollision->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetRoadBlock(nCount2)->GetPos(), m_ModelSize, CManager::GetInstance()->GetRoadBlock(nCount2)->GetModelSize(), m_move) == true)
 				{
 					GravityTogether();
-					m_pos.y = CManager::GetInstance()->GetRoadBlock(nCount2)->GetModelSize().y + CManager::GetInstance()->GetRoadBlock(nCount2)->GetPos().y;//y軸の位置を設定
+					GetPos().y = CManager::GetInstance()->GetRoadBlock(nCount2)->GetModelSize().y + CManager::GetInstance()->GetRoadBlock(nCount2)->GetPos().y;//y軸の位置を設定
 					if (m_JumpFlag == true)
 					{
 						m_JumpFlag = false; //フラグをflaseにする
@@ -571,16 +571,16 @@ void CEnemyInMotion001::WhenCollisionBlock()
 	{
 		if (CManager::GetInstance()->GetWallRoadBlock(nCount3) != nullptr)
 		{
-			if (m_pCollision->ColiisionBoxRoadBlock001(m_pos, CManager::GetInstance()->GetWallRoadBlock(nCount3)->GetPos(), m_ModelSize, CManager::GetInstance()->GetWallRoadBlock(nCount3)->GetModelSize() * 1.01f, m_move) == true)
+			if (m_pCollision->ColiisionBoxRoadBlock001(GetPos(), CManager::GetInstance()->GetWallRoadBlock(nCount3)->GetPos(), m_ModelSize, CManager::GetInstance()->GetWallRoadBlock(nCount3)->GetModelSize() * 1.01f, m_move) == true)
 			{
 
 			}
 			else
 			{
-				if (m_pCollision->ColiisionBoxInside(m_pos, CManager::GetInstance()->GetWallRoadBlock(nCount3)->GetPos(), m_ModelSize, CManager::GetInstance()->GetWallRoadBlock(nCount3)->GetModelSize(), m_move) == true)
+				if (m_pCollision->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetWallRoadBlock(nCount3)->GetPos(), m_ModelSize, CManager::GetInstance()->GetWallRoadBlock(nCount3)->GetModelSize(), m_move) == true)
 				{
 					GravityTogether();
-					m_pos.y = CManager::GetInstance()->GetWallRoadBlock(nCount3)->GetModelSize().y + CManager::GetInstance()->GetWallRoadBlock(nCount3)->GetPos().y;//y軸の位置を設定
+					GetPos().y = CManager::GetInstance()->GetWallRoadBlock(nCount3)->GetModelSize().y + CManager::GetInstance()->GetWallRoadBlock(nCount3)->GetPos().y;//y軸の位置を設定
 					if (m_JumpFlag == true)
 					{
 						m_JumpFlag = false; //フラグをflaseにする
@@ -595,10 +595,10 @@ void CEnemyInMotion001::WhenCollisionBlock()
 	{
 		if (CManager::GetInstance()->GetWallRoadBlock001(nCount4) != nullptr)
 		{
-			if (m_pCollision->ColiisionBoxInside(m_pos, CManager::GetInstance()->GetWallRoadBlock001(nCount4)->GetPos(), m_ModelSize, CManager::GetInstance()->GetWallRoadBlock001(nCount4)->GetModelSize(), m_move) == true)
+			if (m_pCollision->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetWallRoadBlock001(nCount4)->GetPos(), m_ModelSize, CManager::GetInstance()->GetWallRoadBlock001(nCount4)->GetModelSize(), m_move) == true)
 			{
 				GravityTogether();
-				m_pos.y = CManager::GetInstance()->GetWallRoadBlock001(nCount4)->GetModelSize().y + CManager::GetInstance()->GetWallRoadBlock001(nCount4)->GetPos().y;//y軸の位置を設定
+				GetPos().y = CManager::GetInstance()->GetWallRoadBlock001(nCount4)->GetModelSize().y + CManager::GetInstance()->GetWallRoadBlock001(nCount4)->GetPos().y;//y軸の位置を設定
 				if (m_JumpFlag == true)
 				{
 					m_JumpFlag = false; //フラグをflaseにする
@@ -612,16 +612,16 @@ void CEnemyInMotion001::WhenCollisionBlock()
 	{
 		if (CManager::GetInstance()->GetSmallBlock(nCount5) != nullptr)
 		{
-			if (m_pCollision->ColiisionBox(m_pos, CManager::GetInstance()->GetSmallBlock(nCount5)->GetPos(), m_ModelSize, CManager::GetInstance()->GetSmallBlock(nCount5)->GetModelSize() * 1.3f, m_move) == true)
+			if (m_pCollision->ColiisionBox(GetPos(), CManager::GetInstance()->GetSmallBlock(nCount5)->GetPos(), m_ModelSize, CManager::GetInstance()->GetSmallBlock(nCount5)->GetModelSize() * 1.3f, m_move) == true)
 			{
 
 			}
 			else
 			{
-				if (m_pCollision->ColiisionBoxInside(m_pos, CManager::GetInstance()->GetSmallBlock(nCount5)->GetPos(), m_ModelSize, CManager::GetInstance()->GetSmallBlock(nCount5)->GetModelSize(), m_move) == true)
+				if (m_pCollision->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetSmallBlock(nCount5)->GetPos(), m_ModelSize, CManager::GetInstance()->GetSmallBlock(nCount5)->GetModelSize(), m_move) == true)
 				{
 					GravityTogether();
-					m_pos.y = CManager::GetInstance()->GetSmallBlock(nCount5)->GetModelSize().y + CManager::GetInstance()->GetSmallBlock(nCount5)->GetPos().y;//y軸の位置を設定
+					GetPos().y = CManager::GetInstance()->GetSmallBlock(nCount5)->GetModelSize().y + CManager::GetInstance()->GetSmallBlock(nCount5)->GetPos().y;//y軸の位置を設定
 					if (m_JumpFlag == true)
 					{
 						m_JumpFlag = false; //フラグをflaseにする

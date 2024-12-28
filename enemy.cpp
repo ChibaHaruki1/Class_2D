@@ -36,7 +36,7 @@ CManagerEnemy::~CManagerEnemy()
 HRESULT CManagerEnemy::Init()
 {
 	m_nLife = 3;
-	m_pos = D3DXVECTOR3(700.0f, 50.0f, 0.0f); //位置を設定
+	GetPos() = D3DXVECTOR3(700.0f, 50.0f, 0.0f); //位置を設定
 	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	return S_OK;
 }
@@ -95,7 +95,7 @@ CManagerEnemy* CManagerEnemy::Create(D3DXVECTOR3 pos, CObjectX::TYPE type)
 
 	if (pManagerEnemy != nullptr)
 	{
-		pManagerEnemy->m_pos = pos;
+		pManagerEnemy->GetPos() = pos;
 		pManagerEnemy->Lood();
 		pManagerEnemy->Size();
 		return pManagerEnemy;
@@ -125,8 +125,8 @@ void CEnemyX::Update()
 	{
 		CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::EXPLOSION, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));         //爆発エフェクトを呼ぶ（1つ目）
 		CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::EXPLOSION001, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));      //爆発エフェクトを呼ぶ（2つ目）
-		CManager::GetInstance()->GetExplosion()->SetEffect(D3DXVECTOR3(m_pos.x, m_pos.y + 50.0f, m_pos.z));               //爆発エフェクトの位置を設定
-		CManager::GetInstance()->GetExplosion001()->SetEffect(D3DXVECTOR3(m_pos.x, m_pos.y + 50.0f, m_pos.z));            //爆発エフェクトの位置を設定
+		CManager::GetInstance()->GetExplosion()->SetEffect(D3DXVECTOR3(GetPos().x, GetPos().y + 50.0f, GetPos().z));               //爆発エフェクトの位置を設定
+		CManager::GetInstance()->GetExplosion001()->SetEffect(D3DXVECTOR3(GetPos().x, GetPos().y + 50.0f, GetPos().z));            //爆発エフェクトの位置を設定
 		CManager::GetInstance()->GetGameScore()->AddScore(1000);                                                          //スコアを加算
 		CObjectX::Release();
 		return;
@@ -155,7 +155,7 @@ void CEnemy001X::Update()
 	{
 		CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::EXPLOSION, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));         //爆発エフェクトを呼ぶ（1つ目）
 
-		CManager::GetInstance()->GetExplosion()->SetEffect(D3DXVECTOR3(m_pos.x, m_pos.y+50.0f, m_pos.z));                 //爆発エフェクトの位置を設定
+		CManager::GetInstance()->GetExplosion()->SetEffect(D3DXVECTOR3(GetPos().x, GetPos().y+50.0f, GetPos().z));                 //爆発エフェクトの位置を設定
 		CManager::GetInstance()->GetGameScore()->AddScore(100);                                                           //スコアを加算
 		CObjectX::Release();
 		return;

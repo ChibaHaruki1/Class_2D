@@ -185,7 +185,7 @@ CStageObj* CStageObj::Create(D3DXVECTOR3 pos, CObjectX::TYPE type)
 		//初期化に成功
 		if (SUCCEEDED(pStageObj->Init()))
 		{
-			pStageObj->m_pos = pos; //位置を同期させる
+			pStageObj->GetPos() = pos; //位置を同期させる
 			pStageObj->CObjectX::Lood(); //Xファイルを読み込む関数を呼ぶ
 			pStageObj->Size();
 			pStageObj->SetType(SHOP);
@@ -352,7 +352,7 @@ void CBreakHouse::Update()
 		CManager::GetInstance()->GetFire()->GetLife() = 60 * 3;                                               //ライフを設定
 		CManager::GetInstance()->GetFire()->GetAlpha() = 150;                                                 //ライフを設定
 		CManager::GetInstance()->GetFire()->SetSize(920.0f, 700.0f, 0.0f);                                    //大きさを設定
-		CManager::GetInstance()->GetFire()->SetEffect(D3DXVECTOR3(m_pos.x+200.0f,m_pos.y+600.0f,m_pos.z));    //炎エフェクトを呼ぶ
+		CManager::GetInstance()->GetFire()->SetEffect(D3DXVECTOR3(GetPos().x+200.0f, GetPos().y+600.0f, GetPos().z));    //炎エフェクトを呼ぶ
 		m_bOneFlag = true; //二度と通らなくする
 	}
 

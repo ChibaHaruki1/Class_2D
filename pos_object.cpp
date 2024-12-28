@@ -44,7 +44,7 @@ HRESULT CStart::Init()
 		return E_FAIL;
 	}
 
-	m_pos.x = 300;
+	GetPos().x = 300;
 
 	return S_OK;
 }

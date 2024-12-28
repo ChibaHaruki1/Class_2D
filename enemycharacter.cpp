@@ -117,16 +117,16 @@ void CEnemyCharacter::UpdateEnemy001()
 	{
 		if (nCount <= 7)
 		{
-			m_posPrtsEnemy[nCount] = D3DXVECTOR3(m_pSaveModelPrtUpdateInfo[nCount].pos.x + m_pos.x,
-				m_pSaveModelPrtUpdateInfo[nCount].pos.y + m_pos.y,
-				m_pSaveModelPrtUpdateInfo[nCount].pos.z + m_pos.z);
+			m_posPrtsEnemy[nCount] = D3DXVECTOR3(m_pSaveModelPrtUpdateInfo[nCount].pos.x + GetPos().x,
+				m_pSaveModelPrtUpdateInfo[nCount].pos.y + GetPos().y,
+				m_pSaveModelPrtUpdateInfo[nCount].pos.z + GetPos().z);
 		}
 
 		if (nCount >= 8)
 		{
-			m_posPrtsEnemy[nCount] = D3DXVECTOR3(m_pSaveModelPrtUpdateInfo[nCount].pos.x + m_pos.x,
-				m_pSaveModelPrtUpdateInfo[nCount].pos.y + m_pos.y + 100.0f ,
-				m_pSaveModelPrtUpdateInfo[nCount].pos.z + m_pos.z);
+			m_posPrtsEnemy[nCount] = D3DXVECTOR3(m_pSaveModelPrtUpdateInfo[nCount].pos.x + GetPos().x,
+				m_pSaveModelPrtUpdateInfo[nCount].pos.y + GetPos().y + 100.0f ,
+				m_pSaveModelPrtUpdateInfo[nCount].pos.z + GetPos().z);
 		}
 	}
 }

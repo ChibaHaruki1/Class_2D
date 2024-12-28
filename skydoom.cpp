@@ -56,9 +56,9 @@ void CSkyDoom::Uninit()
 //========================
 void CSkyDoom::Update()
 {
-	//向きの更新（動いているように見せる）
-	m_rot.x += 0.0001f;
-	m_rot.z += 0.0001f;
+	////向きの更新（動いているように見せる）
+	//m_rot.x += 0.0001f;
+	//m_rot.z += 0.0001f;
 
 	//DKeyが押された時
 	if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_D) == true)
@@ -74,8 +74,8 @@ void CSkyDoom::Update()
 		m_move.x += CManager::GetScene()->GetPlayerX()->GetMove().x;
 	}
 
-	m_pos.y = CManager::GetScene()->GetPlayerX()->GetPos().y; //プレイヤーのｙ軸と常に同期させる＝落ちた時に自然に見せれる
-	m_pos.x = CManager::GetScene()->GetPlayerX()->GetPos().x; //プレイヤーのｙ軸と常に同期させる＝落ちた時に自然に見せれる
+	GetPos().y = CManager::GetScene()->GetPlayerX()->GetPos().y; //プレイヤーのｙ軸と常に同期させる＝落ちた時に自然に見せれる
+	GetPos().x = CManager::GetScene()->GetPlayerX()->GetPos().x; //プレイヤーのｙ軸と常に同期させる＝落ちた時に自然に見せれる
 
 	CObjectX::Update();
 
@@ -111,7 +111,7 @@ CSkyDoom* CSkyDoom::Create(D3DXVECTOR3 pos,int nNumber)
 			{
 				pCBlockX->m_aFileName = "data\\XFILE\\StageObj\\SkyDoom001.x";  //曇り空
 			}
-			pCBlockX->m_pos = pos; //位置を同期させる
+			pCBlockX->GetPos() = pos; //位置を同期させる
 			pCBlockX->CObjectX::Lood(); //Xファイルを読み込む関数を呼ぶ
 			return pCBlockX; //情報を返す
 		}

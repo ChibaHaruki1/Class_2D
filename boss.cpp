@@ -228,7 +228,7 @@ void CBoss::AttackPattern()
 	{
 		m_rot.y = 0.0f;                                                     //向きの初期化
 		CCharacter::SetMotionBoss(CCharacter::BOSSMOTIONSTATE::BOSSIMPACT); //モーションの種類を設定
-		m_pos.y += PopY() * MAX_MOVE_SPEED;                                 //上に移動
+		GetPos().y += PopY() * MAX_MOVE_SPEED;                                 //上に移動
 	}
 
 	else if (m_nFrame <= 141)
@@ -238,7 +238,7 @@ void CBoss::AttackPattern()
 
 	else if (m_nFrame<=170)
 	{
-		m_pos.y -= PopY() * MAX_MOVE_SPEED * 1.2f;                                      //下に移動
+		GetPos().y -= PopY() * MAX_MOVE_SPEED * 1.2f;                                      //下に移動
 	}
 
 	//衝撃波
@@ -248,7 +248,7 @@ void CBoss::AttackPattern()
 		if (m_bOneCreateFlag == false)
 		{
 			CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::IMPACT, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f)); //衝撃波を生成
-			CManager::GetInstance()->GetImpact()->SetEffect(m_pos);                                                //衝撃波エフェクトを呼ぶ
+			CManager::GetInstance()->GetImpact()->SetEffect(GetPos());                                                //衝撃波エフェクトを呼ぶ
 
 			m_bOneCreateFlag = true; //フラグをOnにして通らなくする
 		}
@@ -264,7 +264,7 @@ void CBoss::AttackPattern()
 	else
 	{
 		m_rot.y = 0.0f; //位置を初期化
-		m_pos.y = 0.0f; //位置を初期化
+		GetPos().y = 0.0f; //位置を初期化
 		StatusInit();   //初期化
 	}
 }
@@ -297,7 +297,7 @@ void CBoss::AttackPattern001()
 	{
 		m_rot.y = 0.0f;
 		CCharacter::SetMotionBoss(CCharacter::BOSSMOTIONSTATE::BOSSATTACK); //モーションの種類を設定
-		m_pos.y += PopY() * 0.25f;
+		GetPos().y += PopY() * 0.25f;
 	}
 
 	else if (m_nFrame <= 201)
@@ -310,7 +310,7 @@ void CBoss::AttackPattern001()
 	//第四行動
 	else if (m_nFrame <= 240)
 	{
-		m_pos.y -= PopY() * 0.25f;
+		GetPos().y -= PopY() * 0.25f;
 
 		if (m_nWhichSideNumber == 0)
 		{
@@ -328,7 +328,7 @@ void CBoss::AttackPattern001()
 	else
 	{
 		m_rot.y = 0.0f;
-		m_pos.y = 0.0f;
+		GetPos().y = 0.0f;
 		StatusInit(); //初期化
 	}
 }
@@ -387,7 +387,7 @@ void CBoss::SpecialAttack()
 	else
 	{
 		m_rot.y = 0.0f;
-		m_pos.y = 0.0f;
+		GetPos().y = 0.0f;
 		StatusInit(); //初期化
 	}
 }
@@ -454,7 +454,7 @@ CBoss* CBoss::Create(D3DXVECTOR3 pos )
 	{
 		if (pBoss != nullptr)
 		{
-			pBoss->m_pos = pos;
+			pBoss->GetPos() = pos;
 			//pBoss->SetType(BOSS); //タイプをPLAYERに設定
 			return pBoss; //プレイヤーの情報を返す
 		}

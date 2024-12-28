@@ -69,7 +69,6 @@ protected://継承クラスのみアクセス可能
 
 	LPDIRECT3DTEXTURE9 m_pTexture[MAX_TEXTURE]; //テクスチャへのポインタ
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;         //頂点バッファのポインタ
-	D3DXVECTOR3 m_pos;                          //位置
 	D3DXVECTOR3 m_move;                         //移動量
 	D3DXVECTOR3 m_rot;                          //向き
 	D3DXVECTOR3 m_col;                          //色
@@ -111,6 +110,7 @@ protected://継承クラスのみアクセス可能
 	constexpr static float D3DX_PI_ORI = 1.57f; //目標に向かう時の速さ
 	
 private:
+	D3DXVECTOR3 m_pos;                          //位置
 	CUI* pUI;
 };
 

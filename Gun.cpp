@@ -40,7 +40,7 @@ HRESULT CInitGun::Init()
 		return E_FAIL;
 	}
 
-	m_pos = D3DXVECTOR3(200.0f, 0.0f, 100.0f); //位置を初期化(位置を調整できる）
+	GetPos() = D3DXVECTOR3(200.0f, 0.0f, 100.0f); //位置を初期化(位置を調整できる）
 
 	return S_OK;
 }
@@ -83,7 +83,7 @@ CInitGun* CInitGun::Create(D3DXVECTOR3 pos)
 		//情報がある時
 		if (pCBlockX != nullptr)
 		{
-			pCBlockX->m_pos = pos; //位置を同期させる
+			pCBlockX->GetPos() = pos; //位置を同期させる
 			pCBlockX->CObjectX::Lood(); //Xファイルを読み込む関数を呼ぶ
 			pCBlockX->SetType(INITGUN);
 			//pCBlockX->Size();
@@ -123,7 +123,7 @@ HRESULT CInitGun001::Init()
 		return E_FAIL;
 	}
 
-	m_pos = D3DXVECTOR3(200.0f, 0.0f, 100.0f); //位置を初期化(位置を調整できる）
+	GetPos() = D3DXVECTOR3(200.0f, 0.0f, 100.0f); //位置を初期化(位置を調整できる）
 
 	return S_OK;
 }
@@ -146,7 +146,7 @@ void CInitGun001::Update()
 	//DKeyが押された時
 	if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_D) == true)
 	{
-		m_pos.x = CManager::GetScene()->GetPlayerX()->GetPos().x;
+		GetPos().x = CManager::GetScene()->GetPlayerX()->GetPos().x;
 		m_move.x = CManager::GetScene()->GetPlayerX()->GetMove().x;
 		//m_rot.y = CManager::GetScene()->GetPlayerX()->GetRot().y;
 	}
@@ -154,12 +154,12 @@ void CInitGun001::Update()
 	//AKeyが押された時
 	if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_A) == true)
 	{
-		m_pos.x = CManager::GetScene()->GetPlayerX()->GetPos().x;
+		GetPos().x = CManager::GetScene()->GetPlayerX()->GetPos().x;
 		m_move.x = CManager::GetScene()->GetPlayerX()->GetMove().x;
 	}
 
-	m_pos.y = CManager::GetScene()->GetPlayerX()->GetPosPrts(5).y + 50.0f;
-	m_pos.z = CManager::GetScene()->GetPlayerX()->GetPos().z+10;
+	GetPos().y = CManager::GetScene()->GetPlayerX()->GetPosPrts(5).y + 50.0f;
+	GetPos().z = CManager::GetScene()->GetPlayerX()->GetPos().z+10;
 
 	/*if (m_rot.y <= 3.5f)
 	{
@@ -191,7 +191,7 @@ CInitGun001* CInitGun001::Create(D3DXVECTOR3 pos)
 		//情報がある時
 		if (pCBlockX != nullptr)
 		{
-			pCBlockX->m_pos = pos; //位置を同期させる
+			pCBlockX->GetPos() = pos; //位置を同期させる
 			pCBlockX->CObjectX::Lood(); //Xファイルを読み込む関数を呼ぶ
 			pCBlockX->SetType(INITGUN);
 			//pCBlockX->Size();
