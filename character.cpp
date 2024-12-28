@@ -168,13 +168,13 @@ void CCharacter::UpdatePlayer()
 	//パーツごとの位置を常に更新＝もともとのパーツのposを足し合わせた物
 	for (int nCount = 0; nCount < MAX_PRTS-1; nCount++)
 	{
-		m_posPrts[nCount] = D3DXVECTOR3(SaveMotionPos[nCount].x + GetPos().x, SaveMotionPos[nCount].y + GetPos().y, SaveMotionPos[nCount].z + GetPos().z);
+		GetPosPrts(nCount) = D3DXVECTOR3(SaveMotionPos[nCount].x + GetPos().x, SaveMotionPos[nCount].y + GetPos().y, SaveMotionPos[nCount].z + GetPos().z);
 	}
 	
 	//武器の更新
 	for (int nCount1 = 1; nCount1 < 4; nCount1++)
 	{
-		m_posPrts[17] = D3DXVECTOR3(SaveMotionPos[nCount1 + 2].x + GetPos().x, SaveMotionPos[nCount1 + 2].y + GetPos().y, SaveMotionPos[nCount1 + 2].z + GetPos().z);
+		GetPosPrts(17) = D3DXVECTOR3(SaveMotionPos[nCount1 + 2].x + GetPos().x, SaveMotionPos[nCount1 + 2].y + GetPos().y, SaveMotionPos[nCount1 + 2].z + GetPos().z);
 	}
 }
 
@@ -334,7 +334,7 @@ void CCharacter::Lood()
 						if (m_pModelPrts[nModelPrtsCount] == nullptr)
 						{
 							m_pModelPrts[nModelPrtsCount] = CModelPrts::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), &aPrtsPass[nModelPrtsCount], GetMesh(), GetBuffMat(), GetdwNumMat(), GetMat());
-							m_pModelPrts[nModelPrtsCount]->BindSize(GetMaxPrts(nModelPrtsCount), GetMinPrts(nModelPrtsCount), m_ModelSizePrts[nModelPrtsCount]);
+							m_pModelPrts[nModelPrtsCount]->BindSize(GetMaxPrts(nModelPrtsCount), GetMinPrts(nModelPrtsCount), GetModelSizePrts(nModelPrtsCount));
 						}
 						nModelPrtsCount++;
 					}
@@ -552,14 +552,14 @@ void CCharacter::Lood()
 	for (int nCount2 = 0; nCount2 < 2; nCount2++)
 	{
 		SaveMotionPos[nCount2] += m_pModelPrts[nCount2]->m_pos;
-		m_posPrts[nCount2] = D3DXVECTOR3(SaveMotionPos[nCount2].x + GetPos().x, SaveMotionPos[nCount2].y + GetPos().y + 20.0f, SaveMotionPos[nCount2].z + GetPos().z);
+		GetPosPrts(nCount2) = D3DXVECTOR3(SaveMotionPos[nCount2].x + GetPos().x, SaveMotionPos[nCount2].y + GetPos().y + 20.0f, SaveMotionPos[nCount2].z + GetPos().z);
 	}
 
 	//パーツごとの位置を常に更新＝もともとのパーツのposを足し合わせた物
 	for (int nCount3 = 0; nCount3 < NUM_RIGHTPRTS; nCount3++)
 	{
-		m_posPrts[nCount3 + 2] = D3DXVECTOR3(SaveMotionPos[nCount3 + 2].x + GetPos().x, SaveMotionPos[nCount3 + 2].y + GetPos().y+20.0f , SaveMotionPos[nCount3 + 2].z + GetPos().z);
-		m_posPrts[nCount3 + 10] = D3DXVECTOR3(SaveMotionPos[nCount3 + 10].x + GetPos().x, SaveMotionPos[nCount3 + 10].y + GetPos().y+20.0f , SaveMotionPos[nCount3 + 10].z + GetPos().z);
+		GetPosPrts(nCount3 + 2) = D3DXVECTOR3(SaveMotionPos[nCount3 + 2].x + GetPos().x, SaveMotionPos[nCount3 + 2].y + GetPos().y+20.0f , SaveMotionPos[nCount3 + 2].z + GetPos().z);
+		GetPosPrts(nCount3 + 10) = D3DXVECTOR3(SaveMotionPos[nCount3 + 10].x + GetPos().x, SaveMotionPos[nCount3 + 10].y + GetPos().y+20.0f , SaveMotionPos[nCount3 + 10].z + GetPos().z);
 	}
 }
 

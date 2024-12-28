@@ -78,10 +78,6 @@ public://外部からのアクセス可能
 	constexpr static float MAX_GRAVITY_G = 0.5f; //重力の最大値
 
 protected://継承クラスのみアクセス可能
-
-	D3DXVECTOR3 m_ModelSizePrts[MAX_PRTS];            //モデルのサイズを格納
-	D3DXVECTOR3 m_posPrts[MAX_PRTS];                  //モデルの位置を格納
-	D3DXVECTOR3 m_ModelSizePrtsBoss[MAX_BOSSPARTS];   //ボスモデルのサイズを格納
 	D3DXVECTOR3 m_posPrtsBoss[MAX_BOSSPARTS];         //ボスモデルの位置を格納
 	D3DXVECTOR3 m_ModelSizePrtsEnemy[MAX_ENEMYPARTS]; //敵モデルのサイズを格納
 	D3DXVECTOR3 m_posPrtsEnemy[MAX_ENEMYPARTS];       //敵モデルの位置を格納
@@ -111,13 +107,18 @@ private:
 	DWORD m_dwNumMat;                           //マテリアルの数
 
 	//モデルサイズの取得
-	D3DXVECTOR3 min;         //頂点の最小値
-	D3DXVECTOR3 max;         //頂点の最大値
-	D3DXVECTOR3 m_ModelSize; //モデルのサイズを格納
+	D3DXVECTOR3 min;                            //頂点の最小値
+	D3DXVECTOR3 max;                            //頂点の最大値
+	D3DXVECTOR3 m_ModelSize;                    //モデルのサイズを格納
 
-	//パーツごとのサイズ取得
-	D3DXVECTOR3 m_minPrts[MAX_PRTS]; //頂点の最小値
-	D3DXVECTOR3 m_maxPrts[MAX_PRTS]; //頂点の最大値
+	//パーツ毎の位置
+	D3DXVECTOR3 m_posPrts[MAX_PRTS];            //モデルの位置を格納
+
+	//パーツごとのサイズ
+	D3DXVECTOR3 m_minPrts[MAX_PRTS];            //頂点の最小値
+	D3DXVECTOR3 m_maxPrts[MAX_PRTS];            //頂点の最大値
+	D3DXVECTOR3 m_ModelSizePrts[MAX_PRTS];      //モデルのサイズを格納
+	D3DXVECTOR3 m_ModelSizePrtsBoss[MAX_BOSSPARTS];   //ボスモデルのサイズを格納
 
 	CCollision* m_pCollision;                   //当たり判定関数のポインター
 	D3DXVECTOR3 m_col;                          //色

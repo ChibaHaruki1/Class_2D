@@ -498,8 +498,8 @@ void CPlayerX::KeySet()
 				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::SPECIALATTACK, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));  //必殺技のエフェクトの生成
 				m_nMotionFrame = CManager::GetInstance()->GetSpecialAttack()->GetLife();                                       //モーションのライフを同期させる
 				CManager::GetInstance()->GetSpecialAttack()->GetRotNumber() = 1;                                               //サイズの設定用の番号を渡す
-				CManager::GetInstance()->GetSpecialAttack()->SetEffect(D3DXVECTOR3(m_posPrts[17].x + 220.0f,                   //エフェクトの出す位置を設定
-					m_posPrts[17].y, m_posPrts[17].z));
+				CManager::GetInstance()->GetSpecialAttack()->SetEffect(D3DXVECTOR3(GetPosPrts(17).x + 220.0f,                   //エフェクトの出す位置を設定
+					GetPosPrts(17).y, GetPosPrts(17).z));
 			}
 
 			//左向きの時
@@ -508,8 +508,8 @@ void CPlayerX::KeySet()
 				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::SPECIALATTACK, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));  //必殺技のエフェクトの生成
 				m_nMotionFrame001 = CManager::GetInstance()->GetSpecialAttack()->GetLife();                                    //モーションのライフを同期させる
 				CManager::GetInstance()->GetSpecialAttack()->GetRotNumber() = 2;											   //サイズの設定用の番号を渡す
-				CManager::GetInstance()->GetSpecialAttack()->SetEffect(D3DXVECTOR3(m_posPrts[17].x - 50.0f, 				   //エフェクトの出す位置を設定
-					m_posPrts[17].y, m_posPrts[17].z));
+				CManager::GetInstance()->GetSpecialAttack()->SetEffect(D3DXVECTOR3(GetPosPrts(17).x - 50.0f, 				   //エフェクトの出す位置を設定
+					GetPosPrts(17).y, GetPosPrts(17).z));
 			}
 		}
 	}
@@ -560,13 +560,13 @@ void CPlayerX::KeySet()
 		if (GetRot().y == CManager::GetScene()->GetCamera()->GetRot().y - D3DX_PI / 2)
 		{
 			m_nMotionFrame = 60;
-			CManagerBullet::Create(D3DXVECTOR3(m_posPrts[17].x + 240.0f, m_posPrts[17].y, m_posPrts[17].z), D3DXVECTOR3(-sinf(GetRot().y) * MAX_BUULET_SPEED, 0.0f, 0.0f), SET_BULLET_LIFE, CObject3D::TYPE::BULLET); //正面
+			CManagerBullet::Create(D3DXVECTOR3(GetPosPrts(17).x + 240.0f, GetPosPrts(17).y, GetPosPrts(17).z), D3DXVECTOR3(-sinf(GetRot().y) * MAX_BUULET_SPEED, 0.0f, 0.0f), SET_BULLET_LIFE, CObject3D::TYPE::BULLET); //正面
 		}
 
 		else if (GetRot().y == CManager::GetScene()->GetCamera()->GetRot().y + D3DX_PI / 2)
 		{
 			m_nMotionFrame001 = 60;
-			CManagerBullet::Create(D3DXVECTOR3(m_posPrts[17].x - 50.0f, m_posPrts[17].y, m_posPrts[17].z), D3DXVECTOR3(-sinf(GetRot().y) * MAX_BUULET_SPEED, 0.0f, -cosf(GetRot().y) * MAX_BUULET_SPEED), SET_BULLET_LIFE, CObject3D::TYPE::BULLET); //正面
+			CManagerBullet::Create(D3DXVECTOR3(GetPosPrts(17).x - 50.0f, GetPosPrts(17).y, GetPosPrts(17).z), D3DXVECTOR3(-sinf(GetRot().y) * MAX_BUULET_SPEED, 0.0f, -cosf(GetRot().y) * MAX_BUULET_SPEED), SET_BULLET_LIFE, CObject3D::TYPE::BULLET); //正面
 		}
 	}
 
