@@ -223,8 +223,8 @@ void CEnemyCharacter::LoodEnemy(const char* aSelect)
 
 					if (nModelPrtsCount < MAX_ENEMYPARTS)
 					{
-						m_pModelPrtsEnemy[nModelPrtsCount] = CModelPrts::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), &aPrtsPass[nModelPrtsCount], m_pMesh, m_pBuffMat, m_dwNumMat, m_pMat);
-						m_pModelPrtsEnemy[nModelPrtsCount]->BindSize(m_maxPrts[nModelPrtsCount], m_minPrts[nModelPrtsCount], m_ModelSizePrtsEnemy[nModelPrtsCount]);
+						m_pModelPrtsEnemy[nModelPrtsCount] = CModelPrts::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), &aPrtsPass[nModelPrtsCount], GetMesh(), GetBuffMat(), GetdwNumMat(), GetMat());
+						m_pModelPrtsEnemy[nModelPrtsCount]->BindSize(GetMaxPrts(nModelPrtsCount), GetMinPrts(nModelPrtsCount), m_ModelSizePrtsEnemy[nModelPrtsCount]);
 						nModelPrtsCount++;
 					}
 				}

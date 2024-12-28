@@ -14,7 +14,7 @@
 #include <string>
 
 std::string u8TelephonPoleText = u8"電柱の情報設定"; //日本語対応
-std::string u8TelephonPoleNumberText = u8"番目の"; //日本語対応
+std::string u8TelephonPoleNumberText = u8"番目の";   //日本語対応
 
 //===========================
 //static変数の初期化

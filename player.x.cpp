@@ -13,7 +13,6 @@
 #include "manager.h"
 #include "collision.h"
 #include "bullet.h"
-#include "pos_object.h"
 #include "enemy.h"
 #include <time.h>
 #include "DxLib.h"
@@ -575,13 +574,13 @@ void CPlayerX::KeySet()
 	if (CManager::GetKeyBorad()->GetKeyboardTrigger(DIK_X) == true || CManager::GetJyoPad()->GetJoypadTrigger(JOYKEY_A) == true)
 	{
 		m_JumpFlag = true;
-		CFuelGage::m_bUse = true;
+		CManager::GetInstance()->GetFuelGage()->GetUse()= true;
 	}
 	else if (m_JumpFlag == true)
 	{
 		if (CManager::GetInstance()->GetFuelGage() != nullptr)
 		{
-			if (CManager::GetInstance()->GetFuelGage()->GetSizeY() > 0.0f && CFuelGage::m_bUse == true)
+			if (CManager::GetInstance()->GetFuelGage()->GetSizeY() > 0.0f && CManager::GetInstance()->GetFuelGage()->GetUse() == true)
 			{
 				//Xキーが押された時
 				if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_X) == true || CManager::GetJyoPad()->GetJoypadPress(JOYKEY_A) == true)
@@ -596,14 +595,14 @@ void CPlayerX::KeySet()
 				}
 				else
 				{
-					CFuelGage::m_bUse = false;
+					CManager::GetInstance()->GetFuelGage()->GetUse() = false;
 					m_GravityFlag = true;
 				}
 			}
 			else if (CManager::GetInstance()->GetFuelGage()->GetSizeY() <= 0.0f)
 			{
 				m_GravityFlag = true;
-				CFuelGage::m_bUse = false;
+				CManager::GetInstance()->GetFuelGage()->GetUse() = false;
 				return;
 			}
 		}
@@ -880,13 +879,13 @@ void CPlayerX::BlockJudgement()
 	{
 		if (CManager::GetInstance()->GetFiledBlock(nCount) != nullptr)
 		{
-			if (m_pCollision->ColiisionBox(GetPos(), CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), m_ModelSize, CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize() * 1.05f, GetMove()) == true)
+			if (GetCollision() ->ColiisionBox(GetPos(), CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), GetModelSize(), CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize() * 1.05f, GetMove()) == true)
 			{
 
 			}
 			else
 			{
-				if (m_pCollision->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), m_ModelSize, CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize(), GetMove()) == true)
+				if (GetCollision() ->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), GetModelSize(), CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize(), GetMove()) == true)
 				{
 					GravityTogether();
 					GetPos().y = CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize().y + CManager::GetInstance()->GetFiledBlock(nCount)->GetPos().y;//y軸の位置を設定
@@ -904,15 +903,15 @@ void CPlayerX::BlockJudgement()
 	{
 		if (CManager::GetInstance()->GetGoUpBlock(nCount1) != nullptr)
 		{
-			if (m_pCollision->ColiisionBox(GetPos(), CManager::GetInstance()->GetGoUpBlock(nCount1)->GetPos(), m_ModelSize, CManager::GetInstance()->GetGoUpBlock(nCount1)->GetModelSize() * 1.1f, GetMove()) == true)
+			if (GetCollision() ->ColiisionBox(GetPos(), CManager::GetInstance()->GetGoUpBlock(nCount1)->GetPos(), GetModelSize(), CManager::GetInstance()->GetGoUpBlock(nCount1)->GetModelSize() * 1.1f, GetMove()) == true)
 			{
 
 			}
 			else
 			{
-				if (m_pCollision->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetGoUpBlock(nCount1)->GetPos(), m_ModelSize, CManager::GetInstance()->GetGoUpBlock(nCount1)->GetModelSize(), GetMove()) == true)
+				if (GetCollision() ->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetGoUpBlock(nCount1)->GetPos(), GetModelSize(), CManager::GetInstance()->GetGoUpBlock(nCount1)->GetModelSize(), GetMove()) == true)
 				{
-					CFuelGage::m_bUse = false;
+					CManager::GetInstance()->GetFuelGage()->GetUse() = false;
 					GravityTogether();
 					GetPos().y = CManager::GetInstance()->GetGoUpBlock(nCount1)->GetModelSize().y + CManager::GetInstance()->GetGoUpBlock(nCount1)->GetPos().y;//y軸の位置を設定
 					if (m_JumpFlag == true)
@@ -929,13 +928,13 @@ void CPlayerX::BlockJudgement()
 	{
 		if (CManager::GetInstance()->GetRoadBlock(nCount2) != nullptr)
 		{
-			if (m_pCollision->ColiisionBox(GetPos(), CManager::GetInstance()->GetRoadBlock(nCount2)->GetPos(), m_ModelSize, CManager::GetInstance()->GetRoadBlock(nCount2)->GetModelSize() * 1.1f, GetMove()) == true)
+			if (GetCollision() ->ColiisionBox(GetPos(), CManager::GetInstance()->GetRoadBlock(nCount2)->GetPos(), GetModelSize(), CManager::GetInstance()->GetRoadBlock(nCount2)->GetModelSize() * 1.1f, GetMove()) == true)
 			{
 
 			}
 			else
 			{
-				if (m_pCollision->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetRoadBlock(nCount2)->GetPos(), m_ModelSize, CManager::GetInstance()->GetRoadBlock(nCount2)->GetModelSize(), GetMove()) == true)
+				if (GetCollision() ->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetRoadBlock(nCount2)->GetPos(), GetModelSize(), CManager::GetInstance()->GetRoadBlock(nCount2)->GetModelSize(), GetMove()) == true)
 				{
 					GravityTogether();
 					GetPos().y = CManager::GetInstance()->GetRoadBlock(nCount2)->GetModelSize().y + CManager::GetInstance()->GetRoadBlock(nCount2)->GetPos().y;//y軸の位置を設定
@@ -953,13 +952,13 @@ void CPlayerX::BlockJudgement()
 	{
 		if (CManager::GetInstance()->GetWallRoadBlock(nCount3) != nullptr)
 		{
-			if (m_pCollision->ColiisionBoxRoadBlock001(GetPos(), CManager::GetInstance()->GetWallRoadBlock(nCount3)->GetPos(), m_ModelSize, CManager::GetInstance()->GetWallRoadBlock(nCount3)->GetModelSize(), GetMove()) == true)
+			if (GetCollision() ->ColiisionBoxRoadBlock001(GetPos(), CManager::GetInstance()->GetWallRoadBlock(nCount3)->GetPos(), GetModelSize(), CManager::GetInstance()->GetWallRoadBlock(nCount3)->GetModelSize(), GetMove()) == true)
 			{
 
 			}
 			else
 			{
-				if (m_pCollision->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetWallRoadBlock(nCount3)->GetPos(), m_ModelSize, CManager::GetInstance()->GetWallRoadBlock(nCount3)->GetModelSize(), GetMove()) == true)
+				if (GetCollision() ->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetWallRoadBlock(nCount3)->GetPos(), GetModelSize(), CManager::GetInstance()->GetWallRoadBlock(nCount3)->GetModelSize(), GetMove()) == true)
 				{
 					GravityTogether();
 					GetPos().y = CManager::GetInstance()->GetWallRoadBlock(nCount3)->GetModelSize().y + CManager::GetInstance()->GetWallRoadBlock(nCount3)->GetPos().y;//y軸の位置を設定
@@ -977,7 +976,7 @@ void CPlayerX::BlockJudgement()
 	{
 		if (CManager::GetInstance()->GetWallRoadBlock001(nCount4) != nullptr)
 		{
-			if (m_pCollision->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetWallRoadBlock001(nCount4)->GetPos(), m_ModelSize, CManager::GetInstance()->GetWallRoadBlock001(nCount4)->GetModelSize(), GetMove()) == true)
+			if (GetCollision() ->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetWallRoadBlock001(nCount4)->GetPos(), GetModelSize(), CManager::GetInstance()->GetWallRoadBlock001(nCount4)->GetModelSize(), GetMove()) == true)
 			{
 				GravityTogether();
 				GetPos().y = CManager::GetInstance()->GetWallRoadBlock001(nCount4)->GetModelSize().y + CManager::GetInstance()->GetWallRoadBlock001(nCount4)->GetPos().y;//y軸の位置を設定
@@ -994,15 +993,15 @@ void CPlayerX::BlockJudgement()
 	{
 		if (CManager::GetInstance()->GetSmallBlock(nCount5) != nullptr)
 		{
-			if (m_pCollision->ColiisionBox(GetPos(), CManager::GetInstance()->GetSmallBlock(nCount5)->GetPos(), m_ModelSize, CManager::GetInstance()->GetSmallBlock(nCount5)->GetModelSize() * 1.3f, GetMove()) == true)
+			if (GetCollision() ->ColiisionBox(GetPos(), CManager::GetInstance()->GetSmallBlock(nCount5)->GetPos(), GetModelSize(), CManager::GetInstance()->GetSmallBlock(nCount5)->GetModelSize() * 1.3f, GetMove()) == true)
 			{
 
 			}
 			else
 			{
-				if (m_pCollision->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetSmallBlock(nCount5)->GetPos(), m_ModelSize, CManager::GetInstance()->GetSmallBlock(nCount5)->GetModelSize(), GetMove()) == true)
+				if (GetCollision() ->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetSmallBlock(nCount5)->GetPos(), GetModelSize(), CManager::GetInstance()->GetSmallBlock(nCount5)->GetModelSize(), GetMove()) == true)
 				{
-					CFuelGage::m_bUse = false;
+					CManager::GetInstance()->GetFuelGage()->GetUse() = false;
 					GravityTogether();
 					GetPos().y = CManager::GetInstance()->GetSmallBlock(nCount5)->GetModelSize().y + CManager::GetInstance()->GetSmallBlock(nCount5)->GetPos().y;//y軸の位置を設定
 					if (m_JumpFlag == true)
@@ -1010,9 +1009,9 @@ void CPlayerX::BlockJudgement()
 						m_JumpFlag = false; //フラグをflaseにする
 					}
 				}
-				else if (m_pCollision->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetSmallBlock(nCount5)->GetPos(), m_ModelSize, CManager::GetInstance()->GetSmallBlock(nCount5)->GetModelSize(), GetMove()) == true)
+				else if (GetCollision() ->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetSmallBlock(nCount5)->GetPos(), GetModelSize(), CManager::GetInstance()->GetSmallBlock(nCount5)->GetModelSize(), GetMove()) == true)
 				{
-					CFuelGage::m_bUse = false;
+					CManager::GetInstance()->GetFuelGage()->GetUse() = false;
 					GravityTogether();
 					GetPos().y = CManager::GetInstance()->GetSmallBlock(nCount5)->GetModelSize().y + CManager::GetInstance()->GetSmallBlock(nCount5)->GetPos().y;//y軸の位置を設定
 					if (m_JumpFlag == true)
@@ -1029,14 +1028,15 @@ void CPlayerX::BlockJudgement()
 	{
 		if (CManager::GetInstance()->GetUpBlock(nCount6) != nullptr)
 		{
-			if (m_pCollision->ColiisionBox(GetPos(), CManager::GetInstance()->GetUpBlock(nCount6)->GetPos(), m_ModelSize, CManager::GetInstance()->GetUpBlock(nCount6)->GetModelSize() * 1.05f, GetMove()) == true)
+			if (GetCollision() ->ColiisionBox(GetPos(), CManager::GetInstance()->GetUpBlock(nCount6)->GetPos(), GetModelSize(), CManager::GetInstance()->GetUpBlock(nCount6)->GetModelSize() * 1.05f, GetMove()) == true)
 			{
 				//GetPos().x = 100.0f;
 			}
 			else
 			{
-				if (m_pCollision->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetUpBlock(nCount6)->GetPos(), m_ModelSize, CManager::GetInstance()->GetUpBlock(nCount6)->GetModelSize(), GetMove()) == true)
+				if (GetCollision() ->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetUpBlock(nCount6)->GetPos(), GetModelSize(), CManager::GetInstance()->GetUpBlock(nCount6)->GetModelSize(), GetMove()) == true)
 				{
+					CManager::GetInstance()->GetFuelGage()->GetUse() = false;
 					GravityTogether();
 					GetPos().y = CManager::GetInstance()->GetUpBlock(nCount6)->GetModelSize().y + CManager::GetInstance()->GetUpBlock(nCount6)->GetPos().y;//y軸の位置を設定
 					if (m_JumpFlag == true)
@@ -1044,8 +1044,9 @@ void CPlayerX::BlockJudgement()
 						m_JumpFlag = false; //フラグをflaseにする
 					}
 				}
-				else if (m_pCollision->ColiisionBoxOutside(GetPos(), CManager::GetInstance()->GetUpBlock(nCount6)->GetPos(), m_ModelSize, CManager::GetInstance()->GetUpBlock(nCount6)->GetModelSize(), GetMove()) == true)
+				else if (GetCollision() ->ColiisionBoxOutside(GetPos(), CManager::GetInstance()->GetUpBlock(nCount6)->GetPos(), GetModelSize(), CManager::GetInstance()->GetUpBlock(nCount6)->GetModelSize(), GetMove()) == true)
 				{
+					CManager::GetInstance()->GetFuelGage()->GetUse() = false;
 					GravityTogether();
 					m_JumpFlag = false; //フラグをflaseにする
 				}
@@ -1058,9 +1059,9 @@ void CPlayerX::BlockJudgement()
 	{
 		if (CManager::GetInstance()->GetSmallBlock001(nCount7) != nullptr)
 		{
-			if (m_pCollision->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetSmallBlock001(nCount7)->GetPos(), m_ModelSize, CManager::GetInstance()->GetSmallBlock001(nCount7)->GetModelSize(), GetMove()) == true)
+			if (GetCollision() ->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetSmallBlock001(nCount7)->GetPos(), GetModelSize(), CManager::GetInstance()->GetSmallBlock001(nCount7)->GetModelSize(), GetMove()) == true)
 			{
-				CFuelGage::m_bUse = false;
+				CManager::GetInstance()->GetFuelGage()->GetUse() = false;
 				GravityTogether();
 				GetPos().y = CManager::GetInstance()->GetSmallBlock001(nCount7)->GetModelSize().y + CManager::GetInstance()->GetSmallBlock001(nCount7)->GetPos().y;//y軸の位置を設定
 				if (m_JumpFlag == true)
@@ -1068,7 +1069,7 @@ void CPlayerX::BlockJudgement()
 					m_JumpFlag = false; //フラグをflaseにする
 				}
 			}
-			else if (m_pCollision->ColiisionBoxOutside(GetPos(), CManager::GetInstance()->GetSmallBlock001(nCount7)->GetPos(), m_ModelSize, CManager::GetInstance()->GetSmallBlock001(nCount7)->GetModelSize(), GetMove()) == true)
+			else if (GetCollision() ->ColiisionBoxOutside(GetPos(), CManager::GetInstance()->GetSmallBlock001(nCount7)->GetPos(), GetModelSize(), CManager::GetInstance()->GetSmallBlock001(nCount7)->GetModelSize(), GetMove()) == true)
 			{
 				m_JumpFlag = false; //フラグをflaseにする
 			}
@@ -1078,7 +1079,7 @@ void CPlayerX::BlockJudgement()
 	//ボス戦の足場
 	if (CManager::GetInstance()->GetFinalBlock() != nullptr)
 	{
-		if (m_pCollision->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetFinalBlock()->GetPos(), m_ModelSize, CManager::GetInstance()->GetFinalBlock()->GetModelSize(), GetMove()) == true)
+		if (GetCollision() ->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetFinalBlock()->GetPos(), GetModelSize(), CManager::GetInstance()->GetFinalBlock()->GetModelSize(), GetMove()) == true)
 		{
 			GravityTogether();
 			GetPos().y = CManager::GetInstance()->GetFinalBlock()->GetModelSize().y + CManager::GetInstance()->GetFinalBlock()->GetPos().y;//y軸の位置を設定
@@ -1091,7 +1092,7 @@ void CPlayerX::BlockJudgement()
 	//ボス戦の天井
 	if (CManager::GetInstance()->GetFinalCeiling() != nullptr)
 	{
-		if (m_pCollision->ColiisionBoxOutside(GetPos(), CManager::GetInstance()->GetFinalCeiling()->GetPos(), m_ModelSize, CManager::GetInstance()->GetFinalCeiling()->GetModelSize(), GetMove()) == true)
+		if (GetCollision() ->ColiisionBoxOutside(GetPos(), CManager::GetInstance()->GetFinalCeiling()->GetPos(), GetModelSize(), CManager::GetInstance()->GetFinalCeiling()->GetModelSize(), GetMove()) == true)
 		{
 			//m_JumpFlag = false; //フラグをflaseにする
 			m_GravityFlag = true;
@@ -1108,7 +1109,7 @@ void CPlayerX::BlockJudgement()
 	//バトルシップとの当たり判定
 	if (CManager::GetInstance()->GetSpeceBattleShip() != nullptr)
 	{
-		if (m_pCollision->CircleCollision(GetPos(), CManager::GetInstance()->GetSpeceBattleShip()->GetPos(), m_ModelSize, CManager::GetInstance()->GetSpeceBattleShip()->GetModelSize() * 1.1f) == true)
+		if (GetCollision() ->CircleCollision(GetPos(), CManager::GetInstance()->GetSpeceBattleShip()->GetPos(), GetModelSize(), CManager::GetInstance()->GetSpeceBattleShip()->GetModelSize() * 1.1f) == true)
 		{
 			m_bNextStage = true; //次のsceneへ行くフラフをONにする
 		}
@@ -1117,12 +1118,12 @@ void CPlayerX::BlockJudgement()
 	//SHOPとの当たり判定
 	if (CManager::GetInstance()->GetShop() != nullptr)
 	{
-		if (m_pCollision->ColiisionBox(GetPos(), CManager::GetInstance()->GetShop()->GetPos(), m_ModelSize, CManager::GetInstance()->GetShop()->GetModelSize(), GetMove()) == true)
+		if (GetCollision() ->ColiisionBox(GetPos(), CManager::GetInstance()->GetShop()->GetPos(), GetModelSize(), CManager::GetInstance()->GetShop()->GetModelSize(), GetMove()) == true)
 		{
 
 		}
 
-		if (m_pCollision->CircleCollision(GetPos(), CManager::GetInstance()->GetShop()->GetPos(), m_ModelSize, CManager::GetInstance()->GetShop()->GetModelSize() * 1.5f) == true)
+		if (GetCollision() ->CircleCollision(GetPos(), CManager::GetInstance()->GetShop()->GetPos(), GetModelSize(), CManager::GetInstance()->GetShop()->GetModelSize() * 1.5f) == true)
 		{
 			//話すtextの情報がない時
 			if (m_pTalkText == nullptr)

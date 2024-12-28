@@ -31,8 +31,8 @@ public://外部からのアクセス可能
 	void GravityTogether();                                 //重力を同期させる処理
 	void Junp(TYPE type,float fJumpPwer);                                   //飛ぶ処理
 	void TargetHeadingTowards(CObjectX*pObject,float MAX_SPEED);            //目標に向かう処理
-	HRESULT Lood();                                         //ｘファイルの読み込み関数（引数で読み込むファイルパスを渡す）
-	void ObjectArrangement(CObjectX::TYPE type, CUI* pUI1); //配置ツール
+	HRESULT Lood();                                                         //ｘファイルの読み込み関数（引数で読み込むファイルパスを渡す）
+	void ObjectArrangement(CObjectX::TYPE type, CUI* pUI1);                 //配置ツール
 	void BindTexture(LPDIRECT3DTEXTURE9 pTex, LPD3DXMESH pMesh, LPD3DXBUFFER BuffMat, DWORD NumMat, D3DXMATERIAL* pMat); //派生クラスの情報をもらうための関数（３Dモデル関連）
 
 	bool CollisionBossPrts();                                                   //プレイヤーとボスの当たり判定
@@ -57,8 +57,19 @@ public://外部からのアクセス可能
 	inline D3DXVECTOR3& GetRot() { return m_rot; }                                                   //派生クラスのrotの情報を返す関数
 	inline D3DXVECTOR3& GetMove() { return m_move; }                                                 //派生クラスmoveの情報を返す
 
-	CCollision* GetCollision() { return m_pCollision; }                                              //当たり判定の情報を返す関数
-	D3DXMATRIX& GetmtxWorld() { return m_mtxWorld; }                                                 //ワールドマトリックスの情報を返す関数
+	//生成に必要な物の情報の取得
+	inline LPD3DXMESH& GetMesh() { return m_pMesh; }                                                 //meshの情報を返す
+	inline LPD3DXBUFFER& GetBuffMat() { return m_pBuffMat; }                                         //BuffMatの情報を返す
+	inline DWORD& GetdwNumMat() { return m_dwNumMat; }                                               //dwNumMatの数の情報を返す
+	inline D3DXMATERIAL* GetMat() { return m_pMat; }                                                 //Matの情報を返す
+	inline D3DXMATRIX& GetmtxWorld() { return m_mtxWorld; }                                          //ワールドマトリックスの情報を返す関数
+
+	inline CCollision* GetCollision() { return m_pCollision; }                                       //当たり判定の情報を返す関数
+
+	//パーツごとのサイズ取得
+	inline D3DXVECTOR3& GetMinPrts(int nNumber) { return m_minPrts[nNumber]; }
+	inline D3DXVECTOR3& GetMaxPrts(int nNumber) { return m_maxPrts[nNumber]; }
+
 
 	//マクロ定義
 	constexpr static int MAX_PRTS = 19;          //プレイヤーのパーツ数
@@ -67,21 +78,6 @@ public://外部からのアクセス可能
 	constexpr static float MAX_GRAVITY_G = 0.5f; //重力の最大値
 
 protected://継承クラスのみアクセス可能
-	D3DXMATRIX m_mtxWorld;                      //マトリックス
-	LPD3DXMESH m_pMesh;                         //メッシュのへのポインタ
-	LPD3DXBUFFER m_pBuffMat;                    //バッファへのポインタ
-	DWORD m_dwNumMat;                           //マテリアルの数
-	D3DXMATERIAL* m_pMat;                       //マテリアルのポインタ
-	CCollision* m_pCollision;                   //当たり判定関数のポインター
-
-	//モデルサイズの取得
-	D3DXVECTOR3 min; //頂点の最小値
-	D3DXVECTOR3 max; //頂点の最大値
-	D3DXVECTOR3 m_ModelSize; //モデルのサイズを格納
-
-	//パーツごとのサイズ取得
-	D3DXVECTOR3 m_minPrts[MAX_PRTS]; //頂点の最小値
-	D3DXVECTOR3 m_maxPrts[MAX_PRTS]; //頂点の最大値
 
 	D3DXVECTOR3 m_ModelSizePrts[MAX_PRTS];            //モデルのサイズを格納
 	D3DXVECTOR3 m_posPrts[MAX_PRTS];                  //モデルの位置を格納
@@ -107,8 +103,24 @@ protected://継承クラスのみアクセス可能
 private:
 	LPDIRECT3DTEXTURE9 m_pTexture[MAX_TEXTURE]; //テクスチャへのポインタ
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;         //頂点バッファのポインタ
-	D3DXVECTOR3 m_col;                          //色
+	D3DXMATRIX m_mtxWorld;                      //マトリックス
 
+	D3DXMATERIAL* m_pMat;                       //マテリアルのポインタ
+	LPD3DXMESH m_pMesh;                         //メッシュのへのポインタ
+	LPD3DXBUFFER m_pBuffMat;                    //バッファへのポインタ
+	DWORD m_dwNumMat;                           //マテリアルの数
+
+	//モデルサイズの取得
+	D3DXVECTOR3 min;         //頂点の最小値
+	D3DXVECTOR3 max;         //頂点の最大値
+	D3DXVECTOR3 m_ModelSize; //モデルのサイズを格納
+
+	//パーツごとのサイズ取得
+	D3DXVECTOR3 m_minPrts[MAX_PRTS]; //頂点の最小値
+	D3DXVECTOR3 m_maxPrts[MAX_PRTS]; //頂点の最大値
+
+	CCollision* m_pCollision;                   //当たり判定関数のポインター
+	D3DXVECTOR3 m_col;                          //色
 	D3DXVECTOR3 m_pos;                          //位置
 	D3DXVECTOR3 m_rot;                          //向き
 	D3DXVECTOR3 m_move;                         //移動量

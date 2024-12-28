@@ -23,7 +23,6 @@ CRenderer::CRenderer()
 	m_pD3D = nullptr;
 	m_pD3DDevice = nullptr;
 
-	
 	m_pFont = nullptr;
 	m_bPause = false;
 	m_bDrawShader = false;

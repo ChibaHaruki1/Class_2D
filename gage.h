@@ -20,19 +20,20 @@ public:
 	CFuelGage(int nPriority = DEFAULT_PRIORITY);           //コンストラクタ;
 	~CFuelGage();                                          //コンストラクタ;
 	HRESULT Init()override;                                //初期化処理
-	void Uninit()override;                                    //破棄処理
-	void  Update()override;                                   //更新処理
-	void Draw()override;                                      //描画処理
-	void DrawNoml()override;                                  //通常描画処理
+	void Uninit()override;                                 //破棄処理
+	void Update()override;                                //更新処理
+	void Draw()override;                                   //描画処理
+	void DrawNoml()override;                               //通常描画処理
 
 	static CFuelGage* Create();
 
-	static bool m_bUse;                                    //ゲージを減らすかどうか判定するための変数
-
+	inline bool& GetUse() { return m_bUse; }              //使われているかどうかの判定を取得する
 private:
 	//マクロ定義
 	constexpr static float MAX_SIZEY = 100.0f;            //ゲージの大きさ
 	constexpr static float MAX_MAINAS_GAGESPEED = 0.5f;   //ゲージの減る速さ
+	bool m_bUse;                                          //ゲージを減らすかどうか判定するための変数
+
 };
 
 

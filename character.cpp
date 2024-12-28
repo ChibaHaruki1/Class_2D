@@ -333,8 +333,8 @@ void CCharacter::Lood()
 					{
 						if (m_pModelPrts[nModelPrtsCount] == nullptr)
 						{
-							m_pModelPrts[nModelPrtsCount] = CModelPrts::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), &aPrtsPass[nModelPrtsCount], m_pMesh, m_pBuffMat, m_dwNumMat, m_pMat);
-							m_pModelPrts[nModelPrtsCount]->BindSize(m_maxPrts[nModelPrtsCount], m_minPrts[nModelPrtsCount], m_ModelSizePrts[nModelPrtsCount]);
+							m_pModelPrts[nModelPrtsCount] = CModelPrts::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), &aPrtsPass[nModelPrtsCount], GetMesh(), GetBuffMat(), GetdwNumMat(), GetMat());
+							m_pModelPrts[nModelPrtsCount]->BindSize(GetMaxPrts(nModelPrtsCount), GetMinPrts(nModelPrtsCount), m_ModelSizePrts[nModelPrtsCount]);
 						}
 						nModelPrtsCount++;
 					}
@@ -605,8 +605,8 @@ void CCharacter::LoodBoss()
 
 					if (nModelPrtsCount < MAX_BOSSPARTS)
 					{
-						m_pModelPrtsBoss[nModelPrtsCount] = CModelPrts::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), &aPrtsPass[nModelPrtsCount], m_pMesh, m_pBuffMat, m_dwNumMat, m_pMat);
-						m_pModelPrtsBoss[nModelPrtsCount]->BindSize(m_maxPrts[nModelPrtsCount], m_minPrts[nModelPrtsCount], m_ModelSizePrtsBoss[nModelPrtsCount]);
+						m_pModelPrtsBoss[nModelPrtsCount] = CModelPrts::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), &aPrtsPass[nModelPrtsCount], GetMesh(), GetBuffMat(), GetdwNumMat(), GetMat());
+						m_pModelPrtsBoss[nModelPrtsCount]->BindSize(GetMaxPrts(nModelPrtsCount), GetMinPrts(nModelPrtsCount), m_ModelSizePrtsBoss[nModelPrtsCount]);
 						nModelPrtsCount++;
 					}
 				}

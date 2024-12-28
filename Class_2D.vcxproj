@@ -167,14 +167,12 @@
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="character.cpp" />
     <ClCompile Include="collision.cpp" />
-    <ClCompile Include="create_enemy.cpp" />
     <ClCompile Include="direction_obj.cpp" />
     <ClCompile Include="efect.cpp" />
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="enemycharacter.cpp" />
     <ClCompile Include="enemyinmotion.cpp" />
     <ClCompile Include="event.cpp" />
-    <ClCompile Include="explosion.cpp" />
     <ClCompile Include="fade.cpp" />
     <ClCompile Include="field.cpp" />
     <ClCompile Include="gage.cpp" />
@@ -185,7 +183,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="manager.cpp" />
     <ClCompile Include="model_prts.cpp" />
-    <ClCompile Include="motion_state.cpp" />
     <ClCompile Include="object.cpp" />
     <ClCompile Include="object2D.cpp" />
     <ClCompile Include="object3D.cpp" />
@@ -194,7 +191,6 @@
     <ClCompile Include="object_set.cpp" />
     <ClCompile Include="particles.cpp" />
     <ClCompile Include="player.x.cpp" />
-    <ClCompile Include="pos_object.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="score.cpp" />
@@ -214,16 +210,13 @@
     <ClInclude Include="camera.h" />
     <ClInclude Include="character.h" />
     <ClInclude Include="collision.h" />
-    <ClInclude Include="create_enemy.h" />
     <ClInclude Include="direction_obj.h" />
     <ClInclude Include="efect.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="enemycharacter.h" />
     <ClInclude Include="enemyinmotion.h" />
     <ClInclude Include="event.h" />
-    <ClInclude Include="explosion.h" />
     <ClInclude Include="fade.h" />
-    <ClInclude Include="fbx_model.h" />
     <ClInclude Include="field.h" />
     <ClInclude Include="gage.h" />
     <ClInclude Include="Gun.h" />
@@ -233,7 +226,6 @@
     <ClInclude Include="main.h" />
     <ClInclude Include="manager.h" />
     <ClInclude Include="model_prts.h" />
-    <ClInclude Include="motion_state.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="object2D.h" />
     <ClInclude Include="object3D.h" />
@@ -242,7 +234,6 @@
     <ClInclude Include="object_set.h" />
     <ClInclude Include="particles.h" />
     <ClInclude Include="player.x.h" />
-    <ClInclude Include="pos_object.h" />
     <ClInclude Include="rendererh.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="score.h" />
@@ -250,9 +241,6 @@
     <ClInclude Include="sound.h" />
     <ClInclude Include="stage_obj.h" />
     <ClInclude Include="ui.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Scene.fbx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -14,7 +14,6 @@
 #include "light.h"
 #include "ui.h"
 #include "player.x.h"
-#include "pos_object.h"
 #include "object_set.h"
 #include "block.h"
 #include "fade.h"

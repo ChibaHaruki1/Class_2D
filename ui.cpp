@@ -7,7 +7,6 @@
 
 #include "ui.h"
 #include "manager.h"
-#include "create_enemy.h"
 
 
 //============================
