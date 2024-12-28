@@ -45,19 +45,20 @@ public://外部からのアクセス可能
 	int& GetRandom() { return m_nRandom; }  //乱数を取得
 	float& GetAngle() { return m_fAngle; }  //対角線の角度を取得
 
-	D3DXVECTOR3& GetModelSize() { return m_ModelSize; }                                       //モデルのサイズを取得する
-	D3DXVECTOR3& GetModelSizePrts(int nNumber) { return m_ModelSizePrts[nNumber]; }           //プレイヤーのモデルのサイズを取得する
-	D3DXVECTOR3& GetPosPrts(int nNumber) { return m_posPrts[nNumber]; }                       //プレイヤーの各partsのposの情報を返す関数
-	D3DXVECTOR3& GetModelSizePrtsBoss(int nNumber) { return m_ModelSizePrtsBoss[nNumber]; }   //ボスのモデルのサイズを取得する
-	D3DXVECTOR3& GetPosPrtsBoss(int nNumber) { return m_posPrtsBoss[nNumber]; }               //ボスの各partsのposの情報を返す関数
-	D3DXVECTOR3& GetModelSizePrtsEnemy(int nNumber) { return m_ModelSizePrtsEnemy[nNumber]; } //敵のモデルのサイズを取得する
-	D3DXVECTOR3& GetPosPrtsEnemy(int nNumber) { return m_posPrtsEnemy[nNumber]; }             //敵の各partsのposの情報を返す関数
+	inline D3DXVECTOR3& GetModelSize() { return m_ModelSize; }                                       //モデルのサイズを取得する
+	inline D3DXVECTOR3& GetModelSizePrts(int nNumber) { return m_ModelSizePrts[nNumber]; }           //プレイヤーのモデルのサイズを取得する
+	inline D3DXVECTOR3& GetPosPrts(int nNumber) { return m_posPrts[nNumber]; }                       //プレイヤーの各partsのposの情報を返す関数
+	inline D3DXVECTOR3& GetModelSizePrtsBoss(int nNumber) { return m_ModelSizePrtsBoss[nNumber]; }   //ボスのモデルのサイズを取得する
+	inline D3DXVECTOR3& GetPosPrtsBoss(int nNumber) { return m_posPrtsBoss[nNumber]; }               //ボスの各partsのposの情報を返す関数
+	inline D3DXVECTOR3& GetModelSizePrtsEnemy(int nNumber) { return m_ModelSizePrtsEnemy[nNumber]; } //敵のモデルのサイズを取得する
+	inline D3DXVECTOR3& GetPosPrtsEnemy(int nNumber) { return m_posPrtsEnemy[nNumber]; }             //敵の各partsのposの情報を返す関数
 
-	D3DXVECTOR3& GetPos() { return m_pos; }                                                   //派生クラスのposの情報を返す関数
-	D3DXVECTOR3& GetRot() { return m_rot; }                                                   //派生クラスのrotの情報を返す関数
-	D3DXVECTOR3& GetMove() { return m_move; }                                                 //派生クラスmoveの情報を返す
-	CCollision* GetCollision() { return m_pCollision; }                                       //当たり判定の情報を返す関数
-	D3DXMATRIX& GetmtxWorld() { return m_mtxWorld; }                                          //ワールドマトリックスの情報を返す関数
+	inline D3DXVECTOR3& GetPos() { return m_pos; }                                                   //派生クラスのposの情報を返す関数
+	inline D3DXVECTOR3& GetRot() { return m_rot; }                                                   //派生クラスのrotの情報を返す関数
+	inline D3DXVECTOR3& GetMove() { return m_move; }                                                 //派生クラスmoveの情報を返す
+
+	CCollision* GetCollision() { return m_pCollision; }                                              //当たり判定の情報を返す関数
+	D3DXMATRIX& GetmtxWorld() { return m_mtxWorld; }                                                 //ワールドマトリックスの情報を返す関数
 
 	//マクロ定義
 	constexpr static int MAX_PRTS = 19;          //プレイヤーのパーツ数
@@ -66,12 +67,6 @@ public://外部からのアクセス可能
 	constexpr static float MAX_GRAVITY_G = 0.5f; //重力の最大値
 
 protected://継承クラスのみアクセス可能
-
-	LPDIRECT3DTEXTURE9 m_pTexture[MAX_TEXTURE]; //テクスチャへのポインタ
-	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;         //頂点バッファのポインタ
-	D3DXVECTOR3 m_move;                         //移動量
-	D3DXVECTOR3 m_rot;                          //向き
-	D3DXVECTOR3 m_col;                          //色
 	D3DXMATRIX m_mtxWorld;                      //マトリックス
 	LPD3DXMESH m_pMesh;                         //メッシュのへのポインタ
 	LPD3DXBUFFER m_pBuffMat;                    //バッファへのポインタ
@@ -110,7 +105,13 @@ protected://継承クラスのみアクセス可能
 	constexpr static float D3DX_PI_ORI = 1.57f; //目標に向かう時の速さ
 	
 private:
+	LPDIRECT3DTEXTURE9 m_pTexture[MAX_TEXTURE]; //テクスチャへのポインタ
+	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;         //頂点バッファのポインタ
+	D3DXVECTOR3 m_col;                          //色
+
 	D3DXVECTOR3 m_pos;                          //位置
+	D3DXVECTOR3 m_rot;                          //向き
+	D3DXVECTOR3 m_move;                         //移動量
 	CUI* pUI;
 };
 

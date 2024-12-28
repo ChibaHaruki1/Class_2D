@@ -545,7 +545,7 @@ CUpWallBlock::~CUpWallBlock()
 //============================
 CSpaceBattleShip000::CSpaceBattleShip000()
 {
-	m_rot = D3DXVECTOR3(-0.3f, 1.0f, 0.0f);  //М№ВлВЁТ▓Ро
+	GetRot() = D3DXVECTOR3(-0.3f, 1.0f, 0.0f);  //М№ВлВЁТ▓Ро
 }
 
 //============================

@@ -37,7 +37,7 @@ HRESULT CManagerEnemy::Init()
 {
 	m_nLife = 3;
 	GetPos() = D3DXVECTOR3(700.0f, 50.0f, 0.0f); //à íuÇê›íË
-	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	GetRot() = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	return S_OK;
 }
 
@@ -143,7 +143,7 @@ void CEnemyX::Update()
 //=========================
 void CEnemy001X::Update()
 {
-	m_rot.y += 0.1f;
+	GetRot().y += 0.1f;
 
 	if (CollisionPlayerSelect(this) == true)
 	{

@@ -112,7 +112,7 @@ CManagerEnemyInMotion* CManagerEnemyInMotion::Create(D3DXVECTOR3 pos, CObjectX::
 //=============================
 CEnemyInMotion::CEnemyInMotion(int nPriority) : CManagerEnemyInMotion(nPriority)
 {
-	m_rot.y = D3DX_PI*-0.5f;
+	GetRot().y = D3DX_PI*-0.5f;
 }
 
 //=============================
@@ -137,7 +137,7 @@ void CEnemyInMotion::Update()
 		m_nFrame++;
 		if (m_nFrame >= 60)
 		{
-			CManagerBullet::Create(D3DXVECTOR3(this->m_posPrtsEnemy[0].x, this->m_posPrtsEnemy[0].y, this->m_posPrtsEnemy[0].z), D3DXVECTOR3(-sinf(m_rot.y) * MAX_BUULET_SPEED, 0.0f, -cosf(m_rot.y) * MAX_BUULET_SPEED),
+			CManagerBullet::Create(D3DXVECTOR3(this->m_posPrtsEnemy[0].x, this->m_posPrtsEnemy[0].y, this->m_posPrtsEnemy[0].z), D3DXVECTOR3(-sinf(GetRot().y) * MAX_BUULET_SPEED, 0.0f, -cosf(GetRot().y) * MAX_BUULET_SPEED),
 				SET_BULLET_LIFE, CObject3D::ENEMYBULLET);
 			m_nFrame = 0;
 		}
@@ -162,7 +162,7 @@ void CEnemyInMotion::Update()
 			if (JumpNumber == -1)
 			{
 				//自機と地面用ブロックが当たったら
-				if (m_pCollision->ColiisionBox1(GetPos(), CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), m_ModelSize, CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize() * 1.1f, m_move) == true)
+				if (m_pCollision->ColiisionBox1(GetPos(), CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), m_ModelSize, CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize() * 1.1f, GetMove()) == true)
 				{
 					if (JumpRecastTime <= 0)
 					{
@@ -185,7 +185,7 @@ void CEnemyInMotion::Update()
 				else
 				{
 					//地面用ブロックの上に乗っている時
-					if (m_pCollision->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), m_ModelSize, CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize(), m_move) == true)
+					if (m_pCollision->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), m_ModelSize, CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize(), GetMove()) == true)
 					{
 						GravityTogether(); //重力を同期させる
 
@@ -198,7 +198,7 @@ void CEnemyInMotion::Update()
 			else if (JumpNumber == 0)
 			{
 				//自機と地面用ブロックが当たったら
-				if (m_pCollision->ColiisionBox1(GetPos(), CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), m_ModelSize, CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize() * 1.0f, m_move) == true)
+				if (m_pCollision->ColiisionBox1(GetPos(), CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), m_ModelSize, CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize() * 1.0f, GetMove()) == true)
 				{
 					JumpRecastTime = 5;
 					JumpNumber = -1;
@@ -207,7 +207,7 @@ void CEnemyInMotion::Update()
 				else
 				{
 					//地面用ブロックの上に乗っている時
-					if (m_pCollision->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), m_ModelSize, CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize(), m_move) == true)
+					if (m_pCollision->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), m_ModelSize, CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize(), GetMove()) == true)
 					{
 						GravityTogether(); //重力を同期させる
 
@@ -233,7 +233,7 @@ void CEnemyInMotion::Update()
 //=============================
 CEnemyInMotion001::CEnemyInMotion001(int nPriority) : CManagerEnemyInMotion(nPriority)
 {
-	m_rot.y = D3DX_PI * -0.5f; //向きを設定（右向き）
+	GetRot().y = D3DX_PI * -0.5f; //向きを設定（右向き）
 	m_nHitFrame = 0;
 	m_bHit = false;
 	m_nLife = 5;
@@ -270,7 +270,7 @@ void CEnemyInMotion001::Update()
 				//フレームが規定数に達した時
 				if (m_nFrame >= 60)
 				{
-					CManagerBullet::Create(D3DXVECTOR3(this->m_posPrtsEnemy[4].x + 100.0f, this->m_posPrtsEnemy[4].y + 30.0f, this->m_posPrtsEnemy[4].z), D3DXVECTOR3(-sinf(m_rot.y) * MAX_BUULET_SPEED, 0.0f, -cosf(m_rot.y) * MAX_BUULET_SPEED),
+					CManagerBullet::Create(D3DXVECTOR3(this->m_posPrtsEnemy[4].x + 100.0f, this->m_posPrtsEnemy[4].y + 30.0f, this->m_posPrtsEnemy[4].z), D3DXVECTOR3(-sinf(GetRot().y) * MAX_BUULET_SPEED, 0.0f, -cosf(GetRot().y) * MAX_BUULET_SPEED),
 						SET_BULLET_LIFE, CObject3D::ENEMYBULLET);
 					m_nFrame = 0; //フレームの初期化
 				}
@@ -432,7 +432,7 @@ void CEnemyInMotion001::PlayerBloWwaway()
 void CEnemyInMotion001::AdjustmentBulletAndRot()
 {
 	//左向きの時
-	if (m_rot.y >= D3DX_PI_ORI)
+	if (GetRot().y >= D3DX_PI_ORI)
 	{
 		//プレイヤーの向きが左向きの時
 		if (CManager::GetScene()->GetPlayerX()->GetMuki()==1)
@@ -450,7 +450,7 @@ void CEnemyInMotion001::AdjustmentBulletAndRot()
 	}
 
 	//右向きの時
-	else if (m_rot.y <= -D3DX_PI_ORI)
+	else if (GetRot().y <= -D3DX_PI_ORI)
 	{
 		//プレイヤーの向きが左向きの時
 		if (CManager::GetScene()->GetPlayerX()->GetMuki() == 1)
@@ -484,7 +484,7 @@ void CEnemyInMotion001::WhenCollisionBlock()
 			if (JumpNumber == -1)
 			{
 				//自機と地面用ブロックが当たったら
-				if (m_pCollision->ColiisionBox1(GetPos(), CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), m_ModelSize, CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize() * 1.1f, m_move) == true)
+				if (m_pCollision->ColiisionBox1(GetPos(), CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), m_ModelSize, CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize() * 1.1f, GetMove()) == true)
 				{
 					if (JumpRecastTime <= 0)
 					{
@@ -508,7 +508,7 @@ void CEnemyInMotion001::WhenCollisionBlock()
 				else
 				{
 					//地面用ブロックの上に乗っている時
-					if (m_pCollision->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), m_ModelSize, CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize(), m_move) == true)
+					if (m_pCollision->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), m_ModelSize, CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize(), GetMove()) == true)
 					{
 						GravityTogether(); //重力を同期させる
 
@@ -521,7 +521,7 @@ void CEnemyInMotion001::WhenCollisionBlock()
 			else if (JumpNumber == 0)
 			{
 				//自機と地面用ブロックが当たったら
-				if (m_pCollision->ColiisionBox1(GetPos(), CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), m_ModelSize, CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize() * 1.0f, m_move) == true)
+				if (m_pCollision->ColiisionBox1(GetPos(), CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), m_ModelSize, CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize() * 1.0f, GetMove()) == true)
 				{
 					JumpRecastTime = 5;
 					JumpNumber = -1;
@@ -530,7 +530,7 @@ void CEnemyInMotion001::WhenCollisionBlock()
 				else
 				{
 					//地面用ブロックの上に乗っている時
-					if (m_pCollision->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), m_ModelSize, CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize(), m_move) == true)
+					if (m_pCollision->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), m_ModelSize, CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize(), GetMove()) == true)
 					{
 						GravityTogether(); //重力を同期させる
 
@@ -547,13 +547,13 @@ void CEnemyInMotion001::WhenCollisionBlock()
 	{
 		if (CManager::GetInstance()->GetRoadBlock(nCount2) != nullptr)
 		{
-			if (m_pCollision->ColiisionBox(GetPos(), CManager::GetInstance()->GetRoadBlock(nCount2)->GetPos(), m_ModelSize, CManager::GetInstance()->GetRoadBlock(nCount2)->GetModelSize() * 1.01f, m_move) == true)
+			if (m_pCollision->ColiisionBox(GetPos(), CManager::GetInstance()->GetRoadBlock(nCount2)->GetPos(), m_ModelSize, CManager::GetInstance()->GetRoadBlock(nCount2)->GetModelSize() * 1.01f, GetMove()) == true)
 			{
 
 			}
 			else
 			{
-				if (m_pCollision->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetRoadBlock(nCount2)->GetPos(), m_ModelSize, CManager::GetInstance()->GetRoadBlock(nCount2)->GetModelSize(), m_move) == true)
+				if (m_pCollision->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetRoadBlock(nCount2)->GetPos(), m_ModelSize, CManager::GetInstance()->GetRoadBlock(nCount2)->GetModelSize(), GetMove()) == true)
 				{
 					GravityTogether();
 					GetPos().y = CManager::GetInstance()->GetRoadBlock(nCount2)->GetModelSize().y + CManager::GetInstance()->GetRoadBlock(nCount2)->GetPos().y;//y軸の位置を設定
@@ -571,13 +571,13 @@ void CEnemyInMotion001::WhenCollisionBlock()
 	{
 		if (CManager::GetInstance()->GetWallRoadBlock(nCount3) != nullptr)
 		{
-			if (m_pCollision->ColiisionBoxRoadBlock001(GetPos(), CManager::GetInstance()->GetWallRoadBlock(nCount3)->GetPos(), m_ModelSize, CManager::GetInstance()->GetWallRoadBlock(nCount3)->GetModelSize() * 1.01f, m_move) == true)
+			if (m_pCollision->ColiisionBoxRoadBlock001(GetPos(), CManager::GetInstance()->GetWallRoadBlock(nCount3)->GetPos(), m_ModelSize, CManager::GetInstance()->GetWallRoadBlock(nCount3)->GetModelSize() * 1.01f, GetMove()) == true)
 			{
 
 			}
 			else
 			{
-				if (m_pCollision->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetWallRoadBlock(nCount3)->GetPos(), m_ModelSize, CManager::GetInstance()->GetWallRoadBlock(nCount3)->GetModelSize(), m_move) == true)
+				if (m_pCollision->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetWallRoadBlock(nCount3)->GetPos(), m_ModelSize, CManager::GetInstance()->GetWallRoadBlock(nCount3)->GetModelSize(), GetMove()) == true)
 				{
 					GravityTogether();
 					GetPos().y = CManager::GetInstance()->GetWallRoadBlock(nCount3)->GetModelSize().y + CManager::GetInstance()->GetWallRoadBlock(nCount3)->GetPos().y;//y軸の位置を設定
@@ -595,7 +595,7 @@ void CEnemyInMotion001::WhenCollisionBlock()
 	{
 		if (CManager::GetInstance()->GetWallRoadBlock001(nCount4) != nullptr)
 		{
-			if (m_pCollision->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetWallRoadBlock001(nCount4)->GetPos(), m_ModelSize, CManager::GetInstance()->GetWallRoadBlock001(nCount4)->GetModelSize(), m_move) == true)
+			if (m_pCollision->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetWallRoadBlock001(nCount4)->GetPos(), m_ModelSize, CManager::GetInstance()->GetWallRoadBlock001(nCount4)->GetModelSize(), GetMove()) == true)
 			{
 				GravityTogether();
 				GetPos().y = CManager::GetInstance()->GetWallRoadBlock001(nCount4)->GetModelSize().y + CManager::GetInstance()->GetWallRoadBlock001(nCount4)->GetPos().y;//y軸の位置を設定
@@ -612,13 +612,13 @@ void CEnemyInMotion001::WhenCollisionBlock()
 	{
 		if (CManager::GetInstance()->GetSmallBlock(nCount5) != nullptr)
 		{
-			if (m_pCollision->ColiisionBox(GetPos(), CManager::GetInstance()->GetSmallBlock(nCount5)->GetPos(), m_ModelSize, CManager::GetInstance()->GetSmallBlock(nCount5)->GetModelSize() * 1.3f, m_move) == true)
+			if (m_pCollision->ColiisionBox(GetPos(), CManager::GetInstance()->GetSmallBlock(nCount5)->GetPos(), m_ModelSize, CManager::GetInstance()->GetSmallBlock(nCount5)->GetModelSize() * 1.3f, GetMove()) == true)
 			{
 
 			}
 			else
 			{
-				if (m_pCollision->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetSmallBlock(nCount5)->GetPos(), m_ModelSize, CManager::GetInstance()->GetSmallBlock(nCount5)->GetModelSize(), m_move) == true)
+				if (m_pCollision->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetSmallBlock(nCount5)->GetPos(), m_ModelSize, CManager::GetInstance()->GetSmallBlock(nCount5)->GetModelSize(), GetMove()) == true)
 				{
 					GravityTogether();
 					GetPos().y = CManager::GetInstance()->GetSmallBlock(nCount5)->GetModelSize().y + CManager::GetInstance()->GetSmallBlock(nCount5)->GetPos().y;//y軸の位置を設定
@@ -641,13 +641,13 @@ void CEnemyInMotion001::Correctionrot()
 	//加減算してきた変数の値が既定の位置の範囲内の時
 	if (CEnemyBullet::m_fAdditionPosY <= -CEnemyBullet::InitAddItion && CEnemyBullet::m_fAdditionPosY >= -8.0f)
 	{
-		m_rot.y = -D3DX_PI_ORI;                                         //向きを逆に設定
+		GetRot().y = -D3DX_PI_ORI;                                         //向きを逆に設定
 		m_pModelPrtsEnemy[0]->m_rot.x = 0.0f;                           //向きの初期化
 		CEnemyBullet::m_fAdditionPosY = CEnemyBullet::InitAddItion * 4.0f;  //弾の出る向きを調整
 	}
 	else if (CEnemyBullet::m_fAdditionPosY >= CEnemyBullet::InitAddItion * 3.0f && CEnemyBullet::m_fAdditionPosY <= 21.3f)
 	{
-		m_rot.y = D3DX_PI_ORI;                                         //向きを逆に設定
+		GetRot().y = D3DX_PI_ORI;                                         //向きを逆に設定
 		m_pModelPrtsEnemy[0]->m_rot.x = 0.0f;                           //向きの初期化
 		CEnemyBullet::m_fAdditionPosY = CEnemyBullet::InitAddItion * 4.0f;  //弾の出る向きを調整
 	}

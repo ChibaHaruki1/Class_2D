@@ -141,13 +141,13 @@ void CInitGun001::Uninit()
 //========================
 void CInitGun001::Update()
 {
-	m_rot.y = CManager::GetScene()->GetPlayerX()->GetRot().y - 1.6f;
+	GetRot().y = CManager::GetScene()->GetPlayerX()->GetRot().y - 1.6f;
 
 	//DKey‚ª‰Ÿ‚³‚ê‚½Žž
 	if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_D) == true)
 	{
 		GetPos().x = CManager::GetScene()->GetPlayerX()->GetPos().x;
-		m_move.x = CManager::GetScene()->GetPlayerX()->GetMove().x;
+		GetMove().x = CManager::GetScene()->GetPlayerX()->GetMove().x;
 		//m_rot.y = CManager::GetScene()->GetPlayerX()->GetRot().y;
 	}
 
@@ -155,7 +155,7 @@ void CInitGun001::Update()
 	if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_A) == true)
 	{
 		GetPos().x = CManager::GetScene()->GetPlayerX()->GetPos().x;
-		m_move.x = CManager::GetScene()->GetPlayerX()->GetMove().x;
+		GetMove().x = CManager::GetScene()->GetPlayerX()->GetMove().x;
 	}
 
 	GetPos().y = CManager::GetScene()->GetPlayerX()->GetPosPrts(5).y + 50.0f;

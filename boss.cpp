@@ -226,7 +226,7 @@ void CBoss::AttackPattern()
 
 	else if (m_nFrame<=140)
 	{
-		m_rot.y = 0.0f;                                                     //向きの初期化
+		GetRot().y = 0.0f;                                                     //向きの初期化
 		CCharacter::SetMotionBoss(CCharacter::BOSSMOTIONSTATE::BOSSIMPACT); //モーションの種類を設定
 		GetPos().y += PopY() * MAX_MOVE_SPEED;                                 //上に移動
 	}
@@ -257,13 +257,13 @@ void CBoss::AttackPattern()
 	//向きを修正
 	else if (m_nFrame <= 300)
 	{
-		m_rot.y = -1.57f; //向きを戻す
+		GetRot().y = -1.57f; //向きを戻す
 	}
 
 	//終了
 	else
 	{
-		m_rot.y = 0.0f; //位置を初期化
+		GetRot().y = 0.0f; //位置を初期化
 		GetPos().y = 0.0f; //位置を初期化
 		StatusInit();   //初期化
 	}
@@ -286,23 +286,23 @@ void CBoss::AttackPattern001()
 	//第二行動
 	else if (m_nFrame <= 120)
 	{
-		if (m_rot.y >= 0.0f)
+		if (GetRot().y >= 0.0f)
 		{
-			m_rot.y -= 0.1f;
+			GetRot().y -= 0.1f;
 		}
 	}
 
 	//第三行動
 	else if (m_nFrame <= 200)
 	{
-		m_rot.y = 0.0f;
+		GetRot().y = 0.0f;
 		CCharacter::SetMotionBoss(CCharacter::BOSSMOTIONSTATE::BOSSATTACK); //モーションの種類を設定
 		GetPos().y += PopY() * 0.25f;
 	}
 
 	else if (m_nFrame <= 201)
 	{
-		CManagerBullet::Create(D3DXVECTOR3(m_posPrtsBoss[17].x+100.0f, m_posPrtsBoss[17].y-150.0f, m_posPrtsBoss[17].z), D3DXVECTOR3(-sinf(m_rot.y) * 0, 0.0f, -cosf(m_rot.y) * 0), SET_BULLET_LIFE,CObject3D::TYPE::BOSSBULLET); //正面
+		CManagerBullet::Create(D3DXVECTOR3(m_posPrtsBoss[17].x+100.0f, m_posPrtsBoss[17].y-150.0f, m_posPrtsBoss[17].z), D3DXVECTOR3(-sinf(GetRot().y) * 0, 0.0f, -cosf(GetRot().y) * 0), SET_BULLET_LIFE,CObject3D::TYPE::BOSSBULLET); //正面
 		std::copy(m_nSaveData.begin(), m_nSaveData.end(), std::back_inserter(m_nDataY));      //ｘ軸用の位置の初期化
 		std::copy(m_nSaveData.begin(), m_nSaveData.end(), std::back_inserter(m_nDataX));      //ｘ軸用の位置の初期化
 	}
@@ -314,20 +314,20 @@ void CBoss::AttackPattern001()
 
 		if (m_nWhichSideNumber == 0)
 		{
-			m_rot.y = 1.57f;
-			m_move.x -= PopX() *0.1f;
+			GetRot().y = 1.57f;
+			GetMove().x -= PopX() *0.1f;
 		}
 		else if (m_nWhichSideNumber == 1)
 		{
-			m_rot.y = -1.57f;
-			m_move.x += PopX() * 0.1f;
+			GetRot().y = -1.57f;
+			GetMove().x += PopX() * 0.1f;
 		}
 	}
 
     //終了
 	else
 	{
-		m_rot.y = 0.0f;
+		GetRot().y = 0.0f;
 		GetPos().y = 0.0f;
 		StatusInit(); //初期化
 	}
@@ -358,7 +358,7 @@ void CBoss::SpecialAttack()
 		{
 			CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::BOSSSPECIALATTACK, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));  //必殺技のエフェクトの生成
 
-			if (m_rot.y >= D3DX_PI_ORI)
+			if (GetRot().y >= D3DX_PI_ORI)
 			{
 				CManager::GetInstance()->GetBossSpecialAttack()->GetRotNumber() = 2;                                           //サイズの設定用の番号を渡す
 				//位置を銃に設定
@@ -367,7 +367,7 @@ void CBoss::SpecialAttack()
 					m_posPrtsBoss[17].z));
 
 			}
-			else if (m_rot.y <= -D3DX_PI_ORI)
+			else if (GetRot().y <= -D3DX_PI_ORI)
 			{
 				CManager::GetInstance()->GetBossSpecialAttack()->GetRotNumber() = 1;                                           //サイズの設定用の番号を渡す
 
@@ -386,7 +386,7 @@ void CBoss::SpecialAttack()
 	//終了
 	else
 	{
-		m_rot.y = 0.0f;
+		GetRot().y = 0.0f;
 		GetPos().y = 0.0f;
 		StatusInit(); //初期化
 	}
