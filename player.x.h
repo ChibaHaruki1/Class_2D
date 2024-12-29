@@ -60,14 +60,15 @@ public: //アクセス可能
 	static CPlayerX* Create();                   //生成する
 
 private: //アクセス不可能
+
 	//プレイヤーの状態
-	typedef enum
+	enum class PLAYER_STATE
 	{
 		NORMAI_MODE,
 		SHOP_MODE,
 		BUY_MODE,
 		SEND_MODE,
-	}PLAYER_STATE;
+	};
 
 	//インスタンス
 	CUI* m_pTalkText;                    //「話す」textUI

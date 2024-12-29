@@ -23,7 +23,7 @@
 //===================
 CPlayerX::CPlayerX(int nPriority) : CCharacter(nPriority)
 {
-	CManager::GetInstance()->GetCreateObjectInstnace2D(CObject2D::TYPE::HP, 0);
+	CManager::GetInstance()->GetCreateObjectInstnace2D(CObject2D::TYPE::HP, 0); //プレイヤーのHPゲージの生成
 
 	m_GravityFlag = true;  //重力ON
 	m_JumpFlag = false;  //飛んでいないに設定
@@ -43,7 +43,7 @@ CPlayerX::CPlayerX(int nPriority) : CCharacter(nPriority)
 
 	m_nFrame = 0;
 	m_nPraticlesCount = 0;
-	m_nRandom = 0;
+	SetRandom(0);
 	m_nRandomCol = 0;            //乱数を保管する為の変数
 	m_nDieFrame = 0;
 
@@ -54,8 +54,8 @@ CPlayerX::CPlayerX(int nPriority) : CCharacter(nPriority)
 	m_pSelectGage = nullptr;
 	m_pSelectGage001 = nullptr;
 	SpecialAttack = false;
-	m_PlayerState = NORMAI_MODE;
-	m_FlagSate = NORMAI_MODE;
+	m_PlayerState = CPlayerX::PLAYER_STATE::NORMAI_MODE;
+	m_FlagSate = CPlayerX::PLAYER_STATE::NORMAI_MODE;
 	m_nAlpha = 255;
 
 	m_nMotionFrame = 0;
@@ -70,9 +70,6 @@ CPlayerX::CPlayerX(int nPriority) : CCharacter(nPriority)
 	m_nMuki = 0;
 	m_nSpecialAttackCount = 0;
 	m_bOneCreate = false;
-
-	//pSound = CManager::GetSound();
-	//mciSendStringA("open tankBgm.wav alias BGM", NULL, 0, NULL);
 }
 
 
@@ -90,15 +87,15 @@ CPlayerX::~CPlayerX()
 //====================
 HRESULT CPlayerX::Init()
 {
-	CCharacter::Init();                        //初期化処理を呼ぶ
-	CCharacter::Lood();                        //テキストファイルを読み込む処理
-	CCharacter::SetMotion(WALK);               //モーションの設定
-	GetRot().y = D3DX_PI*-0.5f;                   //向きの調整（右向き）
-	m_pModelPrts[18]->m_bCreateGun = false;    //パーツの銃部分を非表示に設定
-	GetPos().x = 7000.0f;                          //位置の調整
-	CManager::GetSound()->PlaySound(CManager::GetSound()->SOUND_LABEL_BGM1); //BDMを流す
-	m_nLife = 1;                               //自身のライフ
-	return S_OK; //成功を返す
+	CCharacter::Init();                                                       //初期化処理を呼ぶ
+	CCharacter::Lood();                                                       //テキストファイルを読み込む処理
+	CCharacter::SetMotion(WALK);                                              //モーションの設定
+	SetRot(D3DXVECTOR3(0.0f, D3DX_PI * -0.5f, 0.0f));                         //向きの調整（右向き）
+	m_pModelPrts[18]->m_bCreateGun = false;                                   //パーツの銃部分を非表示に設定
+	SetPos(D3DXVECTOR3(000.0f,0.0f,0.0f));                                    //位置の調整
+	CManager::GetSound()->PlaySound(CManager::GetSound()->SOUND_LABEL_BGM1);  //BDMを流す
+	SetLife(1);                                                               //自身のライフ
+	return S_OK;                                                              //成功を返す
 }
 
 //==================
@@ -106,12 +103,10 @@ HRESULT CPlayerX::Init()
 //=================
 void CPlayerX::Uninit()
 {
-	/*m_nDieRandom.clear();
-	m_nDieRandom.shrink_to_fit();*/
 	//instance情報を消す
 	InstanceMakeNull();
 
-	CCharacter::Uninit();
+	CCharacter::Uninit(); //パーツごとの破棄処理
 }
 
 //===============================================================================================================================================================================
@@ -119,37 +114,15 @@ void CPlayerX::Uninit()
 //===============================================================================================================================================================================
 void CPlayerX::InstanceMakeNull()
 {
+	m_pTalkText = nullptr;      //話すテキストの情報を無くす
+						        
+	m_pMenyu = nullptr;         //武器の選択メニューの情報を無くす
+						        
+	m_pBuyText = nullptr;       //買う売るテキストの情報を無くす
+							    
+	m_pSelectGage = nullptr;    //選択ゲージの情報を無くす
 
-	//
-	if (m_pTalkText != nullptr)
-	{
-		m_pTalkText = nullptr;
-	}
-
-	//
-	if (m_pMenyu != nullptr)
-	{
-		m_pMenyu = nullptr;
-	}
-
-
-	//
-	if (m_pBuyText != nullptr)
-	{
-		m_pBuyText = nullptr;
-	}
-
-	//
-	if (m_pSelectGage != nullptr)
-	{
-		m_pSelectGage = nullptr;
-	}
-
-	//
-	if (m_pSelectGage001 != nullptr)
-	{
-		m_pSelectGage001 = nullptr;
-	}
+	m_pSelectGage001 = nullptr; //選択ゲージ001の情報をなくす
 }
 
 //
@@ -195,7 +168,7 @@ void CPlayerX::ShopInstanceMakeNullptr()
 void CPlayerX::Update()
 {
 	//生きている時
-	if (m_nLife == 1)
+	if (GetLife() == 1)
 	{
 		if (CManager::GetScene()->GetPlayerX()->GetPos().x >= 9000.0f)
 		{
@@ -229,17 +202,18 @@ void CPlayerX::Update()
 			if (CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() <= 0)
 			{
 				CManager::GetInstance()->GetPlayerHPGage()->GetSaveSizeX() = 0.0f;
-				m_nLife = 0; //ライフを０に設定で死亡判定にする
+				SetLife(0); //ライフを０に設定で死亡判定にする
 			}
 		}
 
 		//何もしていない時
-		if (m_PlayerState == NORMAI_MODE)
+		if (m_PlayerState == CPlayerX::PLAYER_STATE::NORMAI_MODE)
 		{
 			NormalStateSummarizeFunction(); //専用の処理を呼ぶ
 		}
+
 		//SHOPで買い物をしている時
-		else if (m_PlayerState == SHOP_MODE || m_PlayerState == BUY_MODE)
+		else if (m_PlayerState == CPlayerX::PLAYER_STATE::SHOP_MODE || m_PlayerState == CPlayerX::PLAYER_STATE::BUY_MODE)
 		{
 			ShopStateSummarizeFunction();   //専用の処理を呼ぶ
 		}
@@ -248,7 +222,7 @@ void CPlayerX::Update()
 	}
 
 	//死んだ時
-	else if (m_nLife == 0)
+	else if (GetLife() == 0)
 	{
 		m_nDieFrame++;                //死亡フレームを増やす
 		GetPos().y = -50.0f;             //位置を低くする
@@ -433,7 +407,7 @@ void CPlayerX::ShopStateSummarizeFunction()
 void CPlayerX::Random()
 {
 	//最小値＋rand()%最小値から何個分増やすか　（５だったら％６だったら　５、６、７、８、９、１０の合計６個になる）
-	m_nRandom = -50 + rand() % 100; //４～６の数値を出す（範囲指定）
+	SetRandom(-50 + rand() % 100); //４～６の数値を出す（範囲指定）
 	m_nRandomCol = rand() % 255; //４～６の数値を出す（範囲指定）
 }
 
@@ -454,7 +428,7 @@ void CPlayerX::Praticles()
 		//配列の最大数か最大数より下分回す
 		if (m_nPraticlesCount >= 0 && m_nPraticlesCount <= CInstance::MAX_OBJECT_DATA - 1)
 		{
-			CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::PRTICLES001, m_nPraticlesCount, D3DXVECTOR3((float)GetPos().x + m_nRandom, GetPos().y+50.0f, 0.0f)); //パーティクルの生成処理
+			CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::PRTICLES001, m_nPraticlesCount, D3DXVECTOR3((float)GetPos().x + GetRandom(), GetPos().y+50.0f, 0.0f)); //パーティクルの生成処理
 			CManager::GetInstance()->GetPraticles001(m_nPraticlesCount)->SetCol(m_nRandomCol, 0, 0, m_nAlpha);
 			m_nPraticlesCount++; //配列を進める
 		}
@@ -632,7 +606,7 @@ void CPlayerX::ShopKeySet()
 	//=======================================================================================================================================================
 	//通常状態の時
 	//=======================================================================================================================================================
-	if (m_PlayerState == NORMAI_MODE)
+	if (m_PlayerState == CPlayerX::PLAYER_STATE::NORMAI_MODE)
 	{
 		//
 		if (CManager::GetKeyBorad()->GetKeyboardTrigger(DIK_F1) == true || CManager::GetJyoPad()->GetJoypadTrigger(JOYKEY_Y) == true)
@@ -662,20 +636,20 @@ void CPlayerX::ShopKeySet()
 				m_pBuyText = CBuyText::Create();
 			}
 
-			m_PlayerState = SHOP_MODE; //モードを変更する
+			m_PlayerState = CPlayerX::PLAYER_STATE::SHOP_MODE; //モードを変更する
 		}
 	}
 
 	//=======================================================================================================================================================
 	//SHOP状態の時
 	//=======================================================================================================================================================
-	else if (m_PlayerState == SHOP_MODE)
+	else if (m_PlayerState == CPlayerX::PLAYER_STATE::SHOP_MODE)
 	{
 		//フラグ状態が通常時の時
-		if (m_FlagSate == NORMAI_MODE)
+		if (m_FlagSate == CPlayerX::PLAYER_STATE::NORMAI_MODE)
 		{
 			SelectGageUISize(50.0f, 270.0f); //選択ゲージ1つ目の大きさを設定する
-			m_FlagSate = SHOP_MODE;          //フラグ状態を店の状態へ変化させる
+			m_FlagSate = CPlayerX::PLAYER_STATE::SHOP_MODE;          //フラグ状態を店の状態へ変化させる
 		}
 
 		//買うを選択したとき（０からスタートもしくは０に戻る）
@@ -685,7 +659,7 @@ void CPlayerX::ShopKeySet()
 			if (CManager::GetKeyBorad()->GetKeyboardTrigger(DIK_RETURN) == true || CManager::GetJyoPad()->GetJoypadTrigger(JOYKEY_B) == true)
 			{
 				SelectGageUISize(50.0,150.0f);
-				m_PlayerState = BUY_MODE;
+				m_PlayerState = CPlayerX::PLAYER_STATE::BUY_MODE;
 			}
 		}
 
@@ -716,12 +690,20 @@ void CPlayerX::ShopKeySet()
 
 			}
 		}
+
+		//キーが押された時
+		else if (CManager::GetKeyBorad()->GetKeyboardTrigger(DIK_F1) == true || CManager::GetJyoPad()->GetJoypadTrigger(JOYKEY_A) == true || CManager::GetJyoPad()->GetJoypadTrigger(JOYKEY_Y) == true)
+		{
+			ShopInstanceMakeNullptr();
+			m_PlayerState = CPlayerX::PLAYER_STATE::NORMAI_MODE;
+			m_FlagSate = CPlayerX::PLAYER_STATE::NORMAI_MODE;          //フラグ状態を通常の状態へ変化させる
+		}
 	}
 
 	//=======================================================================================================================================================
 	//買う状態の時
 	//=======================================================================================================================================================
-	else if (m_PlayerState == BUY_MODE)
+	else if (m_PlayerState == CPlayerX::PLAYER_STATE::BUY_MODE)
 	{
 		//買うか売るかのUIを破棄する
 		if (m_pBuyText != nullptr)
@@ -742,7 +724,8 @@ void CPlayerX::ShopKeySet()
 		if (CManager::GetKeyBorad()->GetKeyboardTrigger(DIK_F1) == true || CManager::GetJyoPad()->GetJoypadTrigger(JOYKEY_A) == true || CManager::GetJyoPad()->GetJoypadTrigger(JOYKEY_Y) == true)
 		{
 			ShopInstanceMakeNullptr();
-			m_PlayerState = NORMAI_MODE;
+			m_PlayerState = CPlayerX::PLAYER_STATE::NORMAI_MODE;
+			m_FlagSate = CPlayerX::PLAYER_STATE::NORMAI_MODE;          //フラグ状態を通常の状態へ変化させる
 		}
 
 		//Sキーを押したとき
@@ -1133,7 +1116,7 @@ void CPlayerX::BlockJudgement()
 				m_pTalkText->GetDraw() = true;
 			}
 
-			if (m_PlayerState == NORMAI_MODE)
+			if (m_PlayerState == CPlayerX::PLAYER_STATE::NORMAI_MODE)
 			{
 				ShopKeySet();
 			}

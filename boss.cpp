@@ -18,10 +18,10 @@ CBoss::CBoss(int nPriority) : CCharacter(nPriority)
 {
 	CManager::GetInstance()->GetCreateObjectInstnace2D(CObject2D::TYPE::BOSSHP, 0);                                  //ボスのHPゲージの生成
 
-	m_nLife = 10;
-	m_nFrame = 0;            //フレームの初期化
+	SetLife(10);
+	SetFrame(0);             //フレームの初期化
 	m_nCoolTime = 0;         //クールタイムの初期化
-	m_nRandom = -1;          //乱数の初期化
+	SetRandom(-1);           //乱数の初期化
 	m_nSize = 0;             //配列数の初期化
 	m_nWhichSideNumber = -1; //どちらにいるかの初期化
 
@@ -152,18 +152,18 @@ void CBoss::AttackPatternSelect()
 	//攻撃のクールタイムが過ぎた時
 	if (m_nCoolTime >= 120)
 	{
-		if (m_nRandom == 0)
+		if (GetRandom() == 0)
 		{
 			AttackPattern();
 			//SpecialAttack();
 			//AttackPattern001();
 
 		}
-		else if (m_nRandom == 1)
+		else if (GetRandom() == 1)
 		{
 			AttackPattern001();
 		}
-		else if (m_nRandom == 2)
+		else if (GetRandom() == 2)
 		{
 			SpecialAttack();
 		}
@@ -172,10 +172,10 @@ void CBoss::AttackPatternSelect()
 	else
 	{
 		//乱数の生成
-		if (m_nRandom == -1)
+		if (GetRandom() == -1)
 		{
 			srand((unsigned)time(NULL));  // 乱数系列を初期化
-			m_nRandom = rand()%3;
+			SetRandom(rand() % 3);
 		}
 		m_nCoolTime++;
 	}
@@ -200,9 +200,9 @@ void CBoss::StatusInit()
 	std::copy(m_nSaveData.begin(), m_nSaveData.end(), std::back_inserter(m_nDataY)); //ｙ軸用の位置の初期化
 
 	//メンバ変数の初期化
-	m_nFrame = 0;               //フレームの初期化
+	SetFrame(0);                //フレームの初期化
 	m_nCoolTime = 0;            //クールタイムの初期化
-	m_nRandom = -1;             //ランダム数の初期化
+	SetRandom(-1);              //ランダム数の初期化
 	m_nSize = 0;                //vectorの配列数を初期化
 	m_nWhichSideNumber = -1;    //左右のどちらに居るかの初期化
 	m_bOneCreateFlag = false;   //衝撃波を出すフラグの初期化
@@ -214,35 +214,35 @@ void CBoss::StatusInit()
 //==============================
 void CBoss::AttackPattern()
 {
-	m_nFrame++; //フレーム加算
+	GetFrame()++; //フレーム加算
 
 	//第一行動
-	if (m_nFrame <= 30)
+	if (GetFrame() <= 30)
 	{
 		CCharacter::SetMotionBoss(CCharacter::BOSSMOTIONSTATE::BOSSWALK); //モーションの種類を設定
 		
 		TargetHeadingTowards(CManager::GetScene()->GetPlayerX(), 12.0f);  //プレイヤーに向かうように設定
 	}
 
-	else if (m_nFrame<=140)
+	else if (GetFrame()<=140)
 	{
 		GetRot().y = 0.0f;                                                     //向きの初期化
 		CCharacter::SetMotionBoss(CCharacter::BOSSMOTIONSTATE::BOSSIMPACT); //モーションの種類を設定
 		GetPos().y += PopY() * MAX_MOVE_SPEED;                                 //上に移動
 	}
 
-	else if (m_nFrame <= 141)
+	else if (GetFrame() <= 141)
 	{
 		std::copy(m_nSaveData.begin(), m_nSaveData.end(), std::back_inserter(m_nDataY));//Y軸用の位置の初期化
 	}
 
-	else if (m_nFrame<=170)
+	else if (GetFrame()<=170)
 	{
 		GetPos().y -= PopY() * MAX_MOVE_SPEED * 1.2f;                                      //下に移動
 	}
 
 	//衝撃波
-	else  if (m_nFrame <=180)
+	else  if (GetFrame() <=180)
 	{
 		//フラグがoffの時
 		if (m_bOneCreateFlag == false)
@@ -255,7 +255,7 @@ void CBoss::AttackPattern()
 	}
 
 	//向きを修正
-	else if (m_nFrame <= 300)
+	else if (GetFrame() <= 300)
 	{
 		GetRot().y = -1.57f; //向きを戻す
 	}
@@ -274,17 +274,17 @@ void CBoss::AttackPattern()
 //==============================
 void CBoss::AttackPattern001()
 {
-	m_nFrame++; //フレーム加算
+	GetFrame()++; //フレーム加算
 
 	//第一行動
-	if (m_nFrame <= 40)
+	if (GetFrame() <= 40)
 	{
 		CCharacter::SetMotionBoss(CCharacter::BOSSMOTIONSTATE::BOSSWALK); //モーションの種類を設定
 		TargetHeadingTowards(CManager::GetScene()->GetPlayerX(), 8.0f);  //プレイヤーに向かうように設定
 	}
 
 	//第二行動
-	else if (m_nFrame <= 120)
+	else if (GetFrame() <= 120)
 	{
 		if (GetRot().y >= 0.0f)
 		{
@@ -293,22 +293,22 @@ void CBoss::AttackPattern001()
 	}
 
 	//第三行動
-	else if (m_nFrame <= 200)
+	else if (GetFrame() <= 200)
 	{
 		GetRot().y = 0.0f;
 		CCharacter::SetMotionBoss(CCharacter::BOSSMOTIONSTATE::BOSSATTACK); //モーションの種類を設定
 		GetPos().y += PopY() * 0.25f;
 	}
 
-	else if (m_nFrame <= 201)
+	else if (GetFrame() <= 201)
 	{
-		CManagerBullet::Create(D3DXVECTOR3(m_posPrtsBoss[17].x+100.0f, m_posPrtsBoss[17].y-150.0f, m_posPrtsBoss[17].z), D3DXVECTOR3(-sinf(GetRot().y) * 0, 0.0f, -cosf(GetRot().y) * 0), SET_BULLET_LIFE,CObject3D::TYPE::BOSSBULLET); //正面
+		CManagerBullet::Create(D3DXVECTOR3(GetPosPrtsBoss(17).x+100.0f, GetPosPrtsBoss(17).y-150.0f, GetPosPrtsBoss(17).z), D3DXVECTOR3(-sinf(GetRot().y) * 0, 0.0f, -cosf(GetRot().y) * 0), SET_BULLET_LIFE,CObject3D::TYPE::BOSSBULLET); //正面
 		std::copy(m_nSaveData.begin(), m_nSaveData.end(), std::back_inserter(m_nDataY));      //ｘ軸用の位置の初期化
 		std::copy(m_nSaveData.begin(), m_nSaveData.end(), std::back_inserter(m_nDataX));      //ｘ軸用の位置の初期化
 	}
 
 	//第四行動
-	else if (m_nFrame <= 240)
+	else if (GetFrame() <= 240)
 	{
 		GetPos().y -= PopY() * 0.25f;
 
@@ -339,20 +339,20 @@ void CBoss::AttackPattern001()
 //=======================================================================================================================================================
 void CBoss::SpecialAttack()
 {
-	m_nFrame++; //フレーム加算
+	GetFrame()++; //フレーム加算
 
-	if (m_nFrame <= 10)
+	if (GetFrame() <= 10)
 	{
 		TargetHeadingTowards(CManager::GetScene()->GetPlayerX(), 10.0f);  //プレイヤーに向かうように設定
 		CCharacter::SetMotionBoss(CCharacter::BOSSMOTIONSTATE::BOSSACTION); //モーションの種類を設定
 	}
 
-	else if (m_nFrame <= 60)
+	else if (GetFrame() <= 60)
 	{
 
 	}
 
-	else if (m_nFrame <= 61)
+	else if (GetFrame() <= 61)
 	{
 		if (m_bOneCreateFlag == false)
 		{
@@ -362,9 +362,10 @@ void CBoss::SpecialAttack()
 			{
 				CManager::GetInstance()->GetBossSpecialAttack()->GetRotNumber() = 2;                                           //サイズの設定用の番号を渡す
 				//位置を銃に設定
-				CManager::GetInstance()->GetBossSpecialAttack()->SetEffect(D3DXVECTOR3(m_posPrtsBoss[17].x,
-					m_posPrtsBoss[17].y,
-					m_posPrtsBoss[17].z));
+				CManager::GetInstance()->GetBossSpecialAttack()->SetEffect(D3DXVECTOR3(
+					GetPosPrtsBoss(17).x,
+					GetPosPrtsBoss(17).y,
+					GetPosPrtsBoss(17).z));
 
 			}
 			else if (GetRot().y <= -D3DX_PI_ORI)
@@ -372,14 +373,15 @@ void CBoss::SpecialAttack()
 				CManager::GetInstance()->GetBossSpecialAttack()->GetRotNumber() = 1;                                           //サイズの設定用の番号を渡す
 
 				//位置を銃に設定
-				CManager::GetInstance()->GetBossSpecialAttack()->SetEffect(D3DXVECTOR3(m_posPrtsBoss[17].x +300.0f ,
-					m_posPrtsBoss[17].y,
-					m_posPrtsBoss[17].z));
+				CManager::GetInstance()->GetBossSpecialAttack()->SetEffect(D3DXVECTOR3(
+					GetPosPrtsBoss(17).x +300.0f ,
+					GetPosPrtsBoss(17).y,
+					GetPosPrtsBoss(17).z));
 			}
 			m_bOneCreateFlag = true;
 		}
 	}
-	else if (m_nFrame <= 220)
+	else if (GetFrame() <= 220)
 	{
 
 	}

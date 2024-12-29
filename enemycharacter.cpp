@@ -32,7 +32,7 @@ CEnemyCharacter::CEnemyCharacter(int nPriority) : CObjectX(nPriority)
 		m_pModelPrtsEnemy[nCount1] = nullptr;
 	}
 
-	m_nFrame = 0;
+	SetFrame(0);
 	m_nMotionFrameBoss = 0;
 	MotionCount = 0;
 	MotionCountBoss = 0;
@@ -117,14 +117,14 @@ void CEnemyCharacter::UpdateEnemy001()
 	{
 		if (nCount <= 7)
 		{
-			m_posPrtsEnemy[nCount] = D3DXVECTOR3(m_pSaveModelPrtUpdateInfo[nCount].pos.x + GetPos().x,
+			GetPosPrtsEnemy(nCount) = D3DXVECTOR3(m_pSaveModelPrtUpdateInfo[nCount].pos.x + GetPos().x,
 				m_pSaveModelPrtUpdateInfo[nCount].pos.y + GetPos().y,
 				m_pSaveModelPrtUpdateInfo[nCount].pos.z + GetPos().z);
 		}
 
 		if (nCount >= 8)
 		{
-			m_posPrtsEnemy[nCount] = D3DXVECTOR3(m_pSaveModelPrtUpdateInfo[nCount].pos.x + GetPos().x,
+			GetPosPrtsEnemy(nCount) = D3DXVECTOR3(m_pSaveModelPrtUpdateInfo[nCount].pos.x + GetPos().x,
 				m_pSaveModelPrtUpdateInfo[nCount].pos.y + GetPos().y + 100.0f ,
 				m_pSaveModelPrtUpdateInfo[nCount].pos.z + GetPos().z);
 		}
@@ -224,7 +224,7 @@ void CEnemyCharacter::LoodEnemy(const char* aSelect)
 					if (nModelPrtsCount < MAX_ENEMYPARTS)
 					{
 						m_pModelPrtsEnemy[nModelPrtsCount] = CModelPrts::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f), &aPrtsPass[nModelPrtsCount], GetMesh(), GetBuffMat(), GetdwNumMat(), GetMat());
-						m_pModelPrtsEnemy[nModelPrtsCount]->BindSize(GetMaxPrts(nModelPrtsCount), GetMinPrts(nModelPrtsCount), m_ModelSizePrtsEnemy[nModelPrtsCount]);
+						m_pModelPrtsEnemy[nModelPrtsCount]->BindSize(GetMaxPrts(nModelPrtsCount), GetMinPrts(nModelPrtsCount), GetModelSizePrtsEnemy(nModelPrtsCount));
 						nModelPrtsCount++;
 					}
 				}

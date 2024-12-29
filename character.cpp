@@ -34,8 +34,7 @@ CCharacter::CCharacter(int nPriority) : CObjectX(nPriority)
 		SaveMotionPosBoss[nCount1] = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 		m_pSaveModelPrtInfoBoss[nCount1] = {};
 	}
-
-	m_nFrame = 0;
+	SetFrame(0);
 	m_nMotionFrameBoss = 0;
 	MotionCount = 0;
 	MotionCountBoss = 0;
@@ -191,17 +190,17 @@ void CCharacter::UpdateBoss()
 	{
 		if (nCount <= 9)
 		{
-			m_posPrtsBoss[nCount] = D3DXVECTOR3(SaveMotionPosBoss[nCount].x + GetPos().x, SaveMotionPosBoss[nCount].y + GetPos().y, SaveMotionPosBoss[nCount].z + GetPos().z);
+			GetPosPrtsBoss(nCount) = D3DXVECTOR3(SaveMotionPosBoss[nCount].x + GetPos().x, SaveMotionPosBoss[nCount].y + GetPos().y, SaveMotionPosBoss[nCount].z + GetPos().z);
 		}
 		if (nCount >= 10)
 		{
-			m_posPrtsBoss[nCount] = D3DXVECTOR3(SaveMotionPosBoss[nCount].x + GetPos().x, SaveMotionPosBoss[nCount].y + GetPos().y + 200.0f, SaveMotionPosBoss[nCount].z + GetPos().z);
+			GetPosPrtsBoss(nCount) = D3DXVECTOR3(SaveMotionPosBoss[nCount].x + GetPos().x, SaveMotionPosBoss[nCount].y + GetPos().y + 200.0f, SaveMotionPosBoss[nCount].z + GetPos().z);
 		}
 	}
 
 	for (int nCount1 = 0; nCount1 < 4; nCount1++)
 	{
-		m_posPrtsBoss[17] = D3DXVECTOR3(SaveMotionPosBoss[nCount1 + 2].x + GetPos().x, SaveMotionPosBoss[nCount1 + 2].y + GetPos().y, SaveMotionPosBoss[nCount1 + 2].z + GetPos().z);
+		GetPosPrtsBoss(17) = D3DXVECTOR3(SaveMotionPosBoss[nCount1 + 2].x + GetPos().x, SaveMotionPosBoss[nCount1 + 2].y + GetPos().y, SaveMotionPosBoss[nCount1 + 2].z + GetPos().z);
 	}
 }
 
@@ -825,14 +824,14 @@ void CCharacter::LoodBoss()
 	for (int nCount2 = 0; nCount2 < 2; nCount2++)
 	{
 		SaveMotionPosBoss[nCount2] += m_pModelPrtsBoss[nCount2]->m_pos;
-		m_posPrtsBoss[nCount2] = D3DXVECTOR3(SaveMotionPosBoss[nCount2].x, SaveMotionPosBoss[nCount2].y, SaveMotionPosBoss[nCount2].z);
+		GetPosPrtsBoss(nCount2) = D3DXVECTOR3(SaveMotionPosBoss[nCount2].x, SaveMotionPosBoss[nCount2].y, SaveMotionPosBoss[nCount2].z);
 	}
 
 	//パーツごとの位置を常に更新＝もともとのパーツのposを足し合わせた物
 	for (int nCount3 = 0; nCount3 < NUM_RIGHTPRTSBOSS; nCount3++)
 	{
-		m_posPrtsBoss[nCount3 + 2] = D3DXVECTOR3(SaveMotionPosBoss[nCount3 + 2].x + GetPos().x, SaveMotionPosBoss[nCount3 + 2].y + GetPos().y + 20.0f, SaveMotionPosBoss[nCount3 + 2].z + GetPos().z);
-		m_posPrtsBoss[nCount3 + 10] = D3DXVECTOR3(SaveMotionPosBoss[nCount3 + 10].x + GetPos().x, SaveMotionPosBoss[nCount3 + 10].y + GetPos().y + 20.0f, SaveMotionPosBoss[nCount3 + 10].z + GetPos().z);
+		GetPosPrtsBoss(nCount3 + 2) = D3DXVECTOR3(SaveMotionPosBoss[nCount3 + 2].x + GetPos().x, SaveMotionPosBoss[nCount3 + 2].y + GetPos().y + 20.0f, SaveMotionPosBoss[nCount3 + 2].z + GetPos().z);
+		GetPosPrtsBoss(nCount3 + 10) = D3DXVECTOR3(SaveMotionPosBoss[nCount3 + 10].x + GetPos().x, SaveMotionPosBoss[nCount3 + 10].y + GetPos().y + 20.0f, SaveMotionPosBoss[nCount3 + 10].z + GetPos().z);
 	}
 }
 
@@ -876,12 +875,12 @@ void CCharacter::MotionInfo()
 		}
 	}
 	//フレームの加算
-	m_nFrame++;
+	GetFrame()++;
 
 	//終わりのフレームになったらカウントを最初からにする
-	if (m_nFrame == MotionSetPlayer[m_MotionState].KeySet[MotionCount].Frame)
+	if (GetFrame() == MotionSetPlayer[m_MotionState].KeySet[MotionCount].Frame)
 	{
-		m_nFrame = 0; //カウントを初期化
+		SetFrame(0);
 		MotionCount++; //モーションのカウントを増加
 
 		//現在のモーションのカウントが終わりまで回ったら最初からにする
@@ -996,7 +995,7 @@ void CCharacter::SetMotion(MOTIONSTATE motiontype)
 	{
 		m_MotionState = motiontype; //モーションを設定
 		MotionCount = 0; //モーションのカウントを初期化
-		m_nFrame = 0;  //フレームのカウントの初期化
+		SetFrame(0);     //
 		//モデルのパーツ分繰り返す
 		for (int nModelCount = 0; nModelCount < MAX_PRTS; nModelCount++)
 		{

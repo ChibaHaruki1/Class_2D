@@ -130,16 +130,16 @@ void CEnemyInMotion::Update()
 {
 	CEnemyCharacter::UpdateEnemy001();                                                       //モーションの情報を更新する
 
-	if (CObjectX::CollisionPlayerInEnemy(this,2.0f)==true)
+	if (CObjectX::CollisionPlayerInEnemy(this,4.0f)==true)
 	{
-		CEnemyCharacter::SetMotionEnemy(CEnemyCharacter::ENEMYMOTIONSTATE::ENEMYATTACK);  //モーションの種類を設定
+		CEnemyCharacter::SetMotionEnemy(CEnemyCharacter::ENEMYMOTIONSTATE::ENEMYATTACK);     //モーションの種類を設定
 
-		m_nFrame++;
-		if (m_nFrame >= 60)
+		GetFrame()++; //フレームを増やす
+		if (GetFrame()>= 60)
 		{
-			CManagerBullet::Create(D3DXVECTOR3(this->m_posPrtsEnemy[0].x, this->m_posPrtsEnemy[0].y, this->m_posPrtsEnemy[0].z), D3DXVECTOR3(-sinf(GetRot().y) * MAX_BUULET_SPEED, 0.0f, -cosf(GetRot().y) * MAX_BUULET_SPEED),
+			CManagerBullet::Create(D3DXVECTOR3(this->GetPosPrtsEnemy(0).x, this->GetPosPrtsEnemy(0).y, this->GetPosPrtsEnemy(0).z), D3DXVECTOR3(-sinf(GetRot().y) * MAX_BUULET_SPEED, 0.0f, -cosf(GetRot().y) * MAX_BUULET_SPEED),
 				SET_BULLET_LIFE, CObject3D::ENEMYBULLET);
-			m_nFrame = 0;
+			SetFrame(0); //フレームを０にする
 		}
 	}
 	else
@@ -236,7 +236,7 @@ CEnemyInMotion001::CEnemyInMotion001(int nPriority) : CManagerEnemyInMotion(nPri
 	GetRot().y = D3DX_PI * -0.5f; //向きを設定（右向き）
 	m_nHitFrame = 0;
 	m_bHit = false;
-	m_nLife = 5;
+	SetLife(5);
 }
 
 //=============================
@@ -256,7 +256,7 @@ void CEnemyInMotion001::Update()
 	//プレイヤーが判定の範囲内に来たら更新処理を実行する
 	if (CObjectX::CollisionPlayerInEnemy(this, 10.0f) == true)
 	{
-		if (m_nLife > 0)
+		if (GetLife() > 0)
 		{
 			CEnemyCharacter::UpdateEnemy001();                                                    //モーションの情報を更新する
 
@@ -265,14 +265,14 @@ void CEnemyInMotion001::Update()
 			{
 				CEnemyCharacter::SetMotionEnemy(CEnemyCharacter::ENEMYMOTIONSTATE::ENEMYATTACK);  //モーションの種類を設定
 
-				m_nFrame++;     //弾を撃つ際のフレームを増やす
+				GetFrame()++;     //弾を撃つ際のフレームを増やす
 
 				//フレームが規定数に達した時
-				if (m_nFrame >= 60)
+				if (GetFrame()>= 60)
 				{
-					CManagerBullet::Create(D3DXVECTOR3(this->m_posPrtsEnemy[4].x + 100.0f, this->m_posPrtsEnemy[4].y + 30.0f, this->m_posPrtsEnemy[4].z), D3DXVECTOR3(-sinf(GetRot().y) * MAX_BUULET_SPEED, 0.0f, -cosf(GetRot().y) * MAX_BUULET_SPEED),
+					CManagerBullet::Create(D3DXVECTOR3(this->GetPosPrtsEnemy(4).x + 100.0f, this->GetPosPrtsEnemy(4).y + 30.0f, this->GetPosPrtsEnemy(4).z), D3DXVECTOR3(-sinf(GetRot().y) * MAX_BUULET_SPEED, 0.0f, -cosf(GetRot().y) * MAX_BUULET_SPEED),
 						SET_BULLET_LIFE, CObject3D::ENEMYBULLET);
-					m_nFrame = 0; //フレームの初期化
+					SetFrame(0); //フレームを０にする
 				}
 
 				//プレイヤーが敵に接触したら
@@ -315,7 +315,7 @@ void CEnemyInMotion001::Update()
 			CObjectX::Update();                  //move値の更新
 		}
 
-		else if (m_nLife <= 0)
+		else if (GetLife() <= 0)
 		{
 			m_nDieFrame++;
 			srand((unsigned)time(NULL));  //乱数系列を初期化
@@ -337,7 +337,7 @@ void CEnemyInMotion001::Update()
 
 			else if (m_nDieFrame <= 21)
 			{
-				m_nRandom = -100 + rand() % 200;
+				SetRandom(-100 + rand() % 200);
 
 				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::EXPLOSION, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));         //爆発エフェクトを呼ぶ（1つ目）
 				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::EXPLOSION001, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));      //爆発エフェクトを呼ぶ（2つ目）
@@ -345,8 +345,8 @@ void CEnemyInMotion001::Update()
 				CManager::GetInstance()->GetExplosion()->SetSize(200.0f, 200.0f, 0.0f);                                           //爆発エフェクトの位置を設定
 				CManager::GetInstance()->GetExplosion001()->SetSize(200.0f, 200.0f, 0.0);                                         //爆発エフェクトの位置を設定
 
-				CManager::GetInstance()->GetExplosion()->SetEffect(D3DXVECTOR3(GetPos().x + m_nRandom, GetPos().y + m_nRandom, GetPos().z));                                                        //爆発エフェクトの位置を設定
-				CManager::GetInstance()->GetExplosion001()->SetEffect(D3DXVECTOR3(GetPos().x + m_nRandom, GetPos().y + m_nRandom, GetPos().z));
+				CManager::GetInstance()->GetExplosion()->SetEffect(D3DXVECTOR3(GetPos().x + GetRandom(), GetPos().y + GetRandom(), GetPos().z));                                                        //爆発エフェクトの位置を設定
+				CManager::GetInstance()->GetExplosion001()->SetEffect(D3DXVECTOR3(GetPos().x + GetRandom(), GetPos().y + GetRandom(), GetPos().z));
 			}
 
 			else if (m_nDieFrame <= 40)
@@ -355,16 +355,15 @@ void CEnemyInMotion001::Update()
 			}
 			else if (m_nDieFrame <= 41)
 			{
-
-				m_nRandom = -100 + rand() % 200;
+				SetRandom(-100 + rand() % 200);
 				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::EXPLOSION, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));         //爆発エフェクトを呼ぶ（1つ目）
 				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::EXPLOSION001, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));      //爆発エフェクトを呼ぶ（2つ目）
 
 				CManager::GetInstance()->GetExplosion()->SetSize(200.0f, 200.0f, 0.0f);                                           //爆発エフェクトの位置を設定
 				CManager::GetInstance()->GetExplosion001()->SetSize(200.0f, 200.0f, 0.0);                                         //爆発エフェクトの位置を設定
 
-				CManager::GetInstance()->GetExplosion()->SetEffect(D3DXVECTOR3(GetPos().x + m_nRandom, GetPos().y + m_nRandom, GetPos().z));                                                        //爆発エフェクトの位置を設定
-				CManager::GetInstance()->GetExplosion001()->SetEffect(D3DXVECTOR3(GetPos().x + m_nRandom, GetPos().y + m_nRandom, GetPos().z));
+				CManager::GetInstance()->GetExplosion()->SetEffect(D3DXVECTOR3(GetPos().x + GetRandom(), GetPos().y + GetRandom(), GetPos().z));                                                        //爆発エフェクトの位置を設定
+				CManager::GetInstance()->GetExplosion001()->SetEffect(D3DXVECTOR3(GetPos().x + GetRandom(), GetPos().y + GetRandom(), GetPos().z));
 			}
 
 			else if (m_nDieFrame <= 60)
@@ -374,15 +373,15 @@ void CEnemyInMotion001::Update()
 			else if (m_nDieFrame <= 61)
 			{
 
-				m_nRandom = -100 + rand() % 200;
+				SetRandom(-100 + rand() % 200);
 				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::EXPLOSION, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));         //爆発エフェクトを呼ぶ（1つ目）
 				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::EXPLOSION001, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));      //爆発エフェクトを呼ぶ（2つ目）
 
 				CManager::GetInstance()->GetExplosion()->SetSize(250.0f, 250.0f, 0.0f);                                           //爆発エフェクトの位置を設定
 				CManager::GetInstance()->GetExplosion001()->SetSize(250.0f, 250.0f, 0.0);                                         //爆発エフェクトの位置を設定
 
-				CManager::GetInstance()->GetExplosion()->SetEffect(D3DXVECTOR3(GetPos().x + m_nRandom, GetPos().y + m_nRandom, GetPos().z));                                                        //爆発エフェクトの位置を設定
-				CManager::GetInstance()->GetExplosion001()->SetEffect(D3DXVECTOR3(GetPos().x + m_nRandom, GetPos().y + m_nRandom, GetPos().z));
+				CManager::GetInstance()->GetExplosion()->SetEffect(D3DXVECTOR3(GetPos().x + GetRandom(), GetPos().y + GetRandom(), GetPos().z));                                                        //爆発エフェクトの位置を設定
+				CManager::GetInstance()->GetExplosion001()->SetEffect(D3DXVECTOR3(GetPos().x + GetRandom(), GetPos().y + GetRandom(), GetPos().z));
 			}
 
 			else

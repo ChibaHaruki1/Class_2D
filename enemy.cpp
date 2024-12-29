@@ -34,7 +34,7 @@ CManagerEnemy::~CManagerEnemy()
 //=========================
 HRESULT CManagerEnemy::Init()
 {
-	m_nLife = 3;
+	SetLife(3);
 	GetPos() = D3DXVECTOR3(700.0f, 50.0f, 0.0f); //位置を設定
 	GetRot() = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	return S_OK;
@@ -120,7 +120,7 @@ void CEnemyX::Update()
 	}
 
 	//
-	if (m_nLife <= 0)
+	if (GetLife() <= 0)
 	{
 		CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::EXPLOSION, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));         //爆発エフェクトを呼ぶ（1つ目）
 		CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::EXPLOSION001, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));      //爆発エフェクトを呼ぶ（2つ目）
@@ -150,7 +150,7 @@ void CEnemy001X::Update()
 	}
 
 
-	if (m_nLife <= 0)
+	if (GetLife() <= 0)
 	{
 		CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::EXPLOSION, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));         //爆発エフェクトを呼ぶ（1つ目）
 
