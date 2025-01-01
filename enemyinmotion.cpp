@@ -317,9 +317,9 @@ void CEnemyInMotion001::Update()
 
 		else if (GetLife() <= 0)
 		{
-			m_nDieFrame++;
+			GetDieFrame()++;
 			srand((unsigned)time(NULL));  //乱数系列を初期化
-			if (m_nDieFrame <= 1)
+			if (GetDieFrame() <= 1)
 			{
 				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::EXPLOSION, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));         //爆発エフェクトを呼ぶ（1つ目）
 				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::EXPLOSION001, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));      //爆発エフェクトを呼ぶ（2つ目）
@@ -330,12 +330,12 @@ void CEnemyInMotion001::Update()
 				CManager::GetInstance()->GetExplosion()->SetEffect(GetPos());                                                        //爆発エフェクトの位置を設定
 				CManager::GetInstance()->GetExplosion001()->SetEffect(GetPos());
 			}
-			else if (m_nDieFrame <= 20)
+			else if (GetDieFrame() <= 20)
 			{
 
 			}
 
-			else if (m_nDieFrame <= 21)
+			else if (GetDieFrame() <= 21)
 			{
 				SetRandom(-100 + rand() % 200);
 
@@ -349,11 +349,11 @@ void CEnemyInMotion001::Update()
 				CManager::GetInstance()->GetExplosion001()->SetEffect(D3DXVECTOR3(GetPos().x + GetRandom(), GetPos().y + GetRandom(), GetPos().z));
 			}
 
-			else if (m_nDieFrame <= 40)
+			else if (GetDieFrame() <= 40)
 			{
 
 			}
-			else if (m_nDieFrame <= 41)
+			else if (GetDieFrame() <= 41)
 			{
 				SetRandom(-100 + rand() % 200);
 				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::EXPLOSION, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));         //爆発エフェクトを呼ぶ（1つ目）
@@ -366,11 +366,11 @@ void CEnemyInMotion001::Update()
 				CManager::GetInstance()->GetExplosion001()->SetEffect(D3DXVECTOR3(GetPos().x + GetRandom(), GetPos().y + GetRandom(), GetPos().z));
 			}
 
-			else if (m_nDieFrame <= 60)
+			else if (GetDieFrame() <= 60)
 			{
 
 			}
-			else if (m_nDieFrame <= 61)
+			else if (GetDieFrame() <= 61)
 			{
 
 				SetRandom(-100 + rand() % 200);

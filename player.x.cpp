@@ -45,7 +45,7 @@ CPlayerX::CPlayerX(int nPriority) : CCharacter(nPriority)
 	m_nPraticlesCount = 0;
 	SetRandom(0);
 	m_nRandomCol = 0;            //乱数を保管する為の変数
-	m_nDieFrame = 0;
+	SetDieFrame(0);
 
 	m_pTalkText = nullptr;
 	m_pBuyText = nullptr;
@@ -224,7 +224,7 @@ void CPlayerX::Update()
 	//死んだ時
 	else if (GetLife() == 0)
 	{
-		m_nDieFrame++;                //死亡フレームを増やす
+		GetDieFrame()++;                //死亡フレームを増やす
 		GetPos().y = -50.0f;             //位置を低くする
 		srand((unsigned)time(NULL));  //乱数系列を初期化
 
@@ -233,13 +233,13 @@ void CPlayerX::Update()
 		{
 			m_nDieRandom = -1 + rand() % 3; //乱数を入れる
 		}
-		m_pModelPrts[0]->m_pos += D3DXVECTOR3(m_nDieFrame * 0.1f * m_nDieRandom, 0.0f, m_nDieFrame * 0.1f * m_nDieRandom);
+		m_pModelPrts[0]->m_pos += D3DXVECTOR3(GetDieFrame() * 0.1f * m_nDieRandom, 0.0f, GetDieFrame() * 0.1f * m_nDieRandom);
 
 		CCharacter::Update();  //基底クラスの更新処理を呼ぶ
 		SetMotion(DIE);        //モーションを死亡に設定する
 
 		//１秒*指定秒
-		if (m_nDieFrame >= 60 * 3)
+		if (GetDieFrame() >= 60 * 3)
 		{
 			SceneMode(3); //シーンの設定
 			return;       //処理を抜ける

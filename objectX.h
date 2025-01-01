@@ -46,7 +46,9 @@ public://外部からのアクセス可能
 	int& GetLife() { return m_nLife; }      //ライフを取得
 	int& GetRandom() { return m_nRandom; }  //乱数を取得
 	int& GetFrame() { return m_nFrame; }    //フレームを取得
+	int& GetDieFrame() { return m_nDieFrame; }
 	float& GetAngle() { return m_fAngle; }  //対角線の角度を取得
+	
 
 	//==================================================
 	//情報の設定
@@ -55,6 +57,7 @@ public://外部からのアクセス可能
 	void SetLife(int nLife) { m_nLife = nLife; }         //ライフを引数と同期させる
 	void SetRandom(int nRandom) { m_nRandom = nRandom; } //乱数を引数と同期させる	
 	void SetFrame(int nFrame) { m_nFrame = nFrame; }     //フレームを引数と同期させる
+	void SetDieFrame(int nDieFrame) { m_nDieFrame = nDieFrame; }
 
 	//==================================================
 	//パーツ毎の位置の情報を取得する
@@ -101,7 +104,6 @@ public://外部からのアクセス可能
 	constexpr static float MAX_GRAVITY_G = 0.5f; //重力の最大値
 
 protected://継承クラスのみアクセス可能
-	int m_nDieFrame;           //死亡カウンター
 	float m_Gravity;           //重力加速度をつける
 	float m_fAngle;            //角度から長さを求める用の変数
 	bool m_GravityFlag;        //重力をONにするかどうか
@@ -146,9 +148,10 @@ private:
 	D3DXVECTOR3 m_move;                         //移動量
 	CUI* pUI;
 
-	int m_nLife;     //Lifeを格納する変数（HP）
-	int m_nRandom;   //乱数を格納する変数
-	int m_nFrame;    //フレームを格納する変数
+	int m_nLife;      //Lifeを格納する変数（HP）
+	int m_nRandom;    //乱数を格納する変数
+	int m_nFrame;     //フレームを格納する変数
+	int m_nDieFrame;  //死亡カウンター
 };
 
 #endif // !_OBJECT3D_H_

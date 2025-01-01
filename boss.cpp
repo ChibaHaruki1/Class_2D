@@ -97,11 +97,11 @@ void CBoss::Update()
 	//ボスが死んだ時
 	else if (CManager::GetInstance()->GetBossHPGage()->GetSaveSizeX() <= 0)
 	{
-		m_nDieFrame++;                                                        //死亡カウントを増やす
+		GetDieFrame()++;                                                        //死亡カウントを増やす
 		SetMotionBoss(CCharacter::BOSSMOTIONSTATE::BOSSDIE);                  //モーションの種類を設定
 		CManager::GetInstance()->DesignationUninitXEnemy(CObjectX::BOSS, 0);  //ボスの（自身）インスタンスの情報を無くす
 
-		if (m_nDieFrame >= 180)
+		if (GetDieFrame() >= 180)
 		{
 			CManager::SetMode(CScene::MODE_RESULT); //初めのシーンを設定
 		}
