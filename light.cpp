@@ -14,6 +14,7 @@
 //=======================
 CLight::CLight()
 {
+	//光源の最大数分回す
 	for (int Light = 0; Light < MAX_LIGHT; Light++)
 	{
 		//ライトの情報をクリアする
@@ -38,14 +39,15 @@ HRESULT CLight::Init()
 {
 	CRenderer* pRenderer = CManager::GetRenderer(); //共通したメモリを持つインスタンスを獲得
 
-	LPDIRECT3DDEVICE9 pDevice; //デバイスのポインタ	
+	LPDIRECT3DDEVICE9 pDevice;                      //デバイスのポインタ	
 
 	//デバイスの取得
 	pDevice = pRenderer->GetDevice();
 
-	//lightの位置を取得
+	//光源の位置を取得
 	D3DXVECTOR3 vecDir[MAX_LIGHT];
 
+	//光源の最大数分回す
 	for (int LightCount = 0; LightCount < MAX_LIGHT; LightCount++)
 	{
 		//ライトの種類を設定
@@ -60,6 +62,7 @@ HRESULT CLight::Init()
 		//ベクトルを正規化する
 		D3DXVec3Normalize(&vecDir[LightCount], &vecDir[LightCount]);
 
+		//方向
 		m_aLight[LightCount].Direction = vecDir[LightCount];
 
 		//色
@@ -71,7 +74,7 @@ HRESULT CLight::Init()
 		//ライトを設定する
 		pDevice->LightEnable(LightCount, TRUE);
 	}
-	return S_OK;
+	return S_OK; //成功を返す
 }
 
 

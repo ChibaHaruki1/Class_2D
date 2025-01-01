@@ -13,15 +13,15 @@
 class CLight
 {
 public:
-	CLight();
-	~CLight();
-	HRESULT Init();
-	void Uninit();
-	void Update();
+	CLight();         //コンストラクタ
+	~CLight();        //デストラクタ
+	HRESULT Init();   //初期化処理
+	void Uninit();    //破棄処理
+	void Update();    //更新処理
 
 private:
-	static const int MAX_LIGHT = 4;
-	D3DLIGHT9 m_aLight[MAX_LIGHT];
+	static const int MAX_LIGHT = 4; //光源の最大数
+	D3DLIGHT9 m_aLight[MAX_LIGHT];  //光源の情報
 };
 
 #endif // !_LIGHT_H_
