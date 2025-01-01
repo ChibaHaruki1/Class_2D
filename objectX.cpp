@@ -53,7 +53,7 @@ CObjectX::CObjectX(int nPriority) : CObjectManagerX(nPriority)
 	m_fGravity = 0.0f;
 	m_fAngle = 0.0f;
 	m_aFileName = nullptr;
-	m_GravityFlag = true;  //重力ON
+	m_bGravityFlag = true;  //重力ON
 	m_JumpFlag = false;
 	m_bOneFlag = false;
 	pUI = nullptr;
@@ -199,7 +199,7 @@ void CObjectX::Draw()
 void CObjectX::Gravity()
 {
 	//重力ONの時
-	if (m_GravityFlag == true)
+	if (m_bGravityFlag == true)
 	{
 		m_fGravity += MAX_GRAVITY_G; //重力加速度
 		m_pos.y -= m_fGravity; //プレイヤーのｙposに重力加速度をつける
@@ -218,7 +218,7 @@ void CObjectX::GravityTogether()
 	{
 		m_JumpFlag = false; //フラグをflaseにする
 	}
-	m_GravityFlag = true; //重力を
+	m_bGravityFlag = true; //重力を
 }
 
 //======================================================================================================================================

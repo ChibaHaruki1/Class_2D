@@ -43,23 +43,23 @@ public://外部からのアクセス可能
 
 	//==================================================
 	//それぞれの処理に必要な情報を取得する
-	int& GetLife() { return m_nLife; }      //ライフを取得
-	int& GetRandom() { return m_nRandom; }  //乱数を取得
-	int& GetFrame() { return m_nFrame; }    //フレームを取得
-	int& GetDieFrame() { return m_nDieFrame; }
-	float& GetAngle() { return m_fAngle; }  //対角線の角度を取得
-	float& GetGravity() { return m_fGravity; }
+	int& GetLife() { return m_nLife; }          //ライフを取得
+	int& GetRandom() { return m_nRandom; }      //乱数を取得
+	int& GetFrame() { return m_nFrame; }        //フレームを取得
+	int& GetDieFrame() { return m_nDieFrame; }  //死亡時のフレームを観測する用の情報を取得
+	float& GetGravity() { return m_fGravity; }  //重力の情報を収得
 	
 
 	//==================================================
-	//情報の設定
-	void SetPos(D3DXVECTOR3 pos) { m_pos = pos; }        //位置を引数と同期させる
-	void SetRot(D3DXVECTOR3 rot) { m_rot = rot; }        //向きを引数と同期させる
-	void SetLife(int nLife) { m_nLife = nLife; }         //ライフを引数と同期させる
-	void SetRandom(int nRandom) { m_nRandom = nRandom; } //乱数を引数と同期させる	
-	void SetFrame(int nFrame) { m_nFrame = nFrame; }     //フレームを引数と同期させる
-	void SetDieFrame(int nDieFrame) { m_nDieFrame = nDieFrame; }
-	void SetGravity(float fGravity) { m_fGravity = fGravity; }
+	//各情報の設定
+	void SetPos(D3DXVECTOR3 pos) { m_pos = pos; }                                //位置を引数と同期させる
+	void SetRot(D3DXVECTOR3 rot) { m_rot = rot; }                                //向きを引数と同期させる
+	void SetLife(int nLife) { m_nLife = nLife; }                                 //ライフを引数と同期させる
+	void SetRandom(int nRandom) { m_nRandom = nRandom; }                         //乱数を引数と同期させる	
+	void SetFrame(int nFrame) { m_nFrame = nFrame; }                             //フレームを引数と同期させる
+	void SetDieFrame(int nDieFrame) { m_nDieFrame = nDieFrame; }                 //死亡時のフレームを引数と同期させる
+	void SetGravity(float fGravity) { m_fGravity = fGravity; }                   //重力の値を引数と同期させる
+	void SetGravityFlag(bool bGravityFlag) { m_bGravityFlag = bGravityFlag; }    //重力フラグを引数と同期させる
 
 	//==================================================
 	//パーツ毎の位置の情報を取得する
@@ -106,8 +106,6 @@ public://外部からのアクセス可能
 	constexpr static float MAX_GRAVITY_G = 0.5f; //重力の最大値
 
 protected://継承クラスのみアクセス可能
-	float m_fAngle;            //角度から長さを求める用の変数
-	bool m_GravityFlag;        //重力をONにするかどうか
 	bool m_JumpFlag;           //ジャンプをしているかどうか
 	bool m_bOneFlag;           //一回だけ処理を通したい時用の変数
 	const char* m_aFileName;   //xファイルのパス渡しようの変数
@@ -155,6 +153,9 @@ private:
 	int m_nDieFrame;  //死亡カウンター
 
 	float m_fGravity;           //重力加速度をつける
+	float m_fAngle;             //角度から長さを求める用の変数
+
+	bool m_bGravityFlag;        //重力をONにするかどうか
 };
 
 #endif // !_OBJECT3D_H_

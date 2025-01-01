@@ -24,8 +24,6 @@
 CPlayerX::CPlayerX(int nPriority) : CCharacter(nPriority)
 {
 	CManager::GetInstance()->GetCreateObjectInstnace2D(CObject2D::TYPE::HP, 0); //プレイヤーのHPゲージの生成
-
-	m_GravityFlag = true;  //重力ON
 	m_JumpFlag = false;  //飛んでいないに設定
 	SetGravity(0.0f);
 
@@ -544,12 +542,14 @@ void CPlayerX::KeySet()
 		}
 	}
 
-	//Xキーが押された時
+	//XキーかAボタンが押された時
 	if (CManager::GetKeyBorad()->GetKeyboardTrigger(DIK_X) == true || CManager::GetJyoPad()->GetJoypadTrigger(JOYKEY_A) == true)
 	{
 		m_JumpFlag = true;
 		CManager::GetInstance()->GetFuelGage()->GetUse()= true;
 	}
+
+	//キーが押されてなく、ジャンプをしている時
 	else if (m_JumpFlag == true)
 	{
 		if (CManager::GetInstance()->GetFuelGage() != nullptr)
@@ -560,7 +560,7 @@ void CPlayerX::KeySet()
 				if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_X) == true || CManager::GetJyoPad()->GetJoypadPress(JOYKEY_A) == true)
 				{
 					GetMove().y += 1.0f;
-					m_GravityFlag = false;
+					SetGravityFlag(false);//重力OFF
 
 					if (GetGravity() > 1.0f)
 					{
@@ -570,12 +570,12 @@ void CPlayerX::KeySet()
 				else
 				{
 					CManager::GetInstance()->GetFuelGage()->GetUse() = false;
-					m_GravityFlag = true;
+					SetGravityFlag(true);//重力ON
 				}
 			}
 			else if (CManager::GetInstance()->GetFuelGage()->GetSizeY() <= 0.0f)
 			{
-				m_GravityFlag = true;
+				SetGravityFlag(true);//重力ON
 				CManager::GetInstance()->GetFuelGage()->GetUse() = false;
 				return;
 			}
@@ -1078,12 +1078,12 @@ void CPlayerX::BlockJudgement()
 		if (GetCollision() ->ColiisionBoxOutside(GetPos(), CManager::GetInstance()->GetFinalCeiling()->GetPos(), GetModelSize(), CManager::GetInstance()->GetFinalCeiling()->GetModelSize(), GetMove()) == true)
 		{
 			//m_JumpFlag = false; //フラグをflaseにする
-			m_GravityFlag = true;
+			SetGravityFlag(true);//重力ON
 		}
 		//その他
 		else
 		{
-			m_GravityFlag = true;
+			SetGravityFlag(true);//重力ON
 		}
 	}
 

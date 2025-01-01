@@ -39,7 +39,7 @@ private:
 class CEnemy001X : public CManagerEnemy
 {
 public:
-	CEnemy001X() { m_fAngle = 0.0f; }
+	CEnemy001X() {};
 	~CEnemy001X()override {};
 	void Update()override;
 	
