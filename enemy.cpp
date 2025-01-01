@@ -79,7 +79,7 @@ CManagerEnemy* CManagerEnemy::Create(D3DXVECTOR3 pos, CObjectX::TYPE type)
 
 		if (SUCCEEDED(pManagerEnemy->Init()))
 		{
-			pManagerEnemy->m_aFileName = "data\\XFILE\\ENEMY\\Enemy000.x";
+			pManagerEnemy->SetFileName("data\\XFILE\\ENEMY\\Enemy000.x");
 		}
 	}
 	else if (type == TYPE::ENEMY001)
@@ -88,7 +88,7 @@ CManagerEnemy* CManagerEnemy::Create(D3DXVECTOR3 pos, CObjectX::TYPE type)
 
 		if (SUCCEEDED(pManagerEnemy->Init()))
 		{
-			pManagerEnemy->m_aFileName = "data\\XFILE\\ENEMY\\Enemy001.x";
+			pManagerEnemy->SetFileName("data\\XFILE\\ENEMY\\Enemy001.x");
 		}
 	}
 

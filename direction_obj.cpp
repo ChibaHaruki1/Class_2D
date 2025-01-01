@@ -20,7 +20,7 @@ int CDebrisX::m_nDirectionCount = 0;
 //============================
 CDebrisX::CDebrisX(int nPriority) : CObjectX(nPriority)
 {
-	m_aFileName = "data\\XFILE\\DirectionObj\\Debris.x";
+	SetFileName("data\\XFILE\\DirectionObj\\Debris.x");
 	m_nLife = 0;
 }
 

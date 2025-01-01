@@ -157,16 +157,16 @@ void CEvent::DropMeteorite()
 }
 
 
-//
-//
-//
+//================================
+//モーション付きの敵の生成処理
+//================================
 void CEvent::CreateEnemy()
 {
 	if (CManager::GetScene()->GetPlayerX()->GetPos().x >= 9500.0f)
 	{
 		if (m_bOneCreate == false)
 		{
-			CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::ENEMYINMOTION001, 0, D3DXVECTOR3(9500.0f, 5000.0f, 0.0f));    //モーション付きの敵の生成
+			CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::ENEMYINMOTION001, 0, D3DXVECTOR3(9500.0f, 5000.0f, 0.0f));     //モーション付きの敵の生成
 			CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::ENEMYINMOTION001, 0, D3DXVECTOR3(10000.0f, 5000.0f, 0.0f));    //モーション付きの敵の生成
 			m_bOneCreate = true;
 		}

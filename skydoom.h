@@ -12,7 +12,7 @@
 
 class CSkyDoom : public CObjectX
 {
-public:
+private:
 	CSkyDoom(int nPriority = DEFAULT_PRIORITY1);
 	~CSkyDoom()override;
 	HRESULT Init()override;
@@ -20,5 +20,6 @@ public:
 	void Update() override;
 	void Draw()override;
 
-	static CSkyDoom* Create(D3DXVECTOR3 pos,int nNumber);
+public:
+	static CSkyDoom* Create(D3DXVECTOR3 pos, int nNumber);
 };

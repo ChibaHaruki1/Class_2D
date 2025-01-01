@@ -30,16 +30,16 @@ public://外部からのアクセス可能
 	void Gravity();                                         //重力処理
 	void GravityTogether();                                 //重力を同期させる処理
 	void Junp(TYPE type, float fJumpPwer);                                   //飛ぶ処理
-	void TargetHeadingTowards(CObjectX* pObject, float MAX_SPEED);            //目標に向かう処理
-	HRESULT Lood();                                                         //ｘファイルの読み込み関数（引数で読み込むファイルパスを渡す）
-	void ObjectArrangement(CObjectX::TYPE type, CUI* pUI1);                 //配置ツール
+	void TargetHeadingTowards(CObjectX* pObject, float MAX_SPEED);           //目標に向かう処理
+	HRESULT Lood();                                                          //ｘファイルの読み込み関数（引数で読み込むファイルパスを渡す）
+	void ObjectArrangement(CObjectX::TYPE type, CUI* pUI1);                  //配置ツール
 	void BindTexture(LPDIRECT3DTEXTURE9 pTex, LPD3DXMESH pMesh, LPD3DXBUFFER BuffMat, DWORD NumMat, D3DXMATERIAL* pMat); //派生クラスの情報をもらうための関数（３Dモデル関連）
 
 	bool CollisionBossPrts();                                                   //プレイヤーとボスの当たり判定
 	bool CollisionRightSelectPlayer(CObjectX* pObject);                         //プレイヤーと指定したobjの当たり判定（単体）右側
 	bool CollisionLeftSelectPlayer(CObjectX* pObject);                          //プレイヤーと指定したobjの当たり判定（単体）左側
 	bool CollisionPlayerSelect(CObjectX* pObject);                              //プレイヤー他のobjの当たり判定
-	bool CollisionPlayerInEnemy(CObjectX* pObject, float fMagnification);        //プレイヤー他のobjの当たり判定+当たり判定の範囲
+	bool CollisionPlayerInEnemy(CObjectX* pObject, float fMagnification);       //プレイヤー他のobjの当たり判定+当たり判定の範囲
 
 	//==================================================
 	//それぞれの処理に必要な情報を取得する
@@ -48,7 +48,9 @@ public://外部からのアクセス可能
 	int& GetFrame() { return m_nFrame; }        //フレームを取得
 	int& GetDieFrame() { return m_nDieFrame; }  //死亡時のフレームを観測する用の情報を取得
 	float& GetGravity() { return m_fGravity; }  //重力の情報を収得
-	
+	bool& GetJumpFlag() { return m_bJumpFlag; }
+	bool& GetOneFlag() { return m_bOneFlag; }
+	const char* GetFileName() { return m_aFileName; }
 
 	//==================================================
 	//各情報の設定
@@ -60,6 +62,9 @@ public://外部からのアクセス可能
 	void SetDieFrame(int nDieFrame) { m_nDieFrame = nDieFrame; }                 //死亡時のフレームを引数と同期させる
 	void SetGravity(float fGravity) { m_fGravity = fGravity; }                   //重力の値を引数と同期させる
 	void SetGravityFlag(bool bGravityFlag) { m_bGravityFlag = bGravityFlag; }    //重力フラグを引数と同期させる
+	void SetJumpFlag(bool bJumpFlag) { m_bJumpFlag = bJumpFlag; }
+	void SetOneFlag(bool bOneFlag) { m_bOneFlag = bOneFlag; }
+	void SetFileName(const char* aFileName) { m_aFileName = aFileName; }
 
 	//==================================================
 	//パーツ毎の位置の情報を取得する
@@ -106,9 +111,6 @@ public://外部からのアクセス可能
 	constexpr static float MAX_GRAVITY_G = 0.5f; //重力の最大値
 
 protected://継承クラスのみアクセス可能
-	bool m_JumpFlag;           //ジャンプをしているかどうか
-	bool m_bOneFlag;           //一回だけ処理を通したい時用の変数
-	const char* m_aFileName;   //xファイルのパス渡しようの変数
 
 	//マクロ定義
 	constexpr static float D3DX_PI_ORI = 1.57f; //目標に向かう時の速さ
@@ -151,11 +153,12 @@ private:
 	int m_nRandom;    //乱数を格納する変数
 	int m_nFrame;     //フレームを格納する変数
 	int m_nDieFrame;  //死亡カウンター
-
 	float m_fGravity;           //重力加速度をつける
 	float m_fAngle;             //角度から長さを求める用の変数
-
 	bool m_bGravityFlag;        //重力をONにするかどうか
+	bool m_bJumpFlag;           //ジャンプをしているかどうか
+	bool m_bOneFlag;            //一回だけ処理を通したい時用の変数
+	const char* m_aFileName;    //xファイルのパス渡しようの変数
 };
 
 #endif // !_OBJECT3D_H_

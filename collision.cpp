@@ -41,8 +41,8 @@ bool CCollision::ColiisionBox(D3DXVECTOR3 pos, D3DXVECTOR3 pos1, D3DXVECTOR3 Siz
 	//右の当たり判定
 	if (pos.x - (Size.x / 2) >= pos1.x + (Size1.x / 2) - 10.0f
 		&& pos.x - (Size.x / 2) <= pos1.x + (Size1.x / 2)
-		&& pos.y + (POS_FACE + (Size.y)) >= pos1.y
-		&& pos.y <= pos1.y + (Size1.y)
+		&& pos.y + (Size.y / 2) >= pos1.y - (Size1.y / 2) - 10.0f
+		&& pos.y - (Size.y / 2) <= pos1.y + (Size1.y / 2)
 		&& pos.z + Size.z / 2 >= pos1.z - (Size1.z / 2)
 		&& pos.z - Size.z / 2 <= pos1.z + (Size1.z / 2))//[]の中nCntBulletにする注意する
 	{
@@ -53,8 +53,8 @@ bool CCollision::ColiisionBox(D3DXVECTOR3 pos, D3DXVECTOR3 pos1, D3DXVECTOR3 Siz
 	//左の当たり判定
 	else if (pos.x + (Size.x / 2) >= pos1.x - (Size1.x / 2)
 		&& pos.x + (Size.x / 2) <= pos1.x - (Size1.x / 2) + 10.0f
-		&& pos.y + (POS_FACE + (Size.y)) >= pos1.y
-		&& pos.y <= pos1.y + (Size1.y)
+		&& pos.y + (Size.y / 2) >= pos1.y - (Size1.y / 2) - 10.0f
+		&& pos.y - (Size.y / 2) <= pos1.y + (Size1.y / 2)
 		&& pos.z + Size.z / 2 >= pos1.z - (Size1.z / 2)
 		&& pos.z - Size.z / 2 <= pos1.z + (Size1.z / 2))//[]の中nCntBulletにする注意する
 	{
@@ -65,8 +65,8 @@ bool CCollision::ColiisionBox(D3DXVECTOR3 pos, D3DXVECTOR3 pos1, D3DXVECTOR3 Siz
 	//手前からの判定
 	else  if (pos.x + (Size.x / 2) >= pos1.x - (Size1.x / 2)
 		&& pos.x - (Size.x / 2) <= pos1.x + (Size1.x / 2)
-		&& pos.y + (POS_FACE + (Size.y)) >= pos1.y
-		&& pos.y <= pos1.y + (Size1.y)
+		&& pos.y + (Size.y / 2) >= pos1.y - (Size1.y / 2) - 10.0f
+		&& pos.y - (Size.y / 2) <= pos1.y + (Size1.y / 2)
 		&& pos.z + Size.z / 2 >= pos1.z - (Size1.z / 2)
 		&& pos.z + Size.z / 2 <= pos1.z - (Size1.z / 2) + 10.0f)
 	{
@@ -77,8 +77,8 @@ bool CCollision::ColiisionBox(D3DXVECTOR3 pos, D3DXVECTOR3 pos1, D3DXVECTOR3 Siz
 	//後ろからの判定
 	else  if (pos.x + (Size.x / 2) >= pos1.x - (Size1.x / 2)
 		&& pos.x - (Size.x / 2) <= pos1.x + (Size1.x / 2)
-		&& pos.y + (POS_FACE + (Size.y)) >= pos1.y
-		&& pos.y <= pos1.y + (Size1.y)
+		&& pos.y + (Size.y / 2) >= pos1.y - (Size1.y / 2) - 10.0f
+		&& pos.y - (Size.y / 2) <= pos1.y + (Size1.y / 2)
 		&& pos.z - Size.z / 2 <= pos1.z + (Size1.z / 2) + 10.0f
 		&& pos.z - Size.z / 2 >= pos1.z + (Size1.z / 2))
 	{
@@ -96,8 +96,8 @@ bool CCollision::ColiisionBox1(D3DXVECTOR3 pos, D3DXVECTOR3 pos1, D3DXVECTOR3 Si
 	//右の当たり判定
 	if (pos.x - (Size.x / 2) >= pos1.x + (Size1.x / 2) - 10.0f
 		&& pos.x - (Size.x / 2) <= pos1.x + (Size1.x / 2)
-		&& pos.y + (POS_FACE + (Size.y)) >= pos1.y
-		&& pos.y <= pos1.y + (Size1.y)
+		&& pos.y + (Size.y / 2) >= pos1.y - (Size1.y / 2) - 10.0f
+		&& pos.y - (Size.y / 2) <= pos1.y + (Size1.y / 2)
 		&& pos.z + Size.z / 2 >= pos1.z - (Size1.z / 2)
 		&& pos.z - Size.z / 2 <= pos1.z + (Size1.z / 2))//[]の中nCntBulletにする注意する
 	{
@@ -108,8 +108,8 @@ bool CCollision::ColiisionBox1(D3DXVECTOR3 pos, D3DXVECTOR3 pos1, D3DXVECTOR3 Si
 	//左の当たり判定
 	else if (pos.x + (Size.x / 2) >= pos1.x - (Size1.x / 2)
 		&& pos.x + (Size.x / 2) <= pos1.x - (Size1.x / 2) + 10.0f
-		&& pos.y + (POS_FACE + (Size.y)) >= pos1.y
-		&& pos.y <= pos1.y + (Size1.y)
+		&& pos.y + (Size.y / 2) >= pos1.y - (Size1.y / 2) - 10.0f
+		&& pos.y - (Size.y / 2) <= pos1.y + (Size1.y / 2)
 		&& pos.z + Size.z / 2 >= pos1.z - (Size1.z / 2)
 		&& pos.z - Size.z / 2 <= pos1.z + (Size1.z / 2))//[]の中nCntBulletにする注意する
 	{
@@ -129,7 +129,7 @@ bool CCollision::ColiisionBoxRoadBlock001(D3DXVECTOR3 pos, D3DXVECTOR3 pos1, D3D
 	if (pos.x + (Size.x / 2) >= pos1.x - (Size1.x / 2)
 		&& pos.x + (Size.x / 2) <= pos1.x - (Size1.x / 2) + 10.0f
 		&& pos.y + (Size.y / 2) >= pos1.y - (Size1.y / 2) - 10.0f
-		&& pos.y - (Size.y / 2) <= pos1.y + (Size1.y)
+		&& pos.y - (Size.y / 2) <= pos1.y + (Size1.y / 2)
 		&& pos.z + Size.z / 2 >= pos1.z - (Size1.z / 2)
 		&& pos.z - Size.z / 2 <= pos1.z + (Size1.z / 2))//[]の中nCntBulletにする注意する
 	{
@@ -141,7 +141,7 @@ bool CCollision::ColiisionBoxRoadBlock001(D3DXVECTOR3 pos, D3DXVECTOR3 pos1, D3D
 	if (pos.x - (Size.x / 2) >= pos1.x + (Size1.x / 2) - 10.0f
 		&& pos.x - (Size.x / 2) <= pos1.x + (Size1.x / 2)
 		&& pos.y + (Size.y / 2) >= pos1.y - (Size1.y / 2) - 10.0f
-		&& pos.y - (Size.y / 2) <= pos1.y + (Size1.y)
+		&& pos.y - (Size.y / 2) <= pos1.y + (Size1.y / 2)
 		&& pos.z + Size.z / 2 >= pos1.z - (Size1.z / 2)
 		&& pos.z - Size.z / 2 <= pos1.z + (Size1.z / 2))//[]の中nCntBulletにする注意する
 	{
@@ -151,79 +151,6 @@ bool CCollision::ColiisionBoxRoadBlock001(D3DXVECTOR3 pos, D3DXVECTOR3 pos1, D3D
 
 	return false;
 }
-
-
-
-
-//======================
-//各方向の判定
-//======================
-bool CCollision::AnyColiisionBox(D3DXVECTOR3 pos, D3DXVECTOR3 pos1, D3DXVECTOR3 Size, D3DXVECTOR3 Size1) //参照渡しだが変える値のみ参照しないとstaicと同じになる
-{
-	//右の当たり判定
-	if (pos.x - (Size.x / 2) <= pos1.x + (Size1.x / 2) + 1.0f
-		&& pos.x - (Size.x / 2) >= pos1.x + (Size1.x / 2)
-		&& pos.y + (POS_FACE + (Size.y)) >= pos1.y
-		&& pos.y <= pos1.y + (Size1.y)
-		&& pos.z + (Size.z / 2) >= pos1.z - (Size1.z / 2)
-		&& pos.z - (Size.z / 2) <= pos1.z + (Size1.z / 2))//[]の中nCntBulletにする注意する
-	{
-		return true;
-	}
-
-	//左の当たり判定
-	else if (pos.x + (Size.x / 2) >= pos1.x - (Size1.x / 2)
-		&& pos.x + (Size.x / 2) <= pos1.x - (Size1.x / 2) + 1.0f
-		&& pos.y + (POS_FACE + (Size.y)) >= pos1.y
-		&& pos.y <= pos1.y + (Size1.y)
-		&& pos.z + Size.z / 2 >= pos1.z - (Size1.z / 2)
-		&& pos.z - Size.z / 2 <= pos1.z + (Size1.z / 2))//[]の中nCntBulletにする注意する
-	{
-		return true;
-	}
-
-	//手前からの判定
-	else  if (pos.x - (Size.x / 2) >= pos1.x - (Size1.x / 2)
-		&& pos.x + (Size.x / 2) <= pos1.x + (Size1.x / 2)
-		&& pos.y + (POS_FACE + (Size.y)) >= pos1.y
-		&& pos.y <= pos1.y + (Size1.y)
-		&& pos.z + Size.z / 2 >= pos1.z - (Size1.z / 2)
-		&& pos.z + Size.z / 2 <= pos1.z - (Size1.z / 2) + 10.0f)
-	{
-		return true;
-	}
-
-	//後ろからの判定
-	else  if (pos.x + (Size.x / 2) >= pos1.x - (Size1.x / 2)
-		&& pos.x - (Size.x / 2) <= pos1.x + (Size1.x / 2)
-		&& pos.y + (POS_FACE + (Size.y)) >= pos1.y
-		&& pos.y <= pos1.y + (Size1.y)
-		&& pos.z + Size.z / 2 <= pos1.z + (Size1.z / 2) + 10.0f
-		&& pos.z + Size.z / 2 >= pos1.z + (Size1.z / 2))
-	{
-		return true;
-	}
-	return false;
-}
-
-
-//======================
-//全方位の判定
-//======================
-bool CCollision::ColiisionBoxAll(D3DXVECTOR3 pos, D3DXVECTOR3 pos1, D3DXVECTOR3 Size, D3DXVECTOR3 Size1, D3DXVECTOR3& move) //参照渡しだが変える値のみ参照しないとstaicと同じになる
-{
-	if (pos.x - (Size.x / 2) <= pos1.x + (Size1.x / 2) + 10.0f
-		&& pos.x + (Size.x / 2) >= pos1.x - (Size1.x / 2) - 10.0f
-		&& pos.y + (POS_FACE + (Size.y)) >= pos1.y
-		&& pos.y <= pos1.y + (Size1.y)
-		&& pos.z + (Size.z / 2) >= pos1.z - (Size1.z / 2) - 10.0f
-		&& pos.z - (Size.z / 2) <= pos1.z + (Size1.z / 2) + 10.0f)//[]の中nCntBulletにする注意する
-	{
-		return true;
-	}
-	return false;
-}
-
 
 
 //======================
@@ -311,27 +238,6 @@ bool CCollision::ColiisionBoxOutside(D3DXVECTOR3 pos, D3DXVECTOR3 pos1, D3DXVECT
 		move.y -= 6.0f;
 		return true;
 	}
-	return false;
-}
-
-
-//====================
-//円の当たり判定
-//====================
-bool CCollision::CircleCollision(D3DXVECTOR3 pos, D3DXVECTOR3 pos1, D3DXVECTOR3 Size, D3DXVECTOR3 Size1) //参照渡しだが変える値のみ参照しないとstaicと同じになる
-{
-	float lengthX = pos.x - pos1.x; //posとpos1のｘの距離を常に比較
-	float lengthZ = pos.z - pos1.z; //posとpos1のｚの距離を常に比較
-
-	float CenterDistance = sqrtf(lengthX * lengthX + lengthZ * lengthZ); //posとpos1の距離を計算
-
-	float radiuSum = ((Size.x + Size1.x) + (Size.z + Size1.z)) * 0.25f;
-
-	if (CenterDistance <= radiuSum)
-	{
-		return true;
-	}
-
 	return false;
 }
 

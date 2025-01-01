@@ -16,7 +16,7 @@
 //============================
 CInitGun::CInitGun(int nPriority) : CObjectX(nPriority)
 {
-	m_aFileName = "data\\XFILE\\Gun\\Gun000.x";
+	SetFileName("data\\XFILE\\Gun\\Gun000.x");
 }
 
 
@@ -99,7 +99,7 @@ CInitGun* CInitGun::Create(D3DXVECTOR3 pos)
 //============================
 CInitGun001::CInitGun001(int nPriority) : CObjectX(nPriority)
 {
-	m_aFileName = "data\\XFILE\\Gun\\Gun001.x";
+	SetFileName("data\\XFILE\\Gun\\Gun001.x");
 }
 
 

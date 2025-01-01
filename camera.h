@@ -23,7 +23,7 @@ public:
 	HRESULT Init();
 	void Uninit();
 	void Update();
-	void SetCamera();
+	void SetCamera();                                            //ƒJƒƒ‰‚Ìî•ñ‚Ìİ’è	
 	D3DXVECTOR3& GetPosV() { return m_posV; }
 	D3DXVECTOR3& GetPosR() { return m_posR; }
 	D3DXVECTOR3& GetRot() { return rot; }
@@ -31,6 +31,7 @@ public:
 	float& GetSaveF() { return CountCamera; }
 
 private:
+
 	D3DXVECTOR3 m_posV; //‹“_
 	D3DXVECTOR3 m_posR; //’‹“_
 	D3DXVECTOR3 m_vecU; //ã•ûŒü

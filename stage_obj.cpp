@@ -25,7 +25,6 @@ int CStageObj::m_nTelephonPoleCount = 0;
 //============================
 CStageObj::CStageObj(int nPriority) : CObjectX(nPriority)
 {
-	m_aFileName = nullptr;
 	m_pFile = nullptr;
 }
 
@@ -131,7 +130,7 @@ CStageObj* CStageObj::Create(D3DXVECTOR3 pos, CObjectX::TYPE type)
 		//情報がある時
 		if (pStageObj != nullptr)
 		{
-			pStageObj->m_aFileName = "data\\XFILE\\StageObj\\telephone_pole.x";
+			pStageObj->SetFileName("data\\XFILE\\StageObj\\telephone_pole.x");
 			pStageObj->SetType(TELEPHONPOLE);
 		}
 	}
@@ -143,7 +142,7 @@ CStageObj* CStageObj::Create(D3DXVECTOR3 pos, CObjectX::TYPE type)
 		//情報がある時
 		if (pStageObj != nullptr)
 		{
-			pStageObj->m_aFileName = "data\\XFILE\\StageObj\\surveillance_cameraUP.x";
+			pStageObj->SetFileName("data\\XFILE\\StageObj\\surveillance_cameraUP.x");
 		}
 	}
 
@@ -154,7 +153,7 @@ CStageObj* CStageObj::Create(D3DXVECTOR3 pos, CObjectX::TYPE type)
 		//情報がある時
 		if (pStageObj != nullptr)
 		{
-			pStageObj->m_aFileName = "data\\XFILE\\StageObj\\surveillance_cameraDown.x";
+			pStageObj->SetFileName("data\\XFILE\\StageObj\\surveillance_cameraDown.x");
 		}
 	}
 
@@ -165,7 +164,7 @@ CStageObj* CStageObj::Create(D3DXVECTOR3 pos, CObjectX::TYPE type)
 		//情報がある時
 		if (pStageObj != nullptr)
 		{
-			pStageObj->m_aFileName = "data\\XFILE\\StageObj\\Shop.x";
+			pStageObj->SetFileName("data\\XFILE\\StageObj\\Shop.x");
 		}
 	}
 
@@ -176,7 +175,7 @@ CStageObj* CStageObj::Create(D3DXVECTOR3 pos, CObjectX::TYPE type)
 		//情報がある時
 		if (pStageObj != nullptr)
 		{
-			pStageObj->m_aFileName = "data\\XFILE\\StageObj\\BreakHouse000.x";
+			pStageObj->SetFileName("data\\XFILE\\StageObj\\BreakHouse000.x");
 		}
 	}
 
@@ -346,19 +345,19 @@ CBreakHouse::~CBreakHouse()
 void CBreakHouse::Update()
 {
 	//一回だけ処理を通す
-	if (m_bOneFlag == false)
+	if (GetOneFlag() == false)
 	{
 		CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::FIRE, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));  //炎エフェクトを呼ぶ
 		CManager::GetInstance()->GetFire()->GetLife() = 60 * 3;                                               //ライフを設定
 		CManager::GetInstance()->GetFire()->GetAlpha() = 150;                                                 //ライフを設定
 		CManager::GetInstance()->GetFire()->SetSize(920.0f, 700.0f, 0.0f);                                    //大きさを設定
 		CManager::GetInstance()->GetFire()->SetEffect(D3DXVECTOR3(GetPos().x+200.0f, GetPos().y+600.0f, GetPos().z));    //炎エフェクトを呼ぶ
-		m_bOneFlag = true; //二度と通らなくする
+		SetOneFlag(true); //二度と通らなくする
 	}
 
 	//エフェクトのライフが既定の数値まで行った時
 	if (CManager::GetInstance()->GetFire()->GetLife() <= 10)
 	{
-		m_bOneFlag = false; //また通るように設定する
+		SetOneFlag(false); //もう一度通るようにする
 	}
 }

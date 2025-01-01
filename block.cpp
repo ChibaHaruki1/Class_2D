@@ -370,7 +370,7 @@ CManagerBlock* CManagerBlock::Create(D3DXVECTOR3 pos, STRATEGYTYPE type)
 	//情報があるかどうかを判定する
 	if (pManagerBlock != nullptr)
 	{
-		pManagerBlock->m_aFileName = pManagerBlock->m_pBlockXStrategy->m_aBlockFile; //ファイルパスをストラテジー基底クラスの物と同期させる
+		pManagerBlock->SetFileName(pManagerBlock->m_pBlockXStrategy->m_aBlockFile); //ファイルパスをストラテジー基底クラスの物と同期させる
 		pManagerBlock->GetPos() = pos; //位置の同期
 		pManagerBlock->Lood();      //ｘファイルを読み込む
 		pManagerBlock->Size();      //大きさの読み取り

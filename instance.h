@@ -101,7 +101,7 @@ public:
 	CManagerScore* GetGameScore() { return m_pGameScore; }            //ゲーム中のスコアの取得
 
 	//３Dの取得
-	CFuelGage* GetFuelGage() {return m_pFuelGage; }
+	CFuelGage* GetFuelGage() {return m_pFuelGage; }                   //燃料ゲージの取得
 																	  
 	//作った数を取得する用の関数									     
 	int& GetGunCount() {return  m_nGunCount; }                        //銃の作った数

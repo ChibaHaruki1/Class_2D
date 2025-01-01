@@ -17,7 +17,6 @@
 CManagerEnemyInMotion::CManagerEnemyInMotion(int nPriority) : CEnemyCharacter(nPriority)
 {
 	m_nJumpFrame = 0;
-	m_aFileName = nullptr;
 	JumpNumber = 0;
 	JumpRecastTime = 0;
 }
@@ -40,7 +39,7 @@ HRESULT CManagerEnemyInMotion::Init()
 	{
 		return E_FAIL;
 	}
-	CEnemyCharacter::LoodEnemy(m_aFileName);
+	CEnemyCharacter::LoodEnemy(GetFileName());
 	CEnemyCharacter::SetMotionEnemy(ENEMYWALK);
 
 	return S_OK;
@@ -80,12 +79,12 @@ CManagerEnemyInMotion* CManagerEnemyInMotion::Create(D3DXVECTOR3 pos, CObjectX::
 	if (type == CObjectX::TYPE::ENEMYINMOTION)
 	{
 		pEnemyInMotion = new CEnemyInMotion();
-		pEnemyInMotion->m_aFileName = "Enemy000";
+		pEnemyInMotion->SetFileName("Enemy000");
 	}
 	else if (type == CObjectX::TYPE::ENEMYINMOTION001)
 	{
 		pEnemyInMotion = new CEnemyInMotion001();
-		pEnemyInMotion->m_aFileName = "Enemy001";
+		pEnemyInMotion->SetFileName("Enemy001");
 	}
 
 	//情報がある時
@@ -144,7 +143,7 @@ void CEnemyInMotion::Update()
 	}
 	else
 	{
-		if (m_JumpFlag == false)
+		if (GetJumpFlag() == false)
 		{
 			CEnemyCharacter::SetMotionEnemy(CEnemyCharacter::ENEMYMOTIONSTATE::ENEMYWALK);  //モーションの種類を設定
 			TargetHeadingTowards(CManager::GetScene()->GetPlayerX(), MAX_SPEED);            //プレイヤーに向かうように設定
@@ -169,7 +168,7 @@ void CEnemyInMotion::Update()
 						m_nJumpFrame++;
 						if (m_nJumpFrame >= 20)
 						{
-							m_JumpFlag = true; //飛ぶフラグをONにする
+							SetJumpFlag(true);
 
 							m_nJumpFrame = 0;
 							JumpNumber++;
@@ -292,7 +291,7 @@ void CEnemyInMotion001::Update()
 				CEnemyBullet::m_fAdditionPosY = CEnemyBullet::InitAddItion;
 
 				//飛んでいないとき
-				if (m_JumpFlag == false)
+				if (GetJumpFlag() == false)
 				{
 					CEnemyCharacter::SetMotionEnemy(CEnemyCharacter::ENEMYMOTIONSTATE::ENEMYWALK);  //モーションの種類を設定
 
@@ -405,13 +404,13 @@ void CEnemyInMotion001::PlayerBloWwaway()
 	if (m_nHitFrame <= 20)
 	{
 		//左向きの時
-		if (CManager::GetScene()->GetPlayerX()->GetMuki() == 1)
+		if (CManager::GetScene()->GetPlayerX()->GetRotNumber() == 1)
 		{
 			CManager::GetScene()->GetPlayerX()->GetMove().x += 10.0f;  //右に移動
 		}
 
 		//右向きの時
-		else if (CManager::GetScene()->GetPlayerX()->GetMuki() == 2)
+		else if (CManager::GetScene()->GetPlayerX()->GetRotNumber() == 2)
 		{
 			CManager::GetScene()->GetPlayerX()->GetMove().x -= 10.0f;  //左に移動
 		}
@@ -434,14 +433,14 @@ void CEnemyInMotion001::AdjustmentBulletAndRot()
 	if (GetRot().y >= D3DX_PI_ORI)
 	{
 		//プレイヤーの向きが左向きの時
-		if (CManager::GetScene()->GetPlayerX()->GetMuki()==1)
+		if (CManager::GetScene()->GetPlayerX()->GetRotNumber()==1)
 		{
 			m_pModelPrtsEnemy[0]->m_rot.x += 0.01f;
 			CEnemyBullet::m_fAdditionPosY -= 0.3f;
 		}
 
 		//プレイヤーの向きが右向きの時
-		if (CManager::GetScene()->GetPlayerX()->GetMuki() == 2)
+		if (CManager::GetScene()->GetPlayerX()->GetRotNumber() == 2)
 		{
 			m_pModelPrtsEnemy[0]->m_rot.x -= 0.01f;
 			CEnemyBullet::m_fAdditionPosY += 0.3f;
@@ -452,14 +451,14 @@ void CEnemyInMotion001::AdjustmentBulletAndRot()
 	else if (GetRot().y <= -D3DX_PI_ORI)
 	{
 		//プレイヤーの向きが左向きの時
-		if (CManager::GetScene()->GetPlayerX()->GetMuki() == 1)
+		if (CManager::GetScene()->GetPlayerX()->GetRotNumber() == 1)
 		{
 			m_pModelPrtsEnemy[0]->m_rot.x -= 0.01f; //
 			CEnemyBullet::m_fAdditionPosY += 0.3f;
 		}
 
 		//プレイヤーの向きが右向きの時
-		if (CManager::GetScene()->GetPlayerX()->GetMuki() == 2)
+		if (CManager::GetScene()->GetPlayerX()->GetRotNumber() == 2)
 		{
 			m_pModelPrtsEnemy[0]->m_rot.x += 0.01f;
 			CEnemyBullet::m_fAdditionPosY -= 0.3f;
@@ -491,7 +490,7 @@ void CEnemyInMotion001::WhenCollisionBlock()
 						SetMotionEnemy(ENEMYJUMP);
 						if (m_nJumpFrame >= 40)
 						{
-							m_JumpFlag = true; //飛ぶフラグをONにする
+							SetJumpFlag(true);
 							m_nJumpFrame = 0;
 							JumpNumber++;
 
@@ -556,9 +555,9 @@ void CEnemyInMotion001::WhenCollisionBlock()
 				{
 					GravityTogether();
 					GetPos().y = CManager::GetInstance()->GetRoadBlock(nCount2)->GetModelSize().y + CManager::GetInstance()->GetRoadBlock(nCount2)->GetPos().y;//y軸の位置を設定
-					if (m_JumpFlag == true)
+					if (GetJumpFlag() == true)
 					{
-						m_JumpFlag = false; //フラグをflaseにする
+						SetJumpFlag(false);
 					}
 				}
 			}
@@ -580,9 +579,9 @@ void CEnemyInMotion001::WhenCollisionBlock()
 				{
 					GravityTogether();
 					GetPos().y = CManager::GetInstance()->GetWallRoadBlock(nCount3)->GetModelSize().y + CManager::GetInstance()->GetWallRoadBlock(nCount3)->GetPos().y;//y軸の位置を設定
-					if (m_JumpFlag == true)
+					if (GetJumpFlag() == true)
 					{
-						m_JumpFlag = false; //フラグをflaseにする
+						SetJumpFlag(false); //フラグをflaseにする
 					}
 				}
 			}
@@ -598,9 +597,9 @@ void CEnemyInMotion001::WhenCollisionBlock()
 			{
 				GravityTogether();
 				GetPos().y = CManager::GetInstance()->GetWallRoadBlock001(nCount4)->GetModelSize().y + CManager::GetInstance()->GetWallRoadBlock001(nCount4)->GetPos().y;//y軸の位置を設定
-				if (m_JumpFlag == true)
+				if (GetJumpFlag() == true)
 				{
-					m_JumpFlag = false; //フラグをflaseにする
+					SetJumpFlag(false); //フラグをflaseにする
 				}
 			}
 		}
@@ -621,9 +620,9 @@ void CEnemyInMotion001::WhenCollisionBlock()
 				{
 					GravityTogether();
 					GetPos().y = CManager::GetInstance()->GetSmallBlock(nCount5)->GetModelSize().y + CManager::GetInstance()->GetSmallBlock(nCount5)->GetPos().y;//y軸の位置を設定
-					if (m_JumpFlag == true)
+					if (GetJumpFlag() == true)
 					{
-						m_JumpFlag = false; //フラグをflaseにする
+						SetJumpFlag(false); //フラグをflaseにする
 					}
 				}
 			}

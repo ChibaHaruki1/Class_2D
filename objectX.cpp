@@ -54,7 +54,7 @@ CObjectX::CObjectX(int nPriority) : CObjectManagerX(nPriority)
 	m_fAngle = 0.0f;
 	m_aFileName = nullptr;
 	m_bGravityFlag = true;  //重力ON
-	m_JumpFlag = false;
+	m_bJumpFlag = false;
 	m_bOneFlag = false;
 	pUI = nullptr;
 }
@@ -214,9 +214,9 @@ void CObjectX::GravityTogether()
 	m_fGravity = 0.0f; //重力の初期化
 
 	//一回のみ飛ぶ
-	if (m_JumpFlag == true)
+	if (m_bJumpFlag == true)
 	{
-		m_JumpFlag = false; //フラグをflaseにする
+		m_bJumpFlag = false; //フラグをflaseにする
 	}
 	m_bGravityFlag = true; //重力を
 }
@@ -227,7 +227,7 @@ void CObjectX::GravityTogether()
 void CObjectX::Junp(TYPE type,float fJumpPwer)
 {
 	//ジャンプフラグONの時
-	if (m_JumpFlag == true)
+	if (m_bJumpFlag == true)
 	{
 		m_pos.y += fJumpPwer;  //pos.y値を加算させる
 

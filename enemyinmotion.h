@@ -22,13 +22,15 @@ public: //アクセス可能
 
 	static CManagerEnemyInMotion* Create(D3DXVECTOR3 pos,CObjectX::TYPE type);      //生成処理
 
-	//マクロ定義
-	constexpr static float MAX_SPEED = 2.0f; //追いかける速度
-
 protected:
 	int m_nJumpFrame;    //飛ぶまでの時間
 	int JumpNumber;      //行きだけ飛ぶように番号をつける為の変数
 	int JumpRecastTime;  //飛ぶ為のリキャストタイム（連続で触れている判定になる為その修正）
+
+	//マクロ定義
+	constexpr static float MAX_SPEED = 2.0f;     //追いかける速度
+	constexpr static int MAX_BUULET_SPEED = 30;  //弾の速さ
+
 };
 
 //モーション付きの敵（通常）
