@@ -27,7 +27,7 @@ CPlayerX::CPlayerX(int nPriority) : CCharacter(nPriority)
 
 	m_GravityFlag = true;  //重力ON
 	m_JumpFlag = false;  //飛んでいないに設定
-	m_Gravity = 0.0f;    //重力加速度の初期化
+	SetGravity(0.0f);
 
 	//テキストファイルに登録する時の葉配列番号の初期化
 	m_nFiledCount = -1;
@@ -562,9 +562,9 @@ void CPlayerX::KeySet()
 					GetMove().y += 1.0f;
 					m_GravityFlag = false;
 
-					if (m_Gravity > 1.0f)
+					if (GetGravity() > 1.0f)
 					{
-						m_Gravity = 1.0f;
+						SetGravity(1.0f);
 					}
 				}
 				else

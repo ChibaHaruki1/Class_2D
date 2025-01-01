@@ -50,7 +50,7 @@ CObjectX::CObjectX(int nPriority) : CObjectManagerX(nPriority)
 	m_nRandom = 0;
 	m_nFrame = 0;
 	m_nDieFrame = 0;
-	m_Gravity = 0.0f;
+	m_fGravity = 0.0f;
 	m_fAngle = 0.0f;
 	m_aFileName = nullptr;
 	m_GravityFlag = true;  //重力ON
@@ -201,8 +201,8 @@ void CObjectX::Gravity()
 	//重力ONの時
 	if (m_GravityFlag == true)
 	{
-		m_Gravity += MAX_GRAVITY_G; //重力加速度
-		m_pos.y -= m_Gravity; //プレイヤーのｙposに重力加速度をつける
+		m_fGravity += MAX_GRAVITY_G; //重力加速度
+		m_pos.y -= m_fGravity; //プレイヤーのｙposに重力加速度をつける
 	}
 }
 
@@ -211,7 +211,7 @@ void CObjectX::Gravity()
 //======================================================================================================================================
 void CObjectX::GravityTogether()
 {
-	m_Gravity = 0.0f; //重力の初期化
+	m_fGravity = 0.0f; //重力の初期化
 
 	//一回のみ飛ぶ
 	if (m_JumpFlag == true)

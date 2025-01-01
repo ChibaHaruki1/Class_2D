@@ -48,6 +48,7 @@ public://外部からのアクセス可能
 	int& GetFrame() { return m_nFrame; }    //フレームを取得
 	int& GetDieFrame() { return m_nDieFrame; }
 	float& GetAngle() { return m_fAngle; }  //対角線の角度を取得
+	float& GetGravity() { return m_fGravity; }
 	
 
 	//==================================================
@@ -58,6 +59,7 @@ public://外部からのアクセス可能
 	void SetRandom(int nRandom) { m_nRandom = nRandom; } //乱数を引数と同期させる	
 	void SetFrame(int nFrame) { m_nFrame = nFrame; }     //フレームを引数と同期させる
 	void SetDieFrame(int nDieFrame) { m_nDieFrame = nDieFrame; }
+	void SetGravity(float fGravity) { m_fGravity = fGravity; }
 
 	//==================================================
 	//パーツ毎の位置の情報を取得する
@@ -104,7 +106,6 @@ public://外部からのアクセス可能
 	constexpr static float MAX_GRAVITY_G = 0.5f; //重力の最大値
 
 protected://継承クラスのみアクセス可能
-	float m_Gravity;           //重力加速度をつける
 	float m_fAngle;            //角度から長さを求める用の変数
 	bool m_GravityFlag;        //重力をONにするかどうか
 	bool m_JumpFlag;           //ジャンプをしているかどうか
@@ -152,6 +153,8 @@ private:
 	int m_nRandom;    //乱数を格納する変数
 	int m_nFrame;     //フレームを格納する変数
 	int m_nDieFrame;  //死亡カウンター
+
+	float m_fGravity;           //重力加速度をつける
 };
 
 #endif // !_OBJECT3D_H_
