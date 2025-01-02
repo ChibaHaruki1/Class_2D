@@ -18,15 +18,12 @@
 class CNowCreateUI : public CObject2D
 {
 public:
-	CNowCreateUI(int nPriority = DEFAULT_PRIORITY);
-	~CNowCreateUI()override;
-	HRESULT Init()override;
-	void Uninit()override;
-	void  Update()override;
-	void Draw()override;
-	void DrawNoml()override;
-
-	static CNowCreateUI* Create(int Number);
+	CNowCreateUI(int nPriority = DEFAULT_PRIORITY);  //コンストラクタ
+	~CNowCreateUI()override;                         //デストラクタ
+	HRESULT Init()override;                          //初期化処理
+	void Uninit()override;                           //破棄処理
+	void Update()override;                           //更新処理
+	void Draw()override;                             //描画処理
 };
 
 //==================================================================
@@ -34,15 +31,14 @@ public:
 class CShopMenu : public CObject2D
 {
 public:
-	CShopMenu(int nPriority = DEFAULT_PRIORITY);
-	~CShopMenu()override;
-	HRESULT Init()override;
-	void Uninit()override;
-	void  Update()override;
-	void Draw()override;
-	void DrawNoml()override;
+	CShopMenu(int nPriority = DEFAULT_PRIORITY);  //コンストラクタ
+	~CShopMenu()override;						  //デストラクタ
+	HRESULT Init()override;						  //初期化処理
+	void Uninit()override;						  //破棄処理
+	void  Update()override;						  //更新処理
+	void Draw()override;						  //描画処理
 
-	static CShopMenu* Create();
+	static CShopMenu* Create();                   //生成処理
 };
 
 //==================================================================
@@ -50,15 +46,14 @@ public:
 class CBuyText : public CObject2D
 {
 public:
-	CBuyText(int nPriority = DEFAULT_PRIORITY);
-	~CBuyText()override;
-	HRESULT Init()override;
-	void Uninit()override;
-	void  Update()override;
-	void Draw()override;
-	void DrawNoml()override;
+	CBuyText(int nPriority = DEFAULT_PRIORITY);  //コンストラクタ
+	~CBuyText()override;						 //デストラクタ
+	HRESULT Init()override;						 //初期化処理
+	void Uninit()override;						 //破棄処理
+	void  Update()override;						 //更新処理
+	void Draw()override;						 //描画処理
 
-	static CBuyText* Create();
+	static CBuyText* Create();                   //生成処理
 
 };
 
@@ -67,26 +62,25 @@ public:
 class CSelectGage : public CObject2D
 {
 public:
-	CSelectGage(int nPriority = DEFAULT_PRIORITY);
-	~CSelectGage()override;
-	HRESULT Init()override;
-	void Uninit()override;
-	void  Update()override;
-	void Draw()override;
-	void DrawNoml()override;
+	CSelectGage(int nPriority = DEFAULT_PRIORITY);  //コンストラクタ
+	~CSelectGage()override;							//デストラクタ
+	HRESULT Init()override;							//初期化処理
+	void Uninit()override;							//破棄処理
+	void  Update()override;							//更新処理
+	void Draw()override;							//描画処理
 
-	float& GetSizeX() { return m_fSizeX; }
-	float& GetSize1X() { return m_fSize1X; }
-	float& GetSizeY() { return m_fSizeY; }
-	float& GetSize1Y() { return m_fSize1Y; }
+	float& GetSizeX() { return m_fSizeX; }          //選択ゲージのX軸の大きさの取得
+	float& GetSizeY() { return m_fSizeY; }          //選択ゲージのy軸の大きさを取得
+	float& GetSize1X() { return m_fSize1X; }        //選択ゲージ001のx軸の大きさの取得
+	float& GetSize1Y() { return m_fSize1Y; }        //選択ゲージ001のy軸の大きさの取得
 
-	static CSelectGage* Create();
+	static CSelectGage* Create();                   //生成処理
 
 private:
-	float m_fSizeX;
-	float m_fSize1X;
-	float m_fSizeY;
-	float m_fSize1Y;
+	float m_fSizeX;    //選択ゲージのX軸の大きさ
+	float m_fSizeY;    //選択ゲージのy軸の大きさ
+	float m_fSize1X;   //選択ゲージ001のx軸の大きさ
+	float m_fSize1Y;   //選択ゲージ001のy軸の大きさ
 };
 
 //==================================================================
@@ -94,13 +88,12 @@ private:
 class CSelectGage001 : public CSelectGage
 {
 public:
-	CSelectGage001(int nPriority = DEFAULT_PRIORITY);
-	~CSelectGage001()override;
-	HRESULT Init()override;
-	void Uninit()override;
-	void  Update()override;
-	void Draw()override;
-	void DrawNoml()override;
+	CSelectGage001(int nPriority = DEFAULT_PRIORITY);  //コンストラクタ
+	~CSelectGage001()override;						   //デストラクタ
+	HRESULT Init()override;							   //初期化処理
+	void Uninit()override;							   //破棄処理
+	void  Update()override;							   //更新処理
+	void Draw()override;							   //描画処理
 
-	static CSelectGage001* Create();
+	static CSelectGage001* Create();                   //生成処理
 };

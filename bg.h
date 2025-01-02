@@ -18,15 +18,14 @@
 class CManagerBg : public CObject2D
 {
 public:
-	CManagerBg(int nPriority = DEFAULT_PRIORITY);
-	~CManagerBg()override;
-	HRESULT Init()override;
-	void Uninit()override;
-	void  Update()override;
-	void Draw()override;
-	void DrawNoml()override;
+	CManagerBg(int nPriority = DEFAULT_PRIORITY);  //コンストラクタ
+	~CManagerBg()override;						   //デストラクタ
+	HRESULT Init()override;						   //初期化処理
+	void Uninit()override;						   //破棄処理
+	void  Update()override;						   //更新処理
+	void Draw()override;						   //描画処理
 
-	static CManagerBg* Create(CScene::MODE mode);
+	static CManagerBg* Create(CScene::MODE mode);  //生成処理
 };
 
 
@@ -35,10 +34,8 @@ public:
 class CTitleBg : public CManagerBg
 {
 public:
-	CTitleBg(int nPriority = DEFAULT_PRIORITY);
-	~CTitleBg()override;
-private:
-	
+	CTitleBg(int nPriority = DEFAULT_PRIORITY);    //コンストラクタ
+	~CTitleBg()override;                           //デストラクタ
 };
 
 //==================================================================
@@ -46,8 +43,8 @@ private:
 class CResultBg : public CManagerBg
 {
 public:
-	CResultBg(int nPriority = DEFAULT_PRIORITY);
-	~CResultBg()override;
+	CResultBg(int nPriority = DEFAULT_PRIORITY);   //コンストラクタ
+	~CResultBg()override;                          //デストラクタ
 };
 
 
@@ -56,9 +53,9 @@ public:
 class CGameOverBg : public CManagerBg
 {
 public:
-	CGameOverBg(int nPriority = DEFAULT_PRIORITY);
-	~CGameOverBg()override;
-	void Update()override;
+	CGameOverBg(int nPriority = DEFAULT_PRIORITY);  //コンストラクタ
+	~CGameOverBg()override;                         //デストラクタ
+	void Update()override;                          //更新処理
 };
 
 
@@ -67,10 +64,10 @@ public:
 class CShopScreen : public CManagerBg
 {
 public:
-	CShopScreen(int nPriority = DEFAULT_PRIORITY);
-	~CShopScreen()override;
-	HRESULT Init()override;
-	void Update()override;
+	CShopScreen(int nPriority = DEFAULT_PRIORITY);  //コンストラクタ
+	~CShopScreen()override;                         //デストラクタ
+	HRESULT Init()override;                         //初期化処理
+	void Update()override;                          //更新処理
 
-	static CShopScreen* Create();
+	static CShopScreen* Create();                   //生成処理
 };

@@ -73,71 +73,6 @@ void CNowCreateUI::Draw()
 }
 
 
-//=====================
-//”wŒi‚Ì•`‰æˆ—
-//=====================
-void CNowCreateUI::DrawNoml()
-{
-
-}
-
-
-//===================================
-//ƒIƒuƒWƒFƒNƒg¶¬
-//===================================
-CNowCreateUI* CNowCreateUI::Create(int Number)
-{
-	CNowCreateUI* pNowCreateUI = new CNowCreateUI(0);
-
-	if (SUCCEEDED(pNowCreateUI->Init()))
-	{
-		if (pNowCreateUI != nullptr)
-		{
-			if (Number == 0)
-			{
-				pNowCreateUI->m_aFileName= "data\\TEXTURE\\StageObj\\Field.png";
-			}
-			else if (Number == 1)
-			{
-				pNowCreateUI->m_aFileName = "data\\TEXTURE\\StageObj\\TelephonPole.png";
-			}
-			else if (Number == 2)
-			{
-				pNowCreateUI->m_aFileName = "data\\TEXTURE\\StageObj\\GoUpBlock.png";
-			}
-			else if (Number == 3)
-			{
-				pNowCreateUI->m_aFileName = "data\\TEXTURE\\StageObj\\RoadBlock.png";
-			}
-			else if (Number == 4)
-			{
-				pNowCreateUI->m_aFileName = "data\\TEXTURE\\StageObj\\WallRoadBlock.png";
-			}
-			else if (Number == 5)
-			{
-				pNowCreateUI->m_aFileName = "data\\TEXTURE\\StageObj\\WallRoadBlock001.png";
-			}
-			else if (Number == 7)
-			{
-				pNowCreateUI->m_aFileName = "data\\TEXTURE\\StageObj\\–¼Ì–¢İ’è 1.png";
-			}
-			else if (Number == 8)
-			{
-				pNowCreateUI->m_aFileName = "data\\TEXTURE\\StageObj\\gareki.png";
-			}
-			else if (Number == 9)
-			{
-				pNowCreateUI->m_aFileName = "data\\TEXTURE\\StageObj\\Small001.jpg";
-			}
-			pNowCreateUI->Lood();
-			return pNowCreateUI;
-		}
-	}
-
-	return nullptr;
-}
-
-
 //===========================================================================================================================================================
 //ƒƒjƒ…[UI‚Ìˆ—
 //===========================================================================================================================================================
@@ -200,15 +135,6 @@ void CShopMenu::Update()
 void CShopMenu::Draw()
 {
 	CObject2D::Draw();
-}
-
-
-//========================
-//•`‰æˆ—
-//========================
-void CShopMenu::DrawNoml()
-{
-	
 }
 
 
@@ -295,15 +221,6 @@ void CBuyText::Update()
 void CBuyText::Draw()
 {
 	CObject2D::Draw();
-}
-
-
-//========================
-//•`‰æˆ—
-//========================
-void CBuyText::DrawNoml()
-{
-
 }
 
 
@@ -398,15 +315,6 @@ void CSelectGage::Draw()
 
 
 //========================
-//•`‰æˆ—
-//========================
-void CSelectGage::DrawNoml()
-{
-
-}
-
-
-//========================
 //¶¬ˆ—
 //========================
 CSelectGage* CSelectGage::Create()
@@ -491,15 +399,6 @@ void CSelectGage001::Update()
 void CSelectGage001::Draw()
 {
 	CObject2D::Draw();
-}
-
-
-//========================
-//•`‰æˆ—
-//========================
-void CSelectGage001::DrawNoml()
-{
-
 }
 
 
