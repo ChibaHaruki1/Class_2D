@@ -478,7 +478,7 @@ void CGame02::CompileCreate()
 	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::SHOP, 0, D3DXVECTOR3(200.0f, 0.0f, 150.0f));         //店の生成
 	CSkyDoom::Create(D3DXVECTOR3(0.0f, 0.0f, 200.0f), 0);                                                          //空の生成
 	CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::FINALBLOCK, D3DXVECTOR3(4335.0f, -200.0f, 0.0f));   //ボス戦の足場
-	CManager::GetInstance()->GetCreateObjectInstnace2D(CObject2D::TYPE::SCORE, CManager::GetObjectSet()->m_nClearScore);                                            //スコアの生成
+	CManager::GetInstance()->GetCreateObjectInstnace2D(CObject2D::TYPE::SCORE, CManager::GetObjectSet()->GetClearScore());                                            //スコアの生成
 }
 
 

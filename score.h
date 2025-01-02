@@ -32,6 +32,7 @@ public://外部からのアクセス可能
 	 void SetScorepos(D3DXVECTOR3 pos);                            //スコアの位置設定処理
 	 void SetScore(int nScore);                                    //スコアの設定処理
 	 void AddScore(int nValue);                                    //スコアのカウント増減処理
+	 void InitAddScore(int nValue);                                //スコアのカウント増減処理
 	 void PosScore(void);                                          //スコアの設定処理
 	 static  CManagerScore* Create(CScene::MODE mode, int Number); //スコアの生成処理
 

@@ -210,8 +210,19 @@ void CManagerScore::SetScore(int nScore)
 //==============================
 void CManagerScore::AddScore(int nValue)
 {
-	CManager::GetObjectSet()->m_nClearScore += nValue; //スコアの加算
-	SetScore(m_nSocre + nValue);                       //テクスチャのスコアを加算
+	if (CManager::GetObjectSet() != nullptr)
+	{
+		CManager::GetObjectSet()->GetClearScore() += nValue; //スコアの加算
+	}
+	SetScore(m_nSocre + nValue);                         //テクスチャのスコアを加算
+}
+
+//==============================
+//スコアを減算する処理
+//==============================
+void CManagerScore::InitAddScore(int nValue)
+{
+	SetScore(m_nSocre + nValue);                         //テクスチャのスコアを加算
 }
 
 //=====================
@@ -254,7 +265,7 @@ CManagerScore* CManagerScore::Create(CScene::MODE mode, int Number)
 		if (pScore != nullptr)
 		{
 			pScore->Lood();
-			pScore->AddScore(Number);
+			pScore->InitAddScore(Number);
 			return pScore;
 		}
 	}

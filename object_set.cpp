@@ -15,13 +15,11 @@
 //static変数の初期化
 int CObjectSet::m_nClearScore = 0;
 
-
 //=========================
 //コンストラクタ
 //=========================
 CObjectSet::CObjectSet()
 {
-
 	m_aFieldBlockStratName = "FIELDBLOCKSET";
 	m_aGoUpBlockStratName = "GOUPBLOCKSET";
 	m_aRoadBlockStratName = "ROADBLOCKSET";
@@ -48,13 +46,13 @@ CObjectSet::CObjectSet()
 		m_aData[nCount] = {}; //文字の読み取り配列の初期化
 	}
 
-	//スコアの最大数分回す
-	for (int nCount1 = 0; nCount1 <CManagerScore::MAX_SCORE; nCount1++)
-	{
-		m_nResultScore[nCount1] = 0;
-	}
-	m_nResultScoreNumber = 0;
-	//CManager::GetScene()->GetPlayerX()->GetTelephonPoleCount() = 0;       //配列は０から始める為、０初期化
+	////スコアの最大数分回す
+	//for (int nCount1 = 0; nCount1 <CManagerScore::MAX_SCORE; nCount1++)
+	//{
+	//	m_nResultScore[nCount1] = 0;
+	//}
+	//m_nClearScore += m_nSaveScore;
+	//m_nResultScoreNumber = 0;
 }
 
 
@@ -177,14 +175,9 @@ void CObjectSet::ResultScoreInformation(const char* pFileName)
 		return; //処理を抜ける
 	}
 
-	//外部ファイル読み込み (無限)
-	while (1)
-	{
-		LoodResultScore(pFile);
+	LoodResultScore(pFile);
 
-		fclose(pFile); //ファイルを閉じる
-		break; //処理を抜ける
-	}
+	fclose(pFile); //ファイルを閉じる
 }
 
 //================================================================================
@@ -201,14 +194,10 @@ void CObjectSet::ResultScoreWrite(const char* pFileName)
 		return; //処理を抜ける
 	}
 
-	//外部ファイル読み込み (無限)
-	while (1)
-	{
-		fprintf(pFile, "%d", m_nClearScore); //文字を書き込む
+	int SaveScore = m_nClearScore;
+	fprintf(pFile, "%d", SaveScore); //文字を書き込む
 
-		fclose(pFile);
-		return;
-	}
+	fclose(pFile);
 }
 
 
@@ -566,11 +555,10 @@ void CObjectSet::LoodBlock(FILE* pFile)
 //================================================
 void CObjectSet::LoodResultScore(FILE* pFile)
 {
-	(void)fscanf(pFile, "%d", &m_nResultScore[m_nResultScoreNumber]); //一番目の値を格納
+	(void)fscanf(pFile, "%d", &m_nClearScore); //一番目の値を格納
 
-	CManagerScore::Create(CScene::MODE::MODE_RESULT,m_nResultScore[m_nResultScoreNumber]);
-	m_nResultScoreNumber++; //配列を進める
-
+	CManagerScore::Create(CScene::MODE::MODE_RESULT, m_nClearScore);
+	//m_nResultScoreNumber++; //配列を進める
 }
 
 

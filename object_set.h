@@ -15,9 +15,9 @@
 class CObjectSet
 {
 public:
-	CObjectSet();
-	~CObjectSet();
-	HRESULT Init();
+	CObjectSet();   //コンストラクタ
+	~CObjectSet();  //デストラクタ
+	HRESULT Init(); //初期化処理
 
 	//ステージ毎の読み込む関数をまとめる関数
 	void StageOneInformation(const char*pFileName);       //ステージ１番目のオブジェクトの位置などを読み込む
@@ -34,21 +34,21 @@ public:
 	void LoodEnemy();                          //敵の読み込み
 	void LoodEnemy1();                         //敵の読み込み１
 
-	static CObjectSet* Create(); //情報の生成
+	static CObjectSet* Create();               //情報の生成
 
 	//取得用の関数
-	const char* GetStratBlockName(CObjectX::TYPE type);
-	const char* GetEndBlockName(CObjectX::TYPE type);
+	const char* GetStratBlockName(CObjectX::TYPE type); //ブロックの読み込む名前のパスの取得処理
+	const char* GetEndBlockName(CObjectX::TYPE type);   //ブロックの終了する名前のパスの取得処理
 
-	static int m_nClearScore;
+	int& GetClearScore() { return m_nClearScore; }      //現在のスコアを保管する用の変数を取得
 
 private:
 
 	//テキストファイルから読み込む時に使うメンバ変数
 	char m_aData[MAX_DATAMOJI]; //文字列を読み取る　
-
-	int m_nResultScore[10];
-	int m_nResultScoreNumber;
+	//int m_nResultScore[10];     //スコアの読み込み用の変数
+	//int m_nResultScoreNumber;   //スコアの配列を進める為の変数
+	static int m_nClearScore;          //現在のスコアを保管する用の変数
 
 	//テキストファイルの読み書きに使うメンバ変数
 	const char* m_aFieldBlockStratName;  //地面用のブロックの読み込み用の名前変数

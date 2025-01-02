@@ -187,27 +187,27 @@ void CManager::SetMode(CScene::MODE mode)
 	//sceneの情報がある時
 	if (m_pScene != nullptr)
 	{
-		m_pScene->Uninit();
-		delete m_pScene;
-		m_pScene = nullptr;
+		m_pScene->Uninit();  //破棄処理を呼ぶ
+		delete m_pScene;     //情報を消す
+		m_pScene = nullptr;  //情報を無くす
 	}
 
 	//インスタンス情報があるとき
 	if (m_pInstance != nullptr)
 	{
-		m_pInstance->Uninit();
-		delete m_pInstance;
-		m_pInstance = nullptr;
+		m_pInstance->Uninit();  //破棄処理を呼ぶ
+		delete m_pInstance;     //情報を消す
+		m_pInstance = nullptr;  //情報を無くす
 	}
 
 	//eventの情報がある時
 	if (m_pEvent != nullptr)
 	{
-		delete m_pEvent;
-		m_pEvent = nullptr;
+		delete m_pEvent;     //情報を消す
+		m_pEvent = nullptr;  //情報を無くす
 	}
 
-	m_pSound->StopSound();         //音源を止める
+	m_pSound->StopSound();           //音源を止める
 	m_pInstance = new CInstance();   //インスタンスの生成
 	m_pScene = CScene::Create(mode); //sceneの生成
 
@@ -215,15 +215,17 @@ void CManager::SetMode(CScene::MODE mode)
 	if (mode != CScene::MODE_TITLE)
 	{
 		m_pObjectSet = CObjectSet::Create(); //textから読み取ったオブジェクトを配置する
-		m_pEvent = new CEvent();
+		m_pEvent = new CEvent();             //動的確保する
 	}
 
+	//シーンがリザルトの時
 	if (mode == CScene::MODE_RESULT)
 	{
+		//情報がある時
 		if (m_pObjectSet != nullptr)
 		{
-			delete m_pObjectSet;
-			m_pObjectSet = nullptr;
+			delete m_pObjectSet;     //情報を消す
+			m_pObjectSet = nullptr;  //情報を無くす
 		}
 	}
 }
