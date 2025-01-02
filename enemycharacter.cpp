@@ -13,7 +13,6 @@
 
 //=============================
 //static変数の初期化
-int CEnemyCharacter::m_nMaxCreate = MAX_PRTS;
 
 //======================
 //コンストラクタ
@@ -39,7 +38,6 @@ CEnemyCharacter::CEnemyCharacter(int nPriority) : CObjectX(nPriority)
 	m_bMotionType = false;
 	m_bMotionBossType = false;
 	m_MotionStateBoss = ENEMYJUMP;
-	m_nMaxCreate = MAX_ENEMYPARTS;
 }
 
 

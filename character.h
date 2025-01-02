@@ -44,7 +44,7 @@ public://外部からのアクセス可能
 		BOSSWALK,        //歩く
 		BOSSACTION,      //撃つ
 		BOSSJUMP,        //飛ぶ
-		BOSSIMPACT,       //飛ぶ001
+		BOSSIMPACT,      //飛ぶ001
 		BOSSATTACK,      //攻撃
 		BOSSDIE,         //死亡
 	}BOSSMOTIONSTATE;
@@ -101,38 +101,38 @@ private://外部からのアクセス不可能
 	//キーの構造体
 	typedef struct
 	{
-		D3DXVECTOR3 pos;
-		D3DXVECTOR3 rot;
+		D3DXVECTOR3 pos; //位置
+		D3DXVECTOR3 rot; //向き
 	}Key;
 
 	//キーセットの構造体
 	typedef struct
 	{
-		int Frame;
-		Key aKey[MAX_PRTS];
+		int Frame;                 //フレーム数
+		Key aKey[MAX_PRTS];        //キー数(パーツ分確保)
 	}KeySet;
 
 	//モーションの構造体
 	typedef struct
 	{
-		bool Loop;
-		int NumKey;
-		KeySet KeySet[MAX_KEYSET];
+		bool Loop;                  //モーションがループするかどうか判定用
+		int NumKey;                 //キーの総数
+		KeySet KeySet[MAX_KEYSET];  //モーションのキーセット（モーション時のキーセットの数）
 	}MotionSet;
 
 	//モーション情報を確保する構造体
 	typedef struct
 	{
-		D3DXVECTOR3 pos;
-		D3DXVECTOR3 rot;
+		D3DXVECTOR3 pos; //位置
+		D3DXVECTOR3 rot; //向き
 	}SAVEMODELINFO;
 
 	//キャラクターの情報を保管する変数
 	SAVEMODELINFO m_pSaveModelPrtInfo[MAX_PRTS], m_pSaveModelPrtInfoBoss[MAX_BOSSPARTS];   //モデルパーツの情報のポインター
 	D3DXVECTOR3 SaveMotionPos[MAX_PRTS], SaveMotionPosBoss[MAX_BOSSPARTS];                 //各パーツの位置情報を確保する変数
 	D3DXVECTOR3 SaveMotionRot[MAX_PRTS], SaveMotionRotBoss[MAX_BOSSPARTS];                 //各パーツの向き情報を獲得する変数
-	MotionSet MotionSetPlayer[NUM_MOTION], MotionSetBoss[NUM_MOTIONBOSS];                       //各モーションの種類を格納する変数
+	MotionSet MotionSetPlayer[NUM_MOTION], MotionSetBoss[NUM_MOTIONBOSS];                  //各モーションの種類を格納する変数
 
-	int m_nMotionFrameBoss;        //モーション時のフレームをカウントするための変数
+	int m_nMotionFrameBoss;            //モーション時のフレームをカウントするための変数
 	int MotionCount, MotionCountBoss;  //現在のモーションをカウントするための変数(Keyカウント)
 };
