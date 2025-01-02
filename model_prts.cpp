@@ -25,7 +25,6 @@ CModelPrts::CModelPrts()
 	{
 		m_pTexture[nCount] = {};
 	}
-	nNumTexture = 0;
 }
 
 
@@ -186,6 +185,7 @@ void CModelPrts::Lood(const char* Filepass, LPD3DXMESH pMesh, LPD3DXBUFFER pBuff
 	//マテリアルデータへのポインタを収得
 	pMat = (D3DXMATERIAL*)m_pBuffMat->GetBufferPointer();
 
+	int nNumTexture = 0;
 
 	for (int nCntMat = 0; nCntMat < (int)m_nNumMat; nCntMat++)
 	{
@@ -290,31 +290,11 @@ void CModelPrts::Size()
 //
 //
 //
-void CModelPrts::BindSize(D3DXVECTOR3&max, D3DXVECTOR3&min, D3DXVECTOR3&ModelSize)
+void CModelPrts::BindSize(D3DXVECTOR3& max, D3DXVECTOR3& min, D3DXVECTOR3& ModelSize)
 {
 	max = m_max;
 	min = m_min;
 	ModelSize = m_ModelSize;
-}
-
-//================
-//位置の同期
-//===============
-void CModelPrts::BindPos(D3DXVECTOR3& pos)
-{
-	pos = m_pos;
-}
-
-
-
-//
-//
-//
-void CModelPrts::BindXFile(LPD3DXMESH pMesh, LPD3DXBUFFER pBufferMat, DWORD dw_NumMat)
-{
-	m_pMesh = pMesh;
-	m_pBuffMat = pBufferMat;
-	m_nNumMat = dw_NumMat;
 }
 
 
