@@ -5,14 +5,13 @@
 //
 //===================================
 
+//===================================
 //インクルード
 #include "bg.h"
 #include "rendererh.h"
 #include "manager.h"
 #include <time.h>
 
-//グローバル変数宣言
-int nCountCol = 255;
 
 //==========================
 //引数付きコンストラクタ
@@ -20,6 +19,7 @@ int nCountCol = 255;
 CManagerBg::CManagerBg(int nPriority) : CObject2D(nPriority)
 {
 	m_aFileName = nullptr;
+	nCountAlpha = 255;
 }
 
 
@@ -67,10 +67,10 @@ void CManagerBg::Update()
 	m_pVtxBuff->Lock(0U, 0U, (void**)&pVtx, 0);
 
 	//頂点カラーの設定
-	pVtx[0].col = D3DCOLOR_RGBA(255, 255, 255, nCountCol);
-	pVtx[1].col = D3DCOLOR_RGBA(255, 255, 255, nCountCol);
-	pVtx[2].col = D3DCOLOR_RGBA(255, 255, 255, nCountCol);
-	pVtx[3].col = D3DCOLOR_RGBA(255, 255, 255, nCountCol);
+	pVtx[0].col = D3DCOLOR_RGBA(255, 255, 255, nCountAlpha);
+	pVtx[1].col = D3DCOLOR_RGBA(255, 255, 255, nCountAlpha);
+	pVtx[2].col = D3DCOLOR_RGBA(255, 255, 255, nCountAlpha);
+	pVtx[3].col = D3DCOLOR_RGBA(255, 255, 255, nCountAlpha);
 
 	//頂点バッファをアンロック
 	m_pVtxBuff->Unlock();

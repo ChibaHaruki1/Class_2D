@@ -95,18 +95,8 @@ void CManagerBullet::Update()
 //=====================
 void CManagerBullet::Draw()
 {
-	//CObject3D::Draw();
-}
-
-
-//=====================
-//描画処理(ビルボード)
-//=====================
-void CManagerBullet::DrawNoml()
-{
 	CObject3D::DrawNoml();
 }
-
 
 
 //====================

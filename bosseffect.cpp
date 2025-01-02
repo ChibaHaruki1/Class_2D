@@ -21,7 +21,6 @@
 CBossEffectDirection::CBossEffectDirection()
 {
 	m_pEffectFileName = nullptr;
-	m_nCount = 0;
 	m_nLife = 0;
 	m_pVtxBuffMine = nullptr;
 }
@@ -139,7 +138,6 @@ CManagerBossEffect::CManagerBossEffect(int nPriority) : CObject3D(nPriority)
 	m_nEffectNumber = -1;
 	m_nFrame = 0;
 	m_nBossRotNumber = 0;
-	fMaxTex = 0.0f;
 	m_dLifeCount = 0.0;
 	m_bFly = false;
 }
@@ -213,15 +211,6 @@ void CManagerBossEffect::Update()
 void CManagerBossEffect::Draw()
 {
 	CObject3D::DrawEffect();
-}
-
-
-//============================
-//初期化処理
-//============================
-void CManagerBossEffect::DrawNoml()
-{
-
 }
 
 
@@ -304,7 +293,7 @@ CImpact::~CImpact()
 //============================
 void CImpact::Update()
 {
-	m_pEffectDirection000->Effect(m_pTexture, m_pVtxBuff, m_dLifeCount,1.0f);
+	//m_pEffectDirection000->Effect(m_pTexture, m_pVtxBuff, 0.0f,1.0f);
 	m_nLife--;                           //ライフを減らす
 	m_fSizeX += 4.0f;                    //ｘ軸のサイズを大きくする
 	m_fSizeY += 1.0f;                    //ｙ軸のサイズを大きくする
@@ -375,25 +364,25 @@ void CBossSpecialAttack::Update()
 	float b = CManager::GetScene()->GetPlayerX()->GetPos().x;
 
 	//向き番号が１の時
-	if (m_nBossRotNumber == 1)
+	if (GetRotNumber() == 1)
 	{
 		SetEffectSize(m_fSizeX, MAX_BOSSSPECIALATTACK_Y, 0.0f);    //サイズの設定
 
 		//点Cは自機が右に居る時点で確定で小さいため現在のpos.xを足した上で計算する
 		if (CManager::GetScene()->GetPlayerX()->GetCollision()->TenCricale(CManager::GetScene()->GetPlayerX()->GetPos(), m_pos.x, m_pos.y + PLUS_POS_Y,
-			m_fSizeX+m_pos.x, a))
+			m_fSizeX+m_pos.x, a)==true)
 		{
 			CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() -= CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() * MAX_DAMAGE;
 		}
 	}	
 
 	//向き番号が２の時
-	else if (m_nBossRotNumber == 2)
+	else if (GetRotNumber() == 2)
 	{
 		SetEffectSize(-m_fSizeX, MAX_BOSSSPECIALATTACK_Y, 0.0f);   //サイズの設定
 
-		if (CManager::GetScene()->GetPlayerX()->GetCollision()->TenCricale(CManager::GetScene()->GetPlayerX()->GetPos(), -m_fSizeX, m_pos.y + PLUS_POS_Y,
-			m_pos.x, a))
+		if (CManager::GetScene()->GetPlayerX()->GetCollision()->TenCricale(CManager::GetScene()->GetPlayerX()->GetPos(), -m_fSizeX+m_pos.x, m_pos.y + PLUS_POS_Y,
+			m_pos.x, a)==true)
 		{
 			CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() -= CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() * MAX_DAMAGE;
 		}

@@ -543,10 +543,10 @@ void CTitle::Update()
 {
 	if (Count == true)
 	{
-		pFade->CFade::SetFade(CFade::FADE_OUT);
+		pFade->CFade::SetFade(CFade::FADE::FADE_OUT);
 
 		//フェードの処理が終わったら（完全に暗くなったら）
-		if (pFade->GetCountCol() >= 255)
+		if (pFade->GetCountAlpha() >= 255)
 		{
 			CManager::SetMode(CScene::MODE_GAME01);
 			//CManager::UninitKey();
@@ -557,7 +557,7 @@ void CTitle::Update()
 	}
 
 	//Enterキーが押されたとき
-	if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_RETURN) == true || CManager::GetJyoPad()->GetJoypadTrigger(JOYKEY_A) == true && pFade->GetCountCol() <= 245)
+	if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_RETURN) == true || CManager::GetJyoPad()->GetJoypadTrigger(JOYKEY_A) == true && pFade->GetCountAlpha() <= 245)
 	{
 		Count = true;
 	}

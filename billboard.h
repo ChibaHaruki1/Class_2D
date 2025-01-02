@@ -5,8 +5,7 @@
 //
 //============================================
 
-#ifndef _BILLBOARD_H_
-#define _BILLBOARD_H_
+#pragma once
 
 //============================================
 //インクルード
@@ -17,18 +16,13 @@
 class CBillboard : public CObject3D
 {
 public:
-	CBillboard(int nPriority = DEFAULT_PRIORITY);
-	~CBillboard()override;
-	HRESULT Init()override;
-	void Uninit()override;
-	void Update()override;
-	void Draw()override;
-	void DrawNoml()override;
-	static CBillboard* Create();
+	CBillboard(int nPriority = DEFAULT_PRIORITY);  //コンストラクタ
+	~CBillboard()override;						   //デストラクタ
+	HRESULT Init()override;						   //初期化処理
+	void Uninit()override;						   //破棄処理
+	void Update()override;						   //更新処理
+	void Draw()override;						   //描画処理
 
-private:
-	
+	static CBillboard* Create();                   //生成処理
 };
-
-#endif // !_BILLBOARD_H_
 

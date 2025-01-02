@@ -1,51 +1,45 @@
-//===========================================
+//======================================
 //
 //フェード処理[fade.h]
 //Auther:Chiba Haruki
 //
-//===========================================
+//======================================
 
-#ifndef _FADE_H_
-#define _FADE_H_
+#pragma once
 
+//======================================
+//インクルード
 #include "object2D.h"
-
-//マクロ定義
-#define MAX_FADE_SPEED (2) //フェードの処理の色の変化する速度調整
 
 class CFade : public CObject2D
 {
 public:
-	typedef enum
+
+	//フェードの種類
+	enum class FADE
 	{
-		FADE_NONE=0,
-		FADE_IN,
-		FADE_OUT,
-		FADE_MAX
-	}FADE;
+		FADE_NONE = 0,  //何もなし
+		FADE_IN,        //フェードイン
+		FADE_OUT,       //フェードアウト
+		FADE_MAX        //最大数
+	};
 
-	CFade(int nPriority = DEFAULT_PRIORITY);
-	~CFade()override;
-	HRESULT Init()override;
-	void Uninit()override;
-	void  Update()override;
-	void Draw()override;
-	void DrawNoml()override;
+	CFade(int nPriority = DEFAULT_PRIORITY);  //コンストラクタ
+	~CFade()override;						  //デストラクタ
+	HRESULT Init()override;					  //初期化処理
+	void Uninit()override;					  //破棄処理
+	void  Update()override;					  //更新処理
+	void Draw()override;					  //描画処理
 
-	//static HRESULT Lood();
-	//static void Unlood();
-	//static Bind();
+	int GetCountAlpha() { return nCountAlpha; }   //alpha値を収得
 
-	 int GetCountCol();
-
-	void SetFade(FADE Fadetype);
-	static CFade* Create();
+	void SetFade(FADE Fadetype);              //フェードの設定
+	static CFade* Create();                   //生成処理
 
 private:
-	 int nCountCol;
-	FADE m_Fade;
-	//static LPDIRECT3DTEXTURE9 m_pFadetexture; //テクスチャの情報格納
+	FADE m_Fade;     //FADEの情報を格納する変数
+	int nCountAlpha; //alpha値を保管する用の変数
+
+	//マクロ定義 （constexprでコンパイル時に初期化）
+	constexpr static int MAX_FADE_SPEED = 3;  //フェードの処理の色の変化する速度調整
 };
-
-
-#endif

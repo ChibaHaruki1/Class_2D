@@ -373,10 +373,10 @@ bool CCollision::Coliision3Dcircle(D3DXVECTOR3 pos, D3DXVECTOR3& pos1, float X, 
 //====================
 //円の当たり判定
 //====================
-bool CCollision::TenCricale(D3DXVECTOR3 & pos1, float A, float B, float C,float D) //参照渡しだが変える値のみ参照しないとstaicと同じになる
+bool CCollision::TenCricale(D3DXVECTOR3& pos1, float A, float B, float C, float D) //参照渡しだが変える値のみ参照しないとstaicと同じになる
 {
 	//判定
-	if (A<=pos1.x&&B>=pos1.y&&C>=pos1.x&&D<=pos1.y)
+	if (A <= pos1.x && B >= pos1.y && C >= pos1.x && D <= pos1.y)
 	{
 		return true;
 	}

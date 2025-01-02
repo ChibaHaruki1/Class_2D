@@ -5,8 +5,7 @@
 //
 //======================================
 
-#ifndef _BULLET_H_
-#define _BULLET_H_
+#pragma once
 
 //======================================
 //インクルード
@@ -25,7 +24,6 @@ public: //外部からアクセス可能
 	void Uninit()override;                                         //終了処理
 	void Update()override;                                         //更新処理
 	void Draw()override;                                           //描画処理
-	void DrawNoml()override;                                       //ビルボード描画処理
 	void SetPos(D3DXVECTOR3 m_pos, D3DXVECTOR3 m_move, int nLife); //弾の位置に関する設定処理
 
 	//純粋仮想関数にすることで基底クラスの処理をそのまま処理する
@@ -62,9 +60,9 @@ class CSpecialBullet : public CManagerBullet
 public: //外部からアクセス可能
 	CSpecialBullet(int nPriority = DEFAULT_PRIORITY);   //引数付きコンストラクタ
 	~CSpecialBullet()override;                          //デストラクタ
-	void Update()override;                        //更新処理
-	void CallEffect(bool bUse);                    //エフェクトの処理を呼ぶ関数 (引数でエフェクトを追加するかどうか判定)
-	void CollisionOnObject();                      //オブジェクトとの当たり判定
+	void Update()override;                              //更新処理
+	void CallEffect(bool bUse);                         //エフェクトの処理を呼ぶ関数 (引数でエフェクトを追加するかどうか判定)
+	void CollisionOnObject();                           //オブジェクトとの当たり判定
 
 private: //アクセス不可能
 
@@ -99,11 +97,7 @@ public: //外部からアクセス可能
 	void CallEffect(bool bUse);                     //エフェクトの処理を呼ぶ関数 (引数でエフェクトを追加するかどうか判定)
 	void CollisionOnObject();                       //オブジェクトとの当たり判定
 
-	//マクロ提議
-
 private: //外部からアクセス不可能
 
 };
-
-#endif // !_BULLET_H_
 

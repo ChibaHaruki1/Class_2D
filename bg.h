@@ -26,6 +26,9 @@ public:
 	void Draw()override;						   //•`‰æˆ—
 
 	static CManagerBg* Create(CScene::MODE mode);  //¶¬ˆ—
+
+private:
+	int nCountAlpha; //alpha’l‚ğ•ÛŠÇ‚·‚é—p‚Ì•Ï”
 };
 
 

@@ -174,8 +174,9 @@ void CBoss::AttackPatternSelect()
 		//—”‚Ì¶¬
 		if (GetRandom() == -1)
 		{
-			srand((unsigned)time(NULL));  // —”Œn—ñ‚ğ‰Šú‰»
-			SetRandom(rand() % 3);
+			//srand((unsigned)time(NULL));  // —”Œn—ñ‚ğ‰Šú‰»
+			//SetRandom(rand() % 3);
+			SetRandom(2);
 		}
 		m_nCoolTime++;
 	}

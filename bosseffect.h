@@ -17,18 +17,17 @@
 class CBossEffectDirection
 {
 public:
-	CBossEffectDirection();
-	~CBossEffectDirection();
+	CBossEffectDirection();   //コンストラクタ
+	~CBossEffectDirection();  //デストラクタ
 
-	void SetInfo(LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff, float fTexSize);                                                //テクスチャの設定
-	 void Effect(LPDIRECT3DTEXTURE9 m_pTexture, LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff,double dLifeCount,float fMaxTex); //テクスチャの更新
+	void SetInfo(LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff, float fTexSize);                                                 //テクスチャの設定
+	void Effect(LPDIRECT3DTEXTURE9 m_pTexture, LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff, double dLifeCount, float fMaxTex); //テクスチャの更新
 
-	 const char* m_pEffectFileName;
+	const char* m_pEffectFileName; //ファイルパス
 
-protected:
-	int m_nCount;
-	int m_nLife;
-	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuffMine;
+private:
+	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuffMine; //自身のバッファ
+	int m_nLife; //アニメーションのライフ用の変数
 };
 
 
@@ -37,8 +36,8 @@ protected:
 class CAttackEffect : public CBossEffectDirection
 {
 public:
-	CAttackEffect();
-	~CAttackEffect();
+	CAttackEffect();   //コンストラクタ
+	~CAttackEffect();  //デストラクタ
 };
 
 //========================================================================================================
@@ -56,20 +55,20 @@ public:
 class CManagerBossEffect : public CObject3D
 {
 public: //外部からアクセス可能
-	CManagerBossEffect(int nPriority = DEFAULT_PRIORITY);
-	~CManagerBossEffect();
-	HRESULT Init()override;
-	void Uninit()override;
-	void Update()override;
-	void Draw()override;
-	void DrawNoml()override;
-	void SetEffect(D3DXVECTOR3 pos);
+	CManagerBossEffect(int nPriority = DEFAULT_PRIORITY);  //コンストラクタ
+	~CManagerBossEffect();								   //デストラクタ
+	HRESULT Init()override;								   //初期化処理
+	void Uninit()override;								   //破棄処理
+	void Update()override;								   //更新処理
+	void Draw()override;								   //描画処理
+	void SetEffect(D3DXVECTOR3 pos);                       //エフェクトの位置の設定
 
-	static CManagerBossEffect* Create(D3DXVECTOR3 pos, TYPE type);
-	bool& GetFly() { return m_bFly; }
-	int& GetRotNumber() { return m_nBossRotNumber; }
+	static CManagerBossEffect* Create(D3DXVECTOR3 pos, TYPE type);  //生成処理（継承クラスをTYPEで生成する）
 
-	CBossEffectDirection* m_pEffectDirection000;  //ストラテジー基底クラスのポインター
+	bool& GetFly() { return m_bFly; }                 //衝撃波に当たったかどうか判定用の変数の取得
+	int& GetRotNumber() { return m_nBossRotNumber; }  //左右どちらの向きになっているか数字で判定する情報を取得
+
+	CBossEffectDirection* m_pEffectDirection000;      //ストラテジー基底クラスのポインター
 
 	//マクロ定義 （constexprでコンパイル時に初期化）
 	constexpr static float MAX_BOSSANIMETION_TEX = 0.125f;     //アニメーションの分割数
@@ -80,14 +79,12 @@ public: //外部からアクセス可能
 	constexpr static float MAX_DAMAGE = 0.01f;                 //ボスの必殺技のY軸の大きさ
 
 protected://継承クラスのみアクセス可能
-	int m_nBossRotNumber; //向きで大きさを変えるための変数
-	float fMaxTex;        //テクスチャの最大のサイズ
 	double m_dLifeCount;  //アニメーションの速度
 	bool m_bFly;          //吹っ飛ぶかどうか
 
 private://外部からのアクセス不可能
 	int m_nEffectNumber;  //最後にエフェクトを呼ぶかどうか
-	int m_nFrame;
+	int m_nBossRotNumber; //向きで大きさを変えるための変数
 };
 
 
@@ -96,9 +93,9 @@ private://外部からのアクセス不可能
 class CImpact : public CManagerBossEffect
 {
 public:
-	CImpact();
-	~CImpact()override;
-	void Update()override;
+	CImpact();              //コンストラクタ
+	~CImpact()override;     //デストラクタ
+	void Update()override;  //更新処理
 };
 
 
@@ -107,8 +104,8 @@ public:
 class CBossSpecialAttack : public CManagerBossEffect
 {
 public:
-	CBossSpecialAttack();
-	~CBossSpecialAttack()override;
-	void Update()override;
+	CBossSpecialAttack();           //コンストラクタ
+	~CBossSpecialAttack()override;  //デストラクタ
+	void Update()override;          //更新処理
 
 };

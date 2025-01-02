@@ -5,12 +5,16 @@
 //
 //=======================================
 
-#ifndef _SCORE_H_
-#define _SCORE_H_
+#pragma once
 
+//=======================================
+//インクルード
 #include "object2D.h"
 #include "scene.h"
 
+
+//============================================================
+//スコアの管理クラス
 class CManagerScore : public CObject2D
 {
 public://外部からのアクセス可能
@@ -19,7 +23,7 @@ public://外部からのアクセス可能
 	typedef struct
 	{
 		D3DXVECTOR3 pos; //位置
-		bool bUse; //使用しているかどうか
+		bool bUse;       //使用しているかどうか
 	}Score;
 
 	CManagerScore(int nPriority = DEFAULT_PRIORITY);               //コンストラクタ
@@ -28,7 +32,6 @@ public://外部からのアクセス可能
 	 void Uninit()override;                                        //終了処理
 	 void Update() override;                                       //更新処理
 	 void Draw()override;                                          //描画処理
-	 void DrawNoml()override;                                      //描画処理
 	 void SetScorepos(D3DXVECTOR3 pos);                            //スコアの位置設定処理
 	 void SetScore(int nScore);                                    //スコアの設定処理
 	 void AddScore(int nValue);                                    //スコアのカウント増減処理
@@ -48,20 +51,22 @@ private://外部からのアクセス不可能
 	float m_fPosY;             //スコアの初期化位置(x)の更新
 };
 
+
+//============================================================
 //ゲームスコア
 class CGameScore : public CManagerScore
 {
 public:
-	CGameScore(int nPriority = DEFAULT_PRIORITY);
-	~CGameScore()override;
+	CGameScore(int nPriority = DEFAULT_PRIORITY);  //コンストラクタ
+	~CGameScore()override;                         //デストラクタ
 };
 
+
+//============================================================
 //リザルトスコアクラス
 class CResultScore : public CManagerScore
 {
 public:
-	CResultScore(int nPriority = DEFAULT_PRIORITY);
-	~CResultScore()override;
+	CResultScore(int nPriority = DEFAULT_PRIORITY);  //コンストラクタ
+	~CResultScore()override;                         //デストラクタ
 };
-
-#endif

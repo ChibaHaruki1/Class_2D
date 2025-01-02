@@ -10,7 +10,7 @@
 #include "rendererh.h"
 #include "manager.h"
 
-//int CFade::nCountCol = 255;
+//int CFade::nCountAlpha = 255;
 
 //======================
 //コンストラクタ
@@ -26,8 +26,8 @@
 //==========================
 CFade::CFade(int nPriority) : CObject2D(nPriority)
 {
-	nCountCol = 255;
-	m_Fade = FADE_IN;
+	nCountAlpha = 255;
+	m_Fade = FADE::FADE_IN;
 	m_aFileName = "data\\TEXTURE\\black.jpg";
 }
 
@@ -83,11 +83,11 @@ void CFade::Uninit(void)
 //=======================
 void CFade::Update()
 {
-	if (m_Fade == FADE_IN)
+	if (m_Fade == FADE::FADE_IN)
 	{
-		if (nCountCol >= MAX_FADE_SPEED)
+		if (nCountAlpha >= MAX_FADE_SPEED)
 		{
-			nCountCol-= MAX_FADE_SPEED;
+			nCountAlpha-= MAX_FADE_SPEED;
 		}
 
 		VERTEX_2D* pVtx;
@@ -98,26 +98,26 @@ void CFade::Update()
 		//頂点カラーの設定
 
 		//白色から徐々に移す
-	/*	pVtx[0].col = D3DCOLOR_RGBA(255, 255, 255, nCountCol);
-		pVtx[1].col = D3DCOLOR_RGBA(255, 255, 255, nCountCol);
-		pVtx[2].col = D3DCOLOR_RGBA(255, 255, 255, nCountCol);
-		pVtx[3].col = D3DCOLOR_RGBA(255, 255, 255, nCountCol);*/
+	/*	pVtx[0].col = D3DCOLOR_RGBA(255, 255, 255, nCountAlpha);
+		pVtx[1].col = D3DCOLOR_RGBA(255, 255, 255, nCountAlpha);
+		pVtx[2].col = D3DCOLOR_RGBA(255, 255, 255, nCountAlpha);
+		pVtx[3].col = D3DCOLOR_RGBA(255, 255, 255, nCountAlpha);*/
 
 		//黒色から徐々に移す
-		pVtx[0].col = D3DCOLOR_RGBA(0, 0, 0, nCountCol);
-		pVtx[1].col = D3DCOLOR_RGBA(0, 0, 0, nCountCol);
-		pVtx[2].col = D3DCOLOR_RGBA(0, 0, 0, nCountCol);
-		pVtx[3].col = D3DCOLOR_RGBA(0, 0, 0, nCountCol);
+		pVtx[0].col = D3DCOLOR_RGBA(0, 0, 0, nCountAlpha);
+		pVtx[1].col = D3DCOLOR_RGBA(0, 0, 0, nCountAlpha);
+		pVtx[2].col = D3DCOLOR_RGBA(0, 0, 0, nCountAlpha);
+		pVtx[3].col = D3DCOLOR_RGBA(0, 0, 0, nCountAlpha);
 
 		//頂点バッファをアンロック
 		m_pVtxBuff->Unlock();
 	}
 
-	else if (m_Fade == FADE_OUT)
+	else if (m_Fade == FADE::FADE_OUT)
 	{
-		if (nCountCol <= 255)
+		if (nCountAlpha <= 255)
 		{
-			nCountCol+= MAX_FADE_SPEED;
+			nCountAlpha+= MAX_FADE_SPEED;
 		}
 
 		VERTEX_2D* pVtx;
@@ -128,16 +128,16 @@ void CFade::Update()
 		//頂点カラーの設定
 
 		//白色から徐々に移す
-		/*pVtx[0].col = D3DCOLOR_RGBA(255, 255, 255, nCountCol);
-		pVtx[1].col = D3DCOLOR_RGBA(255, 255, 255, nCountCol);
-		pVtx[2].col = D3DCOLOR_RGBA(255, 255, 255, nCountCol);
-		pVtx[3].col = D3DCOLOR_RGBA(255, 255, 255, nCountCol);*/
+		/*pVtx[0].col = D3DCOLOR_RGBA(255, 255, 255, nCountAlpha);
+		pVtx[1].col = D3DCOLOR_RGBA(255, 255, 255, nCountAlpha);
+		pVtx[2].col = D3DCOLOR_RGBA(255, 255, 255, nCountAlpha);
+		pVtx[3].col = D3DCOLOR_RGBA(255, 255, 255, nCountAlpha);*/
 
 		//黒色から徐々に移す
-		pVtx[0].col = D3DCOLOR_RGBA(0, 0, 0, nCountCol);
-		pVtx[1].col = D3DCOLOR_RGBA(0, 0, 0, nCountCol);
-		pVtx[2].col = D3DCOLOR_RGBA(0, 0, 0, nCountCol);
-		pVtx[3].col = D3DCOLOR_RGBA(0, 0, 0, nCountCol);
+		pVtx[0].col = D3DCOLOR_RGBA(0, 0, 0, nCountAlpha);
+		pVtx[1].col = D3DCOLOR_RGBA(0, 0, 0, nCountAlpha);
+		pVtx[2].col = D3DCOLOR_RGBA(0, 0, 0, nCountAlpha);
+		pVtx[3].col = D3DCOLOR_RGBA(0, 0, 0, nCountAlpha);
 
 		//頂点バッファをアンロック
 		m_pVtxBuff->Unlock();
@@ -153,25 +153,9 @@ void CFade::Draw()
 	CObject2D::Draw();
 }
 
-
-//=====================
-//背景の描画処理
-//=====================
-void CFade::DrawNoml()
-{
-
-}
-
 void CFade::SetFade(FADE fade)
 {
 	m_Fade = fade;
-}
-
-
-
-int CFade::GetCountCol()
-{
-	return nCountCol;
 }
 
 
