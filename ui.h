@@ -1,80 +1,69 @@
-//===================================
+//==========================================
 //
 //UIのクラス管理宣言をするファイル[ui.h]
 //Author:chiba haruki
 //
-//===================================
+//==========================================
 
-#ifndef _UI_H_  //このマグロ定義がされていなかったから
-#define _UI_H_  //二重インクルード防止のマクロ定義
+#pragma once
 
+//==========================================
+//インクルード
 #include "object3D.h"
 #include <cstdio>
 
-//現在配置しているオブジェクトにUIをつけるクラス
+
+//======================================================
+//UIのマネージャー管理クラス
 class CUI : public CObject3D
 {
 public:
-	CUI(int nPriority = DEFAULT_PRIORITY);
-	~CUI()override;
-	HRESULT Init()override;
-	void Uninit()override;
-	void Update()override;
-	void Draw()override;
-	void DrawNoml()override;
+	CUI(int nPriority = DEFAULT_PRIORITY);  //コンストラクタ
+	~CUI()override;							//デストラクタ
+	HRESULT Init()override;					//初期化処理
+	void Uninit()override;					//破棄処理
+	void Update()override;					//更新処理
+	void Draw()override;					//描画処理
 
-	float& GetSIzeX() { return m_fSizeX; }
-	bool& GetDraw() { return m_bDraw; }
+	bool& GetDraw() { return m_bDraw; }     //使われているかどうかを判定する情報を取得
 
-	static CUI* Create(CObject3D::TYPE_UI typeui);
+	static CUI* Create(CObject3D::TYPE_UI typeui); //生成処理
 
 private:
-	float m_fSizeX;
-	bool m_bDraw;
+	bool m_bDraw; //使われているかどうかを判定する変数
 };
 
 
+//======================================================
 //現在の配置したオブジェクトの場所にUIを出すクラス管理
 class CCreateInObject : public CUI
 {
 public:
-	CCreateInObject(int nPriority = DEFAULT_PRIORITY);
-	~CCreateInObject()override;
-	HRESULT Init()override;
-	void Uninit()override;
-	void Update()override;
-	void Draw()override;
-	void DrawNoml()override;
+	CCreateInObject(int nPriority = DEFAULT_PRIORITY);  //コンストラクタ
+	~CCreateInObject()override;                         //デストラクタ
 };
 
 
+//======================================================
 //今作ろうとしているオブジェクトのUIをだすクラス管理
 class CTalkText : public CUI
 {
 public:
-	CTalkText(int nPriority = DEFAULT_PRIORITY);
-	~CTalkText()override;
-	HRESULT Init()override;
-	void Uninit()override;
-	void Update()override;
-	void Draw()override;
-	void DrawNoml()override;
+	CTalkText(int nPriority = DEFAULT_PRIORITY);  //コンストラクタ
+	~CTalkText()override;                         //デストラクタ
+	HRESULT Init()override;                       //初期化処理
+	void Draw()override;                          //描画処理
 };
 
+
+//======================================================
 //監視カメラからでるレーザークラス
 class CLaserCamare : public CUI
 {
 public:
-	CLaserCamare(int nPriority = DEFAULT_PRIORITY);
-	~CLaserCamare()override;
-	HRESULT Init()override;
-	void Uninit()override;
-	void Update()override;
-	void Draw()override;
-	void DrawNoml()override;
-
-private:
-	int m_nRandom;
+	CLaserCamare(int nPriority = DEFAULT_PRIORITY);  //コンストラクタ
+	~CLaserCamare()override;                         //デストラクタ
+	HRESULT Init()override;                          //初期化処理
+	void Update()override;                           //更新処理
+	void Draw()override;                             //描画処理
 };
-
-#endif 

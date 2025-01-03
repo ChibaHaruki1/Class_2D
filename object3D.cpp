@@ -24,6 +24,7 @@ CObject3D::CObject3D(int nPriority) : CObject(nPriority)
 	m_nLife = 0;
 	m_nAlpha = 255;
 	m_nFrame = 0;
+	m_nRandom = 0;
 	m_fSizeX = 0.0f;
 	m_fSizeY = 0.0f;
 	m_aFileName = nullptr;

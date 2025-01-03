@@ -55,6 +55,7 @@ protected:
 	int m_nLife;
 	int m_nAlpha;
 	int m_nFrame;
+	int m_nRandom;
 	float m_fSizeX;  //ｘ軸のサイズの調整用変数
 	float m_fSizeY;  //ｙ軸のサイズの調整用変数
 	const char* m_aFileName;
