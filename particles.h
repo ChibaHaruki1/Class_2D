@@ -1,58 +1,51 @@
-//===================================
+//=============================================
 //
-//地面のプロトタイプ宣言をするファイル[field.h]
+//パーティクルのクラス管理[particles.h]
 //Author:chiba haruki
 //
-//===================================
+//=============================================
 
-#ifndef _PARTICLES_H_  //このマグロ定義がされていなかったから
-#define _PARTICLES_H_  //二重インクルード防止のマクロ定義
+#pragma once
 
+//=============================================
+//インクルード
 #include "object3D.h"
 
-#define MAX_PARTICLES_LIFE (30)
-#define MAX_PARTICLES001_LIFE (60)
-
+//====================================================================
+//パーティクルのクラス
 class CParticles : public CObject3D
 {
 public:
-	CParticles(int nPriority = DEFAULT_PRIORITY);
-	~CParticles()override;
-	HRESULT Init()override;
-	void Uninit()override;
-	void Update()override;
-	void Draw()override;
-	void DrawNoml()override;
+	CParticles(int nPriority = DEFAULT_PRIORITY);   //コンストラクタ
+	~CParticles()override;						    //デストラクタ
+	HRESULT Init()override;						    //初期化処理
+	void Uninit()override;						    //破棄処理
+	void Update()override;						    //更新処理
+	void Draw()override;						    //描画処理
 
-	static CParticles* Create(D3DXVECTOR3 pos);
+	static CParticles* Create(D3DXVECTOR3 pos);     //生成処理
 
 private:
-	float m_fSizeX;
-	float PosX;
-
-	int m_nRandom;
-	int m_nLife;
+	//マクロ定義
+	constexpr static int MAX_PARTICLES_LIFE = 30;   //パーティクルのライフ
 };
 
 
+//====================================================================
+//パーティクル001のクラス
 class CParticles001 : public CObject3D
 {
 public:
-	CParticles001(int nPriority = DEFAULT_PRIORITY);
-	~CParticles001()override;
-	HRESULT Init()override;
-	void Uninit()override;
-	void Update()override;
-	void Draw()override;
-	void DrawNoml()override;
+	CParticles001(int nPriority = DEFAULT_PRIORITY);  //コンストラクタ
+	~CParticles001()override;						  //デストラクタ
+	HRESULT Init()override;							  //初期化処理
+	void Uninit()override;							  //破棄処理
+	void Update()override;							  //更新処理
+	void Draw()override;							  //描画処理
 
-	static CParticles001* Create(D3DXVECTOR3 pos);
+	static CParticles001* Create(D3DXVECTOR3 pos);    //生成処理
 
 private:
-	float m_fSizeX;
-	float PosX;
-
-	int m_nRandom;
-	int m_nLife;
+	//マクロ定義
+	constexpr static int MAX_PARTICLES001_LIFE = 60;  //パーティクル001のライフ
 };
-#endif 

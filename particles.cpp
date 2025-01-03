@@ -18,9 +18,7 @@ CParticles::CParticles(int nPriority) : CObject3D(nPriority)
 {
 	m_fSizeX = 10.0f;
 	m_aFileName = "data\\TEXTURE\\UI\\008.png";
-	PosX = 0.0f;
 
-	m_nRandom = 0;
 	m_nLife = 0;
 }
 
@@ -87,15 +85,6 @@ void CParticles::Draw()
 }
 
 
-//======================
-//ƒ|ƒŠƒSƒ“‚Ì•`‰æˆ—
-//======================
-void CParticles::DrawNoml()
-{
-
-}
-
-
 //========================
 //°‚ğ¶¬
 //========================
@@ -129,9 +118,6 @@ CParticles001::CParticles001(int nPriority) : CObject3D(nPriority)
 {
 	m_fSizeX = 10.0f;
 	m_aFileName = "data\\TEXTURE\\Circle003.png";
-	PosX = 0.0f;
-
-	m_nRandom = 0;
 	m_nLife = 0;
 }
 
@@ -200,15 +186,6 @@ void CParticles001::Draw()
 {
 	CObject3D::DrawEffect(); //Šî’êƒNƒ‰ƒX‚Ì•`‰æˆ—‚ğŒÄ‚Ô
 	//CObject3D::Draw();
-}
-
-
-//======================
-//ƒ|ƒŠƒSƒ“‚Ì•`‰æˆ—
-//======================
-void CParticles001::DrawNoml()
-{
-
 }
 
 

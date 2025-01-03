@@ -10,7 +10,7 @@
 #include "rendererh.h"
 #include "manager.h"
 #include <iostream>
-#include <DxLib.h>
+#include <cstdio>
 using namespace std; //c++の基礎の省略
 std::string u8FieldText = u8"地面の情報設定"; //日本語対応
 
@@ -23,8 +23,6 @@ CField::CField(int nPriority) : CObject3D(nPriority)
 {
 	m_fSizeX = 200.0f;
 	m_aFileName = "data\\TEXTURE\\bg101.jpg";
-	m_pFile = nullptr;
-	PosX = 0.0f;
 }
 
 
@@ -86,6 +84,7 @@ void CField::Update()
 //======================================
 void CField::TextFileWrite(float m_fPosX, float m_fPosY, float m_fPosZ)
 {
+	FILE* m_pFile;              //ファイルポインター
 	m_pFile = fopen("data\\TEXT\\ResultScore.txt", "a"); //ファイルを読み込む
 
 	//ファイルの情報が無かった時
@@ -118,15 +117,6 @@ void CField::TextFileWrite(float m_fPosX, float m_fPosY, float m_fPosZ)
 void CField::Draw()
 {
 	CObject3D::Draw(); //基底クラスの描画処理を呼ぶ
-}
-
-
-//======================
-//ポリゴンの描画処理
-//======================
-void CField::DrawNoml()
-{
-	
 }
 
 

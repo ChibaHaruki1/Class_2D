@@ -1,41 +1,29 @@
-//===================================
+//===================================================
 //
 //地面のプロトタイプ宣言をするファイル[field.h]
 //Author:chiba haruki
 //
-//===================================
+//===================================================
 
-#ifndef _FIELD_H_  //このマグロ定義がされていなかったから
-#define _FIELD_H_  //二重インクルード防止のマクロ定義
+#pragma once
 
+//===================================================
+//インクルード
 #include "object3D.h"
-#include <cstdio>
-
-//マクロ定義
-#define MAX_FIELD_SIZE_X (200.0f)
-#define MAX_FIELD_SIZE_Z (200.0f)
-#define FIELD_TEXTURE_SIZE_X (1.0f)
-#define FIELS_TEXTURE_SIZE_Y (0.0f)
-
 
 class CField : public CObject3D
 {
 public:
-	CField(int nPriority = DEFAULT_PRIORITY);
-	~CField()override;
-	HRESULT Init()override;
-	void Uninit()override;
-	void Update()override;
-	void Draw()override;
-	void DrawNoml()override;
-	void TextFileWrite(float m_fPosX, float m_fPosY, float m_fPosZ);
+	CField(int nPriority = DEFAULT_PRIORITY);  //コンストラクタ
+	~CField()override;						   //デストラクタ
+	HRESULT Init()override;					   //初期化処理
+	void Uninit()override;					   //破棄処理
+	void Update()override;					   //更新処理
+	void Draw()override;					   //描画処理
+	void TextFileWrite(float m_fPosX, float m_fPosY, float m_fPosZ); //テキストファイルに情報を書き込む処理
 
-	static CField* Create(D3DXVECTOR3 pos);
+	static CField* Create(D3DXVECTOR3 pos);    //生成処理
 
 private:
-	FILE* m_pFile;
-	float m_fSizeX;
-	float PosX;
-	static int m_nCountField;
+	static int m_nCountField;                  //生成された地面の数を格納する用の変数
 };
-#endif 

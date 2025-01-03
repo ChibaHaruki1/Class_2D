@@ -1,31 +1,31 @@
-//=======================================
+//=====================================
 //
 //ゲージに関するクラス[gage.h]
 //Auther:Haruki Chiba
 //
-//=======================================
+//=====================================
 
 #pragma once
 
-//=======================================
+//=====================================
 //インクルード
 #include "object2D.h"
 #include "object3D.h"
 
-//
-//
+//==================================================
+//燃料ゲージ
 class CFuelGage : public CObject3D
 {
 public:
-	CFuelGage(int nPriority = DEFAULT_PRIORITY);           //コンストラクタ;
-	~CFuelGage();                                          //コンストラクタ;
-	HRESULT Init()override;                                //初期化処理
-	void Uninit()override;                                 //破棄処理
+	CFuelGage(int nPriority = DEFAULT_PRIORITY);          //コンストラクタ;
+	~CFuelGage();                                         //コンストラクタ;
+	HRESULT Init()override;                               //初期化処理
+	void Uninit()override;                                //破棄処理
 	void Update()override;                                //更新処理
-	void Draw()override;                                   //描画処理
-	void DrawNoml()override;                               //通常描画処理
+	void Draw()override;                                  //描画処理
+	void DrawNoml()override;                              //通常描画処理
 
-	static CFuelGage* Create();
+	static CFuelGage* Create();                           //生成処理
 
 	inline bool& GetUse() { return m_bUse; }              //使われているかどうかの判定を取得する
 private:
@@ -65,8 +65,8 @@ protected://継承クラスのみアクセス可能
 	constexpr static float MAX_PLAYERGAGE_SIZE_Z = 70.0f; //プレイヤーのゲージのZ軸の大きさ
 
 private:  //アクセス不可能
-	float m_fHPSizeX;
-	float m_fBossHPSizeX;
+	float m_fHPSizeX;      //プレイヤーのHPゲージの大きさを管理する用の変数
+	float m_fBossHPSizeX;  //ボスのHPゲージの大きさを管理する用の変数
 };
 
 
@@ -79,9 +79,6 @@ public:
 	~CPlayerHPGage()override;                          //デストラクタ
 	HRESULT Init()override;                            //初期化処理
 	void Update()override;                             //更新処理
-
-private:
-	
 };
 	
 
@@ -90,13 +87,10 @@ private:
 class CBossHPGage : public CManagerGage
 {
 public:
-	CBossHPGage(int nPriority = DEFAULT_PRIORITY);
-	~CBossHPGage()override;
-	HRESULT Init()override;
-	void Update()override;
-	float& GetSaveSizeX() { return m_fSaveSizeX; }
-private:
-	//float m_fSaveSizeX;
+	CBossHPGage(int nPriority = DEFAULT_PRIORITY);     //コンストラクタ
+	~CBossHPGage()override;                            //デストラクタ
+	HRESULT Init()override;                            //初期化処理
+	void Update()override;                             //更新処理
 };
 
 

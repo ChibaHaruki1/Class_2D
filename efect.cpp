@@ -16,19 +16,19 @@
 //==================================================================================
 CEffectDirection::CEffectDirection()
 {
-	m_pEffectFileName = nullptr;
+	m_aEffectFileName = nullptr;
 	m_nLife = 0;
 	m_pVtxBuffMine = nullptr;
 }
 CEffectDirection::~CEffectDirection()
 {
-	
+
 }
 
 //==================================================================================
 //テクスチャの設定処理
 //==================================================================================
-void CEffectDirection::SetInfo(LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff,float fTexSize)
+void CEffectDirection::SetInfo(LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff, float fTexSize)
 {
 	VERTEX_3D* pVtx;
 
@@ -48,12 +48,12 @@ void CEffectDirection::SetInfo(LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff,float fTexSize
 //==================================================================================
 //テクスチャの更新処理
 //==================================================================================
-void CEffectDirection::Effect(LPDIRECT3DTEXTURE9 m_pTexture, LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff,double dLifeCount,float fMaxTex)
+void CEffectDirection::Effect(LPDIRECT3DTEXTURE9 m_pTexture, LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff, double dLifeCount, float fMaxTex)
 {
 	m_nLife++;  //カウントする
 
 	//ライフが既定の数値になった時
-	if (m_nLife >= CManagerEffect::MAX_EXPLOSION_LIFE * dLifeCount)
+	if (m_nLife >=MAX_EXPLOSION_LIFE * dLifeCount)
 	{
 		VERTEX_3D* pVtx;
 
@@ -79,7 +79,7 @@ void CEffectDirection::Effect(LPDIRECT3DTEXTURE9 m_pTexture, LPDIRECT3DVERTEXBUF
 //==================================================================================
 CThunder::CThunder()
 {
-	m_pEffectFileName = "data\\TEXTURE\\UI\\thunder.png";
+	SetEffectFileNamePass("data\\TEXTURE\\UI\\thunder.png");
 }
 CThunder::~CThunder()
 {
@@ -92,7 +92,7 @@ CThunder::~CThunder()
 //==================================================================================
 CExplotion::CExplotion()
 {
-	m_pEffectFileName = "data\\TEXTURE\\UI\\Explosion\\explosion001.png";
+	SetEffectFileNamePass("data\\TEXTURE\\UI\\Explosion\\explosion001.png");
 }
 CExplotion::~CExplotion()
 {
@@ -105,7 +105,7 @@ CExplotion::~CExplotion()
 //==================================================================================
 CExplotionPillar::CExplotionPillar()
 {
-	m_pEffectFileName = "data\\TEXTURE\\UI\\Explosion\\Fire000.png";
+	SetEffectFileNamePass("data\\TEXTURE\\UI\\Explosion\\Fire000.png");
 }
 CExplotionPillar::~CExplotionPillar()
 {
@@ -118,7 +118,7 @@ CExplotionPillar::~CExplotionPillar()
 //==================================================================================
 CExplotionPillar001::CExplotionPillar001()
 {
-	m_pEffectFileName = "data\\TEXTURE\\UI\\Explosion\\PillarOfFireAll.png";
+	SetEffectFileNamePass("data\\TEXTURE\\UI\\Explosion\\PillarOfFireAll.png");
 }
 CExplotionPillar001::~CExplotionPillar001()
 {
@@ -131,7 +131,7 @@ CExplotionPillar001::~CExplotionPillar001()
 //==================================================================================
 CFormerDebris::CFormerDebris()
 {
-	m_pEffectFileName = "data\\TEXTURE\\UI\\010.png";
+	SetEffectFileNamePass("data\\TEXTURE\\UI\\010.png");
 }
 CFormerDebris::~CFormerDebris()
 {
@@ -144,7 +144,7 @@ CFormerDebris::~CFormerDebris()
 //==================================================================================
 CSourceSpecialAttack::CSourceSpecialAttack()
 {
-	m_pEffectFileName = "data\\TEXTURE\\UI\\SpecialGage\\SpecialGageRE.png";
+	SetEffectFileNamePass("data\\TEXTURE\\UI\\SpecialGage\\SpecialGageRE.png");
 }
 CSourceSpecialAttack::~CSourceSpecialAttack()
 {
@@ -155,13 +155,13 @@ CSourceSpecialAttack::~CSourceSpecialAttack()
 //=======================================================================================================================================================================
 //エフェクトの管理者処理
 //=======================================================================================================================================================================
- 
+
 //===========================
 //コンストラクタ
 //===========================
 CManagerEffect::CManagerEffect(int nPriority) : CObject3D(nPriority)
 {
-	m_nLife = (int)(SET_BULLET_LIFE*0.7f);                          //ライフを弾の設定されたライフと同じにする（同時に消すため）
+	m_nLife = (int)(SET_BULLET_LIFE * 0.7f);                          //ライフを弾の設定されたライフと同じにする（同時に消すため）
 	m_pEffectDirection000 = nullptr;
 	m_nEffectNumber = -1;
 	m_dLifeCount = 0.0;
@@ -255,14 +255,6 @@ void CManagerEffect::Draw()
 	CObject3D::DrawEffect();
 }
 
-//============================
-//ビルボード描画処理
-//============================
-void CManagerEffect::DrawNoml()
-{
-
-}
-
 
 //============================
 //エフェクトの設定
@@ -292,7 +284,7 @@ CManagerEffect* CManagerEffect::Create(D3DXVECTOR3 pos, TYPE type)
 		{
 			pEffect->m_nEffectNumber = 0;                                        //エフェクトナンバーの設定
 			pEffect->m_pEffectDirection000 = new CThunder();                     //ストラテジーの継承クラス
-			pEffect->m_pEffectDirection000->SetInfo(pEffect->m_pVtxBuff,1.0f);   //一分割
+			pEffect->m_pEffectDirection000->SetInfo(pEffect->m_pVtxBuff, 1.0f);   //一分割
 			pEffect->m_dLifeCount = 0.0;
 			pEffect->m_fMaxTex = 1.0;
 		}
@@ -321,11 +313,11 @@ CManagerEffect* CManagerEffect::Create(D3DXVECTOR3 pos, TYPE type)
 		//初期化が成功した時
 		if (SUCCEEDED(pEffect->Init()))
 		{
-			pEffect->m_pEffectDirection000 = new CExplotion();                                                     //ストラテジーの継承クラス
-			pEffect->m_pEffectDirection000->m_pEffectFileName = "data\\TEXTURE\\UI\\Explosion\\explosion004.png";  //テクスチャのファイルパスを設定
-			pEffect->m_pEffectDirection000->SetInfo(pEffect->m_pVtxBuff, MAX_EXPLOSION_TEX);                       //八分割
-			pEffect->SetSize(70.0f, 70.0f, 0.0f);                                                                  //大きさを設定
-			pEffect->m_dLifeCount = 0.6;                                                                           //アニメーションの進める速さを設定
+			pEffect->m_pEffectDirection000 = new CExplotion();                                                        //ストラテジーの継承クラス
+			pEffect->m_pEffectDirection000->SetEffectFileNamePass("data\\TEXTURE\\UI\\Explosion\\explosion004.png");  //テクスチャのファイルパスを設定
+			pEffect->m_pEffectDirection000->SetInfo(pEffect->m_pVtxBuff, MAX_EXPLOSION_TEX);                          //八分割
+			pEffect->SetSize(70.0f, 70.0f, 0.0f);                                                                     //大きさを設定
+			pEffect->m_dLifeCount = 0.6;                                                                              //アニメーションの進める速さを設定
 		}
 	}
 
@@ -391,10 +383,10 @@ CManagerEffect* CManagerEffect::Create(D3DXVECTOR3 pos, TYPE type)
 	//テクスチャーや位置の同期
 	if (pEffect != nullptr)
 	{
-		pEffect->m_aFileName = pEffect->m_pEffectDirection000->m_pEffectFileName;  //テクスチャのファイルパスの同期
-		pEffect->m_pos = pos;                                                      //位置の同期
-		pEffect->Lood();                                                           //テクスチャの読み込み関数
-		return pEffect;                                                            //情報を返す
+		pEffect->m_aFileName = pEffect->m_pEffectDirection000->GetEffectFileNamePass();  //テクスチャのファイルパスの同期
+		pEffect->m_pos = pos;                                                            //位置の同期
+		pEffect->Lood();                                                                 //テクスチャの読み込み関数
+		return pEffect;                                                                  //情報を返す
 	}
 
 	return nullptr; //無を返す
@@ -406,7 +398,7 @@ CManagerEffect* CManagerEffect::Create(D3DXVECTOR3 pos, TYPE type)
 //=======================================================================================================================================================
 CBreakEffect::CBreakEffect()
 {
-	
+
 }
 CBreakEffect::~CBreakEffect()
 {
@@ -423,7 +415,7 @@ CBreakEffect::~CBreakEffect()
 //===========================
 CExplosion::CExplosion()
 {
-	
+
 }
 
 //===========================
@@ -500,7 +492,7 @@ HRESULT CPillarOfFire::Init()
 //============================
 void CPillarOfFire::Update()
 {
-	this->m_pEffectDirection000->Effect(m_pTexture, m_pVtxBuff,0.5, MAX_EXPLOSION_TEX); //自身のストラテジー継承クラスの処理を呼ぶ
+	this->GetEffectDirection()->Effect(m_pTexture, m_pVtxBuff, 0.5, MAX_EXPLOSION_TEX); //自身のストラテジー継承クラスの処理を呼ぶ
 	SetCol(255, 255, 255, m_nAlpha);  //色の設定
 
 	//フレームが規定値に行った時
@@ -523,7 +515,7 @@ void CPillarOfFire::Update()
 	if (m_nLife <= 0)
 	{
 		m_nAlpha -= 5;  //alpha値を減らす
-		
+
 		//alpha値が０以下の時
 		if (m_nAlpha <= 0)
 		{
@@ -547,7 +539,7 @@ void CPillarOfFire::Update()
 //===========================
 CEffect::CEffect(int nPriority) : CObject3D(nPriority)
 {
-	m_nLife = SET_BULLET_LIFE/2;                          //ライフを弾の設定されたライフと同じにする（同時に消すため）
+	m_nLife = SET_BULLET_LIFE / 2;                          //ライフを弾の設定されたライフと同じにする（同時に消すため）
 	m_aFileName = "data\\TEXTURE\\UI\\effect000.jpg"; //テクスチャのファイルパスを設定
 }
 
@@ -557,7 +549,7 @@ CEffect::CEffect(int nPriority) : CObject3D(nPriority)
 //===========================
 CEffect::~CEffect()
 {
-	
+
 }
 
 
@@ -611,15 +603,6 @@ void CEffect::Draw()
 
 
 //============================
-//ビルボード描画処理
-//============================
-void CEffect::DrawNoml()
-{
-	
-}
-
-
-//============================
 //エフェクトの設定
 //============================
 void CEffect::SetEffect(D3DXVECTOR3 pos, D3DXVECTOR3 move, int nLife)
@@ -660,7 +643,7 @@ CEffect* CEffect::Create(D3DXVECTOR3 pos)
 //===========================
 CExplosion001::CExplosion001()
 {
-	
+
 }
 
 
@@ -682,7 +665,7 @@ CExplosion001::~CExplosion001()
 CDebris::CDebris()
 {
 	m_nLife = 10;
-	m_fSiseX = 50.0f;
+	m_fSizeX = 50.0f;
 }
 
 
@@ -700,8 +683,8 @@ CDebris::~CDebris()
 void CDebris::Update()
 {
 	m_nLife--;                            //ライフを減らす
-	m_fSiseX+=4.0f;                       //サイズを大きくする
-	SetSize(m_fSiseX,m_fSiseX,0.0f);      //サイズの設定
+	m_fSizeX += 4.0f;                       //サイズを大きくする
+	SetSize(m_fSizeX, m_fSizeX, 0.0f);      //サイズの設定
 
 	//ライフが０以下の時
 	if (m_nLife <= 0)
@@ -738,7 +721,7 @@ CSpecialAttack::~CSpecialAttack()
 //============================
 void CSpecialAttack::Update()
 {
-	this->m_pEffectDirection000->Effect(m_pTexture, m_pVtxBuff,0.3, MAX_EXPLOSION_TEX); //自身のストラテジー継承クラスの処理を呼ぶ
+	this->GetEffectDirection()->Effect(m_pTexture, m_pVtxBuff, 0.3, MAX_EXPLOSION_TEX); //自身のストラテジー継承クラスの処理を呼ぶ
 
 	SetCol(255, 255, 255, m_nAlpha);         //色の設定
 
@@ -751,7 +734,7 @@ void CSpecialAttack::Update()
 	{
 		SetEffectSize(m_fSizeX, m_fSepecialAttackY, 0.0f);    //サイズの設定
 	}
-	else if(m_nRotNumber == 2)
+	else if (m_nRotNumber == 2)
 	{
 		SetEffectSize(-m_fSizeX, m_fSepecialAttackY, 0.0f);   //サイズの設定
 	}
@@ -796,7 +779,7 @@ void CSpecialAttack::Update()
 			}
 		}
 	}
-	
+
 
 	//ライフが０以下の時
 	if (m_nLife <= 0)

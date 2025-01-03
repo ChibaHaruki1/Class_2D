@@ -6,7 +6,7 @@
 //=========================================
 
 #pragma once
-	
+
 //=========================================
 //インクルード
 #include "object3D.h"
@@ -21,12 +21,20 @@ public:
 	CEffectDirection();  //コンストラクタ
 	~CEffectDirection(); //デストラクタ
 
-	void SetInfo(LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff, float fTexSize);                                                //テクスチャ（座標）の情報
-	void Effect(LPDIRECT3DTEXTURE9 m_pTexture, LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff,double dLifeCount,float fMaxTex);  //エフェクトの処理
+	void SetInfo(LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff, float fTexSize);                                                  //テクスチャ（座標）の情報
+	void Effect(LPDIRECT3DTEXTURE9 m_pTexture, LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff, double dLifeCount, float fMaxTex);  //エフェクトの処理
 
-	const char* m_pEffectFileName;          //テクスチャのファイルパス
-	int m_nLife;                            //テクスチャのライフ（アニメーション用の）
+	const char* GetEffectFileNamePass() { return m_aEffectFileName; }                               //ファイルパスを取得
+	void SetEffectFileNamePass(const char* aEffectFieName) { m_aEffectFileName = aEffectFieName; }  //ファイルパスを設定
+
+private:
+	//マクロ定義
+	constexpr static float MAX_EXPLOSION_LIFE = 8;        //アニメーションの更新する時のライフ
+
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuffMine; //自身のバッファー
+	int m_nLife;                            //テクスチャのライフ（アニメーション用の）
+	const char* m_aEffectFileName;          //テクスチャのファイルパス
+
 };
 
 
@@ -96,18 +104,19 @@ public:
 class CManagerEffect : public CObject3D
 {
 public:
-	CManagerEffect(int nPriority=DEFAULT_PRIORITY);
-	~CManagerEffect();
-	HRESULT Init()override;
-	void Uninit()override;
-	void Update()override;
-	void Draw()override;
-	void DrawNoml()override;
+	CManagerEffect(int nPriority = DEFAULT_PRIORITY);  //コンストラクタ
+	~CManagerEffect();								   //デストラクタ
+	HRESULT Init()override;							   //初期化処理
+	void Uninit()override;							   //破棄処理
+	void Update()override;							   //更新処理
+	void Draw()override;							   //描画処理
 	void SetEffect(D3DXVECTOR3 pos);
 
-	static CManagerEffect* Create(D3DXVECTOR3 pos, TYPE type);
+	static CManagerEffect* Create(D3DXVECTOR3 pos, TYPE type); //生成処理
 
-	CEffectDirection* m_pEffectDirection000;
+	CEffectDirection* GetEffectDirection() { return m_pEffectDirection000; } //ストラテジー基底クラスのポインターを取得
+
+protected://継承クラスのみアクセス可能
 
 	//マクロ定義 （constexprでコンパイル時に初期化）
 	constexpr static float m_fPillarOfFireSizeX = 200.0f; //柱状の炎のX軸の大きさ
@@ -115,15 +124,12 @@ public:
 	constexpr static float m_fSepecialAttackX = 200.0f;   //必殺技のX軸の大きさ
 	constexpr static float m_fSepecialAttackY = 200.0f;   //必殺技のY軸の大きさ
 	constexpr static float MAX_EXPLOSION_TEX = 0.125f;    //アニメーションの分割数
-	constexpr static float MAX_EXPLOSION_LIFE = 8;        //アニメーションの更新する時のライフ
-
-protected://継承クラスのみアクセス可能
-	double m_dLifeCount; //アニメーションの速度
-	float m_fMaxTex;     //テクスチャの最大のサイズ
 
 private:
 	int m_nEffectNumber;  //最後にエフェクトを呼ぶかどうか
-
+	double m_dLifeCount; //アニメーションの速度
+	float m_fMaxTex;     //テクスチャの最大のサイズ
+	CEffectDirection* m_pEffectDirection000;  //ストラテジー基底クラスのポインター
 };
 
 
@@ -132,9 +138,9 @@ private:
 class CBreakEffect : public CManagerEffect
 {
 public:
-	CBreakEffect();
-	~CBreakEffect()override;
-	
+	CBreakEffect();            //コンストラクタ
+	~CBreakEffect()override;   //デストラクタ
+
 };
 
 
@@ -143,8 +149,8 @@ public:
 class CExplosion : public CManagerEffect
 {
 public:
-	CExplosion();
-	~CExplosion()override;
+	CExplosion();          //コンストラクタ
+	~CExplosion()override; //デストラクタ
 };
 
 
@@ -153,8 +159,8 @@ public:
 class CExplosion001 : public CManagerEffect
 {
 public:
-	CExplosion001();
-	~CExplosion001()override;
+	CExplosion001();           //コンストラクタ
+	~CExplosion001()override;  //デストラクタ
 };
 
 
@@ -163,9 +169,9 @@ public:
 class CFire : public CManagerEffect
 {
 public:
-	CFire();
-	~CFire()override;
-	void Draw()override;
+	CFire();              //コンストラクタ
+	~CFire()override;	  //デストラクタ
+	void Draw()override;  //描画処理
 };
 
 
@@ -174,12 +180,10 @@ public:
 class CPillarOfFire : public CManagerEffect
 {
 public:
-	CPillarOfFire();
-	~CPillarOfFire();
-	HRESULT Init()override;
-	void Update()override;
-
-private:
+	CPillarOfFire();           //コンストラクタ
+	~CPillarOfFire()override;  //デストラクタ
+	HRESULT Init()override;    //初期化処理
+	void Update()override;     //更新処理
 };
 
 
@@ -188,19 +192,15 @@ private:
 class CEffect : public CObject3D
 {
 public:
-	CEffect(int nPriority = DEFAULT_PRIORITY);
-	~CEffect()override;
-	HRESULT Init()override;
-	void Uninit()override;
-	void Update()override;
-	void Draw()override;
-	void DrawNoml()override;
+	CEffect(int nPriority = DEFAULT_PRIORITY);  //コンストラクタ
+	~CEffect()override;							//デストラクタ
+	HRESULT Init()override;						//初期化処理
+	void Uninit()override;						//破棄処理
+	void Update()override;						//更新処理
+	void Draw()override;						//描画処理
 	void SetEffect(D3DXVECTOR3 pos, D3DXVECTOR3 move, int nLife);
 
-	static CEffect* Create(D3DXVECTOR3 pos);
-
-private:
-	int m_nLife;
+	static CEffect* Create(D3DXVECTOR3 pos);    //生成処理
 };
 
 
@@ -209,12 +209,9 @@ private:
 class CDebris : public CManagerEffect
 {
 public:
-	CDebris();
-	~CDebris();
-	void Update()override;
-
-private:
-	float m_fSiseX;
+	CDebris();              //コンストラクタ
+	~CDebris()override;     //デストラクタ
+	void Update()override;  //更新処理
 };
 
 
@@ -223,10 +220,10 @@ private:
 class CSpecialAttack : public CManagerEffect
 {
 public:
-	CSpecialAttack();
-	~CSpecialAttack();
-	void Update()override;
-	int& GetRotNumber() { return m_nRotNumber; }
+	CSpecialAttack();                               //コンストラクタ
+	~CSpecialAttack()override;                      //デストラクタ
+	void Update()override;                          //更新処理
+	int& GetRotNumber() { return m_nRotNumber; }    //現在の向きを番号で取得する
 
 private:
 	int m_nRotNumber; //向きで大きさを変えるための変数

@@ -221,7 +221,7 @@ void CRenderer::Draw()
 		//‘S‚Ä‚Ì•`‰æ
 		CObjectManagerX::DrawAll();
 		CObject::DrawAll(); 
-		CObject::DrawNomlAll();
+		//CObject::DrawNomlAll();
 
 
 		//DrawFPS(); //debug•`‰æ
