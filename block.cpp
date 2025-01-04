@@ -29,154 +29,123 @@ CBlockXStrategy::~CBlockXStrategy()
 {
 
 }
-void CBlockXStrategy::Block()
-{
-
-}
 
 //============================
 //ブロック000
 //============================
 CBlock000::CBlock000()
 {
-	m_aBlockFile = "data\\XFILE\\BLOCK\\Block002.x";
+	SetBlockFileNamePass("data\\XFILE\\BLOCK\\Block002.x");
 }
 CBlock000::~CBlock000()
 {
 
 }
-void CBlock000::Block()
-{
 
-}
 
 //============================
 //ブロック001
 //============================
 CBlock001::CBlock001()
 {
-	m_aBlockFile = "data\\XFILE\\BLOCK\\Block004.x";
+	SetBlockFileNamePass("data\\XFILE\\BLOCK\\Block004.x");
 }
 CBlock001::~CBlock001()
 {
 
 }
-void CBlock001::Block()
-{
 
-}
 
 //============================
 //ブロック002
 //============================
 CBlock002::CBlock002()
 {
-	m_aBlockFile = "data\\XFILE\\BLOCK\\Block005.x";
+	SetBlockFileNamePass("data\\XFILE\\BLOCK\\Block005.x");
 }
 CBlock002::~CBlock002()
 {
 
 }
-void CBlock002::Block()
-{
 
-}
 
 //============================
 //ブロック003
 //============================
 CBlock003::CBlock003()
 {
-	m_aBlockFile = "data\\XFILE\\BLOCK\\Block003.x";
+	SetBlockFileNamePass("data\\XFILE\\BLOCK\\Block003.x");
 }
 CBlock003::~CBlock003()
 {
 
 }
-void CBlock003::Block()
-{
 
-}
 
 //============================
 //ブロック004
 //============================
 CBlock004::CBlock004()
 {
-	m_aBlockFile = "data\\XFILE\\BLOCK\\Block006.x";
+	SetBlockFileNamePass("data\\XFILE\\BLOCK\\Block006.x");
 }
 CBlock004::~CBlock004()
 {
 
 }
-void CBlock004::Block()
-{
 
-}
 
 //============================
 //ブロック005
 //============================
 CBlock005::CBlock005()
 {
-	m_aBlockFile = "data\\XFILE\\BLOCK\\Block007.x";
+	SetBlockFileNamePass("data\\XFILE\\BLOCK\\Block007.x");
 }
 CBlock005::~CBlock005()
 {
 
 }
-void CBlock005::Block()
-{
 
-}
 
 //============================
 //ブロック006
 //============================
 CBlock006::CBlock006()
 {
-	m_aBlockFile = "data\\XFILE\\BLOCK\\Block008.x";
+	SetBlockFileNamePass("data\\XFILE\\BLOCK\\Block008.x");
 }
 CBlock006::~CBlock006()
 {
 
 }
-void CBlock006::Block()
-{
 
-}
 
 //============================
 //次のステージへ行く用obj
 //============================
 CSpaceBattleShip::CSpaceBattleShip()
 {
-	m_aBlockFile = "data\\XFILE\\BLOCK\\SpaceBattleship000.x";
+	SetBlockFileNamePass("data\\XFILE\\BLOCK\\SpaceBattleship000.x");
 }
 CSpaceBattleShip::~CSpaceBattleShip()
 {
 
 }
-void CSpaceBattleShip::Block()
-{
 
-}
 
 //============================
 //最終ステージ用のブロック
 //============================
 CFinalBlock::CFinalBlock()
 {
-	m_aBlockFile = "data\\XFILE\\BLOCK\\FianlStage.x";
+	SetBlockFileNamePass("data\\XFILE\\BLOCK\\FianlStage.x");
 }
 CFinalBlock::~CFinalBlock()
 {
 
 }
-void CFinalBlock::Block()
-{
 
-}
 
 
 //============================================================================================================================================================
@@ -351,7 +320,7 @@ CManagerBlock* CManagerBlock::Create(D3DXVECTOR3 pos, STRATEGYTYPE type)
 		if (SUCCEEDED(pManagerBlock->Init()))
 		{
 			pManagerBlock->m_pBlockXStrategy = new CFinalBlock1();  //ストラテジー継承クラス
-			pManagerBlock->m_pBlockXStrategy->m_aBlockFile = "data\\XFILE\\BLOCK\\FianlStageCeiling.x";
+			pManagerBlock->m_pBlockXStrategy->SetBlockFileNamePass("data\\XFILE\\BLOCK\\FianlStageCeiling.x");
 		}
 	}
 
@@ -363,18 +332,18 @@ CManagerBlock* CManagerBlock::Create(D3DXVECTOR3 pos, STRATEGYTYPE type)
 		if (SUCCEEDED(pManagerBlock->Init()))
 		{
 			pManagerBlock->m_pBlockXStrategy = new CRubble();  //ストラテジー継承クラス
-			pManagerBlock->m_pBlockXStrategy->m_aBlockFile = "data\\XFILE\\StageObj\\wooden_boards.x";
+			pManagerBlock->m_pBlockXStrategy->SetBlockFileNamePass("data\\XFILE\\StageObj\\wooden_boards.x");
 		}
 	}
 
 	//情報があるかどうかを判定する
 	if (pManagerBlock != nullptr)
 	{
-		pManagerBlock->SetFileName(pManagerBlock->m_pBlockXStrategy->m_aBlockFile); //ファイルパスをストラテジー基底クラスの物と同期させる
+		pManagerBlock->SetFileName(pManagerBlock->m_pBlockXStrategy->GetBlockFileNamePass()); //ファイルパスをストラテジー基底クラスの物と同期させる
 		pManagerBlock->GetPos() = pos; //位置の同期
-		pManagerBlock->Lood();      //ｘファイルを読み込む
-		pManagerBlock->Size();      //大きさの読み取り
-		return pManagerBlock;       //情報を返す
+		pManagerBlock->Lood();         //ｘファイルを読み込む
+		pManagerBlock->Size();         //大きさの読み取り
+		return pManagerBlock;          //情報を返す
 	}
 
 	return nullptr; //無を返す
@@ -424,7 +393,7 @@ void CManagerBlock::TextFileWrite(float m_fPosX, float m_fPosY, float m_fPosZ,CO
 //============================
 //コンストラクタ
 //============================
-CFiledBlock::CFiledBlock()
+CFiledBlock::CFiledBlock(int nPriority) : CManagerBlock(nPriority)
 {
 	//m_aFileName = "data\\XFILE\\BLOCK\\Block002.x";
 }
@@ -444,7 +413,7 @@ CFiledBlock::~CFiledBlock()
 //============================
 //コンストラクタ
 //============================
-CGoUpBlock::CGoUpBlock()
+CGoUpBlock::CGoUpBlock(int nPriority) : CManagerBlock(nPriority)
 {
 
 }
@@ -465,7 +434,7 @@ CGoUpBlock::~CGoUpBlock()
 //============================
 //コンストラクタ
 //============================
-CRoadBlock::CRoadBlock()
+CRoadBlock::CRoadBlock(int nPriority) : CManagerBlock(nPriority)
 {
 
 }
@@ -484,7 +453,7 @@ CRoadBlock::~CRoadBlock()
 //============================
 //コンストラクタ
 //============================
-CWallRoadBlock::CWallRoadBlock()
+CWallRoadBlock::CWallRoadBlock(int nPriority) : CManagerBlock(nPriority)
 {
 
 }
@@ -504,7 +473,7 @@ CWallRoadBlock::~CWallRoadBlock()
 //============================
 //コンストラクタ
 //============================
-CSmallBlock::CSmallBlock()
+CSmallBlock::CSmallBlock(int nPriority) : CManagerBlock(nPriority)
 {
 
 }
@@ -524,7 +493,7 @@ CSmallBlock::~CSmallBlock()
 //============================
 //コンストラクタ
 //============================
-CUpWallBlock::CUpWallBlock()
+CUpWallBlock::CUpWallBlock(int nPriority) : CManagerBlock(nPriority)
 {
 	
 }
@@ -543,7 +512,7 @@ CUpWallBlock::~CUpWallBlock()
 //============================
 //コンストラクタ
 //============================
-CSpaceBattleShip000::CSpaceBattleShip000()
+CSpaceBattleShip000::CSpaceBattleShip000(int nPriority) : CManagerBlock(nPriority)
 {
 	GetRot() = D3DXVECTOR3(-0.3f, 1.0f, 0.0f);  //向きを調整
 }
@@ -563,7 +532,7 @@ CSpaceBattleShip000::~CSpaceBattleShip000()
 //============================
 //コンストラクタ
 //============================
-CScaffold::CScaffold()
+CScaffold::CScaffold(int nPriority) : CManagerBlock(nPriority)
 {
 	
 }
@@ -583,7 +552,7 @@ CScaffold::~CScaffold()
 //============================
 //コンストラクタ
 //============================
-CCeiling::CCeiling()
+CCeiling::CCeiling(int nPriority) : CManagerBlock(nPriority)
 {
 
 }
@@ -597,3 +566,22 @@ CCeiling::~CCeiling()
 }
 
 
+//============================================
+//天井
+//============================================
+
+//============================
+//コンストラクタ
+//============================
+CWoodenBorad::CWoodenBorad(int nPriority) : CManagerBlock(nPriority)
+{
+
+}
+
+//============================
+//デストラクタ
+//============================
+CWoodenBorad::~CWoodenBorad()
+{
+
+}

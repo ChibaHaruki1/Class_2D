@@ -13,7 +13,7 @@
 
 //============================
 //static変数の初期化
-int CDebrisX::m_nDirectionCount = 0;
+
 
 //============================
 //コンストラクタ
@@ -21,7 +21,6 @@ int CDebrisX::m_nDirectionCount = 0;
 CDebrisX::CDebrisX(int nPriority) : CObjectX(nPriority)
 {
 	SetFileName("data\\XFILE\\DirectionObj\\Debris.x");
-	m_nLife = 0;
 }
 
 
@@ -63,11 +62,11 @@ void CDebrisX::Uninit()
 //========================
 void CDebrisX::Update()
 {
-	m_nLife++;
+	GetLife()++;
 
-	if (m_nLife >= 30)
+	if (GetLife() >= 30)
 	{
-		m_nLife = 0;
+		SetLife(0);
   		CObjectX::Release();
 		//CManager::GetInstance()->DesignationUninitX(CObjectX::TYPE::DEBRIS, m_nDirectionCount);
 		return;

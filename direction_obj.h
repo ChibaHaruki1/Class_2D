@@ -17,16 +17,12 @@
 class CDebrisX : public CObjectX
 {
 public:
-	CDebrisX(int nPriority = DEFAULT_PRIORITY1); //コンストラクタ
-	~CDebrisX()override;                         //デストラクタ
+	CDebrisX(int nPriority = DEFAULT_PRIORITY1);  //コンストラクタ
+	~CDebrisX()override;                          //デストラクタ
 	HRESULT Init()override;                       //初期化処理
 	void Uninit()override;                        //破棄処理
 	void Update() override;                       //更新処理
 	void Draw()override;                          //描画処理
 
 	static CDebrisX* Create(D3DXVECTOR3 pos); //継承クラスをタイプごとに生成
-
-private:
-	int m_nLife;
-	static int m_nDirectionCount;
 };

@@ -5,8 +5,7 @@
 //
 //======================================
 
-#ifndef _BLOCK_H_
-#define _BLOCK_H_
+#pragma once
 
 //======================================
 //インクルード
@@ -19,10 +18,12 @@
 class CBlockXStrategy
 {
 public:
-	CBlockXStrategy();
-	~CBlockXStrategy();
-	virtual void Block() = 0;
+	CBlockXStrategy();          //コンストラクタ
+	~CBlockXStrategy();         //デストラクタ
 
+	const char* GetBlockFileNamePass() { return m_aBlockFile; }
+	void SetBlockFileNamePass(const char* aBlockFileName) { m_aBlockFile = aBlockFileName; }
+private:
 	const char* m_aBlockFile;
 };
 
@@ -32,9 +33,8 @@ public:
 class CBlock000 : public CBlockXStrategy
 {
 public:
-	CBlock000();
-	~CBlock000();
-	void Block();
+	CBlock000();   //コンストラクタ
+	~CBlock000();  //デストラクタ
 };
 
 
@@ -43,9 +43,8 @@ public:
 class CBlock001 : public CBlockXStrategy
 {
 public:
-	CBlock001();
-	~CBlock001();
-	void Block();
+	CBlock001();   //コンストラクタ
+	~CBlock001();  //デストラクタ
 };
 
 
@@ -54,9 +53,8 @@ public:
 class CBlock002 : public CBlockXStrategy
 {
 public:
-	CBlock002();
-	~CBlock002();
-	void Block();
+	CBlock002();   //コンストラクタ
+	~CBlock002();  //デストラクタ
 };
 
 
@@ -65,9 +63,8 @@ public:
 class CBlock003 : public CBlockXStrategy
 {
 public:
-	CBlock003();
-	~CBlock003();
-	void Block();
+	CBlock003();   //コンストラクタ
+	~CBlock003();  //デストラクタ
 };
 
 
@@ -76,9 +73,8 @@ public:
 class CBlock004 : public CBlockXStrategy
 {
 public:
-	CBlock004();
-	~CBlock004();
-	void Block();
+	CBlock004();   //コンストラクタ
+	~CBlock004();  //デストラクタ
 };
 
 //==================================================================
@@ -87,9 +83,8 @@ public:
 class CBlock005 : public CBlockXStrategy
 {
 public:
-	CBlock005();
-	~CBlock005();
-	void Block();
+	CBlock005();   //コンストラクタ
+	~CBlock005();  //デストラクタ
 };
 
 
@@ -98,9 +93,8 @@ public:
 class CBlock006 : public CBlockXStrategy
 {
 public:
-	CBlock006();
-	~CBlock006();
-	void Block();
+	CBlock006();   //コンストラクタ
+	~CBlock006();  //デストラクタ
 };
 
 
@@ -109,9 +103,8 @@ public:
 class CSpaceBattleShip : public CBlockXStrategy
 {
 public:
-	CSpaceBattleShip();
-	~CSpaceBattleShip();
-	void Block();
+	CSpaceBattleShip();   //コンストラクタ
+	~CSpaceBattleShip();  //デストラクタ
 };
 
 
@@ -120,9 +113,8 @@ public:
 class CFinalBlock : public CBlockXStrategy
 {
 public:
-	CFinalBlock();
-	~CFinalBlock();
-	void Block();
+	CFinalBlock();   //コンストラクタ
+	~CFinalBlock();	 //デストラクタ
 };
 
 
@@ -131,9 +123,8 @@ public:
 class CFinalBlock1 : public CBlockXStrategy
 {
 public:
-	CFinalBlock1() { m_aBlockFile = "data\\XFILE\\BLOCK\\FianlStageCeiling.x"; }
-	~CFinalBlock1() {};
-	void Block() {};
+	CFinalBlock1() { SetBlockFileNamePass("data\\XFILE\\BLOCK\\FianlStageCeiling.x"); }  //コンストラクタ
+	~CFinalBlock1() {};																	 //デストラクタ
 };
 
 
@@ -142,10 +133,8 @@ public:
 class CRubble : public CBlockXStrategy
 {
 public:
-	CRubble() {};
-	~CRubble() {};
-	void Block() {};
-
+	CRubble() {};  //コンストラクタ
+	~CRubble() {}; //デストラクタ
 };
 
 
@@ -155,20 +144,19 @@ public:
 class CManagerBlock : public  CObjectX
 {
 public:
-	CManagerBlock(int nPriority = DEFAULT_PRIORITY1);
-	~CManagerBlock()override;
-	HRESULT Init()override;
-	void Uninit()override;
-	void Update() override;
+	CManagerBlock(int nPriority = DEFAULT_PRIORITY1);  //コンストラクタ
+	~CManagerBlock()override;						   //デストラクタ
+	HRESULT Init()override;                            //初期化処理  
+	void Uninit()override;                             //破棄処理
+	void Update() override;                            //更新処理
 	void Draw()override;
-	void TextFileWrite(float m_fPosX, float m_fPosY, float m_fPosZ,CObjectX::TYPE type);
+	void TextFileWrite(float m_fPosX, float m_fPosY, float m_fPosZ,CObjectX::TYPE type); //テキストファイルに情報を書き込む処理
 
-	static CManagerBlock* Create(D3DXVECTOR3 pos, STRATEGYTYPE type);
-
-	CBlockXStrategy* m_pBlockXStrategy;
+	static CManagerBlock* Create(D3DXVECTOR3 pos, STRATEGYTYPE type); //生成処理
 
 private:
-	static int m_nCreateCount; //作られた数を保管する
+	static int m_nCreateCount;          //作られた数を保管する
+	CBlockXStrategy* m_pBlockXStrategy; //ストラテジー基底クラスのポインター
 };
 
 
@@ -177,10 +165,8 @@ private:
 class CFiledBlock : public  CManagerBlock
 {
 public:
-	CFiledBlock();
-	~CFiledBlock()override;
-private:
-	
+	CFiledBlock(int nPriority = DEFAULT_PRIORITY1);            //コンストラクタ
+	~CFiledBlock()override;   //デストラクタ
 };
 
 
@@ -189,8 +175,8 @@ private:
 class CGoUpBlock : public CManagerBlock
 {
 public:
-	CGoUpBlock();
-	~CGoUpBlock()override;
+	CGoUpBlock(int nPriority = DEFAULT_PRIORITY1);           //コンストラクタ
+	~CGoUpBlock()override;  //デストラクタ
 };
 
 
@@ -199,8 +185,8 @@ public:
 class CRoadBlock : public CManagerBlock
 {
 public:
-	CRoadBlock();
-	~CRoadBlock()override;
+	CRoadBlock(int nPriority = DEFAULT_PRIORITY1);           //コンストラクタ
+	~CRoadBlock()override;  //デストラクタ
 };
 
 
@@ -209,8 +195,8 @@ public:
 class CWallRoadBlock : public CManagerBlock
 {
 public:
-	CWallRoadBlock();
-	~CWallRoadBlock()override;
+	CWallRoadBlock(int nPriority = DEFAULT_PRIORITY1);           //コンストラクタ
+	~CWallRoadBlock()override; //デストラクタ
 };
 
 
@@ -219,8 +205,8 @@ public:
 class CSmallBlock : public CManagerBlock
 {
 public:
-	CSmallBlock();
-	~CSmallBlock()override;
+	CSmallBlock(int nPriority = DEFAULT_PRIORITY1);           //コンストラクタ
+	~CSmallBlock()override;  //デストラクタ
 };
 
 
@@ -229,18 +215,8 @@ public:
 class CUpWallBlock : public CManagerBlock
 {
 public:
-	CUpWallBlock();
-	~CUpWallBlock()override;
-};
-
-
-//==================================================================
-//壊れるブロック
-class CBreakBlock : public CManagerBlock
-{
-public:
-	CBreakBlock();
-	~CBreakBlock()override;
+	CUpWallBlock(int nPriority = DEFAULT_PRIORITY1);           //コンストラクタ
+	~CUpWallBlock()override;  //デストラクタ
 };
 
 
@@ -249,8 +225,8 @@ public:
 class CSpaceBattleShip000 : public CManagerBlock
 {
 public:
-	CSpaceBattleShip000();
-	~CSpaceBattleShip000()override;
+	CSpaceBattleShip000(int nPriority = DEFAULT_PRIORITY1);           //コンストラクタ
+	~CSpaceBattleShip000()override;  //デストラクタ
 };
 
 
@@ -259,8 +235,8 @@ public:
 class CScaffold : public CManagerBlock
 {
 public:
-	CScaffold();
-	~CScaffold()override;
+	CScaffold(int nPriority = DEFAULT_PRIORITY1);           //コンストラクタ
+	~CScaffold()override;  //デストラクタ
 };
 
 
@@ -269,8 +245,8 @@ public:
 class CCeiling : public CManagerBlock
 {
 public:
-	CCeiling();
-	~CCeiling()override;
+	CCeiling(int nPriority = DEFAULT_PRIORITY1);           //コンストラクタ
+	~CCeiling()override;  //デストラクタ
 };
 
 
@@ -279,8 +255,6 @@ public:
 class CWoodenBorad : public CManagerBlock
 {
 public:
-	CWoodenBorad() {};
-	~CWoodenBorad()override {};
+	CWoodenBorad(int nPriority = DEFAULT_PRIORITY1);           //コンストラクタ
+	~CWoodenBorad()override;	 //デストラクタ
 };
-
-#endif // !_BLOCK_H_

@@ -47,15 +47,15 @@ private: //アクセス不可
 	int m_nSize;     //vectorの配列数を取得するための変数
 
 	int m_nWhichSideNumber; //左右のどちらに居るかを数字で渡すための変数
-	bool m_bOneCreateFlag; //衝撃波を１回のみ呼ぶための
+	bool m_bOneCreateFlag;  //衝撃波を１回のみ呼ぶための
 
 	//マクロ定義 （constexprでコンパイル時に初期化）
 	constexpr static int MAX_VECTOR_SIZE = 50;                //vector配列の最大数
 	constexpr static float MAX_MOVE_SPEED = 0.25f;            //ボスの移動速度を設定
-	constexpr static float MAX_MOVE_SPEED_IN_PLAYER = 8.0f;  //プレイヤーに向かう速さ
+	constexpr static float MAX_MOVE_SPEED_IN_PLAYER = 8.0f;   //プレイヤーに向かう速さ
 
 	//vectorに関する変数
-	std::vector<float> m_nSaveData;
-	std::vector<float> m_nDataX;
-	std::vector<float> m_nDataY;
+	std::vector<float> m_nSaveData; //配列情報を確保する為の変数
+	std::vector<float> m_nDataX;    //X軸用のデータを保管する用の変数
+	std::vector<float> m_nDataY;    //Y軸用のデータを保管する用の変数
 };
