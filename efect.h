@@ -119,6 +119,7 @@ public:
 protected://継承クラスのみアクセス可能
 
 	//マクロ定義 （constexprでコンパイル時に初期化）
+	constexpr static int SET_BULLET_LIFE = 42;          //ライフの最大数
 	constexpr static float m_fPillarOfFireSizeX = 200.0f; //柱状の炎のX軸の大きさ
 	constexpr static float m_fPillarOfFireSizeY = 600.0f; //柱状の炎のY軸の大きさ
 	constexpr static float m_fSepecialAttackX = 200.0f;   //必殺技のX軸の大きさ
@@ -201,6 +202,9 @@ public:
 	void SetEffect(D3DXVECTOR3 pos, D3DXVECTOR3 move, int nLife);
 
 	static CEffect* Create(D3DXVECTOR3 pos);    //生成処理
+
+private:
+	constexpr static int SET_EFFECT_LIFE = 30; //ライフの最大数
 };
 
 

@@ -1,13 +1,14 @@
-//===================================
+//========================================
 //
-//プレイヤーのプロトタイプ宣言をするファイル[player.h]
+//プレイヤーのクラス管理[player.h]
 //Author:chiba haruki
 //
-//===================================
+//========================================
 
-#ifndef _PLAYERX_H_  //このマグロ定義がされていなかったから
-#define _PLAYERX_H_  //二重インクルード防止のマクロ定義
+#pragma once
 
+//========================================
+//インクルード
 #include "main.h"
 #include "input.h"
 #include "camera.h"
@@ -17,10 +18,6 @@
 #include "2d_ui.h"
 #include "character.h"
 
-//マクロ定義
-#define MAX_MOVESPEED (3.0f)  //感性を減らした分の移動量の増加
-#define MAX_TEXT_OBJECT (9)   //今配置ツールに設定されてるオブジェクトの数ー１分（０スタートだから）
-
 class CPlayerX : public CCharacter
 {
 public: //アクセス可能
@@ -29,9 +26,9 @@ public: //アクセス可能
 	~CPlayerX()override;                                         //デストラクタ
 	HRESULT Init()override;                                      //初期化処理
 	void Uninit()override;                                       //破棄処理
-	void Update()override;                                      //更新処理
+	void Update()override;                                       //更新処理
 	void Draw()override;                                         //描画処理
-	//void ObjectArrangement();                                   //オブジェクトの配置処理（生成＆情報をファイルに書き込む）
+	//void ObjectArrangement();                                  //オブジェクトの配置処理（生成＆情報をファイルに書き込む）
 	void ObjectArrangementTelephonPole();                        //電柱の配置処理（生成＆情報をファイルに書き込む
 	void KeySet();                                               //キーごとの処理をまとめる関数
 	void ShopKeySet();                                           //モードがSHOP時のキーごとの処理をまとめる関数
@@ -52,19 +49,19 @@ public: //アクセス可能
 	//CObjectXで使用する用の取得
 	int& GetTelephonPoleCount() { return m_nTelephonCount; }             //電柱の配列を取得
 	int& GetAllTelephonPoleCount() { return m_nAllTelephonPoleCount; }   //全ての電柱の配列を取得
-	int& GetRotNumber() { return m_nRotNumber; }                                   //プレイヤーの向きの番号を取得
+	int& GetRotNumber() { return m_nRotNumber; }                         //プレイヤーの向きの番号を取得
 
-	static CPlayerX* Create();                   //生成する
+	static CPlayerX* Create();                                           //生成する
 
 private: //アクセス不可能
 
 	//プレイヤーの状態
 	enum class PLAYER_STATE
 	{
-		NORMAI_MODE,
-		SHOP_MODE,
-		BUY_MODE,
-		SEND_MODE,
+		NORMAI_MODE,  //通常状態
+		SHOP_MODE,    //店で話している状態
+		BUY_MODE,     //買う状態
+		SEND_MODE,    //売る状態
 	};
 
 	//インスタンス
@@ -79,8 +76,7 @@ private: //アクセス不可能
 	PLAYER_STATE m_PlayerState;          //現在のプレイヤーの状態
 	PLAYER_STATE m_FlagSate;             //現在のフラグの状態
 
-	int m_nAlpha;                //パーティクルの透明度をランダムで決める変数
-
+	int m_nAlpha;                        //パーティクルの透明度をランダムで決める変数
 
 	//==========================================
 	//テキストファイルに登録する時の配列番号
@@ -128,10 +124,10 @@ private: //アクセス不可能
 
 	//==========================================
 	//マクロ定義
+	constexpr static int   MAX_TEXT_OBJECT = 9;             //今配置ツールに設定されてるオブジェクトの数ー１分（０スタートだから）
 	constexpr static int   MAX_BUULET_SPEED = 30;           //必殺技の撃てる時間
 	constexpr static float MAX_JUMPPAWER = 10.0f;           //飛ぶ力
 	constexpr static float MAX_SPECIALATTACKCOUNT = 60*60;  //弾の速さ
+	constexpr static float MAX_MOVESPEED = 3.0f;            //感性を減らした分の移動量の増加
 };
-
-#endif 
 

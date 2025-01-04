@@ -5,9 +5,10 @@
 //
 //========================================
 
-#ifndef _OBJECT_H_
-#define _OBJECT_H_
+#pragma once
 
+//========================================
+//インクルード
 #include "main.h"
 
 #define MAX_OBJECT (250) //オブジェクトの最大数
@@ -101,6 +102,4 @@ private:
 	TYPE m_type; //オブジェクトタイプ
 
 };
-
-#endif // !_OBJECT_H_
 

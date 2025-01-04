@@ -150,10 +150,10 @@ private:
 	D3DXVECTOR3 m_move;                         //移動量
 	CUI* pUI;
 
-	int m_nLife;      //Lifeを格納する変数（HP）
-	int m_nRandom;    //乱数を格納する変数
-	int m_nFrame;     //フレームを格納する変数
-	int m_nDieFrame;  //死亡カウンター
+	int m_nLife;                //Lifeを格納する変数（HP）
+	int m_nRandom;              //乱数を格納する変数
+	int m_nFrame;               //フレームを格納する変数
+	int m_nDieFrame;            //死亡カウンター
 	float m_fGravity;           //重力加速度をつける
 	float m_fAngle;             //角度から長さを求める用の変数
 	bool m_bGravityFlag;        //重力をONにするかどうか

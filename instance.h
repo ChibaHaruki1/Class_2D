@@ -13,7 +13,6 @@
 #include "main.h" 
 #include "field.h"
 #include "block.h"
-#include "Gun.h"
 #include "bullet.h"
 #include "2d_ui.h"
 #include "stage_obj.h"

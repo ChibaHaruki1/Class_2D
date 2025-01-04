@@ -161,7 +161,7 @@ CSourceSpecialAttack::~CSourceSpecialAttack()
 //===========================
 CManagerEffect::CManagerEffect(int nPriority) : CObject3D(nPriority)
 {
-	m_nLife = (int)(SET_BULLET_LIFE * 0.7f);                          //ライフを弾の設定されたライフと同じにする（同時に消すため）
+	m_nLife = SET_BULLET_LIFE;                          
 	m_pEffectDirection000 = nullptr;
 	m_nEffectNumber = -1;
 	m_dLifeCount = 0.0;
@@ -539,7 +539,7 @@ void CPillarOfFire::Update()
 //===========================
 CEffect::CEffect(int nPriority) : CObject3D(nPriority)
 {
-	m_nLife = SET_BULLET_LIFE / 2;                          //ライフを弾の設定されたライフと同じにする（同時に消すため）
+	m_nLife = SET_EFFECT_LIFE;                          //ライフを弾の設定されたライフと同じにする（同時に消すため）
 	m_aFileName = "data\\TEXTURE\\UI\\effect000.jpg"; //テクスチャのファイルパスを設定
 }
 

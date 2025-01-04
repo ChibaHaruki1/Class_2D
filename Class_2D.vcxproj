@@ -176,7 +176,6 @@
     <ClCompile Include="fade.cpp" />
     <ClCompile Include="field.cpp" />
     <ClCompile Include="gage.cpp" />
-    <ClCompile Include="Gun.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="instance.cpp" />
     <ClCompile Include="light.cpp" />
@@ -219,7 +218,6 @@
     <ClInclude Include="fade.h" />
     <ClInclude Include="field.h" />
     <ClInclude Include="gage.h" />
-    <ClInclude Include="Gun.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="instance.h" />
     <ClInclude Include="light.h" />

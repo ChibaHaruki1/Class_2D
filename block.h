@@ -21,10 +21,10 @@ public:
 	CBlockXStrategy();          //コンストラクタ
 	~CBlockXStrategy();         //デストラクタ
 
-	const char* GetBlockFileNamePass() { return m_aBlockFile; }
-	void SetBlockFileNamePass(const char* aBlockFileName) { m_aBlockFile = aBlockFileName; }
+	const char* GetBlockFileNamePass() { return m_aBlockFile; }                               //ファイルパスを取得
+	void SetBlockFileNamePass(const char* aBlockFileName) { m_aBlockFile = aBlockFileName; }  //ファイルパスを設定
 private:
-	const char* m_aBlockFile;
+	const char* m_aBlockFile; //ファイルパスを保管する用の変数
 };
 
 

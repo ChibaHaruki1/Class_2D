@@ -60,9 +60,6 @@
     <ClCompile Include="block.cpp">
       <Filter>ソース ファイル\ObjectX</Filter>
     </ClCompile>
-    <ClCompile Include="Gun.cpp">
-      <Filter>ソース ファイル\ObjectX</Filter>
-    </ClCompile>
     <ClCompile Include="boss.cpp">
       <Filter>ソース ファイル\ObjectX</Filter>
     </ClCompile>
@@ -291,9 +288,6 @@
       <Filter>ヘッダー ファイル\ObjectX</Filter>
     </ClInclude>
     <ClInclude Include="enemy.h">
-      <Filter>ヘッダー ファイル\ObjectX</Filter>
-    </ClInclude>
-    <ClInclude Include="Gun.h">
       <Filter>ヘッダー ファイル\ObjectX</Filter>
     </ClInclude>
     <ClInclude Include="enemyinmotion.h">

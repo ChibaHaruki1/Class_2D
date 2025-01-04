@@ -137,7 +137,7 @@ void CEnemyInMotion::Update()
 		if (GetFrame()>= 60)
 		{
 			CManagerBullet::Create(D3DXVECTOR3(this->GetPosPrtsEnemy(0).x, this->GetPosPrtsEnemy(0).y, this->GetPosPrtsEnemy(0).z), D3DXVECTOR3(-sinf(GetRot().y) * MAX_BUULET_SPEED, 0.0f, -cosf(GetRot().y) * MAX_BUULET_SPEED),
-				SET_BULLET_LIFE, CObject3D::ENEMYBULLET);
+				CManagerBullet:: SET_BULLET_LIFE, CObject3D::ENEMYBULLET);
 			SetFrame(0); //フレームを０にする
 		}
 	}
@@ -270,7 +270,7 @@ void CEnemyInMotion001::Update()
 				if (GetFrame()>= 60)
 				{
 					CManagerBullet::Create(D3DXVECTOR3(this->GetPosPrtsEnemy(4).x + 100.0f, this->GetPosPrtsEnemy(4).y + 30.0f, this->GetPosPrtsEnemy(4).z), D3DXVECTOR3(-sinf(GetRot().y) * MAX_BUULET_SPEED, 0.0f, -cosf(GetRot().y) * MAX_BUULET_SPEED),
-						SET_BULLET_LIFE, CObject3D::ENEMYBULLET);
+						CManagerBullet::SET_BULLET_LIFE, CObject3D::ENEMYBULLET);
 					SetFrame(0); //フレームを０にする
 				}
 
