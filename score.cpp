@@ -50,12 +50,12 @@ HRESULT CManagerScore::Init()
 	pDevice = pRenderer->GetDevice();
 
 	//頂点バッファの生成
-	pDevice->CreateVertexBuffer(sizeof(VERTEX_2D) * 4 * MAX_SCORE, D3DUSAGE_WRITEONLY, FVF_VERTEX_2D, D3DPOOL_MANAGED, &m_pVtxBuff, NULL);
+	pDevice->CreateVertexBuffer(sizeof(VERTEX_2D) * 4 * MAX_SCORE, D3DUSAGE_WRITEONLY, FVF_VERTEX_2D, D3DPOOL_MANAGED, &GetBuffer(), NULL);
 
 	VERTEX_2D* pVtx;
 
 	//頂点バッファをロックし、頂点データへのポインタを取得
-	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
+	GetBuffer()->Lock(0, 0, (void**)&pVtx, 0);
 
 	for (int nCutScore = 0; nCutScore < MAX_SCORE; nCutScore++)
 	{
@@ -86,7 +86,7 @@ HRESULT CManagerScore::Init()
 	}
 
 	//頂点バッファをアンロック
-	m_pVtxBuff->Unlock();
+	GetBuffer()->Unlock();
 
 	//スコアの配置処理
 	PosScore();
@@ -141,7 +141,7 @@ void CManagerScore::SetScorepos(D3DXVECTOR3 pos)
 	VERTEX_2D* pVtx;
 
 	//頂点バッファをロックし、頂点情報へのポインタを取得
-	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
+	GetBuffer()->Lock(0, 0, (void**)&pVtx, 0);
 
 	for (nCutScore = 0; nCutScore < MAX_SCORE; nCutScore++)
 	{
@@ -159,7 +159,7 @@ void CManagerScore::SetScorepos(D3DXVECTOR3 pos)
 		pVtx += 4;
 	}
 	//頂点バッファをアンロック
-	m_pVtxBuff->Unlock();
+	GetBuffer()->Unlock();
 }
 
 //=======================
@@ -172,7 +172,7 @@ void CManagerScore::SetScore(int nScore)
 	int nScare;
 	int nDight = 1;//桁管理用
 	//頂点バッファをロックし、頂点情報へのポインタを取得
-	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
+	GetBuffer()->Lock(0, 0, (void**)&pVtx, 0);
 
 	m_nSocre = nScore;
 
@@ -194,7 +194,7 @@ void CManagerScore::SetScore(int nScore)
 		pVtx += 4;
 	}
 	//頂点バッファをアンロック
-	m_pVtxBuff->Unlock();
+	GetBuffer()->Unlock();
 }
 
 //==============================

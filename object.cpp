@@ -14,16 +14,6 @@
 int CObject::m_nNumAll = 0;
 CObject* CObject::m_apObject[MAX_PRIORITY_OBJ][MAX_OBJECT] = {};
 
-//====================
-//コンストラクタ
-//====================
-CObject::CObject()
-{
-	m_nPriority = 0;
-	m_nID = 0;
-	m_type = NONE;
-}
-
 
 //==========================
 //引数付きコンストラクタ
@@ -31,7 +21,7 @@ CObject::CObject()
 CObject::CObject(int nPriority)
 {
 	m_nPriority = nPriority; //引数と同期する
-	m_type = NONE; //初期化する
+	m_type = TYPE::NONE; //初期化する
 	m_nID = 0; //初期化する
 
 	//オブジェクト分回す
@@ -96,15 +86,6 @@ void CObject::Draw()
 
 
 //====================
-//描画処理
-//====================
-void CObject::DrawNoml()
-{
-
-}
-
-
-//====================
 //全オブジェクトの解放
 //====================
 void CObject::ReleaseAll()
@@ -162,27 +143,6 @@ void CObject::DrawAll()
 			if (m_apObject[nCountPri][nCount] != nullptr)
 			{
 				m_apObject[nCountPri][nCount]->Draw(); //描画処理を呼ぶ
-			}
-		}
-	}
-}
-
-
-//====================
-//全オブジェクトの描画
-//====================
-void CObject::DrawNomlAll()
-{
-	//puriority分回す
-	for (int nCountPri = 0; nCountPri < MAX_PRIORITY_OBJ; nCountPri++)
-	{
-		//オブジェクト分回す
-		for (int nCount = 0; nCount < MAX_OBJECT; nCount++)
-		{
-			//情報がある場合
-			if (m_apObject[nCountPri][nCount] != nullptr)
-			{
-				m_apObject[nCountPri][nCount]->DrawNoml(); //描画処理を呼ぶ
 			}
 		}
 	}

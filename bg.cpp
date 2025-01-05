@@ -64,7 +64,7 @@ void CManagerBg::Update()
 	VERTEX_2D* pVtx;
 
 	//頂点バッファをロックし、頂点データへのポインタを取得
-	m_pVtxBuff->Lock(0U, 0U, (void**)&pVtx, 0);
+	GetBuffer()->Lock(0U, 0U, (void**)&pVtx, 0);
 
 	//頂点カラーの設定
 	pVtx[0].col = D3DCOLOR_RGBA(255, 255, 255, nCountAlpha);
@@ -73,7 +73,7 @@ void CManagerBg::Update()
 	pVtx[3].col = D3DCOLOR_RGBA(255, 255, 255, nCountAlpha);
 
 	//頂点バッファをアンロック
-	m_pVtxBuff->Unlock();
+	GetBuffer()->Unlock();
 }
 
 
@@ -181,7 +181,7 @@ CResultBg::~CResultBg()
 //==========================
 CGameOverBg::CGameOverBg(int nPriority) : CManagerBg(nPriority)
 {
-	m_fAlph = 255;
+	SetAlph(255);
 	m_nFrame = 0;
 }
 
@@ -209,27 +209,27 @@ void CGameOverBg::Update()
 		if (m_nRandom >= 1 && m_nRandom <= 3)
 		{
 			SetSIze(0.0f, SCREEN_WIDTH, 100.0f, SCREEN_HEIGHT + 100.0f); //大きさの設定
-			m_fAlph = 255; //alpha値の初期化
+			SetAlph(255);  //alpha値の初期化
 			m_nFrame = 0;  //フレームの初期化
 		}
 
 		else if (m_nRandom >= 4 && m_nRandom <= 6)
 		{
 			SetSIze(0.0f, SCREEN_WIDTH, -100.0f, SCREEN_HEIGHT - 100.0f); //大きさの設定
-			m_fAlph = 255; //alpha値の初期化
+			SetAlph(255);  //alpha値の初期化
 			m_nFrame = 0;  //フレームの初期化
 		}
 
 		else if (m_nRandom >= 7 && m_nRandom <= 8)
 		{
 			SetSIze(-200.0f, SCREEN_WIDTH - 200.0f, 0.0f, SCREEN_HEIGHT);
-			m_fAlph = 155; //alpha値を下げる
+			SetAlph(155);  //alpha値を下げる
 			m_nFrame = 0;  //フレームの初期化
 		}
 		else
 		{
 			SetSIze(200.0f, SCREEN_WIDTH + 200.0f, 0.0f, SCREEN_HEIGHT);
-			m_fAlph =  55; //alpha値を下げる
+			SetAlph(55);   //alpha値を下げる
 			m_nFrame = 0;  //フレームの初期化
 		}
 	}
@@ -237,7 +237,7 @@ void CGameOverBg::Update()
 	{
 		SetSIze(0.0f, SCREEN_WIDTH, 0.0f, SCREEN_HEIGHT); //大きさの設定
 	}
-	SetCol(m_fAlph, m_fAlph);                         //alpha値を設定する
+	SetCol(GetAlph(), GetAlph());                         //alpha値を設定する
 }
 
 

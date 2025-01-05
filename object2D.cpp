@@ -18,8 +18,6 @@
 
 //LPDIRECT3DTEXTURE9 m_pTexture = nullptr; //テクスチャへのポインタ
 //LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff = nullptr; //頂点バッファのポインタ
-
-CObject2D* CObject2D::m_apObject2D[DEFAULT_PRIORITY][MAX_OBJECT] = {};
  
 //=====================
 //コンストラクタ
@@ -46,18 +44,14 @@ CObject2D::CObject2D(int nPriority) : CObject(nPriority)
 {
 	m_pTexture = nullptr;
 	m_pVtxBuff = nullptr;
-	g_pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f); //位置を初期化(位置を調整できる）
-	g_move = D3DXVECTOR3(0.0f, 0.0f, 0.0f); //移動量を初期化(移動速度を調整できる）
-	g_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f); //向きを初期化する
-	g_fAngle = 0;
-	g_fLength = 0;
-	m_nLife = 0;
-	m_fAlph = 0;
-	m_fAlph1 = 0;
+	m_pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f); //位置を初期化(位置を調整できる）
+	m_move = D3DXVECTOR3(0.0f, 0.0f, 0.0f); //移動量を初期化(移動速度を調整できる）
+	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f); //向きを初期化する
 	m_nRandom = 0;
 	m_nFrame = 0;
 	m_bUse = false;
 	m_aFileName = nullptr;
+	m_nAlph = 0;
 }
 
 
@@ -166,32 +160,6 @@ void CObject2D::Draw()
 
 	//ポリゴンの描画
 	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
-}
-
-//=====================
-//描画処理
-//=====================
-void CObject2D::DrawNoml()
-{
-
-}
-
-//===================================
-//オブジェクト生成
-//===================================
-CObject2D* CObject2D::Create()
-{
-	CObject2D* pObject2D = new CObject2D(0);
-
-	if (SUCCEEDED(pObject2D->Init()))
-	{
-		if (pObject2D != nullptr)
-		{
-			return pObject2D;
-		}
-	}
-
-	return nullptr;
 }
 
 

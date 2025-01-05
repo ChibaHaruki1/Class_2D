@@ -115,15 +115,6 @@ void CFuelGage::Draw()
 	}
 }
 
-
-//============================
-//•`‰æˆ—
-//============================
-void CFuelGage::DrawNoml()
-{
-	
-}
-
 //============================
 //¶¬ˆ—
 //============================
@@ -208,15 +199,6 @@ void CManagerGage::Draw()
 }
 
 
-//=====================
-//”wŒi‚Ì•`‰æˆ—
-//=====================
-void CManagerGage::DrawNoml()
-{
-
-}
-
-
 //===================================
 //ƒQ[ƒW‚Ì¶¬
 //===================================
@@ -229,7 +211,7 @@ CManagerGage* CManagerGage::Create(CObject2D::TYPE type)
 	{
 		pManagerGage = new CPlayerHPGage(1);
 		CreateLeave(type);
-		CManager::GetInstance()->GetCreateObjectInstnace(FUELGAGE,0, pManagerGage->g_pos);
+		CManager::GetInstance()->GetCreateObjectInstnace(TYPE::FUELGAGE,0, pManagerGage->GetPos());
 		pManagerGage->m_aFileName = "data\\TEXTURE\\UI\\Gage\\RedGage000.png";
 	}
 

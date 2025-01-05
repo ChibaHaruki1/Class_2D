@@ -155,7 +155,7 @@ void CPlayerX::ShopInstanceMakeNullptr()
 	if (CManager::GetInstance()->GetShopScreen() != nullptr)
 	{
 		CManager::GetInstance()->GetShopScreen()->Release();
-		CManager::GetInstance()->DesignationUninit2D(CObject2D::SCREEN);
+		CManager::GetInstance()->DesignationUninit2D(CObject2D::TYPE::SCREEN);
 	}
 }
 
@@ -467,7 +467,7 @@ void CPlayerX::KeySet()
 			//右向きの時
 			if (GetRot().y == CManager::GetScene()->GetCamera()->GetRot().y - D3DX_PI / 2)
 			{
-				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::SPECIALATTACK, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));  //必殺技のエフェクトの生成
+				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::SPECIALATTACK, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));  //必殺技のエフェクトの生成
 				m_nMotionFrame = CManager::GetInstance()->GetSpecialAttack()->GetLife();                                       //モーションのライフを同期させる
 				CManager::GetInstance()->GetSpecialAttack()->GetRotNumber() = 1;                                               //サイズの設定用の番号を渡す
 				CManager::GetInstance()->GetSpecialAttack()->SetEffect(D3DXVECTOR3(GetPosPrts(17).x + 220.0f,                   //エフェクトの出す位置を設定
@@ -477,7 +477,7 @@ void CPlayerX::KeySet()
 			//左向きの時
 			else if (GetRot().y == CManager::GetScene()->GetCamera()->GetRot().y + D3DX_PI / 2)
 			{
-				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::SPECIALATTACK, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));  //必殺技のエフェクトの生成
+				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::SPECIALATTACK, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));  //必殺技のエフェクトの生成
 				m_nMotionFrame001 = CManager::GetInstance()->GetSpecialAttack()->GetLife();                                    //モーションのライフを同期させる
 				CManager::GetInstance()->GetSpecialAttack()->GetRotNumber() = 2;											   //サイズの設定用の番号を渡す
 				CManager::GetInstance()->GetSpecialAttack()->SetEffect(D3DXVECTOR3(GetPosPrts(17).x - 50.0f, 				   //エフェクトの出す位置を設定

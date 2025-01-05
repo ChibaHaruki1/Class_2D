@@ -23,7 +23,6 @@ public:
 	void Uninit()override;                                //破棄処理
 	void Update()override;                                //更新処理
 	void Draw()override;                                  //描画処理
-	void DrawNoml()override;                              //通常描画処理
 
 	static CFuelGage* Create();                           //生成処理
 
@@ -49,7 +48,6 @@ public:  //アクセス可能
 	void Uninit()override;                                    //破棄処理
 	void  Update()override;                                   //更新処理
 	void Draw()override;                                      //描画処理
-	void DrawNoml()override;                                  //通常描画処理
 	static CManagerGage* Create(CObject2D::TYPE type);        //ゲージの生成
 	static CManagerGage* CreateLeave(CObject2D::TYPE type);   //残すゲージの生成
 

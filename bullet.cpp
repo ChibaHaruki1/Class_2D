@@ -66,7 +66,7 @@ void CManagerBullet::Uninit()
 //=====================
 void CManagerBullet::Update()
 {
-	CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::EFFECT, 0, m_pos); //エフェクト（軌跡）を生成する
+	CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::EFFECT, 0, m_pos); //エフェクト（軌跡）を生成する
 	CManager::GetInstance()->GetEffect()->SetCol(255, 160, 0, m_nAlpha); //色の設定
 
 	if (m_nAlpha >= 1)
@@ -193,10 +193,10 @@ CBullet3D::~CBullet3D()
 //===========================
 void CBullet3D::CallEffect(bool bUse)
 {
-	CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::EXPLOSION, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));         //爆発エフェクトを呼ぶ（1つ目）
-	CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::EXPLOSION001, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));      //爆発エフェクトを呼ぶ（2つ目）
-	CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::THENDER, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));           //雷エフェクトを呼ぶ
-	CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::DEBRIS, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));            //破片エフェクトを呼ぶ
+	CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::EXPLOSION, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));         //爆発エフェクトを呼ぶ（1つ目）
+	CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::EXPLOSION001, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));      //爆発エフェクトを呼ぶ（2つ目）
+	CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::THENDER, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));           //雷エフェクトを呼ぶ
+	CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::DEBRIS, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));            //破片エフェクトを呼ぶ
 
 
 	CManager::GetInstance()->GetExplosion()->SetEffect(m_pos);                                                        //爆発エフェクトの位置を設定
@@ -454,7 +454,7 @@ CEnemyBullet::~CEnemyBullet()
 //=====================
 void CEnemyBullet::Update()
 {
-	CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::EFFECT, 0, m_pos); //エフェクト（軌跡）を生成する
+	CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::EFFECT, 0, m_pos); //エフェクト（軌跡）を生成する
 	CManager::GetInstance()->GetEffect()->SetCol(0, 0, 200, m_nAlpha); //色の設定
 	m_pos.y -= m_fAdditionPosY;
 
@@ -543,7 +543,7 @@ CBossBullet::~CBossBullet()
 //=====================
 void CBossBullet::Update()
 {
-	CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::EFFECT, 0, m_pos); //エフェクト（軌跡）を生成する
+	CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::EFFECT, 0, m_pos); //エフェクト（軌跡）を生成する
 	CManager::GetInstance()->GetEffect()->SetCol(0, 0, 200, m_nAlpha); //色の設定
 
 	//アルファ値が0より大きい時
@@ -573,7 +573,7 @@ void CBossBullet::Update()
 //===========================
 void CBossBullet::CallEffect(bool bUse)
 {
-	CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::PILLAROFFIRE, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));            //柱状の炎エフェクトを呼ぶ
+	CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::PILLAROFFIRE, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));            //柱状の炎エフェクトを呼ぶ
 	CManager::GetInstance()->GetPillarOfFire()->SetEffect(D3DXVECTOR3(m_pos.x, m_pos.y + 200.0f, m_pos.z));                 //柱状の炎エフェクトの位置を設定
 }
 

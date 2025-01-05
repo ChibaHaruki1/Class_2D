@@ -11,20 +11,14 @@
 //インクルード
 #include "main.h"
 
-#define MAX_OBJECT (250) //オブジェクトの最大数
-#define DEFAULT_PRIORITY (3) //描画順の最大数
-#define MAX_PRIORITY_OBJ (4) //描画順の最大数
-
-//#include "main.h"
-//#include "input.h"
 
 //全てを管理するので仮想関数（純粋仮想関数）
 class CObject
 {
 public:
 
-	//
-	typedef enum
+	//それぞれのタイプ
+	enum class TYPE
 	{
 		NONE = 0,           //無し
 		ENEMY,              //敵
@@ -32,7 +26,7 @@ public:
 		BULLET,             //通常弾
 		SPECIALBULLET,      //必殺弾
 		BOSSBULLET,         //ボスの弾
-		ENEMYBULLET,
+		ENEMYBULLET,        //敵の弾
 		BLOCK,              //ブロック
 		ITEM,               //アイテム
 		SCORE,              //スコア
@@ -57,11 +51,12 @@ public:
 		MP,             //MPゲージ
 		BOSSHP,         //ボスHPゲージ
 		BOSSMP,         //ボスMPゲージ
-		FUELGAGE,
+		FUELGAGE,       //燃料ゲージ
 		MAX,            //最大数
-	}TYPE;
+	};
 
-	typedef enum
+	//UIのタイプ
+	enum class TYPE_UI
 	{
 		NONEUI = 0,      //無し
 		INUI,            //オブジェクトにつくUI
@@ -69,37 +64,37 @@ public:
 		TELEPHONPOLEUI1, //電柱のUI
 		BUYTEXT,         //買うtext
 		TALKTEXTR,       //話すtext
-		LASER,          //レーザー
-	}TYPE_UI;
+		LASER,           //レーザー
+	};
 
-	CObject(); //コンストラクタ
-	CObject(int nPriority= DEFAULT_PRIORITY);
-	virtual ~CObject(); //デストラクタ
-	virtual HRESULT Init()=0; //初期化
-	virtual void Uninit() = 0; //終了処理
-	virtual void Update() = 0; //更新処理
-	virtual void Draw() = 0; //描画処理
-	virtual void DrawNoml() = 0; //描画処理
-	static void ReleaseAll(); //全オブジェクトの解放
-	static void UpdateAll(); //全オブジェクトの更新
-	static void DrawAll(); //全オブジェクトの描画
-	static void DrawNomlAll(); //全オブジェクトの通常描画
-	static CObject* GetObject1(int nPri,int nIndex); //オブジェクト取得
-	TYPE GetType(); //タイプ取得
-	void SetType(TYPE type); //タイプ設定
-	void Release(); //自分自身の解放
+	CObject(int nPriority= DEFAULT_PRIORITY);         //コンストラクタ
+	virtual ~CObject();                               //デストラクタ
+	virtual HRESULT Init()=0;                         //初期化処理
+	virtual void Uninit() = 0;                        //終了処理
+	virtual void Update() = 0;                        //更新処理
+	virtual void Draw() = 0;                          //描画処理
+	static void ReleaseAll();                         //全オブジェクトの解放
+	static void UpdateAll();                          //全オブジェクトの更新
+	static void DrawAll();                            //全オブジェクトの描画
+	static CObject* GetObject1(int nPri,int nIndex);  //オブジェクト取得
+	TYPE GetType();                                   //タイプ取得
+	void SetType(TYPE type);                          //タイプ設定
+	void Release();      
+	
+	//マクロ定義
+	constexpr static int MAX_OBJECT = 250;                    //オブジェクトの最大数
+	constexpr static int DEFAULT_PRIORITY = 3;                //描画順の初期値
+	constexpr static int MAX_PRIORITY_OBJ = 4;                //描画順の最大数//自分自身の解放
 
 protected:
 	static int m_nNumAll; //オブジェクトの総数
 
-	/*CInputKeyBoard* pInputKeyBoard;
-	CInputJoyPad* pInputJyoPad;*/
-
 private:
+
 	static CObject* m_apObject[MAX_PRIORITY_OBJ][MAX_OBJECT]; //全オブジェクトの管理
-	int m_nPriority;
-	int m_nID; //自分自身のID
-	TYPE m_type; //オブジェクトタイプ
+	int m_nPriority; //自身のプライオリティ
+	int m_nID;       //自分自身のID
+	TYPE m_type;     //オブジェクトタイプ
 
 };
 

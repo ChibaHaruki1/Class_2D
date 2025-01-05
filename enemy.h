@@ -18,7 +18,7 @@
 class CManagerEnemy : public CObjectX
 {
 public:
-	CManagerEnemy(int nPriority = DEFAULT_PRIORITY);   //引数付きコンストラクタ
+	CManagerEnemy(int nPriority = CObject::DEFAULT_PRIORITY);   //引数付きコンストラクタ
 	~CManagerEnemy()override;                          //デストラクタ
 	HRESULT Init()override;                            //初期化処理
 	void Uninit()override;                             //終了処理

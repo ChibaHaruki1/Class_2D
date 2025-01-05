@@ -73,7 +73,7 @@ void CEvent::Update()
 				//Aキーが押された時
 				if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_A) == true)
 				{
-					CManager::GetScene()->GetPlayerX()->GetMove().x += MAX_MOVESPEED; //プレイヤーを逆側へ押し出す
+					CManager::GetScene()->GetPlayerX()->GetMove().x += CPlayerX::MAX_MOVESPEED; //プレイヤーを逆側へ押し出す
 				}
 			}
 		}

@@ -53,6 +53,9 @@ public: //アクセス可能
 
 	static CPlayerX* Create();                                           //生成する
 
+	//マクロ定義
+	constexpr static float MAX_MOVESPEED = 3.0f;            //感性を減らした分の移動量の増加
+
 private: //アクセス不可能
 
 	//プレイヤーの状態
@@ -128,6 +131,5 @@ private: //アクセス不可能
 	constexpr static int   MAX_BUULET_SPEED = 30;           //必殺技の撃てる時間
 	constexpr static float MAX_JUMPPAWER = 10.0f;           //飛ぶ力
 	constexpr static float MAX_SPECIALATTACKCOUNT = 60*60;  //弾の速さ
-	constexpr static float MAX_MOVESPEED = 3.0f;            //感性を減らした分の移動量の増加
 };
 

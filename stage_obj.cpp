@@ -347,7 +347,7 @@ void CBreakHouse::Update()
 	//一回だけ処理を通す
 	if (GetOneFlag() == false)
 	{
-		CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::FIRE, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));  //炎エフェクトを呼ぶ
+		CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::FIRE, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));  //炎エフェクトを呼ぶ
 		CManager::GetInstance()->GetFire()->GetLife() = 60 * 3;                                               //ライフを設定
 		CManager::GetInstance()->GetFire()->GetAlpha() = 150;                                                 //ライフを設定
 		CManager::GetInstance()->GetFire()->SetSize(920.0f, 700.0f, 0.0f);                                    //大きさを設定

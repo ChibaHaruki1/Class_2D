@@ -286,14 +286,14 @@ void CInstance::DesignationUninit2D(CObject2D::TYPE type)
 //============================================================================================================================
 void CInstance::DesignationUninit3D(CObject3D::TYPE type)
 {
-	if (type == CObject3D::PRTICLES)
+	if (type == CObject3D::TYPE::PRTICLES)
 	{
 		for (int nCount = 0; nCount < MAX_OBJECT_DATA; nCount++)
 		{
 			m_pPraticles[nCount] = nullptr;
 		}
 	}
-	else if (type == CObject3D::IMPACT)
+	else if (type == CObject3D::TYPE::IMPACT)
 	{
 		m_pImpact = nullptr;
 	}

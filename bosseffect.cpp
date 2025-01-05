@@ -316,7 +316,7 @@ void CImpact::Update()
 	//ƒ‰ƒCƒt‚ªs‚«‚½
 	if (m_nLife <= 0)
 	{
-		CManager::GetInstance()->DesignationUninit3D(IMPACT);
+		CManager::GetInstance()->DesignationUninit3D(TYPE::IMPACT);
 		CObject3D::Release();
 		return;
 	}

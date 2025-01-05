@@ -20,9 +20,9 @@ public:
 	void Uninit() override;                                  //破棄処理
 	void Update()override;                                   //更新処理
 	void Draw() override;                                    //描画処理
-	void DrawNoml()override;                                 //ビルボードの描画処理
+	void DrawNoml();                                         //ビルボードの描画処理
 	void DrawEffect();                                       //エフェクト用の描画処理
-	void DrawEffect1();                                       //エフェクト用の描画処理
+	void DrawEffect1();                                      //エフェクト用の描画処理
 	void SetPos(D3DXVECTOR3 pos);                            //位置の設定処理
 	void SetSize(float SIZE_X, float SIZE_Y, float SIZE_Z);  //polygonのサイズを調整する処理
 	void SetEffectSize(float SIZE_X, float SIZE_Y, float SIZE_Z);  //エフェクト用polygonのサイズを調整する処理

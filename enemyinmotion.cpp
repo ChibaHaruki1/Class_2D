@@ -137,7 +137,7 @@ void CEnemyInMotion::Update()
 		if (GetFrame()>= 60)
 		{
 			CManagerBullet::Create(D3DXVECTOR3(this->GetPosPrtsEnemy(0).x, this->GetPosPrtsEnemy(0).y, this->GetPosPrtsEnemy(0).z), D3DXVECTOR3(-sinf(GetRot().y) * MAX_BUULET_SPEED, 0.0f, -cosf(GetRot().y) * MAX_BUULET_SPEED),
-				CManagerBullet:: SET_BULLET_LIFE, CObject3D::ENEMYBULLET);
+				CManagerBullet:: SET_BULLET_LIFE, CObject3D::TYPE::ENEMYBULLET);
 			SetFrame(0); //フレームを０にする
 		}
 	}
@@ -270,7 +270,7 @@ void CEnemyInMotion001::Update()
 				if (GetFrame()>= 60)
 				{
 					CManagerBullet::Create(D3DXVECTOR3(this->GetPosPrtsEnemy(4).x + 100.0f, this->GetPosPrtsEnemy(4).y + 30.0f, this->GetPosPrtsEnemy(4).z), D3DXVECTOR3(-sinf(GetRot().y) * MAX_BUULET_SPEED, 0.0f, -cosf(GetRot().y) * MAX_BUULET_SPEED),
-						CManagerBullet::SET_BULLET_LIFE, CObject3D::ENEMYBULLET);
+						CManagerBullet::SET_BULLET_LIFE, CObject3D::TYPE::ENEMYBULLET);
 					SetFrame(0); //フレームを０にする
 				}
 
@@ -320,8 +320,8 @@ void CEnemyInMotion001::Update()
 			srand((unsigned)time(NULL));  //乱数系列を初期化
 			if (GetDieFrame() <= 1)
 			{
-				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::EXPLOSION, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));         //爆発エフェクトを呼ぶ（1つ目）
-				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::EXPLOSION001, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));      //爆発エフェクトを呼ぶ（2つ目）
+				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::EXPLOSION, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));         //爆発エフェクトを呼ぶ（1つ目）
+				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::EXPLOSION001, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));      //爆発エフェクトを呼ぶ（2つ目）
 
 				CManager::GetInstance()->GetExplosion()->SetSize(200.0f, 200.0f, 0.0f);                                           //爆発エフェクトの位置を設定
 				CManager::GetInstance()->GetExplosion001()->SetSize(200.0f, 200.0f, 0.0);                                         //爆発エフェクトの位置を設定
@@ -338,8 +338,8 @@ void CEnemyInMotion001::Update()
 			{
 				SetRandom(-100 + rand() % 200);
 
-				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::EXPLOSION, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));         //爆発エフェクトを呼ぶ（1つ目）
-				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::EXPLOSION001, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));      //爆発エフェクトを呼ぶ（2つ目）
+				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::EXPLOSION, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));         //爆発エフェクトを呼ぶ（1つ目）
+				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::EXPLOSION001, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));      //爆発エフェクトを呼ぶ（2つ目）
 
 				CManager::GetInstance()->GetExplosion()->SetSize(200.0f, 200.0f, 0.0f);                                           //爆発エフェクトの位置を設定
 				CManager::GetInstance()->GetExplosion001()->SetSize(200.0f, 200.0f, 0.0);                                         //爆発エフェクトの位置を設定
@@ -355,8 +355,8 @@ void CEnemyInMotion001::Update()
 			else if (GetDieFrame() <= 41)
 			{
 				SetRandom(-100 + rand() % 200);
-				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::EXPLOSION, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));         //爆発エフェクトを呼ぶ（1つ目）
-				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::EXPLOSION001, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));      //爆発エフェクトを呼ぶ（2つ目）
+				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::EXPLOSION, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));         //爆発エフェクトを呼ぶ（1つ目）
+				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::EXPLOSION001, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));      //爆発エフェクトを呼ぶ（2つ目）
 
 				CManager::GetInstance()->GetExplosion()->SetSize(200.0f, 200.0f, 0.0f);                                           //爆発エフェクトの位置を設定
 				CManager::GetInstance()->GetExplosion001()->SetSize(200.0f, 200.0f, 0.0);                                         //爆発エフェクトの位置を設定
@@ -373,8 +373,8 @@ void CEnemyInMotion001::Update()
 			{
 
 				SetRandom(-100 + rand() % 200);
-				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::EXPLOSION, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));         //爆発エフェクトを呼ぶ（1つ目）
-				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::EXPLOSION001, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));      //爆発エフェクトを呼ぶ（2つ目）
+				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::EXPLOSION, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));         //爆発エフェクトを呼ぶ（1つ目）
+				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::EXPLOSION001, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));      //爆発エフェクトを呼ぶ（2つ目）
 
 				CManager::GetInstance()->GetExplosion()->SetSize(250.0f, 250.0f, 0.0f);                                           //爆発エフェクトの位置を設定
 				CManager::GetInstance()->GetExplosion001()->SetSize(250.0f, 250.0f, 0.0);                                         //爆発エフェクトの位置を設定

@@ -92,7 +92,7 @@ void CObjectManagerX::Draw()
 void CObjectManagerX::ReleaseAll()
 {
 	//puriority分回す
-	for (int nCountPri = 0; nCountPri < MAX_PRIORITY_OBJ; nCountPri++)
+	for (int nCountPri = 0; nCountPri < CObject::MAX_PRIORITY_OBJ; nCountPri++)
 	{
 		//オブジェクト分回す
 		for (int nCount = 0; nCount < MAX_OBJECTMANAGERX; nCount++)
@@ -113,7 +113,7 @@ void CObjectManagerX::ReleaseAll()
 void CObjectManagerX::UpdateAll()
 {
 	//puriority分回す
-	for (int nCountPri = 0; nCountPri < MAX_PRIORITY_OBJ; nCountPri++)
+	for (int nCountPri = 0; nCountPri < CObject::MAX_PRIORITY_OBJ; nCountPri++)
 	{
 		//オブジェクト分回す
 		for (int nCount = 0; nCount < MAX_OBJECTMANAGERX; nCount++)
@@ -135,7 +135,7 @@ void CObjectManagerX::UpdateAll()
 void CObjectManagerX::DrawAll()
 {
 	//puriority分回す
-	for (int nCountPri = 0; nCountPri < MAX_PRIORITY_OBJ; nCountPri++)
+	for (int nCountPri = 0; nCountPri < CObject::MAX_PRIORITY_OBJ; nCountPri++)
 	{
 		//オブジェクト分回す
 		for (int nCount = 0; nCount < MAX_OBJECTMANAGERX; nCount++)

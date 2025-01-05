@@ -60,18 +60,11 @@ HRESULT CFade::Init()
 //======================
 void CFade::Uninit(void)
 {
-	//テクスチャの破棄
-	if (m_pTexture != nullptr)
-	{
-		m_pTexture->Release();
-		m_pTexture = nullptr;
-	}
-
 	//頂点バッファの破棄
-	if (m_pVtxBuff != nullptr)
+	if (GetBuffer() != nullptr)
 	{
-		m_pVtxBuff->Release();
-		m_pVtxBuff = nullptr;
+		GetBuffer()->Release();
+		GetBuffer() = nullptr;
 	}
 
 	//CObject2D::Uninit();
@@ -93,7 +86,7 @@ void CFade::Update()
 		VERTEX_2D* pVtx;
 
 		//頂点バッファをロックし、頂点データへのポインタを取得
-		m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
+		GetBuffer()->Lock(0, 0, (void**)&pVtx, 0);
 
 		//頂点カラーの設定
 
@@ -110,7 +103,7 @@ void CFade::Update()
 		pVtx[3].col = D3DCOLOR_RGBA(0, 0, 0, nCountAlpha);
 
 		//頂点バッファをアンロック
-		m_pVtxBuff->Unlock();
+		GetBuffer()->Unlock();
 	}
 
 	else if (m_Fade == FADE::FADE_OUT)
@@ -123,7 +116,7 @@ void CFade::Update()
 		VERTEX_2D* pVtx;
 
 		//頂点バッファをロックし、頂点データへのポインタを取得
-		m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
+		GetBuffer()->Lock(0, 0, (void**)&pVtx, 0);
 
 		//頂点カラーの設定
 
@@ -140,7 +133,7 @@ void CFade::Update()
 		pVtx[3].col = D3DCOLOR_RGBA(0, 0, 0, nCountAlpha);
 
 		//頂点バッファをアンロック
-		m_pVtxBuff->Unlock();
+		GetBuffer()->Unlock();
 	}
 }
 

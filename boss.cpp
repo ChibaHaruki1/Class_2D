@@ -248,7 +248,7 @@ void CBoss::AttackPattern()
 		//フラグがoffの時
 		if (m_bOneCreateFlag == false)
 		{
-			CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::IMPACT, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f)); //衝撃波を生成
+			CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::IMPACT, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f)); //衝撃波を生成
 			CManager::GetInstance()->GetImpact()->SetEffect(GetPos());                                                //衝撃波エフェクトを呼ぶ
 
 			m_bOneCreateFlag = true; //フラグをOnにして通らなくする
@@ -357,7 +357,7 @@ void CBoss::SpecialAttack()
 	{
 		if (m_bOneCreateFlag == false)
 		{
-			CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::BOSSSPECIALATTACK, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));  //必殺技のエフェクトの生成
+			CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::BOSSSPECIALATTACK, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));  //必殺技のエフェクトの生成
 
 			if (GetRot().y >= D3DX_PI_ORI)
 			{

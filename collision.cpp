@@ -46,7 +46,7 @@ bool CCollision::ColiisionBox(D3DXVECTOR3 pos, D3DXVECTOR3 pos1, D3DXVECTOR3 Siz
 		&& pos.z + Size.z / 2 >= pos1.z - (Size1.z / 2)
 		&& pos.z - Size.z / 2 <= pos1.z + (Size1.z / 2))//[]の中nCntBulletにする注意する
 	{
-		move.x = move.x + MAX_MOVESPEED; //右側に押す
+		move.x = move.x + CPlayerX::MAX_MOVESPEED; //右側に押す
 		return true;
 	}
 
@@ -58,7 +58,7 @@ bool CCollision::ColiisionBox(D3DXVECTOR3 pos, D3DXVECTOR3 pos1, D3DXVECTOR3 Siz
 		&& pos.z + Size.z / 2 >= pos1.z - (Size1.z / 2)
 		&& pos.z - Size.z / 2 <= pos1.z + (Size1.z / 2))//[]の中nCntBulletにする注意する
 	{
-		move.x = move.x - MAX_MOVESPEED; //左側に押す
+		move.x = move.x - CPlayerX::MAX_MOVESPEED; //左側に押す
 		return true;
 	}
 
@@ -70,7 +70,7 @@ bool CCollision::ColiisionBox(D3DXVECTOR3 pos, D3DXVECTOR3 pos1, D3DXVECTOR3 Siz
 		&& pos.z + Size.z / 2 >= pos1.z - (Size1.z / 2)
 		&& pos.z + Size.z / 2 <= pos1.z - (Size1.z / 2) + 10.0f)
 	{
-		move.z = move.z - MAX_MOVESPEED; //手前に押す
+		move.z = move.z - CPlayerX::MAX_MOVESPEED; //手前に押す
 		return true;
 	}
 
@@ -82,7 +82,7 @@ bool CCollision::ColiisionBox(D3DXVECTOR3 pos, D3DXVECTOR3 pos1, D3DXVECTOR3 Siz
 		&& pos.z - Size.z / 2 <= pos1.z + (Size1.z / 2) + 10.0f
 		&& pos.z - Size.z / 2 >= pos1.z + (Size1.z / 2))
 	{
-		move.z = move.z + MAX_MOVESPEED; //奥に押す
+		move.z = move.z + CPlayerX::MAX_MOVESPEED; //奥に押す
 		return true;
 	}
 	return false;
@@ -133,7 +133,7 @@ bool CCollision::ColiisionBoxRoadBlock001(D3DXVECTOR3 pos, D3DXVECTOR3 pos1, D3D
 		&& pos.z + Size.z / 2 >= pos1.z - (Size1.z / 2)
 		&& pos.z - Size.z / 2 <= pos1.z + (Size1.z / 2))//[]の中nCntBulletにする注意する
 	{
-		move.x = move.x - MAX_MOVESPEED; //右側に押す
+		move.x = move.x - CPlayerX::MAX_MOVESPEED; //右側に押す
 		return true;
 	}
 
@@ -145,7 +145,7 @@ bool CCollision::ColiisionBoxRoadBlock001(D3DXVECTOR3 pos, D3DXVECTOR3 pos1, D3D
 		&& pos.z + Size.z / 2 >= pos1.z - (Size1.z / 2)
 		&& pos.z - Size.z / 2 <= pos1.z + (Size1.z / 2))//[]の中nCntBulletにする注意する
 	{
-		move.x = move.x + MAX_MOVESPEED; //右側に押す
+		move.x = move.x + CPlayerX::MAX_MOVESPEED; //右側に押す
 		return true;
 	}
 
