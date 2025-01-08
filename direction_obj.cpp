@@ -100,7 +100,7 @@ CDebrisX* CDebrisX::Create(D3DXVECTOR3 pos)
 		{
 			m_pDebris3D->GetPos() = pos; //位置を同期させる
 			m_pDebris3D->Lood(); //Xファイルを読み込む関数を呼ぶ
-			m_pDebris3D->SetType(DEBRIS);
+			m_pDebris3D->SetType(TYPE::DEBRIS);
 			return m_pDebris3D; //情報を返す
 		}
 	}

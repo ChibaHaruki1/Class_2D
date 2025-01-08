@@ -262,7 +262,7 @@ void CLaserCamare::Update()
 	if (CObject3D::CollisionPrtsPlayer(20.0f,80.0f,20.0f) == true)
 	{
 		SetRandom(-400 + rand() % 800);
-		CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::ENEMY,0, D3DXVECTOR3((float)-200, 0.0f, -50.0f));
+		CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::ENEMY,0, D3DXVECTOR3((float)-200, 0.0f, -50.0f));
 		CObject3D::Release();
 		return;
 	}

@@ -102,26 +102,26 @@ HRESULT CObjectSet::Init()
 
 void CObjectSet::LoodEnemy1()
 {
-	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::ENEMY001, 0, D3DXVECTOR3(700.0f, 40.0f, 0.0f));
-	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::ENEMY001, 0, D3DXVECTOR3(1000.0f, 40.0f, 0.0f));
-	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::ENEMY001, 0, D3DXVECTOR3(1500.0f, 40.0f, 0.0f));
-	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::ENEMY001, 0, D3DXVECTOR3(3000.0f, 1800.0f, 0.0f));
-	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::ENEMY001, 0, D3DXVECTOR3(3500.0f, 1800.0f, 0.0f));
-	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::ENEMY001, 0, D3DXVECTOR3(5300.0f, 1800.0f, 0.0f));
-	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::ENEMY001, 0, D3DXVECTOR3(5500.0f, 1800.0f, 0.0f));
-	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::ENEMY001, 0, D3DXVECTOR3(6000.0f, 1800.0f, 0.0f));
-	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::ENEMY001, 0, D3DXVECTOR3(7000.0f, 3800.0f, 0.0f));
-	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::ENEMY001, 0, D3DXVECTOR3(5000.0f, 3800.0f, 0.0f));
-	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::ENEMY001, 0, D3DXVECTOR3(8000.0f, 4400.0f, 0.0f));
-	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::ENEMY001, 0, D3DXVECTOR3(12000.0f, 1800.0f, 0.0f));
+	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::ENEMY001, 0, D3DXVECTOR3(700.0f, 40.0f, 0.0f));
+	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::ENEMY001, 0, D3DXVECTOR3(1000.0f, 40.0f, 0.0f));
+	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::ENEMY001, 0, D3DXVECTOR3(1500.0f, 40.0f, 0.0f));
+	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::ENEMY001, 0, D3DXVECTOR3(3000.0f, 1800.0f, 0.0f));
+	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::ENEMY001, 0, D3DXVECTOR3(3500.0f, 1800.0f, 0.0f));
+	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::ENEMY001, 0, D3DXVECTOR3(5300.0f, 1800.0f, 0.0f));
+	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::ENEMY001, 0, D3DXVECTOR3(5500.0f, 1800.0f, 0.0f));
+	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::ENEMY001, 0, D3DXVECTOR3(6000.0f, 1800.0f, 0.0f));
+	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::ENEMY001, 0, D3DXVECTOR3(7000.0f, 3800.0f, 0.0f));
+	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::ENEMY001, 0, D3DXVECTOR3(5000.0f, 3800.0f, 0.0f));
+	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::ENEMY001, 0, D3DXVECTOR3(8000.0f, 4400.0f, 0.0f));
+	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::ENEMY001, 0, D3DXVECTOR3(12000.0f, 1800.0f, 0.0f));
 }
 
 
 void CObjectSet::LoodEnemy()
 {
-	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::ENEMY001, 0, D3DXVECTOR3(700.0f, 40.0f, 0.0f));
-	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::ENEMY001, 0, D3DXVECTOR3(1000.0f, 40.0f, 0.0f));
-	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::ENEMY001, 0, D3DXVECTOR3(1500.0f, 40.0f, 0.0f));
+	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::ENEMY001, 0, D3DXVECTOR3(700.0f, 40.0f, 0.0f));
+	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::ENEMY001, 0, D3DXVECTOR3(1000.0f, 40.0f, 0.0f));
+	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::ENEMY001, 0, D3DXVECTOR3(1500.0f, 40.0f, 0.0f));
 }
 
 
@@ -273,7 +273,7 @@ void CObjectSet::LoodBreakHouse(FILE* pFile)
 				(void)fscanf(pFile, "%f", &c); //ŽO”Ô–Ú‚Ì’l‚ðŠi”[
 
 				//¶¬‚·‚é
-				CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::BREAKHOUSE, 0, D3DXVECTOR3(a, b, c));
+				CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::BREAKHOUSE, 0, D3DXVECTOR3(a, b, c));
 			}
 		}
 	}
@@ -616,10 +616,6 @@ const char* CObjectSet::GetStratBlockName(CObjectX::TYPE type)
 	{
 		return m_aUpWallBlockStratName;
 	}
-	else if (type == CObjectX::TYPE::BREAKBLOCK)
-	{
-		return m_aBreakBlockStratName;
-	}
 
 	return nullptr;
 }
@@ -662,10 +658,5 @@ const char* CObjectSet::GetEndBlockName(CObjectX::TYPE type)
 	{
 		return m_aUpWallBlockEndName;
 	}
-	else if (type == CObjectX::TYPE::BREAKBLOCK)
-	{
-		return m_aBreakBlockEndName;
-	}
-
 	return nullptr;
 }

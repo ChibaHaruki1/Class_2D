@@ -99,7 +99,7 @@ void CBoss::Update()
 	{
 		GetDieFrame()++;                                                        //死亡カウントを増やす
 		SetMotionBoss(CCharacter::BOSSMOTIONSTATE::BOSSDIE);                  //モーションの種類を設定
-		CManager::GetInstance()->DesignationUninitXEnemy(CObjectX::BOSS, 0);  //ボスの（自身）インスタンスの情報を無くす
+		CManager::GetInstance()->DesignationUninitXEnemy(CObjectX::TYPE::BOSS, 0);  //ボスの（自身）インスタンスの情報を無くす
 
 		if (GetDieFrame() >= 180)
 		{

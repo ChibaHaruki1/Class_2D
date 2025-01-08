@@ -20,7 +20,7 @@ CObjectManagerX* CObjectManagerX::m_apObjectManagerX[MAX_PRIORITY_MANAGER_OBJ][M
 CObjectManagerX::CObjectManagerX(int nPriority)
 {
 	m_nPriority = nPriority; //ˆø”‚Æ“¯Šú‚·‚é
-	m_type = NONE; //‰Šú‰»‚·‚é
+	m_type = TYPE::NONE; //‰Šú‰»‚·‚é
 	m_ItemType = NONEITEM;
 	m_GimmickType = NONEGIMMICK;
 	m_nID = 0; //‰Šú‰»‚·‚é

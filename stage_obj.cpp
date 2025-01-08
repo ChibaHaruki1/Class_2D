@@ -124,19 +124,19 @@ CStageObj* CStageObj::Create(D3DXVECTOR3 pos, CObjectX::TYPE type)
 	CStageObj* pStageObj = nullptr; //基底クラスのポインター初期化
 
 	//タイプが電柱の時
-	if (type == CObjectX::TELEPHONPOLE)
+	if (type == CObjectX::TYPE::TELEPHONPOLE)
 	{
 		pStageObj = new CTelephonPole(3);
 		//情報がある時
 		if (pStageObj != nullptr)
 		{
 			pStageObj->SetFileName("data\\XFILE\\StageObj\\telephone_pole.x");
-			pStageObj->SetType(TELEPHONPOLE);
+			pStageObj->SetType(TYPE::TELEPHONPOLE);
 		}
 	}
 
 	//タイプが監視カメラの上部分の時
-	else if (type == CObjectX::SURVEILLANCECAMERAUP)
+	else if (type == CObjectX::TYPE::SURVEILLANCECAMERAUP)
 	{
 		pStageObj = new CSurveillanceCameraUP(3);
 		//情報がある時
@@ -147,7 +147,7 @@ CStageObj* CStageObj::Create(D3DXVECTOR3 pos, CObjectX::TYPE type)
 	}
 
 	//タイプが監視カメラの下部分の時
-	else if (type == CObjectX::SURVEILLANCECAMERADOWN)
+	else if (type == CObjectX::TYPE::SURVEILLANCECAMERADOWN)
 	{
 		pStageObj = new CSurveillanceCameraDown(3);
 		//情報がある時
@@ -158,7 +158,7 @@ CStageObj* CStageObj::Create(D3DXVECTOR3 pos, CObjectX::TYPE type)
 	}
 
 	//タイプが監視カメラの下部分の時
-	else if (type == CObjectX::SHOP)
+	else if (type == CObjectX::TYPE::SHOP)
 	{
 		pStageObj = new CShop(3);
 		//情報がある時
@@ -169,7 +169,7 @@ CStageObj* CStageObj::Create(D3DXVECTOR3 pos, CObjectX::TYPE type)
 	}
 
 	//タイプが壊れた家の時
-	else if (type == CObjectX::BREAKHOUSE)
+	else if (type == CObjectX::TYPE::BREAKHOUSE)
 	{
 		pStageObj = new CBreakHouse(3);
 		//情報がある時
@@ -187,7 +187,7 @@ CStageObj* CStageObj::Create(D3DXVECTOR3 pos, CObjectX::TYPE type)
 			pStageObj->GetPos() = pos; //位置を同期させる
 			pStageObj->CObjectX::Lood(); //Xファイルを読み込む関数を呼ぶ
 			pStageObj->Size();
-			pStageObj->SetType(SHOP);
+			pStageObj->SetType(TYPE::SHOP);
 			return pStageObj; //情報を返す
 		}
 	}

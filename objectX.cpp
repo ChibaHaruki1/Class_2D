@@ -513,11 +513,6 @@ void CObjectX::ObjectArrangement(CObjectX::TYPE type, CUI* pUI1)
 		{
 			CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::BLOCK005, D3DXVECTOR3(m_pos.x + 200.0f, m_pos.y, m_pos.z));
 		}
-		//壊れるブロックの時
-		else if (type == CObjectX::TYPE::BREAKBLOCK)
-		{
-			CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::BLOCK006, D3DXVECTOR3(m_pos.x + 200.0f, m_pos.y, m_pos.z));
-		}
 	}
 
 	//9キーが押された時

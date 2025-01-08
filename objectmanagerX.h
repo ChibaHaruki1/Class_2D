@@ -5,44 +5,40 @@
 //
 //========================================
 
-#ifndef _OBJECTMANAGERX_H_
-#define _OBJECTMANAGERX_H_
+#pragma once
 
+//========================================
+//インクルード
 #include "main.h"
 
 #define MAX_OBJECTMANAGERX (250) //オブジェクトの最大数
 #define DEFAULT_PRIORITY1 (3) //デフォルトの描画順
 #define MAX_PRIORITY_MANAGER_OBJ (4) //描画順の最大数
 
-//#include "main.h"
-//#include "input.h"
-
 //全てを管理するので仮想関数（純粋仮想関数）
 class CObjectManagerX
 {
 public:
 
-	typedef enum
+	enum class TYPE
 	{
 		NONE = 0,                    //無し
 		ENEMY,                       //敵
 		ENEMY001,                    //敵001
 		ENEMYINMOTION,               //モーション付きの敵
-		ENEMYINMOTION001,               //モーション付きの敵
-		
+		ENEMYINMOTION001,            //モーション付きの敵001
+
 		BOSS,                       //ボス
 		PLAYER,                     //プレイヤー
-		FIELDBLOCK,
-		GOUPBLOCK,
-		ROADBLOCK,
-		WALLROADBLOCK,
-		WALLROADBLOCK_001,
-		SMALLBLOCK,
-		SMALLBLOCK_001,
-		UPWALLBLOCK,
-		BREAKBLOCK,
-
-		START,
+		FIELDBLOCK,                 //地面用ブロック
+		GOUPBLOCK,                  //上に上がる用のブロック
+		ROADBLOCK,                  //道用ブロック
+		WALLROADBLOCK,              //壁兼道用ブロック
+		WALLROADBLOCK_001,          //壁兼道用ブロック001
+		SMALLBLOCK,                 //小さいブロック
+		SMALLBLOCK_001,             //小さいブロック001
+		UPWALLBLOCK,                //上壁のブロック
+           
 		INITGUN,
 		INITGUN001,
 		TELEPHONPOLE,                //電柱
@@ -52,7 +48,7 @@ public:
 		DEBRIS,                      //破片
 		BREAKHOUSE,                  //壊れた家
 		MAX
-	}TYPE;
+	};
 
 	typedef enum
 	{
@@ -76,7 +72,7 @@ public:
 
 	typedef enum
 	{
-		NONESTRATEGY=0,
+		NONESTRATEGY = 0,
 		BLOCK000,
 		BLOCK001,
 		BLOCK002,
@@ -126,7 +122,5 @@ private:
 	GIMMICKTYPE m_GimmickType;
 
 };
-
-#endif // !_OBJECTMANAGERX_H_
 
 

@@ -97,7 +97,7 @@ void CEvent::BossDirection()
 			//ボスの演出がまだの時
 			if (m_bBossDirection == false)
 			{
-				CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::BOSS, 0, D3DXVECTOR3(4500.0f, 0.0f, 0.0f)); //ボスを生成
+				CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::BOSS, 0, D3DXVECTOR3(4500.0f, 0.0f, 0.0f)); //ボスを生成
 				CManager::GetSound()->StopSound(CManager::GetSound()->SOUND_LABEL_BGM1);                                //指定の音源を止める
 				mciSendStringA("play BGM", NULL, 0, NULL);                                                              //開かれた音源を再生する（開かれてないと生成しない）         
 				m_bBossDirection = true;                                                                                //演出フラグをtrueにし、通らなくする
@@ -166,8 +166,8 @@ void CEvent::CreateEnemy()
 	{
 		if (m_bOneCreate == false)
 		{
-			CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::ENEMYINMOTION001, 0, D3DXVECTOR3(9500.0f, 5000.0f, 0.0f));     //モーション付きの敵の生成
-			CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::ENEMYINMOTION001, 0, D3DXVECTOR3(10000.0f, 5000.0f, 0.0f));    //モーション付きの敵の生成
+			CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::ENEMYINMOTION001, 0, D3DXVECTOR3(9500.0f, 5000.0f, 0.0f));     //モーション付きの敵の生成
+			CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::ENEMYINMOTION001, 0, D3DXVECTOR3(10000.0f, 5000.0f, 0.0f));    //モーション付きの敵の生成
 			m_bOneCreate = true;
 		}
 	}

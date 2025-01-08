@@ -5,8 +5,7 @@
 //
 //=======================================
 
-#ifndef _OBJECT3D_H_
-#define _OBJECT3D_H_
+#pragma once
 
 //=======================================
 //インクルード
@@ -90,6 +89,4 @@ private:
 
 	const char* m_aFileName;
 };
-
-#endif // !_OBJECT3D_H_
 

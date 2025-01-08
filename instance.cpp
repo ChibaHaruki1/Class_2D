@@ -217,7 +217,7 @@ void CInstance::DesignationUninitXEnemy(CObjectX::TYPE type, int nNumber)
 	{
 		m_pEnemy000 = nullptr;
 	}
-	else if(type==CObjectX::BOSS)
+	else if(type==CObjectX::TYPE::BOSS)
 	{
 		m_pBoss = nullptr;
 	}
@@ -447,34 +447,34 @@ CObjectX* CInstance::GetCreateObjectInstanceX(CObjectX::TYPE type, int nNumber, 
 	}
 
 	//敵の生成
-	else if (type == CObjectX::ENEMY)
+	else if (type == CObjectX::TYPE::ENEMY)
 	{
 		return m_pEnemy000 = CManagerEnemy::Create(pos,type);
 	}
 
 	//敵001の生成
-	else if (type == CObjectX::ENEMY001)
+	else if (type == CObjectX::TYPE::ENEMY001)
 	{
 		m_nEnemy++;
 		return m_pEnemy001[m_nEnemy] = CManagerEnemy::Create(pos, type);
 	}
 
 	//モーション付きの敵の生成
-	else if (type == CObjectX::ENEMYINMOTION)
+	else if (type == CObjectX::TYPE::ENEMYINMOTION)
 	{
 		m_nEnemyInMotion++;
 		return m_pEnemyInMotion000[m_nEnemyInMotion] = CManagerEnemyInMotion::Create(pos,type);
 	}
 
 	//モーション付きの敵001の生成
-	else if (type == CObjectX::ENEMYINMOTION001)
+	else if (type == CObjectX::TYPE::ENEMYINMOTION001)
 	{
 		m_nEnemyInMotion001++;
 		return m_pEnemyInMotion001[m_nEnemyInMotion001] = CManagerEnemyInMotion::Create(pos, type);
 	}
 
 	//ボスの生成
-	else if (type == CObjectX::BOSS)
+	else if (type == CObjectX::TYPE::BOSS)
 	{
 		return m_pBoss = CBoss::Create(pos);
 	}

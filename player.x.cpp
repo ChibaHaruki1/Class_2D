@@ -172,8 +172,8 @@ void CPlayerX::Update()
 		{
 			if (m_bOneCreate == false)
 			{
-				CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::ENEMYINMOTION001, 0, D3DXVECTOR3(9500.0f, 4500.0f, 0.0f));    //モーション付きの敵の生成
-				CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::ENEMYINMOTION001, 0, D3DXVECTOR3(12000.0f, 1500.0f, 0.0f));    //モーション付きの敵の生成
+				CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::ENEMYINMOTION001, 0, D3DXVECTOR3(9500.0f, 4500.0f, 0.0f));    //モーション付きの敵の生成
+				CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::ENEMYINMOTION001, 0, D3DXVECTOR3(12000.0f, 1500.0f, 0.0f));    //モーション付きの敵の生成
 				m_bOneCreate = true;
 			}
 		}
@@ -827,19 +827,19 @@ void CPlayerX::CreateGun()
 	//二番目の武器が選ばれた時
 	if (m_nSelectShopCount == 1)
 	{
-		CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::DEBRIS, 0, GetPos());
+		CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::DEBRIS, 0, GetPos());
 	}
 
 	//三番目の武器が選ばれた時
 	if (m_nSelectShopCount == 2)
 	{
-		CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::DEBRIS, 0, GetPos());
+		CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::DEBRIS, 0, GetPos());
 	}
 
 	//四番目の武器が選ばれた時
 	if (m_nSelectShopCount == 3)
 	{
-		CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::DEBRIS, 0, GetPos());
+		CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::DEBRIS, 0, GetPos());
 	}
 
 }
@@ -1145,7 +1145,7 @@ CPlayerX* CPlayerX::Create()
 		if (pPlayerX != nullptr)
 		{
 			//pPlayerX->Size(); //Playerのサイズの計算をする
-			pPlayerX->SetType(PLAYER); //タイプをPLAYERに設定
+			pPlayerX->SetType(TYPE::PLAYER); //タイプをPLAYERに設定
 			return pPlayerX; //プレイヤーの情報を返す
 		}
 	}
