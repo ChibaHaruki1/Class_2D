@@ -18,7 +18,6 @@
 //==========================
 CManagerBg::CManagerBg(int nPriority) : CObject2D(nPriority)
 {
-	m_aFileName = nullptr;
 	nCountAlpha = 255;
 }
 
@@ -97,21 +96,21 @@ CManagerBg* CManagerBg::Create(CScene::MODE mode)
 	if (mode == CScene::MODE::MODE_TITLE)
 	{
 		pBg = new CTitleBg(0);
-		pBg->m_aFileName = "data\\TEXTURE\\UI\\scene\\Title.png";
+		pBg->SetFileNamePass("data\\TEXTURE\\UI\\scene\\Title.png");
 	}
 
 	//リザルト時
 	else if (mode == CScene::MODE::MODE_RESULT)
 	{
 		pBg = new CResultBg(3);
-		pBg->m_aFileName = "data\\TEXTURE\\UI\\scene\\utyuu.png";
+		pBg->SetFileNamePass("data\\TEXTURE\\UI\\scene\\utyuu.png");
 	}
 
 	//死亡時
 	else if (mode == CScene::MODE::MODE_GAMEOVER)
 	{
 		pBg = new CGameOverBg(3);
-		pBg->m_aFileName = "data\\TEXTURE\\UI\\SCREEN\\GameOver.jpg";
+		pBg->SetFileNamePass("data\\TEXTURE\\UI\\SCREEN\\GameOver.jpg");
 	}
 
 	//情報がある時
@@ -182,7 +181,6 @@ CResultBg::~CResultBg()
 CGameOverBg::CGameOverBg(int nPriority) : CManagerBg(nPriority)
 {
 	SetAlph(255);
-	m_nFrame = 0;
 }
 
 
@@ -199,41 +197,41 @@ CGameOverBg::~CGameOverBg()
 //=================================
 void CGameOverBg::Update()
 {
-	m_nRandom = 1+rand() % 10; //乱数を生成
-	m_nFrame++;                //フレームを増やす
+	SetRandom(1 + rand() % 10); //乱数を生成
+	GetFrame()++;                //フレームを増やす
 
 	//フレームが規定数以上行った時
-	if (m_nFrame >= 50)
+	if (GetFrame() >= 50)
 	{
 		//乱数が基底数以上だった時
-		if (m_nRandom >= 1 && m_nRandom <= 3)
+		if (GetRandom() >= 1 && GetRandom() <= 3)
 		{
 			SetSIze(0.0f, SCREEN_WIDTH, 100.0f, SCREEN_HEIGHT + 100.0f); //大きさの設定
 			SetAlph(255);  //alpha値の初期化
-			m_nFrame = 0;  //フレームの初期化
+			SetFrame(0);   //フレームの初期化
 		}
 
-		else if (m_nRandom >= 4 && m_nRandom <= 6)
+		else if (GetRandom() >= 4 && GetRandom() <= 6)
 		{
 			SetSIze(0.0f, SCREEN_WIDTH, -100.0f, SCREEN_HEIGHT - 100.0f); //大きさの設定
 			SetAlph(255);  //alpha値の初期化
-			m_nFrame = 0;  //フレームの初期化
+			SetFrame(0);   //フレームの初期化
 		}
 
-		else if (m_nRandom >= 7 && m_nRandom <= 8)
+		else if (GetRandom() >= 7 && GetRandom() <= 8)
 		{
 			SetSIze(-200.0f, SCREEN_WIDTH - 200.0f, 0.0f, SCREEN_HEIGHT);
 			SetAlph(155);  //alpha値を下げる
-			m_nFrame = 0;  //フレームの初期化
+			SetFrame(0);   //フレームの初期化
 		}
 		else
 		{
 			SetSIze(200.0f, SCREEN_WIDTH + 200.0f, 0.0f, SCREEN_HEIGHT);
 			SetAlph(55);   //alpha値を下げる
-			m_nFrame = 0;  //フレームの初期化
+			SetFrame(0);   //フレームの初期化
 		}
 	}
-	else if (m_nFrame >= 20)
+	else if (GetFrame() >= 20)
 	{
 		SetSIze(0.0f, SCREEN_WIDTH, 0.0f, SCREEN_HEIGHT); //大きさの設定
 	}
@@ -250,7 +248,7 @@ void CGameOverBg::Update()
 //=======================
 CShopScreen::CShopScreen(int nPriority) : CManagerBg(nPriority)
 {
-	m_aFileName = "data\\TEXTURE\\UI\\Screen\\Yellow.png";
+	SetFileNamePass("data\\TEXTURE\\UI\\Screen\\Yellow.png");
 }
 
 

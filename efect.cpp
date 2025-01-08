@@ -161,7 +161,7 @@ CSourceSpecialAttack::~CSourceSpecialAttack()
 //===========================
 CManagerEffect::CManagerEffect(int nPriority) : CObject3D(nPriority)
 {
-	m_nLife = SET_BULLET_LIFE;                          
+	SetLife(SET_BULLET_LIFE);
 	m_pEffectDirection000 = nullptr;
 	m_nEffectNumber = -1;
 	m_dLifeCount = 0.0;
@@ -210,30 +210,30 @@ void CManagerEffect::Update()
 {
 	if (m_dLifeCount != 0.0)
 	{
-		m_pEffectDirection000->Effect(m_pTexture, m_pVtxBuff, m_dLifeCount, m_fMaxTex); //strategyの基底クラスの処理を呼ぶ
+		m_pEffectDirection000->Effect(GetTexture(), GetBuffer(), m_dLifeCount, m_fMaxTex); //strategyの基底クラスの処理を呼ぶ
 	}
-	m_nLife--;                     //ライフを減らす
+	GetLife()--;                     //ライフを減らす
 
 	//炎以外
 	if (m_nEffectNumber != 1)
 	{
-		if (m_nAlpha > 0)
+		if (GetAlpha() > 0)
 		{
-			m_nAlpha -= 5;                 //アルファ値を減らす
+			GetAlpha() -= 5;                 //アルファ値を減らす
 		}
 	}
-	SetCol(255, 255, 255, m_nAlpha);  //色の設定
+	SetCol(255, 255, 255, GetAlpha());  //色の設定
 
 	//ライフが尽きた時
-	if (m_nLife <= 0)
+	if (GetLife() <= 0)
 	{
 		//炎エフェクト時
 		if (m_nEffectNumber == 1)
 		{
-			this->SetEffect(m_pos);  //自信のエフェクトを呼ぶ
-			m_nAlpha = 200;          //アルファ値の設定
-			m_nLife = 60;            //ライフの設定
-			m_nEffectNumber = -1;    //エフェクトナンバーの初期化（その後消すため）
+			this->SetEffect(GetPos());  //自身のエフェクトを呼ぶ
+			SetAlpha(200);              //アルファ値の設定
+			SetLife(60);                //ライフの設定
+			m_nEffectNumber = -1;       //エフェクトナンバーの初期化（その後消すため）
 		}
 
 		//その他の時
@@ -261,7 +261,7 @@ void CManagerEffect::Draw()
 //============================
 void CManagerEffect::SetEffect(D3DXVECTOR3 pos)
 {
-	m_pos = pos;
+	SetPos(pos);
 	//m_move = move;
 	//m_nLife = nLife;
 }
@@ -284,7 +284,7 @@ CManagerEffect* CManagerEffect::Create(D3DXVECTOR3 pos, TYPE type)
 		{
 			pEffect->m_nEffectNumber = 0;                                        //エフェクトナンバーの設定
 			pEffect->m_pEffectDirection000 = new CThunder();                     //ストラテジーの継承クラス
-			pEffect->m_pEffectDirection000->SetInfo(pEffect->m_pVtxBuff, 1.0f);   //一分割
+			pEffect->m_pEffectDirection000->SetInfo(pEffect->GetBuffer(), 1.0f);   //一分割
 			pEffect->m_dLifeCount = 0.0;
 			pEffect->m_fMaxTex = 1.0;
 		}
@@ -299,7 +299,7 @@ CManagerEffect* CManagerEffect::Create(D3DXVECTOR3 pos, TYPE type)
 		if (SUCCEEDED(pEffect->Init()))
 		{
 			pEffect->m_pEffectDirection000 = new CExplotion();                                //ストラテジーの継承クラス
-			pEffect->m_pEffectDirection000->SetInfo(pEffect->m_pVtxBuff, MAX_EXPLOSION_TEX);  //八分割
+			pEffect->m_pEffectDirection000->SetInfo(pEffect->GetBuffer(), MAX_EXPLOSION_TEX);  //八分割
 			pEffect->SetSize(70.0f, 70.0f, 0.0f);                                             //大きさを設定
 			pEffect->m_dLifeCount = 0.6;
 		}
@@ -315,7 +315,7 @@ CManagerEffect* CManagerEffect::Create(D3DXVECTOR3 pos, TYPE type)
 		{
 			pEffect->m_pEffectDirection000 = new CExplotion();                                                        //ストラテジーの継承クラス
 			pEffect->m_pEffectDirection000->SetEffectFileNamePass("data\\TEXTURE\\UI\\Explosion\\explosion004.png");  //テクスチャのファイルパスを設定
-			pEffect->m_pEffectDirection000->SetInfo(pEffect->m_pVtxBuff, MAX_EXPLOSION_TEX);                          //八分割
+			pEffect->m_pEffectDirection000->SetInfo(pEffect->GetBuffer(), MAX_EXPLOSION_TEX);                          //八分割
 			pEffect->SetSize(70.0f, 70.0f, 0.0f);                                                                     //大きさを設定
 			pEffect->m_dLifeCount = 0.6;                                                                              //アニメーションの進める速さを設定
 		}
@@ -331,7 +331,7 @@ CManagerEffect* CManagerEffect::Create(D3DXVECTOR3 pos, TYPE type)
 		{
 			pEffect->m_pEffectDirection000 = new CExplotionPillar();                          //継承クラス
 			pEffect->m_nEffectNumber = 1;                                                     //エフェクトナンバーの設定
-			pEffect->m_pEffectDirection000->SetInfo(pEffect->m_pVtxBuff, MAX_EXPLOSION_TEX);  //八分割                                          
+			pEffect->m_pEffectDirection000->SetInfo(pEffect->GetBuffer(), MAX_EXPLOSION_TEX);  //八分割                                          
 			pEffect->SetSize(92.0f, 190.0f, 0.0f);                                            //大きさの設定
 			pEffect->m_dLifeCount = 0.5;                                                      //アニメーションの進める速さを設定
 		}
@@ -347,7 +347,7 @@ CManagerEffect* CManagerEffect::Create(D3DXVECTOR3 pos, TYPE type)
 		{
 			pEffect->m_pEffectDirection000 = new CExplotionPillar001();                           //ストラテジーの継承クラス
 			pEffect->m_nEffectNumber = 2;                                                         //エフェクトナンバーの設定
-			pEffect->m_pEffectDirection000->SetInfo(pEffect->m_pVtxBuff, MAX_EXPLOSION_TEX);      //八分割
+			pEffect->m_pEffectDirection000->SetInfo(pEffect->GetBuffer(), MAX_EXPLOSION_TEX);      //八分割
 			pEffect->SetSize(pEffect->m_fPillarOfFireSizeX, pEffect->m_fPillarOfFireSizeY, 0.0f); //大きさの設定
 			pEffect->m_dLifeCount = 0.5;                                                          //アニメーションの進める速さを設定
 		}
@@ -362,7 +362,7 @@ CManagerEffect* CManagerEffect::Create(D3DXVECTOR3 pos, TYPE type)
 		if (SUCCEEDED(pEffect->Init()))
 		{
 			pEffect->m_pEffectDirection000 = new CFormerDebris();                                 //ストラテジー継承クラス
-			pEffect->m_pEffectDirection000->SetInfo(pEffect->m_pVtxBuff, 1.0f);                   //一分割
+			pEffect->m_pEffectDirection000->SetInfo(pEffect->GetBuffer(), 1.0f);                   //一分割
 		}
 	}
 
@@ -375,7 +375,7 @@ CManagerEffect* CManagerEffect::Create(D3DXVECTOR3 pos, TYPE type)
 		if (SUCCEEDED(pEffect->Init()))
 		{
 			pEffect->m_pEffectDirection000 = new CSourceSpecialAttack();                        //ストラテジー継承クラス
-			pEffect->m_pEffectDirection000->SetInfo(pEffect->m_pVtxBuff, MAX_EXPLOSION_TEX);    //八分割
+			pEffect->m_pEffectDirection000->SetInfo(pEffect->GetBuffer(), MAX_EXPLOSION_TEX);    //八分割
 			pEffect->SetSize(pEffect->m_fSepecialAttackX, pEffect->m_fSepecialAttackY, 0.0f);   //大きさの設定
 		}
 	}
@@ -383,10 +383,10 @@ CManagerEffect* CManagerEffect::Create(D3DXVECTOR3 pos, TYPE type)
 	//テクスチャーや位置の同期
 	if (pEffect != nullptr)
 	{
-		pEffect->m_aFileName = pEffect->m_pEffectDirection000->GetEffectFileNamePass();  //テクスチャのファイルパスの同期
-		pEffect->m_pos = pos;                                                            //位置の同期
-		pEffect->Lood();                                                                 //テクスチャの読み込み関数
-		return pEffect;                                                                  //情報を返す
+		pEffect->SetFileNamePass(pEffect->m_pEffectDirection000->GetEffectFileNamePass());  //テクスチャのファイルパスの同期
+		pEffect->SetPos(pos);                                                               //位置の同期
+		pEffect->Lood();                                                                    //テクスチャの読み込み関数
+		return pEffect;                                                                     //情報を返す
 	}
 
 	return nullptr; //無を返す
@@ -435,7 +435,7 @@ CExplosion::~CExplosion()
 //コンストラクタ
 CFire::CFire()
 {
-	m_nLife = 120;
+	SetLife(FIRELIFE);
 }
 
 //===========================
@@ -462,9 +462,7 @@ void CFire::Draw()
 //コンストラクタ
 CPillarOfFire::CPillarOfFire()
 {
-	m_nLife = 180;
-	m_nAlpha = 255;
-	m_nFrame = 0;
+	SetLife(PILLARFIRELIFE);
 }
 
 //===========================
@@ -492,32 +490,32 @@ HRESULT CPillarOfFire::Init()
 //============================
 void CPillarOfFire::Update()
 {
-	this->GetEffectDirection()->Effect(m_pTexture, m_pVtxBuff, 0.5, MAX_EXPLOSION_TEX); //自身のストラテジー継承クラスの処理を呼ぶ
-	SetCol(255, 255, 255, m_nAlpha);  //色の設定
+	this->GetEffectDirection()->Effect(GetTexture(), GetBuffer(), 0.5, MAX_EXPLOSION_TEX); //自身のストラテジー継承クラスの処理を呼ぶ
+	SetCol(255, 255, 255, GetAlpha());  //色の設定
 
 	//フレームが規定値に行った時
-	if (m_nFrame >= 60)
+	if (GetFrame() >= 60)
 	{
 		if (CObject3D::CollisionPrtsPlayer(m_fPillarOfFireSizeX, m_fPillarOfFireSizeY, 40.0f) == true)
 		{
 			CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() -= CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() * 0.01f; //HPゲージを減らす
 			CManager::GetInstance()->GetPlayerHPGage()->SetSIze(0.0f, CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX(), 40.0f, 70.0f);  //大きさをあらかじめ決めないと
-			m_nFrame = 0;
-			m_nLife = 0;
+			SetFrame(0);
+			SetLife(0);
 		}
 	}
 	else
 	{
-		m_nFrame++;
+		GetFrame()++;
 	}
 
 	//ライフが０以下の時
-	if (m_nLife <= 0)
+	if (GetLife() <= 0)
 	{
-		m_nAlpha -= 5;  //alpha値を減らす
+		GetAlpha() -= 5;  //alpha値を減らす
 
 		//alpha値が０以下の時
-		if (m_nAlpha <= 0)
+		if (GetAlpha() <= 0)
 		{
 			CObject::Release(); //自身を削除
 			return;             //処理を抜ける
@@ -525,7 +523,7 @@ void CPillarOfFire::Update()
 	}
 	else
 	{
-		m_nLife--;
+		GetLife()--; //ライフを減らす
 	}
 }
 
@@ -539,8 +537,8 @@ void CPillarOfFire::Update()
 //===========================
 CEffect::CEffect(int nPriority) : CObject3D(nPriority)
 {
-	m_nLife = SET_EFFECT_LIFE;                          //ライフを弾の設定されたライフと同じにする（同時に消すため）
-	m_aFileName = "data\\TEXTURE\\UI\\effect000.jpg"; //テクスチャのファイルパスを設定
+	SetLife(SET_EFFECT_LIFE);                             //ライフを弾の設定されたライフと同じにする（同時に消すため）
+	SetFileNamePass("data\\TEXTURE\\UI\\effect000.jpg");  //テクスチャのファイルパスを設定
 }
 
 
@@ -582,8 +580,8 @@ void CEffect::Uninit()
 //============================
 void CEffect::Update()
 {
-	m_nLife--;
-	if (m_nLife <= 0)
+	GetLife()--;
+	if (GetLife() <= 0)
 	{
 		CObject3D::Release();
 		return;
@@ -607,9 +605,9 @@ void CEffect::Draw()
 //============================
 void CEffect::SetEffect(D3DXVECTOR3 pos, D3DXVECTOR3 move, int nLife)
 {
-	m_pos = pos;
-	m_move = move;
-	m_nLife = nLife;
+	SetPos(pos);
+	SetMove(move);
+	SetLife(nLife);
 }
 
 
@@ -624,7 +622,7 @@ CEffect* CEffect::Create(D3DXVECTOR3 pos)
 	{
 		if (pEffect != nullptr)
 		{
-			pEffect->m_pos = pos;
+			pEffect->SetPos(pos);
 			pEffect->Lood();
 			return pEffect;
 		}
@@ -664,8 +662,8 @@ CExplosion001::~CExplosion001()
 //===========================
 CDebris::CDebris()
 {
-	m_nLife = 10;
-	m_fSizeX = 50.0f;
+	SetLife(DEBRISLIFE);
+	SetSizeX(50.0f);
 }
 
 
@@ -682,12 +680,12 @@ CDebris::~CDebris()
 //===========================
 void CDebris::Update()
 {
-	m_nLife--;                            //ライフを減らす
-	m_fSizeX += 4.0f;                       //サイズを大きくする
-	SetSize(m_fSizeX, m_fSizeX, 0.0f);      //サイズの設定
+	GetLife()--;                              //ライフを減らす
+	GetSizeX() += 4.0f;                       //サイズを大きくする
+	SetSize(GetSizeX(), GetSizeX(), 0.0f);    //サイズの設定
 
 	//ライフが０以下の時
-	if (m_nLife <= 0)
+	if (GetLife() <= 0)
 	{
 		CObject3D::Release(); //自身を消す
 	}
@@ -702,10 +700,8 @@ void CDebris::Update()
 //コンストラクタ
 CSpecialAttack::CSpecialAttack()
 {
-	m_nLife = 180;
-	m_nAlpha = 255;
-	m_nFrame = 0;
-	m_fSizeX = m_fSepecialAttackX;
+	SetLife(SPECIALATTACKLIFE);
+	SetSizeX(m_fSepecialAttackX);
 	m_nRotNumber = 0;
 }
 
@@ -721,22 +717,22 @@ CSpecialAttack::~CSpecialAttack()
 //============================
 void CSpecialAttack::Update()
 {
-	this->GetEffectDirection()->Effect(m_pTexture, m_pVtxBuff, 0.3, MAX_EXPLOSION_TEX); //自身のストラテジー継承クラスの処理を呼ぶ
+	this->GetEffectDirection()->Effect(GetTexture(), GetBuffer(), 0.3, MAX_EXPLOSION_TEX); //自身のストラテジー継承クラスの処理を呼ぶ
 
-	SetCol(255, 255, 255, m_nAlpha);         //色の設定
+	SetCol(255, 255, 255, GetAlpha());         //色の設定
 
-	if (m_fSizeX <= 2000.0f)
+	if (GetSizeX() <= 2000.0f)
 	{
-		m_fSizeX += 30.0f;                    //サイズを大きくする
+		GetSizeX() += 30.0f;                     //サイズを大きくする
 	}
 
 	if (m_nRotNumber == 1)
 	{
-		SetEffectSize(m_fSizeX, m_fSepecialAttackY, 0.0f);    //サイズの設定
+		SetEffectSize(GetSizeX(), m_fSepecialAttackY, 0.0f);    //サイズの設定
 	}
 	else if (m_nRotNumber == 2)
 	{
-		SetEffectSize(-m_fSizeX, m_fSepecialAttackY, 0.0f);   //サイズの設定
+		SetEffectSize(-GetSizeX(), m_fSepecialAttackY, 0.0f);   //サイズの設定
 	}
 
 	if (CManager::GetScene()->GetPlayerX()->GetRot().y == CManager::GetScene()->GetCamera()->GetRot().y - D3DX_PI / 2)
@@ -748,9 +744,9 @@ void CSpecialAttack::Update()
 	{
 		for (int nCount2 = 0; nCount2 < CObjectX::MAX_BOSSPARTS; nCount2++)
 		{
-			if (CManager::GetScene()->GetPlayerX()->GetCollision()->Coliision3Dcircle(m_pos, CManager::GetInstance()->GetBoss()->GetPosPrtsBoss(nCount2),
+			if (CManager::GetScene()->GetPlayerX()->GetCollision()->Coliision3Dcircle(GetPos(), CManager::GetInstance()->GetBoss()->GetPosPrtsBoss(nCount2),
 				m_fSepecialAttackX, m_fSepecialAttackY, CBullet3D::MAX_BULLET3D_SIZE_Z,
-				CManager::GetInstance()->GetBoss()->GetModelSizePrtsBoss(nCount2), m_fSizeX, nCount2))
+				CManager::GetInstance()->GetBoss()->GetModelSizePrtsBoss(nCount2), GetSizeX(), nCount2))
 			{
 				//CManager::GetInstance()->GetPlayerHPGage()->SetSIze(0.0f, CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX(), 40.0f, 70.0f); //大きさをあらかじめ決めないと
 				CManager::GetInstance()->GetBossHPGage()->GetBossHPSizeX() -= SCREEN_WIDTH * 0.00005f; //ボスのHPゲージを減らす
@@ -764,9 +760,9 @@ void CSpecialAttack::Update()
 		{
 			for (int nCount1 = 0; nCount1 < CObjectX::MAX_ENEMYPARTS; nCount1++)
 			{
-				if (CManager::GetScene()->GetPlayerX()->GetCollision()->Coliision3Dcircle(m_pos, CManager::GetInstance()->GetEnemyInMotion001(nMotionInEnemy001)->GetPosPrtsEnemy(nCount1),
+				if (CManager::GetScene()->GetPlayerX()->GetCollision()->Coliision3Dcircle(GetPos(), CManager::GetInstance()->GetEnemyInMotion001(nMotionInEnemy001)->GetPosPrtsEnemy(nCount1),
 					m_fSepecialAttackX, m_fSepecialAttackY, CBullet3D::MAX_BULLET3D_SIZE_Z,
-					CManager::GetInstance()->GetEnemyInMotion001(nMotionInEnemy001)->GetModelSizePrtsEnemy(nCount1), m_fSizeX, nCount1))
+					CManager::GetInstance()->GetEnemyInMotion001(nMotionInEnemy001)->GetModelSizePrtsEnemy(nCount1), GetSizeX(), nCount1))
 				{
 					CManager::GetInstance()->GetEnemyInMotion001(nMotionInEnemy001)->GetLife() -= 1;
 
@@ -782,12 +778,12 @@ void CSpecialAttack::Update()
 
 
 	//ライフが０以下の時
-	if (m_nLife <= 0)
+	if (GetLife() <= 0)
 	{
-		m_nAlpha -= 5;          //alpha値を減らす
+		GetAlpha() -= 5;          //alpha値を減らす
 
 		//alpha値が０以下の時
-		if (m_nAlpha <= 0)
+		if (GetAlpha() <= 0)
 		{
 			CObject::Release(); //自身を削除
 			return;             //処理を抜ける
@@ -795,6 +791,6 @@ void CSpecialAttack::Update()
 	}
 	else
 	{
-		m_nLife--; //ライフを減らす
+		GetLife()--; //ライフを減らす
 	}
 }

@@ -14,7 +14,7 @@
 //============================
 CUI::CUI(int nPriority) : CObject3D(nPriority)
 {
-	m_fSizeX = 200.0f;
+	SetSizeX(200.0f);
 	m_bDraw = false;
 }
 
@@ -83,7 +83,7 @@ CUI* CUI::Create(CObject3D::TYPE_UI typeui)
 		{
 			if (pUI != nullptr)
 			{
-				pUI->m_aFileName = "data\\TEXTURE\\UI\\effect000.jpg";
+				pUI->SetFileNamePass("data\\TEXTURE\\UI\\effect000.jpg");
 				pUI->CObject3D::Lood();
 				return pUI;
 			}
@@ -97,7 +97,7 @@ CUI* CUI::Create(CObject3D::TYPE_UI typeui)
 		{
 			if (pUI != nullptr)
 			{
-				pUI->m_aFileName = "data\\TEXTURE\\” .png";
+				pUI->SetFileNamePass("data\\TEXTURE\\” .png");
 				pUI->CObject3D::Lood();
 				return pUI;
 			}
@@ -111,7 +111,7 @@ CUI* CUI::Create(CObject3D::TYPE_UI typeui)
 		{
 			if (pUI != nullptr)
 			{
-				pUI->m_aFileName = "data\\TEXTURE\\UI\\Text\\Talk.png";
+				pUI->SetFileNamePass("data\\TEXTURE\\UI\\Text\\Talk.png");
 				pUI->CObject3D::Lood();
 				return pUI;
 			}
@@ -125,7 +125,7 @@ CUI* CUI::Create(CObject3D::TYPE_UI typeui)
 		{
 			if (pUI != nullptr)
 			{
-				pUI->m_aFileName = "data\\TEXTURE\\UI\\Laser000.png";
+				pUI->SetFileNamePass("data\\TEXTURE\\UI\\Laser000.png");
 				pUI->CObject3D::Lood();
 				return pUI;
 			}
@@ -190,7 +190,7 @@ HRESULT CTalkText::Init()
 		return E_FAIL;
 	}
 
-	m_rot.x = 1.5f;
+	SetRot(D3DXVECTOR3(1.5f,0.0f,0.0f));
 	CObject3D::SetSize(40.0f, 0.0f, 40.0f);
 
 	return S_OK;
@@ -218,7 +218,7 @@ void CTalkText::Draw()
 //============================
 CLaserCamare::CLaserCamare(int nPriority) : CUI(nPriority)
 {
-	m_nRandom = 0;
+
 }
 
 
@@ -243,12 +243,12 @@ HRESULT CLaserCamare::Init()
 	}
 
 	CObject3D::SetSize(80.0f, 20.0f, 20.0f); //‘å‚«‚³‚ðÝ’è
-	m_rot = D3DXVECTOR3(0.0f, 0.54f, 1.54f); //Œü‚«‚ðÝ’è
+	SetRot(D3DXVECTOR3(0.0f, 0.54f, 1.54f)); //Œü‚«‚ðÝ’è
 
 	//ˆÊ’u‚ðŠÄŽ‹ƒJƒƒ‰‚Ìã•”•”•ª‚ÉÝ’è‚·‚é
-	m_pos = D3DXVECTOR3(CManager::GetInstance()->GetSurveillanceCameraUp(CManager::GetScene()->GetPlayerX()->GetTelephonPoleCount())->GetPos().x,
-		CManager::GetInstance()->GetSurveillanceCameraUp(CManager::GetScene()->GetPlayerX()->GetTelephonPoleCount())->GetPos().y - 20.0f,
-		CManager::GetInstance()->GetSurveillanceCameraUp(CManager::GetScene()->GetPlayerX()->GetTelephonPoleCount())->GetPos().z - 35.0f);
+	SetPos(D3DXVECTOR3(CManager::GetInstance()->GetSurveillanceCameraUp(CManager::GetScene()->GetPlayerX()->GetTelephonPoleCount())->GetPos().x, 
+		CManager::GetInstance()->GetSurveillanceCameraUp(CManager::GetScene()->GetPlayerX()->GetTelephonPoleCount())->GetPos().y - 20.0f, 
+		CManager::GetInstance()->GetSurveillanceCameraUp(CManager::GetScene()->GetPlayerX()->GetTelephonPoleCount())->GetPos().z - 35.0f));
 
 	return S_OK;
 }
@@ -261,7 +261,7 @@ void CLaserCamare::Update()
 {
 	if (CObject3D::CollisionPrtsPlayer(20.0f,80.0f,20.0f) == true)
 	{
-		m_nRandom = -400 + rand() % 800;
+		SetRandom(-400 + rand() % 800);
 		CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::ENEMY,0, D3DXVECTOR3((float)-200, 0.0f, -50.0f));
 		CObject3D::Release();
 		return;
@@ -281,5 +281,5 @@ void CLaserCamare::Update()
 //============================
 void CLaserCamare::Draw()
 {
-	CObject3D::DrawNoml();
+	CObject3D::DrawBillboard();
 }

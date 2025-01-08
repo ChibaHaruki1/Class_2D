@@ -20,7 +20,6 @@ CObject3D::CObject3D(int nPriority) : CObject(nPriority)
 	m_pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f); //位置を初期化(位置を調整できる）
 	m_move = D3DXVECTOR3(0.0f, 0.0f, 0.0f); //移動量を初期化(移動速度を調整できる）
 	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f); //向きを初期化する
-	m_col = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_nLife = 0;
 	m_nAlpha = 255;
 	m_nFrame = 0;
@@ -221,7 +220,7 @@ void CObject3D::SetEffectSize(float SIZE_X, float SIZE_Y, float SIZE_Z)
 //==================
 //サイズの設定
 //==================
-void CObject3D::SetSizeY(float SIZE_X, float SIZE_Y, float SIZE_Z)
+void CObject3D::SetAdjustmentSizeY(float SIZE_X, float SIZE_Y, float SIZE_Z)
 {
 	VERTEX_3D* pVtx; //頂点情報へのポインタ
 
@@ -391,7 +390,7 @@ void CObject3D::Draw()
 //===========================
 //ビルボード描画処理
 //===========================
-void CObject3D::DrawNoml()
+void CObject3D::DrawBillboard()
 {
 	CRenderer* pRenderer = CManager::GetRenderer(); //共通したメモリを持つインスタンスを獲得
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice(); //デバイスのポインタ	
@@ -578,14 +577,6 @@ void CObject3D::DrawEffect1()
 	pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
 	pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-}
-
-//=====================
-//位置の設定処理
-//=====================
-void CObject3D::SetPos(D3DXVECTOR3 pos)
-{
-	m_pos = pos;
 }
 
 

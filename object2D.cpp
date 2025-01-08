@@ -49,7 +49,6 @@ CObject2D::CObject2D(int nPriority) : CObject(nPriority)
 	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f); //Œü‚«‚ğ‰Šú‰»‚·‚é
 	m_nRandom = 0;
 	m_nFrame = 0;
-	m_bUse = false;
 	m_aFileName = nullptr;
 	m_nAlph = 0;
 }

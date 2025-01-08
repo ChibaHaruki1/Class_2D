@@ -173,6 +173,10 @@ public:
 	CFire();              //コンストラクタ
 	~CFire()override;	  //デストラクタ
 	void Draw()override;  //描画処理
+
+private:
+	//マクロ定義
+	constexpr static int FIRELIFE = 120; //ファイアのライフ
 };
 
 
@@ -185,6 +189,10 @@ public:
 	~CPillarOfFire()override;  //デストラクタ
 	HRESULT Init()override;    //初期化処理
 	void Update()override;     //更新処理
+
+private:
+	//マクロ定義
+	constexpr static int PILLARFIRELIFE = 180; //ファイアのライフ
 };
 
 
@@ -204,6 +212,7 @@ public:
 	static CEffect* Create(D3DXVECTOR3 pos);    //生成処理
 
 private:
+	//マクロ定義
 	constexpr static int SET_EFFECT_LIFE = 30; //ライフの最大数
 };
 
@@ -216,6 +225,10 @@ public:
 	CDebris();              //コンストラクタ
 	~CDebris()override;     //デストラクタ
 	void Update()override;  //更新処理
+
+private:
+	//マクロ定義
+	constexpr static int DEBRISLIFE = 10;
 };
 
 
@@ -230,5 +243,8 @@ public:
 	int& GetRotNumber() { return m_nRotNumber; }    //現在の向きを番号で取得する
 
 private:
+	//マクロ定義
+	constexpr static int SPECIALATTACKLIFE = 180;
+
 	int m_nRotNumber; //向きで大きさを変えるための変数
 };

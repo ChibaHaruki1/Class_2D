@@ -43,8 +43,8 @@ HRESULT CBillboard::Init()
 	{
 		return E_FAIL; //Ž¸”s‚ð•Ô‚·
 	}
-	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_pos = D3DXVECTOR3(40.0f, MAX_BILLBOARD_SIZE_Y, 0.0f);
+	SetRot(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	SetPos(D3DXVECTOR3(40.0f, MAX_BILLBOARD_SIZE_Y, 0.0f));
 
 	return S_OK;
 }

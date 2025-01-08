@@ -82,7 +82,7 @@ void CNowCreateUI::Draw()
 //=======================
 CShopMenu::CShopMenu(int nPriority) : CObject2D(nPriority)
 {
-	m_aFileName = "data\\TEXTURE\\UI\\Text\\Menyu001.png";
+	SetFileNamePass("data\\TEXTURE\\UI\\Text\\Menyu001.png");
 }
 
 
@@ -167,7 +167,7 @@ CShopMenu* CShopMenu::Create()
 //=======================
 CBuyText::CBuyText(int nPriority) : CObject2D(nPriority)
 {
-	m_aFileName = "data\\TEXTURE\\UI\\Text\\buy001.png";
+	SetFileNamePass("data\\TEXTURE\\UI\\Text\\buy001.png");
 }
 
 
@@ -253,7 +253,7 @@ CBuyText* CBuyText::Create()
 //=======================
 CSelectGage::CSelectGage(int nPriority) : CObject2D(nPriority)
 {
-	m_aFileName = "data\\TEXTURE\\UI\\Text\\SelectGage.png";
+	SetFileNamePass("data\\TEXTURE\\UI\\Text\\SelectGage.png");
 	m_fSizeX = 0.0f;
 	m_fSize1X = 600.0f;
 	m_fSizeY = 50.0f;
@@ -343,7 +343,7 @@ CSelectGage* CSelectGage::Create()
 //=======================
 CSelectGage001::CSelectGage001(int nPriority) : CSelectGage(nPriority)
 {
-	m_aFileName = "data\\TEXTURE\\UI\\Text\\SelectGage001.png";
+	SetFileNamePass("data\\TEXTURE\\UI\\Text\\SelectGage001.png");
 
 }
 

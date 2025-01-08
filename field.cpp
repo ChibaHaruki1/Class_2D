@@ -21,8 +21,8 @@ int CField::m_nCountField = 0;
 //============================
 CField::CField(int nPriority) : CObject3D(nPriority)
 {
-	m_fSizeX = 200.0f;
-	m_aFileName = "data\\TEXTURE\\bg101.jpg";
+	SetSizeX(200.0f);
+	SetFileNamePass("data\\TEXTURE\\bg101.jpg");
 }
 
 
@@ -62,7 +62,7 @@ void CField::Uninit()
 //========================
 void CField::Update()
 {
-	SetSize(m_fSizeX, 0.0f, m_fSizeX);
+	SetSize(GetSizeX(), 0.0f, GetSizeX());
 
 	//if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_1) == true)
 	//{
@@ -131,7 +131,7 @@ CField* CField::Create(D3DXVECTOR3 pos)
 	{
 		if (pCField != nullptr)
 		{
-			pCField->m_pos = pos;
+			pCField->SetPos(pos);
 			pCField->Lood();
 			return pCField;
 		}

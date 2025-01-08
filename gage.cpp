@@ -20,8 +20,8 @@
 //===========================
 CFuelGage::CFuelGage(int nPriority) : CObject3D(nPriority)
 {
-	m_fSizeY = MAX_SIZEY;
-	m_nAlpha = 0;
+	SetSizeY(MAX_SIZEY);
+	SetAlpha(0);
 	m_bUse = false;
 }
 
@@ -44,7 +44,7 @@ HRESULT CFuelGage::Init()
 		return E_FAIL;
 	}
 
-	CObject3D::SetSize(15.0f, m_fSizeY, 20.0f); //大きさを設定
+	CObject3D::SetSize(15.0f, GetSizeY(), 20.0f); //大きさを設定
 
 	return S_OK;
 }
@@ -62,39 +62,39 @@ void CFuelGage::Uninit()
 //============================
 void CFuelGage::Update()
 {
-	m_pos = D3DXVECTOR3(CManager::GetScene()->GetPlayerX()->GetPos().x - 50.0f,
+	SetPos(D3DXVECTOR3(CManager::GetScene()->GetPlayerX()->GetPos().x - 50.0f,
 		CManager::GetScene()->GetPlayerX()->GetPos().y + 80.0f,
-		CManager::GetScene()->GetPlayerX()->GetPos().z);
+		CManager::GetScene()->GetPlayerX()->GetPos().z));
 
-	CObject3D::SetSizeY(15.0f, m_fSizeY, 20.0f); //大きさを設定
-	CObject3D::SetCol(255, 255, 255, m_nAlpha);
+	CObject3D::SetAdjustmentSizeY(15.0f, GetSizeY(), 20.0f); //大きさを設定
+	CObject3D::SetCol(255, 255, 255, GetAlpha());
 
 	if (m_bUse == true)
 	{
-		if (m_nAlpha != 255)
+		if (GetAlpha() != 255)
 		{
-			m_nAlpha = 255;
+			SetAlpha(255);
 		}
 
-		if (m_fSizeY > 0)
+		if (GetSizeY() > 0)
 		{
-			m_fSizeY -= MAX_MAINAS_GAGESPEED;
+			GetSizeY() -= MAX_MAINAS_GAGESPEED;
 		}
 		else
 		{
-			m_fSizeY = 0.0f;
+			SetSizeY(0.0f);
 		}
 	}
 	else if (m_bUse == false)
 	{
-		if (m_nAlpha > 0)
+		if (GetAlpha() > 0)
 		{
-			m_nAlpha -= 5;
+			GetAlpha() -= 5;
 		}
 
-		if (m_fSizeY < MAX_SIZEY)
+		if (GetSizeY() < MAX_SIZEY)
 		{
-			m_fSizeY += MAX_MAINAS_GAGESPEED;
+			GetSizeY() += MAX_MAINAS_GAGESPEED;
 		}
 	}
 
@@ -109,7 +109,7 @@ void CFuelGage::Update()
 //============================
 void CFuelGage::Draw()
 {
-	if (m_nAlpha > 5&& m_fSizeY>5)
+	if (GetAlpha() > 5&& GetSizeY()>5)
 	{
 		CObject3D::Draw();
 	}
@@ -126,7 +126,7 @@ CFuelGage* CFuelGage::Create()
 	{
 		if (SUCCEEDED(pFuelGage->Init()))
 		{
-			pFuelGage->m_aFileName= "data\\TEXTURE\\UI\\Gage\\RedGage000.png";
+			pFuelGage->SetFileNamePass("data\\TEXTURE\\UI\\Gage\\RedGage000.png");
 			pFuelGage->Lood();
 			return pFuelGage;
 		}
@@ -212,7 +212,7 @@ CManagerGage* CManagerGage::Create(CObject2D::TYPE type)
 		pManagerGage = new CPlayerHPGage(1);
 		CreateLeave(type);
 		CManager::GetInstance()->GetCreateObjectInstnace(TYPE::FUELGAGE,0, pManagerGage->GetPos());
-		pManagerGage->m_aFileName = "data\\TEXTURE\\UI\\Gage\\RedGage000.png";
+		pManagerGage->SetFileNamePass("data\\TEXTURE\\UI\\Gage\\RedGage000.png");
 	}
 
 	//タイプがボスのHPの時
@@ -220,7 +220,7 @@ CManagerGage* CManagerGage::Create(CObject2D::TYPE type)
 	{
 		pManagerGage = new CBossHPGage(1);
 		CreateLeave(type);
-		pManagerGage->m_aFileName = "data\\TEXTURE\\UI\\Gage\\BossHpGage.png";
+		pManagerGage->SetFileNamePass("data\\TEXTURE\\UI\\Gage\\BossHpGage.png");
 	}
 
 	if (SUCCEEDED(pManagerGage->Init()))
@@ -242,12 +242,12 @@ CManagerGage* CManagerGage::CreateLeave(CObject2D::TYPE type)
 	if (type == CObject2D::TYPE::HP)
 	{
 		pManagerGage = new CPlayerHPGageLeave(0);
-		pManagerGage->m_aFileName = "data\\TEXTURE\\UI\\Gage\\RedGage001.png";
+		pManagerGage->SetFileNamePass("data\\TEXTURE\\UI\\Gage\\RedGage001.png");
 	}
 	else if (type == CObject2D::TYPE::BOSSHP)
 	{
 		pManagerGage = new CBossHPGageLeave(0);
-		pManagerGage->m_aFileName = "data\\TEXTURE\\UI\\Gage\\BloackGage000.png";
+		pManagerGage->SetFileNamePass("data\\TEXTURE\\UI\\Gage\\BloackGage000.png");
 	}
 
 	if (SUCCEEDED(pManagerGage->Init()))

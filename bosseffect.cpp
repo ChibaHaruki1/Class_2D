@@ -133,10 +133,9 @@ CSourceSpecialAttackBoss::~CSourceSpecialAttackBoss()
 //===========================
 CManagerBossEffect::CManagerBossEffect(int nPriority) : CObject3D(nPriority)
 {
-	m_nLife = 100;                         //ライフを弾の設定されたライフと同じにする（同時に消すため）
+	SetLife(100);                         
 	m_pEffectDirection000 = nullptr;
 	m_nEffectNumber = -1;
-	m_nFrame = 0;
 	m_nBossRotNumber = 0;
 	m_dLifeCount = 0.0;
 	m_bFly = false;
@@ -166,10 +165,9 @@ HRESULT CManagerBossEffect::Init()
 	{
 		return E_FAIL;
 	}
-	m_fSizeX = 40.0f;
-	m_fSizeY = 40.0f;
-	SetSize(m_fSizeX, m_fSizeY, 40.0f);  //大きさの設定
-	//m_pEffectDirection = std::make_shared<CEffectDirection>(0);
+	SetSizeX(40.0f);
+	SetSizeY(40.0f);
+	SetSize(GetSizeX(), GetSizeY(), 40.0f);  //大きさの設定
 	return S_OK;
 }
 
@@ -219,7 +217,7 @@ void CManagerBossEffect::Draw()
 //============================
 void CManagerBossEffect::SetEffect(D3DXVECTOR3 pos)
 {
-	m_pos = pos;
+	SetPos(pos);
 	//m_move = move;
 	//m_nLife = nLife;
 }
@@ -240,7 +238,7 @@ CManagerBossEffect* CManagerBossEffect::Create(D3DXVECTOR3 pos, CObject3D::TYPE 
 		{
 			pEffect->m_nEffectNumber = 0;
 			pEffect->m_pEffectDirection000 = new CAttackEffect();
-			pEffect->m_pEffectDirection000->SetInfo(pEffect->m_pVtxBuff,1.0f);
+			pEffect->m_pEffectDirection000->SetInfo(pEffect->GetBuffer(),1.0f);
 		}
 	}
 	else if (type == CObject3D::TYPE::BOSSSPECIALATTACK)
@@ -251,15 +249,15 @@ CManagerBossEffect* CManagerBossEffect::Create(D3DXVECTOR3 pos, CObject3D::TYPE 
 		{
 			pEffect->m_nEffectNumber = 0;
 			pEffect->m_pEffectDirection000 = new CSourceSpecialAttackBoss();
-			pEffect->m_pEffectDirection000->SetInfo(pEffect->m_pVtxBuff, MAX_BOSSANIMETION_TEX);
+			pEffect->m_pEffectDirection000->SetInfo(pEffect->GetBuffer(), MAX_BOSSANIMETION_TEX);
 			pEffect->SetSize(200.0f, 200.0f, 0.0f);   //大きさの設定
 		}
 	}
 	
 	if (pEffect != nullptr)
 	{
-		pEffect->m_aFileName = pEffect->m_pEffectDirection000->m_pEffectFileName;
-		pEffect->m_pos = pos;
+		pEffect->SetFileNamePass(pEffect->m_pEffectDirection000->m_pEffectFileName);
+		pEffect->SetPos(pos);
 		pEffect->Lood();
 		return pEffect;
 	}
@@ -294,27 +292,27 @@ CImpact::~CImpact()
 void CImpact::Update()
 {
 	//m_pEffectDirection000->Effect(m_pTexture, m_pVtxBuff, 0.0f,1.0f);
-	m_nLife--;                           //ライフを減らす
-	m_fSizeX += 4.0f;                    //ｘ軸のサイズを大きくする
-	m_fSizeY += 1.0f;                    //ｙ軸のサイズを大きくする
+	GetLife()--;                           //ライフを減らす
+	GetSizeX() += 4.0f;                    //ｘ軸のサイズを大きくする
+	GetSizeY() += 1.0f;                    //ｙ軸のサイズを大きくする
 
-	SetCol(255, 255, 255, m_nAlpha);     //色の設定
-	SetSize(m_fSizeX, m_fSizeY, 40.0f);  //大きさの更新
+	SetCol(255, 255, 255, GetAlpha());       //色の設定
+	SetSize(GetSizeX(), GetSizeY(), 40.0f);  //大きさの更新
 
 	//右側に当たった時
-	if (CObject3D::CollisionPrts1Right(m_fSizeX * 1.5f, m_fSizeY * 1.1f, 40.0f) == true)
+	if (CObject3D::CollisionPrts1Right(GetSizeX() * 1.5f, GetSizeY() * 1.1f, 40.0f) == true)
 	{
 		m_bFly = true;
 	}
 	//左側に当たった時
-	else if (CObject3D::CollisionPrts1Left(m_fSizeX * 1.5f, m_fSizeY * 1.1f, 40.0f) == true)
+	else if (CObject3D::CollisionPrts1Left(GetSizeX() * 1.5f, GetSizeY() * 1.1f, 40.0f) == true)
 	{
 		CManager::GetScene()->GetPlayerX()->GetPos().x -= 100.0f;
 		CManager::GetScene()->GetPlayerX()->GetPos().y += 100.0f;
 	}
 
 	//ライフが尽きた時
-	if (m_nLife <= 0)
+	if (GetLife() <= 0)
 	{
 		CManager::GetInstance()->DesignationUninit3D(TYPE::IMPACT);
 		CObject3D::Release();
@@ -350,51 +348,51 @@ CBossSpecialAttack::~CBossSpecialAttack()
 //============================
 void CBossSpecialAttack::Update()
 {
-	this->m_pEffectDirection000->Effect(m_pTexture, m_pVtxBuff, 0.3, MAX_BOSSANIMETION_TEX); //自身のストラテジー継承クラスの処理を呼ぶ
+	this->m_pEffectDirection000->Effect(GetTexture(), GetBuffer(), 0.3, MAX_BOSSANIMETION_TEX); //自身のストラテジー継承クラスの処理を呼ぶ
 
-	SetCol(255, 255, 255, m_nAlpha);          //色の設定
+	SetCol(255, 255, 255, GetAlpha());          //色の設定
 
 	//サイズが規定値より大きくなった時
-	if (m_fSizeX <= 2000.0f)
+	if (GetSizeX() <= 2000.0f)
 	{
-		m_fSizeX += 30.0f;                    //サイズを大きくする
+		GetSizeX() += 30.0f;                    //サイズを大きくする
 	}
 
-	float a = m_pos.y - CManager::GetInstance()->GetBoss()->GetPosPrtsBoss(17).y * 1.5f;
+	float a = GetPos().y - CManager::GetInstance()->GetBoss()->GetPosPrtsBoss(17).y * 1.5f;
 	float b = CManager::GetScene()->GetPlayerX()->GetPos().x;
 
 	//向き番号が１の時
 	if (GetRotNumber() == 1)
 	{
-		SetEffectSize(m_fSizeX, MAX_BOSSSPECIALATTACK_Y, 0.0f);    //サイズの設定
+		SetEffectSize(GetSizeX(), MAX_BOSSSPECIALATTACK_Y, 0.0f);    //サイズの設定
 
 		//点Cは自機が右に居る時点で確定で小さいため現在のpos.xを足した上で計算する
-		if (CManager::GetScene()->GetPlayerX()->GetCollision()->TenCricale(CManager::GetScene()->GetPlayerX()->GetPos(), m_pos.x, m_pos.y + PLUS_POS_Y,
-			m_fSizeX+m_pos.x, a)==true)
+		if (CManager::GetScene()->GetPlayerX()->GetCollision()->TenCricale(CManager::GetScene()->GetPlayerX()->GetPos(), GetPos().x, GetPos().y + PLUS_POS_Y,
+			GetSizeX() + GetPos().x, a) == true)
 		{
 			CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() -= CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() * MAX_DAMAGE;
 		}
-	}	
+	}
 
 	//向き番号が２の時
 	else if (GetRotNumber() == 2)
 	{
-		SetEffectSize(-m_fSizeX, MAX_BOSSSPECIALATTACK_Y, 0.0f);   //サイズの設定
+		SetEffectSize(-GetSizeX(), MAX_BOSSSPECIALATTACK_Y, 0.0f);   //サイズの設定
 
-		if (CManager::GetScene()->GetPlayerX()->GetCollision()->TenCricale(CManager::GetScene()->GetPlayerX()->GetPos(), -m_fSizeX+m_pos.x, m_pos.y + PLUS_POS_Y,
-			m_pos.x, a)==true)
+		if (CManager::GetScene()->GetPlayerX()->GetCollision()->TenCricale(CManager::GetScene()->GetPlayerX()->GetPos(), -GetSizeX() + GetPos().x, GetPos().y + PLUS_POS_Y,
+			GetPos().x, a) == true)
 		{
 			CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() -= CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() * MAX_DAMAGE;
 		}
 	}
 
 	//ライフが０以下の時
-	if (m_nLife <= 0)
+	if (GetLife() <= 0)
 	{
-		m_nAlpha -= 5;          //alpha値を減らす
+		GetAlpha() -= 5;          //alpha値を減らす
 
 		//alpha値が０以下の時
-		if (m_nAlpha <= 0)
+		if (GetAlpha() <= 0)
 		{
 			CObject::Release(); //自身を削除
 			return;             //処理を抜ける
@@ -402,6 +400,6 @@ void CBossSpecialAttack::Update()
 	}
 	else
 	{
-		m_nLife--; //ライフを減らす
+		GetLife()--; //ライフを減らす
 	}
 }

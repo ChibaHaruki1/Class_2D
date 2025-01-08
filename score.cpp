@@ -240,14 +240,14 @@ CManagerScore* CManagerScore::Create(CScene::MODE mode, int Number)
 	if (mode == CScene::MODE_GAME01)
 	{
 		pScore = new CResultScore(3);                                     //継承クラスで動的確保
-		pScore->m_aFileName = "data\\TEXTURE\\UI\\Score\\number001.png";  //テクスチャのパス設定
+		pScore->SetFileNamePass("data\\TEXTURE\\UI\\Score\\number001.png");  //テクスチャのパス設定
 		pScore->m_fPosX = 900;                                            //スコアの位置を調整
 	}
 
 	else if (mode == CScene::MODE::MODE_RESULT)
 	{
 		pScore = new CResultScore(3);                                     //継承クラスで動的確
-		pScore->m_aFileName = "data\\TEXTURE\\UI\\Score\\number002.png";  //テクスチャのパス設
+		pScore->SetFileNamePass("data\\TEXTURE\\UI\\Score\\number002.png");  //テクスチャのパス設
 		pScore->m_fPosX = 40;											  //スコアの位置を調整
 	}
 

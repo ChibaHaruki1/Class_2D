@@ -16,10 +16,8 @@
 //============================
 CParticles::CParticles(int nPriority) : CObject3D(nPriority)
 {
-	m_fSizeX = 10.0f;
-	m_aFileName = "data\\TEXTURE\\UI\\008.png";
-
-	m_nLife = 0;
+	SetSizeX(10.0f);
+	SetFileNamePass("data\\TEXTURE\\UI\\008.png");
 }
 
 
@@ -42,8 +40,7 @@ HRESULT CParticles::Init()
 	{
 		return E_FAIL;
 	}
-
-	m_rot.x = 1.5f;
+	SetRot(D3DXVECTOR3(1.5f,0.0f,0.0f));
 
 	return S_OK;
 }
@@ -61,12 +58,12 @@ void CParticles::Uninit()
 //========================
 void CParticles::Update()
 {
-	SetSize(m_fSizeX, 0.0f, m_fSizeX);
+	SetSize(GetSizeX(), 0.0f, GetSizeX());
 	//SetCol(m_nRandom, 0, 0);
 	
-	m_nLife++;
+	GetLife()++;
 
-	if (m_nLife >= MAX_PARTICLES_LIFE)
+	if (GetLife() >= MAX_PARTICLES_LIFE)
 	{
 		CObject3D::Release(); //自身の解放
 		return; //処理を抜けることによって、バッファのアクセス違反を防ぐ（破棄しているから）
@@ -96,7 +93,7 @@ CParticles* CParticles::Create(D3DXVECTOR3 pos)
 	{
 		if (pPraticles != nullptr)
 		{
-			pPraticles->m_pos = pos;
+			pPraticles->SetPos(pos);
 			pPraticles->CObject3D::Lood();
 			return pPraticles;
 		}
@@ -116,9 +113,8 @@ CParticles* CParticles::Create(D3DXVECTOR3 pos)
 //============================
 CParticles001::CParticles001(int nPriority) : CObject3D(nPriority)
 {
-	m_fSizeX = 10.0f;
-	m_aFileName = "data\\TEXTURE\\Circle003.png";
-	m_nLife = 0;
+	SetSizeX(10.0f);
+	SetFileNamePass("data\\TEXTURE\\Circle003.png");
 }
 
 
@@ -141,8 +137,7 @@ HRESULT CParticles001::Init()
 	{
 		return E_FAIL;
 	}
-
-	m_rot.x = 1.5f;
+	SetRot(D3DXVECTOR3(1.5f, 0.0f, 0.0f));
 
 	return S_OK;
 }
@@ -162,14 +157,14 @@ void CParticles001::Uninit()
 //========================
 void CParticles001::Update()
 {
-	SetSize(m_fSizeX, 0.0f, m_fSizeX);
+	SetSize(GetSizeX(), 0.0f, GetSizeX());
 	//SetCol(m_nRandom, 0, 0);
 
-	m_nLife++;
+	GetLife()++;
 
-	m_pos.y += 2.0f;
+	GetPos().y += 2.0f;
 
-	if (m_nLife >= MAX_PARTICLES001_LIFE)
+	if (GetLife() >= MAX_PARTICLES001_LIFE)
 	{
 		CObject3D::Release(); //自身の解放
 		return; //処理を抜けることによって、バッファのアクセス違反を防ぐ（破棄しているから）
@@ -200,7 +195,7 @@ CParticles001* CParticles001::Create(D3DXVECTOR3 pos)
 	{
 		if (pPraticles != nullptr)
 		{
-			pPraticles->m_pos = pos;
+			pPraticles->SetPos(pos);
 			pPraticles->CObject3D::Lood();
 			return pPraticles;
 		}

@@ -28,7 +28,7 @@ CFade::CFade(int nPriority) : CObject2D(nPriority)
 {
 	nCountAlpha = 255;
 	m_Fade = FADE::FADE_IN;
-	m_aFileName = "data\\TEXTURE\\black.jpg";
+	SetFileNamePass("data\\TEXTURE\\black.jpg");
 }
 
 

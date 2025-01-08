@@ -18,13 +18,13 @@
 class CManagerBullet : public CObject3D
 {
 public: //外部からアクセス可能
-	CManagerBullet(int nPriority = DEFAULT_PRIORITY);              //引数付きコンストラクタ
-	~CManagerBullet()override;                                     //デストラクタ
-	HRESULT Init()override;                                        //初期化処理
-	void Uninit()override;                                         //終了処理
-	void Update()override;                                         //更新処理
-	void Draw()override;                                           //描画処理
-	void SetPos(D3DXVECTOR3 m_pos, D3DXVECTOR3 m_move, int nLife); //弾の位置に関する設定処理
+	CManagerBullet(int nPriority = DEFAULT_PRIORITY);               //引数付きコンストラクタ
+	~CManagerBullet()override;                                      //デストラクタ
+	HRESULT Init()override;                                         //初期化処理
+	void Uninit()override;                                          //終了処理
+	void Update()override;                                          //更新処理
+	void Draw()override;                                            //描画処理
+	void SetInfo(D3DXVECTOR3 m_pos, D3DXVECTOR3 m_move, int nLife); //弾の位置に関する設定処理
 
 	//純粋仮想関数にすることで基底クラスの処理をそのまま処理する
 	virtual void CallEffect(bool bUse) = 0;  //エフェクトの処理を呼ぶ関数 (引数でエフェクトを追加するかどうか判定)
