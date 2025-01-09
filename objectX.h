@@ -20,7 +20,7 @@
 class CObjectX : public CObjectManagerX
 {
 public://外部からのアクセス可能
-	CObjectX(int nPriority = DEFAULT_PRIORITY1);            //コンストラクタ
+	CObjectX(int nPriority = CObjectManagerX::DEFAULT_PRIORITY1);            //コンストラクタ
 	~CObjectX() override;                                   //デストラクタ
 	HRESULT Init()override;                                 //初期化処理
 	void Uninit() override;                                 //破棄処理

@@ -11,9 +11,6 @@
 //インクルード
 #include "main.h"
 
-#define MAX_OBJECTMANAGERX (250) //オブジェクトの最大数
-#define DEFAULT_PRIORITY1 (3) //デフォルトの描画順
-#define MAX_PRIORITY_MANAGER_OBJ (4) //描画順の最大数
 
 //全てを管理するので仮想関数（純粋仮想関数）
 class CObjectManagerX
@@ -82,12 +79,17 @@ public:
 	void SetType(TYPE type) { m_type = type; }                        //タイプ設定
 	void Release();                                                   //自分自身の解放
 
+protected:
+	//マクロ定義
+	constexpr static int MAX_OBJECTMANAGERX = 150;       //オブジェクトの最大数
+	constexpr static int DEFAULT_PRIORITY1 = 3;          //デフォルトの描画順
+	constexpr static int MAX_PRIORITY_MANAGER_OBJ = 4;   //描画順の最大数
+
 private:
 	static CObjectManagerX* m_apObjectManagerX[MAX_PRIORITY_MANAGER_OBJ][MAX_OBJECTMANAGERX]; //全オブジェクトの管理
-	static int m_nNumAll; //オブジェクトの総数
-	int m_nPriority;
-	int m_nID; //自分自身のID
-	TYPE m_type; //オブジェクトタイプ
+	int m_nPriority;  //自身のプライオリティ    
+	int m_nID;        //自分自身のID
+	TYPE m_type;      //オブジェクトタイプ
 
 };
 

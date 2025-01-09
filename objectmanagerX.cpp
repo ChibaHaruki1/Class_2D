@@ -10,7 +10,6 @@
 #include "objectmanagerX.h"
 
 //静的メンバーの初期化
-int CObjectManagerX::m_nNumAll = 0;
 CObjectManagerX* CObjectManagerX::m_apObjectManagerX[MAX_PRIORITY_MANAGER_OBJ][MAX_OBJECTMANAGERX] = {};
 
 
@@ -32,7 +31,6 @@ CObjectManagerX::CObjectManagerX(int nPriority)
 
 			m_apObjectManagerX[m_nPriority][nCnt] = this; //自分自身を代入
 			m_nID = nCnt; //自分自身のIDを代入
-			m_nNumAll++; //総数カウント
 			break; //抜ける
 		}
 	}
@@ -162,7 +160,6 @@ void CObjectManagerX::Release()
 		m_apObjectManagerX[nPriority][nID]->Uninit(); //終了処理（破棄）を呼ぶ
 		delete m_apObjectManagerX[nPriority][nID]; //削除する
 		m_apObjectManagerX[nPriority][nID] = nullptr; //情報を無くす
-		m_nNumAll--; //デクリメント
 	}
 }
 
