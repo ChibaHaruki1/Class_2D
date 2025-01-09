@@ -68,40 +68,40 @@ public://外部からのアクセス可能
 
 	//==================================================
 	//パーツ毎の位置の情報を取得する
-	D3DXVECTOR3& GetPosPrts(int nNumber) { return m_posPrts[nNumber]; }                       //プレイヤーの各partsのposの情報を返す関数
-	D3DXVECTOR3& GetPosPrtsBoss(int nNumber) { return m_posPrtsBoss[nNumber]; }               //ボスの各partsのposの情報を返す関数
-	D3DXVECTOR3& GetPosPrtsEnemy(int nNumber) { return m_posPrtsEnemy[nNumber]; }             //敵の各partsのposの情報を返す関数
+	inline D3DXVECTOR3& GetPosPrts(int nNumber) { return m_posPrts[nNumber]; }                       //プレイヤーの各partsのposの情報を返す関数
+	inline D3DXVECTOR3& GetPosPrtsBoss(int nNumber) { return m_posPrtsBoss[nNumber]; }               //ボスの各partsのposの情報を返す関数
+	inline D3DXVECTOR3& GetPosPrtsEnemy(int nNumber) { return m_posPrtsEnemy[nNumber]; }             //敵の各partsのposの情報を返す関数
 
    //==================================================
    //パーツ毎のサイズを取得する
-	D3DXVECTOR3& GetModelSizePrts(int nNumber) { return m_ModelSizePrts[nNumber]; }           //プレイヤーのモデルのサイズを取得する
-	D3DXVECTOR3& GetModelSizePrtsBoss(int nNumber) { return m_ModelSizePrtsBoss[nNumber]; }   //ボスのモデルのサイズを取得する
-	D3DXVECTOR3& GetModelSizePrtsEnemy(int nNumber) { return m_ModelSizePrtsEnemy[nNumber]; } //敵のモデルのサイズを取得する
+	inline D3DXVECTOR3& GetModelSizePrts(int nNumber) { return m_ModelSizePrts[nNumber]; }           //プレイヤーのモデルのサイズを取得する
+	inline D3DXVECTOR3& GetModelSizePrtsBoss(int nNumber) { return m_ModelSizePrtsBoss[nNumber]; }   //ボスのモデルのサイズを取得する
+	inline D3DXVECTOR3& GetModelSizePrtsEnemy(int nNumber) { return m_ModelSizePrtsEnemy[nNumber]; } //敵のモデルのサイズを取得する
 
    //==================================================
    //プレイヤーのモデルサイズの取得
-	D3DXVECTOR3& GetModelSize() { return m_ModelSize; }                                       //モデルのサイズを取得する
+	inline D3DXVECTOR3& GetModelSize() { return m_ModelSize; }                                       //モデルのサイズを取得する
 
    //==================================================
    //三大基本情報の取得
-	D3DXVECTOR3& GetPos() { return m_pos; }                                                   //派生クラスのposの情報を返す関数
-	D3DXVECTOR3& GetRot() { return m_rot; }                                                   //派生クラスのrotの情報を返す関数
-	D3DXVECTOR3& GetMove() { return m_move; }                                                 //派生クラスmoveの情報を返す
+	inline D3DXVECTOR3& GetPos() { return m_pos; }                                                   //派生クラスのposの情報を返す関数
+	inline D3DXVECTOR3& GetRot() { return m_rot; }                                                   //派生クラスのrotの情報を返す関数
+	inline D3DXVECTOR3& GetMove() { return m_move; }                                                 //派生クラスmoveの情報を返す
 
    //==================================================
    //生成に必要な物の情報の取得
-	LPD3DXMESH& GetMesh() { return m_pMesh; }                                                 //meshの情報を返す
-	LPD3DXBUFFER& GetBuffMat() { return m_pBuffMat; }                                         //BuffMatの情報を返す
-	DWORD& GetdwNumMat() { return m_dwNumMat; }                                               //dwNumMatの数の情報を返す
-	D3DXMATERIAL* GetMat() { return m_pMat; }                                                 //Matの情報を返す
-	D3DXMATRIX& GetmtxWorld() { return m_mtxWorld; }                                          //ワールドマトリックスの情報を返す関数
+	inline LPD3DXMESH& GetMesh() { return m_pMesh; }                                                 //meshの情報を返す
+	inline LPD3DXBUFFER& GetBuffMat() { return m_pBuffMat; }                                         //BuffMatの情報を返す
+	inline DWORD& GetdwNumMat() { return m_dwNumMat; }                                               //dwNumMatの数の情報を返す
+	inline D3DXMATERIAL* GetMat() { return m_pMat; }                                                 //Matの情報を返す
+	inline D3DXMATRIX& GetmtxWorld() { return m_mtxWorld; }                                          //ワールドマトリックスの情報を返す関数
 
 	CCollision* GetCollision() { return m_pCollision; }                                       //当たり判定の情報を返す関数
 
    //==================================================
    //パーツごとのサイズ取得
-	D3DXVECTOR3& GetMinPrts(int nNumber) { return m_minPrts[nNumber]; }
-	D3DXVECTOR3& GetMaxPrts(int nNumber) { return m_maxPrts[nNumber]; }
+	inline D3DXVECTOR3& GetMinPrts(int nNumber) { return m_minPrts[nNumber]; }
+	inline D3DXVECTOR3& GetMaxPrts(int nNumber) { return m_maxPrts[nNumber]; }
 
 	//==================================================
 	//マクロ定義

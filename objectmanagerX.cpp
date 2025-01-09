@@ -21,8 +21,6 @@ CObjectManagerX::CObjectManagerX(int nPriority)
 {
 	m_nPriority = nPriority; //引数と同期する
 	m_type = TYPE::NONE; //初期化する
-	m_ItemType = NONEITEM;
-	m_GimmickType = NONEGIMMICK;
 	m_nID = 0; //初期化する
 
 	//オブジェクト分回す
@@ -175,57 +173,4 @@ void CObjectManagerX::Release()
 CObjectManagerX* CObjectManagerX::GetObjectManagerX(int nPri, int nIndex)
 {
 	return m_apObjectManagerX[nPri][nIndex];
-}
-
-
-//=====================
-//タイプ取得
-//=====================
-CObjectManagerX::TYPE CObjectManagerX::GetType()
-{
-	return m_type; //タイプを返す
-}
-
-//=====================
-//アイテムタイプ取得
-//=====================
-CObjectManagerX::ITEMTYPE CObjectManagerX::GetItemType()
-{
-	return m_ItemType; //タイプを返す
-}
-
-
-//===============================
-//ギミックタイプを取得
-//===============================
-CObjectManagerX::GIMMICKTYPE CObjectManagerX::GetGimmickType()
-{
-	return m_GimmickType;
-}
-
-
-//=====================
-//設定処理
-//=====================
-void CObjectManagerX::SetType(TYPE type)
-{
-	m_type = type; //引数と同期する
-}
-
-
-//==================================
-//アイテムのタイプ設定処理
-//==================================
-void CObjectManagerX::SetItemType(ITEMTYPE Itemtype)
-{
-	m_ItemType = Itemtype; //引数と同期する
-}
-
-
-//==================================
-//ギミックのタイプ設定処理
-//==================================
-void CObjectManagerX::SetGimmickType(GIMMICKTYPE GimmickType)
-{
-	m_GimmickType = GimmickType; //引数と同期する
 }

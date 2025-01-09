@@ -20,6 +20,7 @@ class CObjectManagerX
 {
 public:
 
+	//各タイプの設定
 	enum class TYPE
 	{
 		NONE = 0,                    //無し
@@ -28,19 +29,17 @@ public:
 		ENEMYINMOTION,               //モーション付きの敵
 		ENEMYINMOTION001,            //モーション付きの敵001
 
-		BOSS,                       //ボス
-		PLAYER,                     //プレイヤー
-		FIELDBLOCK,                 //地面用ブロック
-		GOUPBLOCK,                  //上に上がる用のブロック
-		ROADBLOCK,                  //道用ブロック
-		WALLROADBLOCK,              //壁兼道用ブロック
-		WALLROADBLOCK_001,          //壁兼道用ブロック001
-		SMALLBLOCK,                 //小さいブロック
-		SMALLBLOCK_001,             //小さいブロック001
-		UPWALLBLOCK,                //上壁のブロック
-           
-		INITGUN,
-		INITGUN001,
+		BOSS,                        //ボス
+		PLAYER,                      //プレイヤー
+		FIELDBLOCK,                  //地面用ブロック
+		GOUPBLOCK,                   //上に上がる用のブロック
+		ROADBLOCK,                   //道用ブロック
+		WALLROADBLOCK,               //壁兼道用ブロック
+		WALLROADBLOCK_001,           //壁兼道用ブロック001
+		SMALLBLOCK,                  //小さいブロック
+		SMALLBLOCK_001,              //小さいブロック001
+		UPWALLBLOCK,                 //上壁のブロック
+
 		TELEPHONPOLE,                //電柱
 		SURVEILLANCECAMERAUP,        //監視カメラの上部分
 		SURVEILLANCECAMERADOWN,      //監視カメラの下部分
@@ -50,67 +49,38 @@ public:
 		MAX
 	};
 
-	typedef enum
+	//ストラテジータイプの設定
+	enum class STRATEGYTYPE
 	{
-		NONEITEM = 0,
-		TARGET_RECOVERY_MP,
-		TARGET_RECOVERY_MP1,
-		TRAGET_FARME_INIT,
-		GEAR,
-		ITEMBLOCK,
-		MAXITEM
-	}ITEMTYPE;
+		NONESTRATEGY = 0,     //無し
+		BLOCK000,             //ブロック０番
+		BLOCK001,			  //ブロック１番
+		BLOCK002,			  //ブロック２番
+		BLOCK003,			  //ブロック３番
+		BLOCK003_001,		  //ブロック３番の２個目
+		BLOCK004,			  //ブロック４番
+		BLOCK004_001,		  //ブロック４番の２個目
+		BLOCK005,			  //ブロック０番
+		BLOCK006,			  //ブロック０番
+		SPECEBATTLESHIP000,   //バトルシップの番号
+		FINALBLOCK,           //最終ステージ用のブロック
+		FINALCEILLING,        //最終ステージ用の天井
+		WODDENBORAD,          //木の板群
+	};
 
-	typedef enum
-	{
-		NONEGIMMICK = 0,
-		RED_RIGHTDOOR,
-		RED_LEFTDOOR,
-		MAXGIMMICK
-
-	}GIMMICKTYPE;
-
-	typedef enum
-	{
-		NONESTRATEGY = 0,
-		BLOCK000,
-		BLOCK001,
-		BLOCK002,
-		BLOCK003,
-		BLOCK003_001,
-		BLOCK004,
-		BLOCK004_001,
-		BLOCK005,
-		BLOCK006,
-		SPECEBATTLESHIP000,
-		FINALBLOCK,
-		FINALCEILLING,
-		WODDENBORAD,
-	}STRATEGYTYPE;
-
-	CObjectManagerX(int nPriority = DEFAULT_PRIORITY1);
-	virtual ~CObjectManagerX(); //デストラクタ
-	virtual HRESULT Init() = 0; //初期化
-	virtual void Uninit() = 0; //終了処理
-	virtual void Update() = 0; //更新処理
-	virtual void Draw() = 0; //描画処理
-	static void ReleaseAll(); //全オブジェクトの解放
-	static void UpdateAll(); //全オブジェクトの更新
-	static void DrawAll(); //全オブジェクトの描画
-	static CObjectManagerX* GetObjectManagerX(int nPri, int nIndex); //オブジェクト取得
-	TYPE GetType(); //タイプ取得
-	ITEMTYPE GetItemType(); //タイプ取得
-	GIMMICKTYPE GetGimmickType(); //タイプ取得
-	void SetType(TYPE type); //タイプ設定
-	void SetItemType(ITEMTYPE ItemType);
-	void SetGimmickType(GIMMICKTYPE GimmickType);
-	void Release(); //自分自身の解放
-
-
-protected:
-
-	/*CInputKeyBoard* pInputKeyBoard;
-	CInputJoyPad* pInputJyoPad;*/
+	CObjectManagerX(int nPriority = DEFAULT_PRIORITY1);               //コンストラクタ
+	virtual ~CObjectManagerX();                                       //デストラクタ
+	virtual HRESULT Init() = 0;                                       //初期化
+	virtual void Uninit() = 0;                                        //終了処理
+	virtual void Update() = 0;                                        //更新処理
+	virtual void Draw() = 0;                                          //描画処理
+	static void ReleaseAll();                                         //全オブジェクトの解放
+	static void UpdateAll();                                          //全オブジェクトの更新
+	static void DrawAll();                                            //全オブジェクトの描画
+	static CObjectManagerX* GetObjectManagerX(int nPri, int nIndex);  //オブジェクト取得
+	TYPE GetType() { return m_type; }                                 //タイプ取得
+	void SetType(TYPE type) { m_type = type; }                        //タイプ設定
+	void Release();                                                   //自分自身の解放
 
 private:
 	static CObjectManagerX* m_apObjectManagerX[MAX_PRIORITY_MANAGER_OBJ][MAX_OBJECTMANAGERX]; //全オブジェクトの管理
@@ -118,8 +88,6 @@ private:
 	int m_nPriority;
 	int m_nID; //自分自身のID
 	TYPE m_type; //オブジェクトタイプ
-	ITEMTYPE m_ItemType;
-	GIMMICKTYPE m_GimmickType;
 
 };
 
