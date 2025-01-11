@@ -74,7 +74,7 @@ HRESULT CObjectSet::Init()
 	switch (CManager::GetScene()->GetMode())
 	{
 		//ステージ１の時
-	case CScene::MODE_GAME01:
+	case CScene::MODE::MODE_GAME01:
 		StageOneInformation("data\\TEXT\\OBJECT\\TelephonPole.txt");
 		StageOneInformation("data\\TEXT\\OBJECT\\Block.txt");
 		StageOneInformation("data\\TEXT\\OBJECT\\BreakHouse.txt");
@@ -82,7 +82,7 @@ HRESULT CObjectSet::Init()
 		return S_OK; //処理を抜ける
 
 		//ステージ２の時
-	case CScene::MODE_GAME02:
+	case CScene::MODE::MODE_GAME02:
 		StageOneInformation("data\\TEXT\\OBJECT\\Block1.txt");
 		//LoodEnemy();
 		
@@ -91,7 +91,7 @@ HRESULT CObjectSet::Init()
 		return S_OK; //処理を抜ける
 
 		//リザルト時の時
-	case CScene::MODE_RESULT:
+	case CScene::MODE::MODE_RESULT:
 		ResultScoreWrite("data\\TEXT\\ResultScore.txt");
 		ResultScoreInformation("data\\TEXT\\ResultScore.txt");
 

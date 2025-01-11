@@ -323,7 +323,7 @@ CObject2D* CInstance::GetCreateObjectInstnace2D(CObject2D::TYPE type, int nNumbe
 	}
 	else if (type == CObject2D::TYPE::SCORE)
 	{
-		m_pGameScore = CManagerScore::Create(CScene::MODE_GAME01, nNumber);
+		m_pGameScore = CManagerScore::Create(CScene::MODE::MODE_GAME01, nNumber);
 	}
 	return nullptr;
 }

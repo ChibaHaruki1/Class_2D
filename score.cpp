@@ -237,7 +237,7 @@ CManagerScore* CManagerScore::Create(CScene::MODE mode, int Number)
 {
 	CManagerScore* pScore = nullptr;
 
-	if (mode == CScene::MODE_GAME01)
+	if (mode == CScene::MODE::MODE_GAME01)
 	{
 		pScore = new CResultScore(3);                                     //継承クラスで動的確保
 		pScore->SetFileNamePass("data\\TEXTURE\\UI\\Score\\number001.png");  //テクスチャのパス設定

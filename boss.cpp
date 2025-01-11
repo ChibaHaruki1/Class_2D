@@ -103,7 +103,7 @@ void CBoss::Update()
 
 		if (GetDieFrame() >= 180)
 		{
-			CManager::SetMode(CScene::MODE_RESULT); //初めのシーンを設定
+			CManager::SetMode(CScene::MODE::MODE_RESULT); //初めのシーンを設定
 		}
 	}
 

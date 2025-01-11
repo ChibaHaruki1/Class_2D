@@ -107,7 +107,7 @@ HRESULT CRenderer::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	//デバック表示用のフォントの生成
 	D3DXCreateFont(m_pD3DDevice, 18, 0, 0, 0, FALSE, SHIFTJIS_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, "Terminal", &m_pFont);
 	
-	CManager::SetMode(CScene::MODE_TITLE); //初めのシーンを設定
+	CManager::SetMode(CScene::MODE::MODE_TITLE); //初めのシーンを設定
 
 	return S_OK; //成功を返す
 }
@@ -201,15 +201,15 @@ void CRenderer::Draw()
 		switch (CManager::GetScene()->GetMode())
 		{
 			//タイトル時
-		case CScene::MODE_TITLE:
+		case CScene::MODE::MODE_TITLE:
 			break;
 
 			//リザルト時
-		case CScene::MODE_RESULT:
+		case CScene::MODE::MODE_RESULT:
 			break;
 
 			//ゲームオーバー時
-		case CScene::MODE_GAMEOVER:
+		case CScene::MODE::MODE_GAMEOVER:
 			break;
 
 			//その他
@@ -250,13 +250,4 @@ void CRenderer::DrawFPS()
 
 	//テキストの描画
 	m_pFont->DrawText(NULL, &aStr[0], -1, &rect, DT_LEFT, D3DCOLOR_RGBA(255, 255, 255, 255));
-}
-
-
-//==========================
-//デバイスの取得
-//==========================
-LPDIRECT3DDEVICE9 CRenderer::GetDevice()
-{
-	return m_pD3DDevice;
 }

@@ -187,7 +187,6 @@ void CManager::Update()
 void CManager::Draw()
 {
 	m_pRenderer->Draw(); //レンダラーの描画処理
-	m_pScene->Draw(); //描画処理を呼ぶ
 }
 
 
@@ -224,14 +223,14 @@ void CManager::SetMode(CScene::MODE mode)
 	m_pScene = CScene::Create(mode); //sceneの生成
 
 	//タイトルとリザルト時以外の時textファイルの情報を読み込む
-	if (mode != CScene::MODE_TITLE)
+	if (mode != CScene::MODE::MODE_TITLE)
 	{
 		m_pObjectSet = CObjectSet::Create(); //textから読み取ったオブジェクトを配置する
 		m_pEvent = new CEvent();             //動的確保する
 	}
 
 	//シーンがリザルトの時
-	if (mode == CScene::MODE_RESULT)
+	if (mode == CScene::MODE::MODE_RESULT)
 	{
 		//情報がある時
 		if (m_pObjectSet != nullptr)

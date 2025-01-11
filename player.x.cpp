@@ -308,12 +308,12 @@ void CPlayerX::SceneMode(int nType)
 		m_bNextStage = false;
 		switch (CManager::GetScene()->GetMode())
 		{
-		case CScene::MODE_GAME01:
-			CManager::SetMode(CScene::MODE_GAME02); //‰æ–Ê‘JˆÚ
+		case CScene::MODE::MODE_GAME01:
+			CManager::SetMode(CScene::MODE::MODE_GAME02); //‰æ–Ê‘JˆÚ
 			return; //ˆ—‚ğ”²‚¯‚é
 
-		case CScene::MODE_GAME02:
-			CManager::SetMode(CScene::MODE_RESULT); //‰æ–Ê‘JˆÚ
+		case CScene::MODE::MODE_GAME02:
+			CManager::SetMode(CScene::MODE::MODE_RESULT); //‰æ–Ê‘JˆÚ
 			return; //ˆ—‚ğ”²‚¯‚é
 		}
 	}
@@ -327,12 +327,12 @@ void CPlayerX::SceneMode(int nType)
 			m_bNextStage = false;
 			switch (CManager::GetScene()->GetMode())
 			{
-			case CScene::MODE_GAME01:
-				CManager::SetMode(CScene::MODE_GAME02); //‰æ–Ê‘JˆÚ
+			case CScene::MODE::MODE_GAME01:
+				CManager::SetMode(CScene::MODE::MODE_GAME02); //‰æ–Ê‘JˆÚ
 				return; //ˆ—‚ğ”²‚¯‚é
 
-			case CScene::MODE_GAME02:
-				CManager::SetMode(CScene::MODE_RESULT); //‰æ–Ê‘JˆÚ
+			case CScene::MODE::MODE_GAME02:
+				CManager::SetMode(CScene::MODE::MODE_RESULT); //‰æ–Ê‘JˆÚ
 				return; //ˆ—‚ğ”²‚¯‚é
 			}
 		}
@@ -342,7 +342,7 @@ void CPlayerX::SceneMode(int nType)
 	else if (nType == 3)
 	{
 		m_bNextStage = false;
-		CManager::SetMode(CScene::MODE_GAMEOVER); //‰æ–Ê‘JˆÚ
+		CManager::SetMode(CScene::MODE::MODE_GAMEOVER); //‰æ–Ê‘JˆÚ
 		return; //ˆ—‚ğ”²‚¯‚é
 	}
 }

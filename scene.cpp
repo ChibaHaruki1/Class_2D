@@ -36,16 +36,10 @@ CScene::CScene()
 {
 	m_pCamera = nullptr;
 	m_pLight = nullptr;
-	m_Mode = MODE_RESULT;
-	m_pObjectSet = nullptr;
+	m_Mode = MODE::MODE_RESULT;
 	m_pPlayerX = nullptr;
 	m_bOneSound = false;
-	//pMPTargetReTime = nullptr;
-	//m_pOverhead_Processing = nullptr;
-	//m_pPlayerX = nullptr;
-	//m_pTragetUi = nullptr;
-
-	//CObjectX::GetTragetNumberCount() = -1;
+	m_bOneScene = false;
 }
 
 
@@ -82,12 +76,6 @@ void CScene::Uninit()
 	CObject::ReleaseAll(); //全てのUninit()を呼び、deleteする
 	CObjectManagerX::ReleaseAll(); //全てのunitを呼び、deleteする
 
-	if (m_pObjectSet != nullptr)
-	{
-		delete m_pObjectSet;
-		m_pObjectSet = nullptr;
-	}
-
 	if (m_pPlayerX != nullptr)
 	{
 		m_pPlayerX = nullptr;
@@ -116,7 +104,8 @@ void CScene::Uninit()
 //=======================
 void CScene::Update()
 {
-	
+	m_pCamera->Update(); //カメラの更新処理
+	m_pLight->Update(); //光源の更新処理
 }
 
 //=======================
@@ -124,19 +113,10 @@ void CScene::Update()
 //=======================
 void CScene::AnyUpdate()
 {
-	if (m_Mode == MODE_GAME02)
+	if (m_Mode == MODE::MODE_GAME02)
 	{
 		CManager::GetEvent()->Update();
 	}
-}
-
-
-//=======================
-//描画処理
-//=======================
-void CScene::Draw()
-{
-
 }
 
 
@@ -148,10 +128,10 @@ CScene* CScene::Create(MODE mode)
 	CScene* pScene = nullptr; //基底クラスの動的確保
 
 	//ゲームモードが１の時
-	if (mode == MODE_GAME01)
+	if (mode == MODE::MODE_GAME01)
 	{
 		pScene = new CGame01();
-		pScene->m_Mode = MODE_GAME01;
+		pScene->m_Mode = MODE::MODE_GAME01;
 
 		if (SUCCEEDED(pScene->Init()))
 		{
@@ -163,10 +143,10 @@ CScene* CScene::Create(MODE mode)
 	}
 
 	//ゲームモードが２の時
-	else if (mode == MODE_GAME02)
+	else if (mode == MODE::MODE_GAME02)
 	{
 		pScene = new CGame02();
-		pScene->m_Mode = MODE_GAME02;
+		pScene->m_Mode = MODE::MODE_GAME02;
 
 		if (SUCCEEDED(pScene->Init()))
 		{
@@ -178,10 +158,10 @@ CScene* CScene::Create(MODE mode)
 	}
 
 	//タイトルの時
-	else if (mode == MODE_TITLE)
+	else if (mode == MODE::MODE_TITLE)
 	{
 		pScene = new CTitle();
-		pScene->m_Mode = MODE_TITLE;
+		pScene->m_Mode = MODE::MODE_TITLE;
 
 		if (SUCCEEDED(pScene->Init()))
 		{
@@ -193,10 +173,10 @@ CScene* CScene::Create(MODE mode)
 	}
 
 	//リザルトの時
-	else if (mode == MODE_RESULT)
+	else if (mode == MODE::MODE_RESULT)
 	{
 		pScene = new CResult();
-		pScene->m_Mode = MODE_RESULT;
+		pScene->m_Mode = MODE::MODE_RESULT;
 
 		if (SUCCEEDED(pScene->Init()))
 		{
@@ -208,10 +188,10 @@ CScene* CScene::Create(MODE mode)
 	}
 
 	//ゲームモードの時
-	else if (mode == MODE_GAMEOVER)
+	else if (mode == MODE::MODE_GAMEOVER)
 	{
 		pScene = new CGameOver();
-		pScene->m_Mode = MODE_GAMEOVER;
+		pScene->m_Mode = MODE::MODE_GAMEOVER;
 
 		if (SUCCEEDED(pScene->Init()))
 		{
@@ -223,48 +203,6 @@ CScene* CScene::Create(MODE mode)
 	}
 
 	return nullptr; //
-}
-
-//CMP* CScene::GetMP()
-//{
-//	return m_pMP;
-//}
-
-
-
-//=======================
-//カメラの情報を返す
-//=======================
-CCamera* CScene::GetCamera()
-{
-	return m_pCamera;
-}
-
-
-//=======================
-//光源の情報を返す
-//=======================
-CLight* CScene::GetLight()
-{
-	return m_pLight;
-}
-
-
-//============================
-//プレイヤーの情報を返す
-//============================
-CPlayerX* CScene::GetPlayerX()
-{
-	return m_pPlayerX;
-}
-
-
-//
-//
-//
-CObjectSet* CScene::GetObjectSet()
-{
-	return m_pObjectSet;
 }
 
 
@@ -283,7 +221,7 @@ CObjectSet* CScene::GetObjectSet()
 //=======================
 CGame01::CGame01()
 {
-	m_Mode = MODE_GAME01;
+	
 }
 
 
@@ -301,12 +239,9 @@ CGame01::~CGame01()
 //=======================
 HRESULT CGame01::Init()
 {
-
 	CScene::Init();
 
-	m_pCamera->GetAdjustmentPosZ() = 700;
-
-	CompileLood(); //Loodしたい物を関数化して呼ぶ
+	GetCamera()->GetAdjustmentPosZ() = 700;
 
 	CompileCreate(); //createしたいものを関数化して呼ぶ
 
@@ -320,9 +255,6 @@ HRESULT CGame01::Init()
 void CGame01::Uninit()
 {
 	CScene::Uninit();
-
-	//テクスチャの破棄
-	CompileUnlood();
 }
 
 
@@ -331,28 +263,7 @@ void CGame01::Uninit()
 //=======================
 void CGame01::Update()
 {
-	m_pCamera->Update(); //カメラの更新処理
-	m_pLight->Update(); //光源の更新処理
-
-	//m_pOverhead_Processing->PlayerMPNumber();
-}
-
-
-//=======================
-//描画処理
-//=======================
-void CGame01::Draw()
-{
-
-}
-
-
-//=======================
-//Lood関数を呼ぶ
-//=======================
-void CGame01::CompileLood()
-{
-	
+	CScene::Update();
 }
 
 
@@ -363,7 +274,7 @@ void CGame01::CompileCreate()
 {
 	//Xファイルのcreate
 
-	m_pPlayerX = CPlayerX::Create(); //プレイヤーの生成
+	GetPlayerX() = CPlayerX::Create(); //プレイヤーの生成
 
 	CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::SPECEBATTLESHIP000, D3DXVECTOR3(12700.0f, 1900.0f, 0.0f));  //次のステージへ行くobjの生成
 	CSkyDoom::Create(D3DXVECTOR3(0.0f, 0.0f, 200.0f), 1);                                                                    //空の生成
@@ -372,15 +283,6 @@ void CGame01::CompileCreate()
 	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::ENEMYINMOTION001,0, D3DXVECTOR3(7000.0f, 2000.0f, 0.0f));    //モーション付きの敵の生成
 
 	CManager::GetInstance()->GetCreateObjectInstnace2D(CObject2D::TYPE::SCORE,0);                                            //スコアの生成
-}
-
-
-//=======================
-//Unlood関数を呼ぶ
-//=======================
-void CGame01::CompileUnlood()
-{
-	
 }
 
 
@@ -429,9 +331,6 @@ HRESULT CGame02::Init()
 void CGame02::Uninit()
 {
 	CScene::Uninit();
-
-	//テクスチャの破棄
-	CompileUnlood();
 }
 
 
@@ -440,26 +339,7 @@ void CGame02::Uninit()
 //=======================
 void CGame02::Update()
 {
-	m_pCamera->Update(); //カメラの更新処理
-	m_pLight->Update(); //光源の更新処理
-}
-
-
-//=======================
-//描画処理
-//=======================
-void CGame02::Draw()
-{
-
-}
-
-
-//=======================
-//Lood関数を呼ぶ
-//=======================
-void CGame02::CompileLood()
-{
-
+	CScene::Update();
 }
 
 
@@ -469,21 +349,12 @@ void CGame02::CompileLood()
 void CGame02::CompileCreate()
 {
 	//Xファイルのcreate
-	m_pPlayerX = CPlayerX::Create(); //プレイヤーの生成
+	GetPlayerX() = CPlayerX::Create(); //プレイヤーの生成
 
 	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::SHOP, 0, D3DXVECTOR3(200.0f, 0.0f, 150.0f));         //店の生成
 	CSkyDoom::Create(D3DXVECTOR3(0.0f, 0.0f, 200.0f), 0);                                                          //空の生成
 	CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::FINALBLOCK, D3DXVECTOR3(4335.0f, -200.0f, 0.0f));   //ボス戦の足場
 	CManager::GetInstance()->GetCreateObjectInstnace2D(CObject2D::TYPE::SCORE, CManager::GetObjectSet()->GetClearScore());                                            //スコアの生成
-}
-
-
-//=======================
-//Unlood関数を呼ぶ
-//=======================
-void CGame02::CompileUnlood()
-{
-	
 }
 
 
@@ -496,7 +367,6 @@ void CGame02::CompileUnlood()
 //======================
 CTitle::CTitle()
 {
-	Count = false;
 	pFade = nullptr;
 }
 
@@ -515,7 +385,7 @@ CTitle::~CTitle()
 //======================
 HRESULT CTitle::Init()
 {
-	CManagerBg::Create(MODE_TITLE);
+	CManagerBg::Create(MODE::MODE_TITLE);
 	////CBgText::Create();
 	pFade = CFade::Create();
 	return S_OK;
@@ -537,41 +407,32 @@ void CTitle::Uninit()
 //=======================
 void CTitle::Update()
 {
-	if (Count == true)
+
+	//Enterキーが押されたとき
+	if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_RETURN) == true || CManager::GetJyoPad()->GetJoypadTrigger(CInputJoyPad::JOYKEY::JOYKEY_A) == true && pFade->GetCountAlpha() <= 245)
+	{
+		SetOneScene(true);
+	}
+
+	else if (GetOneScene() == true)
 	{
 		pFade->CFade::SetFade(CFade::FADE::FADE_OUT);
 
 		//フェードの処理が終わったら（完全に暗くなったら）
 		if (pFade->GetCountAlpha() >= 255)
 		{
-			CManager::SetMode(CScene::MODE_GAME01);
-			//CManager::UninitKey();
+			CManager::SetMode(CScene::MODE::MODE_GAME01);
 			return; //処理を抜ける
 		}
 
 		//CManager::SetMode(CScene::MODE_GAME01);
 	}
 
-	//Enterキーが押されたとき
-	if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_RETURN) == true || CManager::GetJyoPad()->GetJoypadTrigger(CInputJoyPad::JOYKEY::JOYKEY_A) == true && pFade->GetCountAlpha() <= 245)
-	{
-		Count = true;
-	}
-
-	if (m_bOneSound == false)
+	if (GetOneSound() == false)
 	{
 		CManager::GetSound()->PlaySound(CManager::GetSound()->SOUND_LABEL_SE_WING); //BDMを流す
-		m_bOneSound = true;
+		SetOneSound(true);
 	}
-}
-
-
-//=======================
-//描画処理
-//=======================
-void CTitle::Draw()
-{
-
 }
 
 
@@ -585,7 +446,7 @@ void CTitle::Draw()
 //======================
 CResult::CResult()
 {
-	Count = false;
+	
 }
 
 
@@ -604,7 +465,7 @@ CResult::~CResult()
 HRESULT CResult::Init()
 {
 	//m_pResultScore = CResultScore::Create();
-	CManagerBg::Create(MODE_RESULT);
+	CManagerBg::Create(MODE::MODE_RESULT);
 	return S_OK;
 }
 
@@ -626,24 +487,15 @@ void CResult::Update()
 	//Enterキーが押されたとき
 	if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_RETURN) == true || CManager::GetJyoPad()->GetJoypadTrigger(CInputJoyPad::JOYKEY::JOYKEY_A) == true)
 	{
-		Count = true;
+		SetOneScene(true);
 	}
 
-	else if (Count == true)
+	else if (GetOneScene() == true)
 	{
-		CManager::SetMode(CScene::MODE_TITLE);
+		CManager::SetMode(CScene::MODE::MODE_TITLE);
 		//CManager::UninitKey();
 		return; //処理を抜ける
 	}
-}
-
-
-//=======================
-//描画処理
-//=======================
-void CResult::Draw()
-{
-
 }
 
 
@@ -657,7 +509,7 @@ void CResult::Draw()
 //======================
 CGameOver::CGameOver()
 {
-	Count = false;
+	
 }
 
 
@@ -675,7 +527,7 @@ CGameOver::~CGameOver()
 //======================
 HRESULT CGameOver::Init()
 {
-	CManagerBg::Create(MODE_GAMEOVER);
+	CManagerBg::Create(MODE::MODE_GAMEOVER);
 	return S_OK;
 }
 
@@ -698,22 +550,13 @@ void CGameOver::Update()
 	//Enterキーが押されたとき
 	if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_RETURN) == true|| CManager::GetJyoPad()->GetJoypadTrigger(CInputJoyPad::JOYKEY::JOYKEY_A)==true)
 	{
-		Count = true;
+		SetOneScene(true);
 	}
 
-	if (Count == true)
+	else if (GetOneScene() == true)
 	{
-		CManager::SetMode(CScene::MODE_RESULT);
+		CManager::SetMode(CScene::MODE::MODE_RESULT);
 		//CManager::UninitKey();
 		return; //処理を抜ける
 	}
-}
-
-
-//=======================
-//描画処理
-//=======================
-void CGameOver::Draw()
-{
-
 }
