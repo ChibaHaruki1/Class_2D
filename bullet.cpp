@@ -317,7 +317,7 @@ void CBullet3D::CollisionOnObject()
 					MAX_BULLET3D_SIZE_X, MAX_BULLET3D_SIZE_Y, MAX_BULLET3D_SIZE_Z,
 					CManager::GetInstance()->GetBoss()->GetModelSizePrtsBoss(nCount2), GetSizeX(), nCount2))
 				{
-					CManager::GetInstance()->GetBossHPGage()->GetBossHPSizeX() -= SCREEN_WIDTH * 0.01f; //ボスのHPゲージを減らす
+					CManager::GetInstance()->GetBossHPGage()->GetBossHPSizeX() -= CMain::SCREEN_WIDTH * 0.01f; //ボスのHPゲージを減らす
 
 					//指定のpartsを描画しない＋処理から外す条件にする
 					if (nCount2 == 6 || nCount2 == 7 || nCount2 == 8 || nCount2 == 9 || nCount2 == 11 || nCount2 == 12 || nCount2 == 13 || nCount2 == 15)
@@ -409,14 +409,14 @@ void CSpecialBullet::CollisionOnObject()
 			{
 				if (CManager::GetScene()->GetPlayerX()->m_pModelPrts[18]->m_bCreateGun == false)
 				{
-					CManager::GetInstance()->GetBossHPGage()->GetBossHPSizeX() -= SCREEN_WIDTH * 0.01f; //ボスのHPゲージを減らす
+					CManager::GetInstance()->GetBossHPGage()->GetBossHPSizeX() -= CMain::SCREEN_WIDTH * 0.01f; //ボスのHPゲージを減らす
 					CallEffect(true);         //エフェクト処理を呼ぶ
 					CObject3D::Release();     //自身の解放
 					return;                   //処理を抜ける
 				}
 				else
 				{
-					CManager::GetInstance()->GetBossHPGage()->GetBossHPSizeX() -= SCREEN_WIDTH * 0.0001f; //ボスのHPゲージを減らす
+					CManager::GetInstance()->GetBossHPGage()->GetBossHPSizeX() -= CMain::SCREEN_WIDTH * 0.0001f; //ボスのHPゲージを減らす
 				}
 			}
 		}

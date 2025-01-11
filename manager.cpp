@@ -5,7 +5,7 @@
 //
 //===========================================
 
-#include "main.h"
+
 #include "manager.h"
 #include "rendererh.h"
 
@@ -17,6 +17,7 @@ CScene* CManager::m_pScene = nullptr;
 CInstance* CManager::m_pInstance = nullptr;
 CObjectSet* CManager::m_pObjectSet = nullptr;
 CEvent* CManager::m_pEvent = nullptr;
+CMain* CManager::m_pMain = nullptr;
 
 
 //===================
@@ -62,6 +63,11 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	if (m_pSound == nullptr)
 	{
 		m_pSound = new CSound(); //サウンドの動的確保
+	}
+
+	if (m_pMain == nullptr)
+	{
+		m_pMain = new CMain();
 	}
 
 	m_pRenderer->Init(hInstance,hWnd, bWindow); //レンダラーのWindowの処理を呼び出す
@@ -153,6 +159,12 @@ void CManager::Uninit()
 	{
 		delete m_pEvent;
 		m_pEvent = nullptr;
+	}
+
+	if (m_pMain != nullptr)
+	{
+		delete m_pMain;
+		m_pMain = nullptr;
 	}
 }
 

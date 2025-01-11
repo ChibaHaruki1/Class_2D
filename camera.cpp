@@ -155,9 +155,9 @@ void CCamera::SetCamera()
 	//プロジェクションマトリックスの初期化
 	D3DXMatrixIdentity(&m_mtxProjection);
 
-	D3DXMatrixPerspectiveFovLH(&m_mtxProjection, D3DXToRadian(45.0f), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 10.0f, 4000.0f);
+	D3DXMatrixPerspectiveFovLH(&m_mtxProjection, D3DXToRadian(45.0f), (float)CMain::SCREEN_WIDTH / (float)CMain::SCREEN_HEIGHT, 10.0f, 4000.0f);
 
-	//D3DXMatrixOrthoLH(&m_mtxProjection, (float)SCREEN_WIDTH * 0.5f, (float)SCREEN_HEIGHT * 0.5f, 10.0f, 2000.0f);
+	//D3DXMatrixOrthoLH(&m_mtxProjection, (float)CMain::SCREEN_WIDTH * 0.5f, (float)SCREEN_HEIGHT * 0.5f, 10.0f, 2000.0f);
 
 	//プロジェクションマトリックスの設定
 	pDevice->SetTransform(D3DTS_PROJECTION, &m_mtxProjection);

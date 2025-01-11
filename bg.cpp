@@ -206,34 +206,34 @@ void CGameOverBg::Update()
 		//乱数が基底数以上だった時
 		if (GetRandom() >= 1 && GetRandom() <= 3)
 		{
-			SetSIze(0.0f, SCREEN_WIDTH, 100.0f, SCREEN_HEIGHT + 100.0f); //大きさの設定
+			SetSIze(0.0f, CMain::SCREEN_WIDTH, 100.0f, CMain::SCREEN_HEIGHT + 100.0f); //大きさの設定
 			SetAlph(255);  //alpha値の初期化
 			SetFrame(0);   //フレームの初期化
 		}
 
 		else if (GetRandom() >= 4 && GetRandom() <= 6)
 		{
-			SetSIze(0.0f, SCREEN_WIDTH, -100.0f, SCREEN_HEIGHT - 100.0f); //大きさの設定
+			SetSIze(0.0f, CMain::SCREEN_WIDTH, -100.0f, CMain::SCREEN_HEIGHT - 100.0f); //大きさの設定
 			SetAlph(255);  //alpha値の初期化
 			SetFrame(0);   //フレームの初期化
 		}
 
 		else if (GetRandom() >= 7 && GetRandom() <= 8)
 		{
-			SetSIze(-200.0f, SCREEN_WIDTH - 200.0f, 0.0f, SCREEN_HEIGHT);
+			SetSIze(-200.0f, CMain::SCREEN_WIDTH - 200.0f, 0.0f, CMain::SCREEN_HEIGHT);
 			SetAlph(155);  //alpha値を下げる
 			SetFrame(0);   //フレームの初期化
 		}
 		else
 		{
-			SetSIze(200.0f, SCREEN_WIDTH + 200.0f, 0.0f, SCREEN_HEIGHT);
+			SetSIze(200.0f, CMain::SCREEN_WIDTH + 200.0f, 0.0f, CMain::SCREEN_HEIGHT);
 			SetAlph(55);   //alpha値を下げる
 			SetFrame(0);   //フレームの初期化
 		}
 	}
 	else if (GetFrame() >= 20)
 	{
-		SetSIze(0.0f, SCREEN_WIDTH, 0.0f, SCREEN_HEIGHT); //大きさの設定
+		SetSIze(0.0f, CMain::SCREEN_WIDTH, 0.0f, CMain::SCREEN_HEIGHT); //大きさの設定
 	}
 	SetCol(GetAlph(), GetAlph());                         //alpha値を設定する
 }
@@ -272,7 +272,7 @@ HRESULT CShopScreen::Init()
 		return E_FAIL; //失敗を返す
 	}
 
-	CObject2D::SetSIze(0.0f, SCREEN_WIDTH, 0.0f, SCREEN_HEIGHT); //大きさを設定
+	CObject2D::SetSIze(0.0f, CMain::SCREEN_WIDTH, 0.0f, CMain::SCREEN_HEIGHT); //大きさを設定
 	SetCol(50, 50);                                              //alpha値の設定
 
 	return S_OK; //成功を返す

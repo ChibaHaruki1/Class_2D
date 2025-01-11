@@ -6,72 +6,30 @@
 //
 //=============================================
 
-#ifndef _INPUT_H_
-#define _INPUT_H_
+#pragma once
 
 //=============================================
 //インクルード
 #include "main.h"
 
 
-#define MAX_KEY (256)
-#define MAX_PAD (10)
-
-//キーの種類
-typedef enum
-{
-	JOYKEY_UP = 0,
-	JOYKEY_DOWN,
-	JOYKEY_LEFT,
-	JOYKEY_RIGHT,
-	JOYKEY_START,
-	JOYKEY_BACK,
-	JOYKEY_L3,
-	JOYKEY_R3,
-	JOYKEY_LB,
-	JOYKEY_RB,
-	JOYKEY_LT,
-	JOYKEY_RT,
-	JOYKEY_A,
-	JOYKEY_B,
-	JOYKEY_X,
-	JOYKEY_Y,
-	JOYKEY_MAX
-}JOYKEY;
-
-//コントローラーの構造体
-typedef struct {
-	int KeyPressCount;					//キーを押してる時間のカウント
-	int JoyKeyPressCount;				//キーを押してる時間のカウント
-	XINPUT_STATE joykeyState;			//ジョイパッドのプレス情報
-	XINPUT_STATE joykeyStateTrigger;	//ジョイパッドのトリガー情報
-	int Time;							//時間を計る
-	D3DXVECTOR3 joykeyStickPos;			// スティックの傾き
-	XINPUT_STATE XInput;				// 入力情報
-	XINPUT_STATE joykeyStateRelease;	// コントローラーのリリース情報
-	XINPUT_STATE joykeyCurrentTime;		// コントローラーの現在の時間
-	XINPUT_STATE joykeyExecLastTime;	// コントローラーの最後に真を返した時間
-	XINPUT_STATE joykeyInput;			// コントローラーの入力情報
-	XINPUT_VIBRATION joykeyMoter;		// コントローラーのモーター
-	WORD Button;						//ボタンの判定
-	WORD OldButton;						//古いボタンの判定
-
-}Joypad;
-
-//共通項目のクラス
+//キーボードの大まかな処理クラス
 class CInput
 {
 public:
-	CInput();
-	virtual ~CInput();
-	virtual HRESULT Init(HINSTANCE hInstance, HWND hWnd);
-	virtual void Uninit();
-	virtual void Update();
+	CInput();                                                    //コンストラクタ
+	virtual ~CInput();                                           //デストラクタ
+	virtual HRESULT Init(HINSTANCE hInstance, HWND hWnd);        //初期化処理
+	virtual void Uninit();                                       //破棄処理
+	virtual void Update();                                       //更新処理
 
-protected:
+	LPDIRECTINPUT8& GetInput() { return m_Input; }               //入力情報を取得
+	LPDIRECTINPUTDEVICE8& GetDevice() { return m_Device; }       //デバイス情報を取得
+
+private:
 	//全入力処理で共有
-	static LPDIRECTINPUT8 m_pInput;
-	LPDIRECTINPUTDEVICE8 m_pDevice;
+    LPDIRECTINPUT8 m_Input;         //入力情報を保管する用の変数
+	LPDIRECTINPUTDEVICE8 m_Device;  //デバイス情報を保管する用の変数
 };
 
 
@@ -79,33 +37,80 @@ protected:
 class CInputKeyBoard : public CInput
 {
 public:
-	CInputKeyBoard();
-	~CInputKeyBoard()override;
-	HRESULT Init(HINSTANCE hInstance, HWND hWnd)override;
-	void Uninit()override;
-	void Update()override;
+	CInputKeyBoard();                                       //コンストラクタ
+	~CInputKeyBoard()override;                              //デストラクタ
+	HRESULT Init(HINSTANCE hInstance, HWND hWnd)override;   //初期化処理
+	void Uninit()override;                                  //破棄処理
+	void Update()override;                                  //更新処理
 
-	bool  GetKeyboardPress(int nKey); //プレスの情報を取得
-	bool GetKeyboardTrigger(int nKey); //トリガーの情報を取得
+	bool  GetKeyboardPress(int nKey);                       //プレスの情報を取得
+	bool GetKeyboardTrigger(int nKey);                      //トリガーの情報を取得
 
 private:
-	BYTE m_aKeyState[MAX_KEY]; //キーボードの情報を格納
-	BYTE m_aKeyStateTrigger[MAX_KEY];
+	//マクロ定義
+	constexpr static int MAX_KEY = 256;                     //キーの最大数
+
+	BYTE m_aKeyState[MAX_KEY];                              //キーボードの情報を格納
+	BYTE m_aKeyStateTrigger[MAX_KEY];                       //キーボードトリガーの情報を格納
 };
 
 //ジョイパットのクラス
 class CInputJoyPad
 {
 public:
-	CInputJoyPad();
-	~CInputJoyPad();
-	HRESULT Init(void);
-	void Uninit(void);
-	void Update(void);
 
-	bool GetJoypadPress(JOYKEY key);
-	bool GetJoypadTrigger(JOYKEY key);
+	//キーの種類
+	enum class JOYKEY
+	{
+		JOYKEY_UP = 0, //上キー
+		JOYKEY_DOWN,   //下キー
+		JOYKEY_LEFT,   //左キー
+		JOYKEY_RIGHT,  //右キー
+		JOYKEY_START,  //startキー
+		JOYKEY_BACK,   //backキー
+		JOYKEY_L3,     //L3キー
+		JOYKEY_R3,     //R3キー
+		JOYKEY_LB,     //LBキー
+		JOYKEY_RB,     //RBキー
+		JOYKEY_LT,     //LTキー
+		JOYKEY_RT,     //RTキー
+		JOYKEY_A,      //Aキー
+		JOYKEY_B,      //Bキー
+		JOYKEY_X,      //Xキー
+		JOYKEY_Y,      //Yキー
+		JOYKEY_MAX     //最大数
+	};
+
+	CInputJoyPad();      //コンストラクタ
+	~CInputJoyPad();     //デストラクタ
+	HRESULT Init(void);  //初期化処理
+	void Uninit(void);   //破棄処理
+	void Update(void);   //更新処理
+
+	bool GetJoypadPress(JOYKEY key);    //JyoPadのプレス情報を設定
+	bool GetJoypadTrigger(JOYKEY key);  //JyoPadのトリガー情報を設定
+
+private:
+
+	//コントローラーの構造体
+	typedef struct {
+		int KeyPressCount;					//キーを押してる時間のカウント
+		int JoyKeyPressCount;				//キーを押してる時間のカウント
+		XINPUT_STATE joykeyState;			//ジョイパッドのプレス情報
+		XINPUT_STATE joykeyStateTrigger;	//ジョイパッドのトリガー情報
+		int Time;							//時間を計る
+		D3DXVECTOR3 joykeyStickPos;			// スティックの傾き
+		XINPUT_STATE XInput;				// 入力情報
+		XINPUT_STATE joykeyStateRelease;	// コントローラーのリリース情報
+		XINPUT_STATE joykeyCurrentTime;		// コントローラーの現在の時間
+		XINPUT_STATE joykeyExecLastTime;	// コントローラーの最後に真を返した時間
+		XINPUT_STATE joykeyInput;			// コントローラーの入力情報
+		XINPUT_VIBRATION joykeyMoter;		// コントローラーのモーター
+		WORD Button;						//ボタンの判定
+		WORD OldButton;						//古いボタンの判定
+
+	}Joypad;
+
+	Joypad m_JyoPad; //JoyPadの構造体の情報を格納する為の変数
 };
-
-#endif
 

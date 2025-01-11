@@ -62,8 +62,8 @@ HRESULT CRenderer::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 
 	//デバイスのプレゼンテーションパラメータ設定
 	ZeroMemory(&d3dpp, sizeof(d3dpp)); //パラメータゼロクリア
-	d3dpp.BackBufferWidth = SCREEN_WIDTH; //ゲーム画面の幅
-	d3dpp.BackBufferHeight = SCREEN_HEIGHT; //ゲーム画面の高さ
+	d3dpp.BackBufferWidth = CMain::SCREEN_WIDTH; //ゲーム画面の幅
+	d3dpp.BackBufferHeight = CMain::SCREEN_HEIGHT; //ゲーム画面の高さ
 	d3dpp.BackBufferFormat = d3ddm.Format; //バックバッファの形式
 	d3dpp.BackBufferCount = 1; //バックバッファの数
 	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD; //ダブルバッファの切り替え（映像信号に同期）
@@ -224,7 +224,7 @@ void CRenderer::Draw()
 		//CObject::DrawNomlAll();
 
 
-		//DrawFPS(); //debug描画
+		DrawFPS(); //debug描画
 
 		//描画終了
 		m_pD3DDevice->EndScene();
@@ -241,12 +241,12 @@ void CRenderer::Draw()
 void CRenderer::DrawFPS()
 {
 	//表示用変数
-	RECT rect = { 0,0,SCREEN_WIDTH,SCREEN_HEIGHT }; //X,Y,大きさ（横、縦）で位置設定
+	RECT rect = { 0,0,CMain::SCREEN_WIDTH,CMain::SCREEN_HEIGHT }; //X,Y,大きさ（横、縦）で位置設定
 
 	char aStr[10];
 
 	//文字列に代入
-	wsprintf(&aStr[0], "FPS;%d\n", GetFPS());
+	wsprintf(&aStr[0], "FPS;%d\n", CManager::GetMain()->GetFPS());
 
 	//テキストの描画
 	m_pFont->DrawText(NULL, &aStr[0], -1, &rect, DT_LEFT, D3DCOLOR_RGBA(255, 255, 255, 255));

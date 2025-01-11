@@ -553,7 +553,7 @@ void CTitle::Update()
 	}
 
 	//Enterキーが押されたとき
-	if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_RETURN) == true || CManager::GetJyoPad()->GetJoypadTrigger(JOYKEY_A) == true && pFade->GetCountAlpha() <= 245)
+	if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_RETURN) == true || CManager::GetJyoPad()->GetJoypadTrigger(CInputJoyPad::JOYKEY::JOYKEY_A) == true && pFade->GetCountAlpha() <= 245)
 	{
 		Count = true;
 	}
@@ -624,7 +624,7 @@ void CResult::Uninit()
 void CResult::Update()
 {
 	//Enterキーが押されたとき
-	if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_RETURN) == true || CManager::GetJyoPad()->GetJoypadTrigger(JOYKEY_A) == true)
+	if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_RETURN) == true || CManager::GetJyoPad()->GetJoypadTrigger(CInputJoyPad::JOYKEY::JOYKEY_A) == true)
 	{
 		Count = true;
 	}
@@ -696,7 +696,7 @@ void CGameOver::Uninit()
 void CGameOver::Update()
 {
 	//Enterキーが押されたとき
-	if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_RETURN) == true|| CManager::GetJyoPad()->GetJoypadTrigger(JOYKEY_A)==true)
+	if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_RETURN) == true|| CManager::GetJyoPad()->GetJoypadTrigger(CInputJoyPad::JOYKEY::JOYKEY_A)==true)
 	{
 		Count = true;
 	}

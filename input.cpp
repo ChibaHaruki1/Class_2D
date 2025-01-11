@@ -7,10 +7,8 @@
 
 #include "input.h"
 
-Joypad g_aJoypad; //ジョイパッドの構造体
-
 //static変数の初期化
-LPDIRECTINPUT8 CInput::m_pInput = nullptr; //DirectInputオブジェクトへのポインタ
+ 
 
 //============================================基底クラスInputの処理============================================
 
@@ -19,7 +17,8 @@ LPDIRECTINPUT8 CInput::m_pInput = nullptr; //DirectInputオブジェクトへのポインタ
 //======================
 CInput::CInput()
 {
-	m_pDevice = nullptr;
+	m_Input = nullptr;
+	m_Device = nullptr;
 }
 
 //======================
@@ -36,10 +35,10 @@ CInput::~CInput()
 //=============================
 HRESULT CInput::Init(HINSTANCE hInstance, HWND hWnd)
 {
-	if (m_pInput == nullptr)
+	if (m_Input == nullptr)
 	{
 		//DirectInputオブジェクトの生成
-		if (FAILED(DirectInput8Create(hInstance, DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&m_pInput, NULL)))
+		if (FAILED(DirectInput8Create(hInstance, DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&m_Input, NULL)))
 		{
 			return E_FAIL;
 		}
@@ -54,18 +53,18 @@ HRESULT CInput::Init(HINSTANCE hInstance, HWND hWnd)
 void CInput::Uninit()
 {
 	//入力デバイス（キーボード）の破棄
-	if (m_pDevice != NULL)
+	if (m_Device != nullptr)
 	{
-		m_pDevice->Unacquire();
-		m_pDevice->Release();
-		m_pDevice = NULL;
+		m_Device->Unacquire();
+		m_Device->Release();
+		m_Device = nullptr;
 	}
 
 	//DirectInputオブジェクトの破棄
-	if (m_pInput != NULL)
+	if (m_Input != nullptr)
 	{
-		m_pInput->Release();
-		m_pInput = NULL;
+		m_Input->Release();
+		m_Input = nullptr;
 	}
 }
 
@@ -113,25 +112,25 @@ HRESULT CInputKeyBoard::Init(HINSTANCE hInstance, HWND hWnd)
 	}
 
 	//入力デバイス（キーボード）の生成に失敗した時
-	if (FAILED(m_pInput->CreateDevice(GUID_SysKeyboard, &m_pDevice, NULL)))
+	if (FAILED(GetInput()->CreateDevice(GUID_SysKeyboard, &GetDevice(), NULL)))
 	{
 		return E_FAIL; //失敗を返す
 	}
 
 	//データフォーマットを設定に失敗した時
-	if (FAILED(m_pDevice->SetDataFormat(&c_dfDIKeyboard)))
+	if (FAILED(GetDevice()->SetDataFormat(&c_dfDIKeyboard)))
 	{
 		return E_FAIL; //失敗を返す
 	}
 
 	//協調モードを設定に失敗した時
-	if (FAILED(m_pDevice->SetCooperativeLevel(hWnd, (DISCL_FOREGROUND | DISCL_NONEXCLUSIVE))))
+	if (FAILED(GetDevice()->SetCooperativeLevel(hWnd, (DISCL_FOREGROUND | DISCL_NONEXCLUSIVE))))
 	{
 		return E_FAIL; //失敗を返す
 	}
 
 	//キーボードへのアクセス権を獲得
-	m_pDevice->Acquire();
+	GetDevice()->Acquire();
 
 	return S_OK; //成功を返す
 }
@@ -154,7 +153,7 @@ void CInputKeyBoard::Update(void)
 	BYTE aKeyState[MAX_KEY]; //キーボードの入力情報
 	
 	//入力デバイスからデータを取得に成功した時
-	if (SUCCEEDED(m_pDevice->GetDeviceState(sizeof(aKeyState), &aKeyState[0])))
+	if (SUCCEEDED(GetDevice()->GetDeviceState(sizeof(aKeyState), &aKeyState[0])))
 	{
 		for (int nCntKey = 0; nCntKey < MAX_KEY; nCntKey++)
 		{
@@ -164,7 +163,7 @@ void CInputKeyBoard::Update(void)
 	}
 	else
 	{
-		m_pDevice->Acquire(); //キーボードへのアクセス権を獲得
+		GetDevice()->Acquire(); //キーボードへのアクセス権を獲得
 	}
 }
 
@@ -216,8 +215,8 @@ HRESULT CInputJoyPad::Init(void)
 	//for (int JoyCount = 0; JoyCount < MAX_PAD; JoyCount++)
 	{
 		//メモリのクリア
-		memset(&g_aJoypad.joykeyState, 0, sizeof(XINPUT_STATE));
-		memset(&g_aJoypad.joykeyStateTrigger, 0, sizeof(XINPUT_STATE));
+		memset(&m_JyoPad.joykeyState, 0, sizeof(XINPUT_STATE));
+		memset(&m_JyoPad.joykeyStateTrigger, 0, sizeof(XINPUT_STATE));
 
 		//XInputのステート設定(有効にする)
 		XInputEnable(true);
@@ -248,11 +247,11 @@ void CInputJoyPad::Update(void)
 		//ジョイパッドの情報を取得
 		if (XInputGetState(0, &joykeystate) == ERROR_SUCCESS)
 		{
-			g_aJoypad.Button = g_aJoypad.joykeyState.Gamepad.wButtons;
-			g_aJoypad.joykeyStateTrigger.Gamepad.wButtons = g_aJoypad.Button & ~g_aJoypad.OldButton; //トリガーの情報を設定
-			g_aJoypad.OldButton = g_aJoypad.joykeyState.Gamepad.wButtons;
+			m_JyoPad.Button = m_JyoPad.joykeyState.Gamepad.wButtons;
+			m_JyoPad.joykeyStateTrigger.Gamepad.wButtons = m_JyoPad.Button & ~m_JyoPad.OldButton; //トリガーの情報を設定
+			m_JyoPad.OldButton = m_JyoPad.joykeyState.Gamepad.wButtons;
 
-			g_aJoypad.joykeyState = joykeystate; //ジョイパッドのプレス情報を保存
+			m_JyoPad.joykeyState = joykeystate; //ジョイパッドのプレス情報を保存
 		}
 	}
 
@@ -263,7 +262,7 @@ void CInputJoyPad::Update(void)
 //==========================================
 bool CInputJoyPad::GetJoypadPress(JOYKEY key)
 {
-	return (g_aJoypad.joykeyState.Gamepad.wButtons & (0x01 << key));
+	return (m_JyoPad.joykeyState.Gamepad.wButtons & (0x01 << (int)key));
 }
 
 
@@ -272,5 +271,5 @@ bool CInputJoyPad::GetJoypadPress(JOYKEY key)
 //==========================================================================================
 bool CInputJoyPad::GetJoypadTrigger(JOYKEY key)
 {
-	return (g_aJoypad.joykeyStateTrigger.Gamepad.wButtons & (0x01 << key));
+	return (m_JyoPad.joykeyStateTrigger.Gamepad.wButtons & (0x01 << (int)key));
 }

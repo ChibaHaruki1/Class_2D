@@ -17,18 +17,28 @@
 
 //プロトタイプ宣言
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-//HRESULT Init(HINSTANCE hInstace, HWND hWnd, BOOL bWindow);
-void Uninit();
 
 //グローバル宣言
 CManager* g_pMnager = nullptr;
-//FPS表示の変数
-int g_nCountFPS = 0;
-char g_nCountFPS1[256];
 
-int m_nScren_Width = SCREEN_WIDTH;
-int m_nScren_Heght = SCREEN_HEIGHT;
-int m_nBit = 32;
+
+//=========================
+//コンストラクタ
+//=========================
+CMain::CMain()
+{
+	m_nFPS = 0; //FPSの値を初期化
+}
+
+
+//=========================
+//デストラクタ
+//=========================
+CMain::~CMain()
+{
+	
+}
+
 
 //=========================
 //メイン関数
@@ -73,7 +83,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hInstanceprev, _
 	HWND hWnd;
 	MSG msg;
 
-	RECT rect = { 0,0,SCREEN_WIDTH,SCREEN_HEIGHT };
+	RECT rect = { 0,0,CMain::SCREEN_WIDTH,CMain::SCREEN_HEIGHT };
 
 	//ウィンドウクラスの登録
 	RegisterClassEx(&wcex);
@@ -147,7 +157,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hInstanceprev, _
 			if ((dwCurrentTime - dwFPSLastTime) >= 500)
 			{//0.5秒経過
 				//FPSを観測
-				g_nCountFPS = (dwFrameCount * 1000) / (dwCurrentTime - dwFPSLastTime);
+				CManager::GetMain()->GetFPS() = (dwFrameCount * 1000) / (dwCurrentTime - dwFPSLastTime);
 				dwFPSLastTime = dwCurrentTime; //FPSを測定した時刻を保存
 				dwFrameCount = 0; //フレイムカウントをクリア
 			}
@@ -167,7 +177,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hInstanceprev, _
 	}
 
 	//終了処理を呼ぶ
-	Uninit();
+	CManager::GetMain()->Uninit();
 
 	DxLib_End();        // ＤＸライブラリ使用の終了処理
 
@@ -186,7 +196,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	//PAINTSTRUCT ps;
 	//HPEN hPen, hPenold;
 	static POINT pos = { 100.100 };
-	const RECT rect = { 0,0,SCREEN_WIDTH,SCREEN_HEIGHT };
+	const RECT rect = { 0,0,CMain::SCREEN_WIDTH,CMain::SCREEN_HEIGHT };
 
 	switch (uMsg)
 	{
@@ -249,13 +259,12 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 //======================
 //終了処理
 //======================
-void Uninit()
+void CMain::Uninit()
 {
-	g_pMnager->Uninit();
-	delete g_pMnager;
-}
-
-int GetFPS()
-{
-	return g_nCountFPS;
+	if (g_pMnager != nullptr)
+	{
+		g_pMnager->Uninit();
+		delete g_pMnager;
+		g_pMnager = nullptr;
+	}
 }

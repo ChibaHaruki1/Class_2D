@@ -85,9 +85,9 @@ HRESULT CObject2D:: Init()
 
 	//í∏ì_ç¿ïWÇÃê›íË
 	pVtx[0].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	pVtx[1].pos = D3DXVECTOR3(SCREEN_WIDTH, 0.0f, 0.0f);
-	pVtx[2].pos = D3DXVECTOR3(0.0f, SCREEN_HEIGHT, 0.0f);
-	pVtx[3].pos = D3DXVECTOR3(SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f);
+	pVtx[1].pos = D3DXVECTOR3(CMain::SCREEN_WIDTH, 0.0f, 0.0f);
+	pVtx[2].pos = D3DXVECTOR3(0.0f, CMain::SCREEN_HEIGHT, 0.0f);
+	pVtx[3].pos = D3DXVECTOR3(CMain::SCREEN_WIDTH, CMain::SCREEN_HEIGHT, 0.0f);
 
 	//rhwÇÃê›íË
 	pVtx[0].rhw = 1.0f;

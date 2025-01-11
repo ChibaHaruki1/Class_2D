@@ -749,7 +749,7 @@ void CSpecialAttack::Update()
 				CManager::GetInstance()->GetBoss()->GetModelSizePrtsBoss(nCount2), GetSizeX(), nCount2))
 			{
 				//CManager::GetInstance()->GetPlayerHPGage()->SetSIze(0.0f, CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX(), 40.0f, 70.0f); //大きさをあらかじめ決めないと
-				CManager::GetInstance()->GetBossHPGage()->GetBossHPSizeX() -= SCREEN_WIDTH * 0.00005f; //ボスのHPゲージを減らす
+				CManager::GetInstance()->GetBossHPGage()->GetBossHPSizeX() -= CMain::SCREEN_WIDTH * 0.00005f; //ボスのHPゲージを減らす
 			}
 		}
 	}

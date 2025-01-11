@@ -191,7 +191,7 @@ HRESULT CBuyText::Init()
 		return E_FAIL; //¸”s‚ğ•Ô‚·
 	}
 
-	CObject2D::SetSIze(0.0f, 600.0f, 0.0f, SCREEN_HEIGHT);
+	CObject2D::SetSIze(0.0f, 600.0f, 0.0f, CMain::SCREEN_HEIGHT);
 	SetCol(200, 200);
 
 	return S_OK; //¬Œ÷‚ğ•Ô‚·

@@ -457,7 +457,7 @@ void CPlayerX::ObjectArrangementTelephonPole()
 void CPlayerX::KeySet()
 {
 	//必殺技の発動
-	if (CManager::GetKeyBorad()->GetKeyboardTrigger(DIK_K) == true|| CManager::GetJyoPad()->GetJoypadTrigger(JOYKEY_RB)==true)
+	if (CManager::GetKeyBorad()->GetKeyboardTrigger(DIK_K) == true|| CManager::GetJyoPad()->GetJoypadTrigger(CInputJoyPad::JOYKEY::JOYKEY_RB)==true)
 	{
 		//武器が買われた時
 		if (m_pModelPrts[18]->m_bCreateGun == true&& m_nSpecialAttackCount>= MAX_SPECIALATTACKCOUNT)
@@ -487,7 +487,7 @@ void CPlayerX::KeySet()
 	}
 
 	//Aキーが押された時（押され続けた時）
-	if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_A) == true || CManager::GetJyoPad()->GetJoypadPress(JOYKEY_LEFT) == true)
+	if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_A) == true || CManager::GetJyoPad()->GetJoypadPress(CInputJoyPad::JOYKEY::JOYKEY_LEFT) == true)
 	{
 		GetRot().y = CManager::GetScene()->GetCamera()->GetRot().y + D3DX_PI / 2; //カメラの向きに合わせて向く
 		GetMove().x -= sinf(D3DX_PI / 2 + CManager::GetScene()->GetCamera()->GetRot().y) * MAX_MOVESPEED;
@@ -501,7 +501,7 @@ void CPlayerX::KeySet()
 	}
 
 	//Dキーが押された時（押され続けた時）
-	else if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_D) == true || CManager::GetJyoPad()->GetJoypadPress(JOYKEY_RIGHT) == true)
+	else if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_D) == true || CManager::GetJyoPad()->GetJoypadPress(CInputJoyPad::JOYKEY::JOYKEY_RIGHT) == true)
 	{
 		GetRot().y = CManager::GetScene()->GetCamera()->GetRot().y - D3DX_PI / 2; //カメラの向きに合わせて向く
 		GetMove().x += sinf(D3DX_PI / 2 + CManager::GetScene()->GetCamera()->GetRot().y) * MAX_MOVESPEED;
@@ -526,7 +526,7 @@ void CPlayerX::KeySet()
 	}
 
 	//spaceキーを押された時
-	if (CManager::GetKeyBorad()->GetKeyboardTrigger(DIK_SPACE) == true || CManager::GetJyoPad()->GetJoypadTrigger(JOYKEY_B) == true)
+	if (CManager::GetKeyBorad()->GetKeyboardTrigger(DIK_SPACE) == true || CManager::GetJyoPad()->GetJoypadTrigger(CInputJoyPad::JOYKEY::JOYKEY_B) == true)
 	{
 		CManager::GetSound()->PlaySound(CManager::GetSound()->SOUND_LABEL_SE_SHOT); //BDMを流す
 		if (GetRot().y == CManager::GetScene()->GetCamera()->GetRot().y - D3DX_PI / 2)
@@ -543,7 +543,7 @@ void CPlayerX::KeySet()
 	}
 
 	//XキーかAボタンが押された時
-	if (CManager::GetKeyBorad()->GetKeyboardTrigger(DIK_X) == true || CManager::GetJyoPad()->GetJoypadTrigger(JOYKEY_A) == true)
+	if (CManager::GetKeyBorad()->GetKeyboardTrigger(DIK_X) == true || CManager::GetJyoPad()->GetJoypadTrigger(CInputJoyPad::JOYKEY::JOYKEY_A) == true)
 	{
 		SetJumpFlag(true); //飛んでいるに設定
 		CManager::GetInstance()->GetFuelGage()->GetUse()= true;
@@ -557,7 +557,7 @@ void CPlayerX::KeySet()
 			if (CManager::GetInstance()->GetFuelGage()->GetSizeY() > 0.0f && CManager::GetInstance()->GetFuelGage()->GetUse() == true)
 			{
 				//Xキーが押された時
-				if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_X) == true || CManager::GetJyoPad()->GetJoypadPress(JOYKEY_A) == true)
+				if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_X) == true || CManager::GetJyoPad()->GetJoypadPress(CInputJoyPad::JOYKEY::JOYKEY_A) == true)
 				{
 					GetMove().y += 1.0f;
 					SetGravityFlag(false);//重力OFF
@@ -609,7 +609,7 @@ void CPlayerX::ShopKeySet()
 	if (m_PlayerState == CPlayerX::PLAYER_STATE::NORMAI_MODE)
 	{
 		//
-		if (CManager::GetKeyBorad()->GetKeyboardTrigger(DIK_F1) == true || CManager::GetJyoPad()->GetJoypadTrigger(JOYKEY_Y) == true)
+		if (CManager::GetKeyBorad()->GetKeyboardTrigger(DIK_F1) == true || CManager::GetJyoPad()->GetJoypadTrigger(CInputJoyPad::JOYKEY::JOYKEY_Y) == true)
 		{
 			//選択ゲージ１つ目を生成する
 			if (m_pSelectGage == nullptr)
@@ -656,7 +656,7 @@ void CPlayerX::ShopKeySet()
 		if (m_nBuyOrSendCount == 0)
 		{
 			//Enterキーを押したとき
-			if (CManager::GetKeyBorad()->GetKeyboardTrigger(DIK_RETURN) == true || CManager::GetJyoPad()->GetJoypadTrigger(JOYKEY_B) == true)
+			if (CManager::GetKeyBorad()->GetKeyboardTrigger(DIK_RETURN) == true || CManager::GetJyoPad()->GetJoypadTrigger(CInputJoyPad::JOYKEY::JOYKEY_B) == true)
 			{
 				SelectGageUISize(50.0,150.0f);
 				m_PlayerState = CPlayerX::PLAYER_STATE::BUY_MODE;
@@ -664,7 +664,7 @@ void CPlayerX::ShopKeySet()
 		}
 
 		//キーが押された時
-		if (CManager::GetKeyBorad()->GetKeyboardTrigger(DIK_S) == true || CManager::GetJyoPad()->GetJoypadTrigger(JOYKEY_DOWN) == true)
+		if (CManager::GetKeyBorad()->GetKeyboardTrigger(DIK_S) == true || CManager::GetJyoPad()->GetJoypadTrigger(CInputJoyPad::JOYKEY::JOYKEY_DOWN) == true)
 		{
 			SelectGageUISizeCalculation("Plus", 400.0f, 400.0f); //サイズを調整する
 			m_nBuyOrSendCount += 1; //カウントを進める
@@ -677,7 +677,7 @@ void CPlayerX::ShopKeySet()
 
 			}
 		}
-		else if (CManager::GetKeyBorad()->GetKeyboardTrigger(DIK_W) == true || CManager::GetJyoPad()->GetJoypadTrigger(JOYKEY_UP) == true)
+		else if (CManager::GetKeyBorad()->GetKeyboardTrigger(DIK_W) == true || CManager::GetJyoPad()->GetJoypadTrigger(CInputJoyPad::JOYKEY::JOYKEY_UP) == true)
 		{
 			SelectGageUISizeCalculation("Minus", 400.0f, 400.0f); //サイズを調整する
 			m_nBuyOrSendCount -= 1; //カウントを進める
@@ -692,7 +692,7 @@ void CPlayerX::ShopKeySet()
 		}
 
 		//キーが押された時
-		else if (CManager::GetKeyBorad()->GetKeyboardTrigger(DIK_F1) == true || CManager::GetJyoPad()->GetJoypadTrigger(JOYKEY_A) == true || CManager::GetJyoPad()->GetJoypadTrigger(JOYKEY_Y) == true)
+		else if (CManager::GetKeyBorad()->GetKeyboardTrigger(DIK_F1) == true || CManager::GetJyoPad()->GetJoypadTrigger(CInputJoyPad::JOYKEY::JOYKEY_A) == true || CManager::GetJyoPad()->GetJoypadTrigger(CInputJoyPad::JOYKEY::JOYKEY_Y) == true)
 		{
 			ShopInstanceMakeNullptr();
 			m_PlayerState = CPlayerX::PLAYER_STATE::NORMAI_MODE;
@@ -721,7 +721,7 @@ void CPlayerX::ShopKeySet()
 
 
 		//キーが押された時
-		if (CManager::GetKeyBorad()->GetKeyboardTrigger(DIK_F1) == true || CManager::GetJyoPad()->GetJoypadTrigger(JOYKEY_A) == true || CManager::GetJyoPad()->GetJoypadTrigger(JOYKEY_Y) == true)
+		if (CManager::GetKeyBorad()->GetKeyboardTrigger(DIK_F1) == true || CManager::GetJyoPad()->GetJoypadTrigger(CInputJoyPad::JOYKEY::JOYKEY_A) == true || CManager::GetJyoPad()->GetJoypadTrigger(CInputJoyPad::JOYKEY::JOYKEY_Y) == true)
 		{
 			ShopInstanceMakeNullptr();
 			m_PlayerState = CPlayerX::PLAYER_STATE::NORMAI_MODE;
@@ -729,7 +729,7 @@ void CPlayerX::ShopKeySet()
 		}
 
 		//Sキーを押したとき
-		if (CManager::GetKeyBorad()->GetKeyboardTrigger(DIK_S) == true || CManager::GetJyoPad()->GetJoypadTrigger(JOYKEY_DOWN) == true)
+		if (CManager::GetKeyBorad()->GetKeyboardTrigger(DIK_S) == true || CManager::GetJyoPad()->GetJoypadTrigger(CInputJoyPad::JOYKEY::JOYKEY_DOWN) == true)
 		{
 			if (m_pSelectGage != nullptr)
 			{
@@ -750,7 +750,7 @@ void CPlayerX::ShopKeySet()
 		}
 
 		//Wキーを押したとき
-		else if (CManager::GetKeyBorad()->GetKeyboardTrigger(DIK_W) == true || CManager::GetJyoPad()->GetJoypadTrigger(JOYKEY_UP) == true)
+		else if (CManager::GetKeyBorad()->GetKeyboardTrigger(DIK_W) == true || CManager::GetJyoPad()->GetJoypadTrigger(CInputJoyPad::JOYKEY::JOYKEY_UP) == true)
 		{
 			if (m_pSelectGage != nullptr)
 			{
@@ -771,7 +771,7 @@ void CPlayerX::ShopKeySet()
 		}
 
 		//Enterキーを押したとき
-		else if (CManager::GetKeyBorad()->GetKeyboardTrigger(DIK_RETURN) == true || CManager::GetJyoPad()->GetJoypadTrigger(JOYKEY_B) == true)
+		else if (CManager::GetKeyBorad()->GetKeyboardTrigger(DIK_RETURN) == true || CManager::GetJyoPad()->GetJoypadTrigger(CInputJoyPad::JOYKEY::JOYKEY_B) == true)
 		{
 			CreateGun();
 		}

@@ -146,7 +146,7 @@ CFuelGage* CFuelGage::Create()
 CManagerGage::CManagerGage(int nPriority) : CObject2D(nPriority)
 {
 	m_fHPSizeX = 400.0f;
-	m_fBossHPSizeX = SCREEN_WIDTH;
+	m_fBossHPSizeX = CMain::SCREEN_WIDTH;
 	m_fSaveSizeX = 0.0f;
 }
 
@@ -350,7 +350,7 @@ HRESULT CBossHPGage::Init()
 	}
 
 	//SetCol(100,100); //alpha値を設定
-	CObject2D::SetSIze(0.0f, GetBossHPSizeX(), (SCREEN_HEIGHT - 40.0f), SCREEN_HEIGHT); //大きさをあらかじめ決めないと一瞬画面にフルスクリーンで出てしまう
+	CObject2D::SetSIze(0.0f, GetBossHPSizeX(), (CMain::SCREEN_HEIGHT - 40.0f), CMain::SCREEN_HEIGHT); //大きさをあらかじめ決めないと一瞬画面にフルスクリーンで出てしまう
 	return S_OK; //成功を返す
 }
 
@@ -370,7 +370,7 @@ void CBossHPGage::Update()
 		m_fSaveSizeX = GetBossHPSizeX(); //現在のHPゲージと同期させる
 	}
 
-	CObject2D::SetSIze(0.0f, m_fSaveSizeX, (SCREEN_HEIGHT - 40.0f), SCREEN_HEIGHT); //滑らかに減っているように見せる
+	CObject2D::SetSIze(0.0f, m_fSaveSizeX, (CMain::SCREEN_HEIGHT - 40.0f), CMain::SCREEN_HEIGHT); //滑らかに減っているように見せる
 }
 
 
@@ -444,7 +444,7 @@ HRESULT CBossHPGageLeave::Init()
 		return E_FAIL;
 	}
 	//SetCol(100, 100); //alpha値を設定
-	CObject2D::SetSIze(0.0f, GetBossHPSizeX(), (SCREEN_HEIGHT - 40.0f), SCREEN_HEIGHT); //大きさをあらかじめ決めないと一瞬画面にフルスクリーンで出てしまう
+	CObject2D::SetSIze(0.0f, GetBossHPSizeX(), (CMain::SCREEN_HEIGHT - 40.0f), CMain::SCREEN_HEIGHT); //大きさをあらかじめ決めないと一瞬画面にフルスクリーンで出てしまう
 
 	return S_OK;
 }
