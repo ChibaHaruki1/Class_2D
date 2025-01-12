@@ -105,7 +105,7 @@ void CEvent::BossDirection()
 
 			//カメラの位置を変更
 			CManager::GetScene()->GetCamera()->GetAdjustmentPosZ() = 1400; //カメラのＺ軸の値を設定
-			CManager::GetScene()->GetCamera()->GetSaveF() = 400.0f;        //カメラのＹ軸の値を設定
+			CManager::GetScene()->GetCamera()->GetAdjustmentPosY() = 400.0f;        //カメラのＹ軸の値を設定
 
 			m_nPosY += 10.0f;             //落とす位置を増やす
 			m_nRandomRotY = rand() % 31;  //Ｙ軸の向きを乱数で調整
