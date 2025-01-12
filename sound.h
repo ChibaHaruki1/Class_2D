@@ -2,71 +2,73 @@
 //
 // サウンド処理 [sound.h]
 // Author : AKIRA TANAKA
+// aaadvf
 //
 //=============================================================================
+
+//=============================================================================
+//
+//class化に変更
+//Auther:Haruki Chiba
+//
+//=============================================================================
+
+
 #ifndef _SOUND_H_
 #define _SOUND_H_
 
+
+//=============================================================================
+//インクルード
 #include "main.h"
 
 //*****************************************************************************
 // サウンド一覧
 //*****************************************************************************
 
-//*****************************************************************************
-// プロトタイプ宣言
-//*****************************************************************************
-//HRESULT InitSound(HWND hWnd);
-//void UninitSound(void);
-//HRESULT PlaySound(SOUND_LABEL label);
-//void StopSound(SOUND_LABEL label);
-//void StopSound(void);
-
-
-typedef struct
-{
-	const char* pFilename;	// ファイル名
-	float Volume;         //音量調整
-	int nCntLoop;		// ループカウント
-} SOUNDINFO;
-
 //サウンドクラス
 class CSound
 {
 public:
 
-	typedef enum
+	//音源の情報を収納
+	typedef struct
 	{
-		SOUND_LABEL_ITEM_GET=0,		// SE1
-		SOUND_LABEL_BGM,		// SE1
-		SOUND_LABEL_BGM1,		// SE1
-		SOUND_LABEL_SE_JUMP,	// ジャンプ音
-		SOUND_LABEL_SE_SHOT,
-		SOUND_LABEL_SE_CHAGE,
-		SOUND_LABEL_SE_WING,
-		SOUND_LABEL_MAX,
+		const char* pFilename;	// ファイル名
+		float Volume;           //音量調整
+		int nCntLoop;		    // ループカウント
+	} SOUNDINFO;
 
-	} SOUND_LABEL;
+	enum class SOUND_LABEL
+	{
+		SOUND_LABEL_ITEM_GET = 0,  //アイテムを獲得
+		SOUND_LABEL_BOSSBGM,	   //ボス戦用BGM
+		SOUND_LABEL_NORMALBGM,	   //通常BGM
+		SOUND_LABEL_SE_JUMP,	   // ジャンプ音
+		SOUND_LABEL_SE_SHOT,       //撃つときの音
+		SOUND_LABEL_SE_CHARGE,     //チャージ完了時の音（プレイヤーの必殺技）
+		SOUND_LABEL_SE_WING,       //風の音
+		SOUND_LABEL_MAX,           //音源の最大数
+	};
 
-	CSound(); //コンストラクタ
+	CSound();  //コンストラクタ
 	~CSound(); //デストラクタ
 
-	HRESULT CheckChunk(HANDLE hFile, DWORD format, DWORD* pChunkSize, DWORD* pChunkDataPosition);
-	HRESULT ReadChunkData(HANDLE hFile, void* pBuffer, DWORD dwBuffersize, DWORD dwBufferoffset);
+	HRESULT CheckChunk(HANDLE hFile, DWORD format, DWORD* pChunkSize, DWORD* pChunkDataPosition); //チャンクのチェック関数
+	HRESULT ReadChunkData(HANDLE hFile, void* pBuffer, DWORD dwBuffersize, DWORD dwBufferoffset); //チャンクデータの読み込み関数
 
-	HRESULT InitSound(HWND hWnd);
-	void UninitSound();
-	HRESULT PlaySound(SOUND_LABEL label);
-	void StopSound(SOUND_LABEL label);
-	void StopSound();
+	HRESULT InitSound(HWND hWnd);           //初期化処理
+	void UninitSound();                     //終了処理
+	HRESULT PlaySound(SOUND_LABEL label);   //音源の再生処理
+	void StopSound(SOUND_LABEL label);      //指定した音源の停止処理
+	void StopSound();                       //音源の停止
 
 private:
-	IXAudio2* g_pXAudio2 = NULL;								// XAudio2オブジェクトへのインターフェイス
-	IXAudio2MasteringVoice* g_pMasteringVoice = NULL;			// マスターボイス
-	IXAudio2SourceVoice* g_apSourceVoice[SOUND_LABEL_MAX] = {};	// ソースボイス
-	BYTE* g_apDataAudio[SOUND_LABEL_MAX] = {};					// オーディオデータ
-	DWORD g_aSizeAudio[SOUND_LABEL_MAX] = {};					// オーディオデータサイズ
-
+	IXAudio2* g_pXAudio2 = nullptr;								                    // XAudio2オブジェクトへのインターフェイス
+	IXAudio2MasteringVoice* g_pMasteringVoice = nullptr;			                // マスターボイス
+	IXAudio2SourceVoice* g_apSourceVoice[(int)SOUND_LABEL::SOUND_LABEL_MAX] = {};	// ソースボイス
+	BYTE* g_apDataAudio[(int)SOUND_LABEL::SOUND_LABEL_MAX] = {};					// オーディオデータ
+	DWORD g_aSizeAudio[(int)SOUND_LABEL::SOUND_LABEL_MAX] = {};					    // オーディオデータサイズ
 };
 
 #endif

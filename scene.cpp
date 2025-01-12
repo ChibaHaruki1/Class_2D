@@ -430,7 +430,7 @@ void CTitle::Update()
 
 	if (GetOneSound() == false)
 	{
-		CManager::GetSound()->PlaySound(CManager::GetSound()->SOUND_LABEL_SE_WING); //BDM‚ð—¬‚·
+		CManager::GetSound()->PlaySound(CSound::SOUND_LABEL::SOUND_LABEL_SE_WING); //BDM‚ð—¬‚·
 		SetOneSound(true);
 	}
 }

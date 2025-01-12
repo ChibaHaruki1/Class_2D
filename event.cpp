@@ -98,7 +98,7 @@ void CEvent::BossDirection()
 			if (m_bBossDirection == false)
 			{
 				CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::BOSS, 0, D3DXVECTOR3(4500.0f, 0.0f, 0.0f)); //ボスを生成
-				CManager::GetSound()->StopSound(CManager::GetSound()->SOUND_LABEL_BGM1);                                //指定の音源を止める
+				CManager::GetSound()->StopSound(CSound::SOUND_LABEL::SOUND_LABEL_NORMALBGM);                                //指定の音源を止める
 				mciSendStringA("play BGM", NULL, 0, NULL);                                                              //開かれた音源を再生する（開かれてないと生成しない）         
 				m_bBossDirection = true;                                                                                //演出フラグをtrueにし、通らなくする
 			}
