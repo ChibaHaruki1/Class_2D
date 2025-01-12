@@ -20,8 +20,8 @@
 //========================
 CCamera::CCamera()
 {
-	m_fSdjustmentPosY = 10.0f;
-	m_fAdjustmentPosZ = 1000;
+	m_fSdjustmentPosY = 10.0f; //カメラの高さを調整
+	m_fAdjustmentPosZ = 1000;  //カメラを手前に引くよう調整
 }
 
 
@@ -40,12 +40,12 @@ CCamera::~CCamera()
 HRESULT CCamera::Init()
 {
 	m_posV = D3DXVECTOR3(0.0f, 100.0f, 0.0f); //視点を調整
-	m_posR = D3DXVECTOR3(0.0f, 0.0f, 0.0f);////注視点をモデルに設定
-	m_vecU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_fSavePosV = m_posV;
+	m_posR = D3DXVECTOR3(0.0f, 0.0f, 0.0f);   //注視点を調整
+	m_vecU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);   //上方向の調整
+	rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);      //向きの調整
+	m_fSavePosV = m_posV;                     //視点と同期させる
 
-	return S_OK;
+	return S_OK; //成功を返す
 }
 
 
@@ -63,67 +63,73 @@ void CCamera::Uninit()
 //========================
 void CCamera::Update()
 {
+	//Yキーが押された時
 	if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_Y) == true)
 	{//視点が下（小さく）になる
-		m_posV.y += MAX_CAMERASPEED;
-		m_fSdjustmentPosY += MAX_CAMERASPEED;
+		m_posV.y += MAX_CAMERASPEED;           //注視点のY軸を増加させる
+		m_fSdjustmentPosY += MAX_CAMERASPEED;  //Y軸の調整分の値を増やす（高くなる）
 	}
-	if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_N) == true)
+
+	//Nキーが押された時
+	else if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_N) == true)
 	{//視点が上（大きく）なる
-		m_posV.y -= MAX_CAMERASPEED;
-		m_fSdjustmentPosY -= MAX_CAMERASPEED;
+		m_posV.y -= MAX_CAMERASPEED;           //注視点のY軸を減少させる
+		m_fSdjustmentPosY -= MAX_CAMERASPEED;  //Y軸の調整分の値を減少（低くなる）
 	}
-	if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_Z) == true)
+
+	//Zキーが押された
+	else if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_Z) == true)
 	{//視点が左に動く
 		rot.y += MAX_ROTSPEED;
-		m_posV.x = m_posR.x + sinf(D3DX_PI + rot.y);
-		m_posV.z = m_posR.z + cosf(D3DX_PI + rot.y);
-
-	}
-	if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_C) == true)
-	{//視点が右に動く
-		rot.y -= MAX_ROTSPEED;
-		m_posV.x = m_posR.x + sinf(D3DX_PI + rot.y) ;
-		m_posV.z = m_posR.z + cosf(D3DX_PI + rot.y) ;
-	}
-	if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_T) == true)
-	{//注視点が下（小さく）になる
-		m_posR.y += MAX_CAMERASPEED;
-	}
-	if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_B) == true)
-	{//注視点が上（大きく）なる
-		m_posR.y -= MAX_CAMERASPEED;
-	}
-	if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_Q) == true)
-	{//注視点が左に向く
-		rot.y -= MAX_ROTSPEED;
-		m_posR.x = m_posV.x + sinf(rot.y) ;
-		m_posR.z = m_posV.z + cosf(rot.y) ;
-	}
-	if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_E) == true)
-	{//注視点が右に向く
-		rot.y += MAX_ROTSPEED;
-		m_posR.x = m_posV.x + sinf(rot.y) ;
-		m_posR.z = m_posV.z + cosf(rot.y) ;
+		m_posV.x = m_posR.x + sinf(D3DX_PI + rot.y); //視点を注視点と向きと同期させる
+		m_posV.z = m_posR.z + cosf(D3DX_PI + rot.y); //視点を注視点と向きと同期させる
 	}
 
-	if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_V) == true)
-	{
-		rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	}
+	////Cキーが押された時
+	//else if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_C) == true)
+	//{//視点が右に動く
+	//	rot.y -= MAX_ROTSPEED;
+	//	m_posV.x = m_posR.x + sinf(D3DX_PI + rot.y) ;
+	//	m_posV.z = m_posR.z + cosf(D3DX_PI + rot.y) ;
+	//}
+	//else if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_T) == true)
+	//{//注視点が下（小さく）になる
+	//	m_posR.y += MAX_CAMERASPEED;
+	//}
+	//else if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_B) == true)
+	//{//注視点が上（大きく）なる
+	//	m_posR.y -= MAX_CAMERASPEED;
+	//}
+	//else if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_Q) == true)
+	//{//注視点が左に向く
+	//	rot.y -= MAX_ROTSPEED;
+	//	m_posR.x = m_posV.x + sinf(rot.y) ;
+	//	m_posR.z = m_posV.z + cosf(rot.y) ;
+	//}
+	//else if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_E) == true)
+	//{//注視点が右に向く
+	//	rot.y += MAX_ROTSPEED;
+	//	m_posR.x = m_posV.x + sinf(rot.y) ;
+	//	m_posR.z = m_posV.z + cosf(rot.y) ;
+	//}
+
+	//else if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_V) == true)
+	//{
+	//	rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	//}
 
 	//カメラがプレイヤーにつく処理
-	m_posR.x = CManager::GetScene()->GetPlayerX()->GetPos().x;
-	m_posR.y = CManager::GetScene()->GetPlayerX()->GetPos().y;
-	m_posR.z = CManager::GetScene()->GetPlayerX()->GetPos().z;
+	m_posR.x = CManager::GetScene()->GetPlayerX()->GetPos().x; //注視点のＸ軸をプレイヤーのＸ軸と同期させる
+	m_posR.y = CManager::GetScene()->GetPlayerX()->GetPos().y; //注視点のＹ軸をプレイヤーのＹ軸と同期させる
+	m_posR.z = CManager::GetScene()->GetPlayerX()->GetPos().z; //注視点のＺ軸をプレイヤーのＺ軸と同期させる
 
-	m_posV.x = CManager::GetScene()->GetPlayerX()->GetPos().x;
-	m_posV.y = CManager::GetScene()->GetPlayerX()->GetPos().y + m_fSavePosV.y + m_fSdjustmentPosY;
-	m_posV.z = CManager::GetScene()->GetPlayerX()->GetPos().z;
+	m_posV.x = CManager::GetScene()->GetPlayerX()->GetPos().x; //視点のＸ軸をプレイヤーのＸ軸と同期させる
+	m_posV.y = CManager::GetScene()->GetPlayerX()->GetPos().y + m_fSdjustmentPosY; //視点のＹ軸をプレイヤーのＹ軸と調整用の値と同期させる
+	m_posV.z = CManager::GetScene()->GetPlayerX()->GetPos().z; //視点のＺ軸をプレイヤーのＺ軸と同期させる
 
 	//カメラ自体もプレイヤーに合わせて動く(直接モデルの値を代入するとカメラ回転時強制的に正面に戻されるため）
-	m_posV.x = m_posR.x + sinf(D3DX_PI + rot.y) * m_fAdjustmentPosZ;
-	m_posV.z = m_posR.z + cosf(D3DX_PI + rot.y) * m_fAdjustmentPosZ;
+	m_posV.x = m_posR.x + sinf(D3DX_PI + rot.y) * m_fAdjustmentPosZ; //視点のＸ軸を注視点のＸ軸と向きとそれをかけた調整用の値と同期させる
+	m_posV.z = m_posR.z + cosf(D3DX_PI + rot.y) * m_fAdjustmentPosZ; //視点のＺ軸を注視点のＺ軸と向きとそれをかけた調整用の値と同期させる
 }
 
 
@@ -132,15 +138,17 @@ void CCamera::Update()
 //========================
 void CCamera::SetCamera()
 {
-	CRenderer* pRenderer = CManager::GetRenderer(); //共通したメモリを持つインスタンスを獲得
+	CRenderer* pRenderer = CManager::GetRenderer();    //共通したメモリを持つインスタンスを獲得
 
 	LPDIRECT3DDEVICE9 pDevice= pRenderer->GetDevice(); //デバイスの取得
 
 	//プロジェクションマトリックスの初期化
 	D3DXMatrixIdentity(&m_mtxProjection);
 
+	//通常描画処理
 	D3DXMatrixPerspectiveFovLH(&m_mtxProjection, D3DXToRadian(45.0f), (float)CMain::SCREEN_WIDTH / (float)CMain::SCREEN_HEIGHT, 10.0f, 4000.0f);
 
+	//平行投影
 	//D3DXMatrixOrthoLH(&m_mtxProjection, (float)CMain::SCREEN_WIDTH * 0.5f, (float)SCREEN_HEIGHT * 0.5f, 10.0f, 2000.0f);
 
 	//プロジェクションマトリックスの設定
