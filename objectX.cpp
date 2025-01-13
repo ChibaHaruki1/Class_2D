@@ -474,44 +474,44 @@ void CObjectX::ObjectArrangement(CObjectX::TYPE type, CUI* pUI1)
 		//地面用ブロックの時
 		else if (type == CObjectX::TYPE::FIELDBLOCK)
 		{
-			CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::BLOCK000, D3DXVECTOR3(m_pos.x + 600.0f, m_pos.y, m_pos.z));
+			CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::FIELDBLOCK, D3DXVECTOR3(m_pos.x + 600.0f, m_pos.y, m_pos.z));
 		}
 		//上がる用ブロックの時
 		else if (type == CObjectX::TYPE::GOUPBLOCK)
 		{
-			CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::BLOCK001, D3DXVECTOR3(m_pos.x + 100.0f, m_pos.y, m_pos.z));
+			CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::GOUPBLOCK, D3DXVECTOR3(m_pos.x + 100.0f, m_pos.y, m_pos.z));
 		}
 		//道用ブロックの時
 		else if (type == CObjectX::TYPE::ROADBLOCK)
 		{
-			CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::BLOCK002, D3DXVECTOR3(m_pos.x + 100.0f, m_pos.y, m_pos.z));
+			CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::ROADBLOCK, D3DXVECTOR3(m_pos.x + 100.0f, m_pos.y, m_pos.z));
 		}
 		//壁兼道用ブロックの時
 		else if (type == CObjectX::TYPE::WALLROADBLOCK)
 		{
-			CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::BLOCK003, D3DXVECTOR3(m_pos.x + 500.0f, m_pos.y, m_pos.z));
+			CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::WALLROADBLOCK, D3DXVECTOR3(m_pos.x + 500.0f, m_pos.y, m_pos.z));
 		}
 
 		//壁兼道用001ブロックの時
 		else if (type == CObjectX::TYPE::WALLROADBLOCK_001)
 		{
-			CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::BLOCK003_001, D3DXVECTOR3(m_pos.x + 500.0f, m_pos.y, m_pos.z));
+			CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::WALLROADBLOCK001, D3DXVECTOR3(m_pos.x + 500.0f, m_pos.y, m_pos.z));
 		}
 
 		//小さい用ブロックの時
 		else if (type == CObjectX::TYPE::SMALLBLOCK)
 		{
-			CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::BLOCK004, D3DXVECTOR3(m_pos.x + 200.0f, m_pos.y, m_pos.z));
+			CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::SMALLBLOCK, D3DXVECTOR3(m_pos.x + 200.0f, m_pos.y, m_pos.z));
 		}
 		//小さい用001ブロックの時
 		else if (type == CObjectX::TYPE::SMALLBLOCK_001)
 		{
-			CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::BLOCK004_001, D3DXVECTOR3(m_pos.x + 200.0f, m_pos.y, m_pos.z));
+			CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::SMALLBLOCK001, D3DXVECTOR3(m_pos.x + 200.0f, m_pos.y, m_pos.z));
 		}
 		//上に設置する用ブロックの時
 		else if (type == CObjectX::TYPE::UPWALLBLOCK)
 		{
-			CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::BLOCK005, D3DXVECTOR3(m_pos.x + 200.0f, m_pos.y, m_pos.z));
+			CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::UPWALLBLOCK, D3DXVECTOR3(m_pos.x + 200.0f, m_pos.y, m_pos.z));
 		}
 	}
 

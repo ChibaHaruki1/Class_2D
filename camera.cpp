@@ -20,7 +20,7 @@
 //========================
 CCamera::CCamera()
 {
-	m_fSdjustmentPosY = 10.0f; //カメラの高さを調整
+	m_fSdjustmentPosY = 200.0f; //カメラの高さを調整
 	m_fAdjustmentPosZ = 1000;  //カメラを手前に引くよう調整
 }
 

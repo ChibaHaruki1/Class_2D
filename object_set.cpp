@@ -310,7 +310,7 @@ void CObjectSet::LoodBlock(FILE* pFile)
 				(void)fscanf(pFile, "%f", &c); //ŽO”Ô–Ú‚Ì’l‚ðŠi”[
 
 				//¶¬‚·‚é
-				CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::BLOCK000, D3DXVECTOR3(a,b,c));
+				CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::FIELDBLOCK, D3DXVECTOR3(a,b,c));
 			}
 		}
 	}
@@ -338,7 +338,7 @@ void CObjectSet::LoodBlock(FILE* pFile)
 				(void)fscanf(pFile, "%f", &c); //ŽO”Ô–Ú‚Ì’l‚ðŠi”[
 
 				//¶¬‚·‚é
-				CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::BLOCK001, D3DXVECTOR3(a,b,c));
+				CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::GOUPBLOCK, D3DXVECTOR3(a,b,c));
 			}
 		}
 	}
@@ -365,7 +365,7 @@ void CObjectSet::LoodBlock(FILE* pFile)
 				(void)fscanf(pFile, "%f", &c); //ŽO”Ô–Ú‚Ì’l‚ðŠi”[
 
 				//¶¬‚·‚é
-				CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::BLOCK002, D3DXVECTOR3(a, b, c));
+				CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::ROADBLOCK, D3DXVECTOR3(a, b, c));
 			}
 		}
 	}
@@ -392,7 +392,7 @@ void CObjectSet::LoodBlock(FILE* pFile)
 				(void)fscanf(pFile, "%f", &c); //ŽO”Ô–Ú‚Ì’l‚ðŠi”[
 
 				//¶¬‚·‚é
-				CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::BLOCK003, D3DXVECTOR3(a,
+				CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::WALLROADBLOCK, D3DXVECTOR3(a,
 					b,
 					c));
 			}
@@ -422,7 +422,7 @@ void CObjectSet::LoodBlock(FILE* pFile)
 				(void)fscanf(pFile, "%f", &c); //ŽO”Ô–Ú‚Ì’l‚ðŠi”[
 
 				//¶¬‚·‚é
-				CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::BLOCK003_001, D3DXVECTOR3(a,
+				CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::WALLROADBLOCK001, D3DXVECTOR3(a,
 					b,
 					c));
 			}
@@ -452,7 +452,7 @@ void CObjectSet::LoodBlock(FILE* pFile)
 				(void)fscanf(pFile, "%f", &c); //ŽO”Ô–Ú‚Ì’l‚ðŠi”[
 
 				//¶¬‚·‚é
-				CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::BLOCK004, D3DXVECTOR3(a,
+				CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::SMALLBLOCK, D3DXVECTOR3(a,
 					b,
 					c));
 			}
@@ -482,7 +482,7 @@ void CObjectSet::LoodBlock(FILE* pFile)
 			(void)fscanf(pFile, "%f", &c); //ŽO”Ô–Ú‚Ì’l‚ðŠi”[
 
 			//¶¬‚·‚é
-			CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::BLOCK004_001, D3DXVECTOR3(a,
+			CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::SMALLBLOCK001, D3DXVECTOR3(a,
 				b,
 				c));
 		}
@@ -511,7 +511,7 @@ void CObjectSet::LoodBlock(FILE* pFile)
 				(void)fscanf(pFile, "%f", &c); //ŽO”Ô–Ú‚Ì’l‚ðŠi”[
 
 				//¶¬‚·‚é
-				CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::BLOCK005, D3DXVECTOR3(a,
+				CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::UPWALLBLOCK, D3DXVECTOR3(a,
 					b,
 					c));
 			}

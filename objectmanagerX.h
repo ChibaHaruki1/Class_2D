@@ -50,14 +50,14 @@ public:
 	enum class STRATEGYTYPE
 	{
 		NONESTRATEGY = 0,     //無し
-		BLOCK000,             //ブロック０番
-		BLOCK001,			  //ブロック１番
-		BLOCK002,			  //ブロック２番
-		BLOCK003,			  //ブロック３番
-		BLOCK003_001,		  //ブロック３番の２個目
-		BLOCK004,			  //ブロック４番
-		BLOCK004_001,		  //ブロック４番の２個目
-		BLOCK005,			  //ブロック０番
+		FIELDBLOCK,             //ブロック０番
+		GOUPBLOCK,			  //ブロック１番
+		ROADBLOCK,			  //ブロック２番
+		WALLROADBLOCK,			  //ブロック３番
+		WALLROADBLOCK001,		  //ブロック３番の２個目
+		SMALLBLOCK,			  //ブロック４番
+		SMALLBLOCK001,		  //ブロック４番の２個目
+		UPWALLBLOCK,			  //ブロック０番
 		BLOCK006,			  //ブロック０番
 		SPECEBATTLESHIP000,   //バトルシップの番号
 		FINALBLOCK,           //最終ステージ用のブロック

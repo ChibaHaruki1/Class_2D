@@ -217,7 +217,7 @@ CManagerBlock* CManagerBlock::Create(D3DXVECTOR3 pos, STRATEGYTYPE type)
 {
 	CManagerBlock* pManagerBlock = nullptr; //自身のポインター
 
-	if (type == STRATEGYTYPE::BLOCK000)
+	if (type == STRATEGYTYPE::FIELDBLOCK)
 	{
 		pManagerBlock = new CFiledBlock(); //継承クラスを動的確保する
 
@@ -228,7 +228,7 @@ CManagerBlock* CManagerBlock::Create(D3DXVECTOR3 pos, STRATEGYTYPE type)
 		}
 
 	}
-	else if (type==STRATEGYTYPE::BLOCK001)
+	else if (type==STRATEGYTYPE::GOUPBLOCK)
 	{
 		pManagerBlock = new CGoUpBlock(); //継承クラスを動的確保する
 
@@ -238,7 +238,7 @@ CManagerBlock* CManagerBlock::Create(D3DXVECTOR3 pos, STRATEGYTYPE type)
 			pManagerBlock->m_pBlockXStrategy = new CBlock001();  //ストラテジー継承クラス
 		}
 	}
-	else if (type == STRATEGYTYPE::BLOCK002)
+	else if (type == STRATEGYTYPE::ROADBLOCK)
 	{
 		pManagerBlock = new CRoadBlock(); //継承クラスを動的確保する
 
@@ -248,7 +248,7 @@ CManagerBlock* CManagerBlock::Create(D3DXVECTOR3 pos, STRATEGYTYPE type)
 			pManagerBlock->m_pBlockXStrategy = new CBlock002();  //ストラテジー継承クラス
 		}
 	}
-	else if (type == STRATEGYTYPE::BLOCK003|| type == STRATEGYTYPE::BLOCK003_001)
+	else if (type == STRATEGYTYPE::WALLROADBLOCK|| type == STRATEGYTYPE::WALLROADBLOCK001)
 	{
 		pManagerBlock = new CWallRoadBlock(); //継承クラスを動的確保する
 
@@ -258,7 +258,7 @@ CManagerBlock* CManagerBlock::Create(D3DXVECTOR3 pos, STRATEGYTYPE type)
 			pManagerBlock->m_pBlockXStrategy = new CBlock003();  //ストラテジー継承クラス
 		}
 	}
-	else if (type == STRATEGYTYPE::BLOCK004||type== STRATEGYTYPE::BLOCK004_001)
+	else if (type == STRATEGYTYPE::SMALLBLOCK||type== STRATEGYTYPE::SMALLBLOCK001)
 	{
 		pManagerBlock = new CSmallBlock(); //継承クラスを動的確保する
 
@@ -268,7 +268,7 @@ CManagerBlock* CManagerBlock::Create(D3DXVECTOR3 pos, STRATEGYTYPE type)
 			pManagerBlock->m_pBlockXStrategy = new CBlock004();  //ストラテジー継承クラス
 		}
 	}
-	else if (type == STRATEGYTYPE::BLOCK005)
+	else if (type == STRATEGYTYPE::UPWALLBLOCK)
 	{
 		pManagerBlock = new CUpWallBlock(); //継承クラスを動的確保する
 

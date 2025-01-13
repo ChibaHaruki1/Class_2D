@@ -36,7 +36,6 @@ public:
 	HRESULT Init();
 	void Uninit();
 
-	void DesignationUninit(int nNumber);                                //nuptrにしたい物をnullptrにする処理
 	void DesignationUninitX(CObjectX::TYPE type,int nNumber);           //３Dモデルでnullptrにしたい物をnullptrにする処理
 	void DesignationUninitXEnemy(CObjectX::TYPE type, int nNumber);     //敵でnullptrにしたい物をnullptrにする処理
 	void DesignationUninit2D(CObject2D::TYPE type);                     //2Dでnullptrにしたい物をnullptrにする処理
@@ -94,7 +93,6 @@ public:
 
 	//2Dのインスタンス
 	CShopScreen* GetShopScreen() { return m_pShopScreen; }            //SHOP時の背景の情報を取得
-	CBuyText* GetBuyText() { return m_pBuyText; }                     //買うテキストの取得
 	CManagerGage* GetPlayerHPGage() { return m_pPlayerHPGage; }       //プレイヤーのHPゲージの取得
 	CBossHPGage* GetBossHPGage() { return m_pBossHPGage; }            //ボスのHPゲージの取得
 	CManagerScore* GetGameScore() { return m_pGameScore; }            //ゲーム中のスコアの取得
@@ -103,7 +101,6 @@ public:
 	CFuelGage* GetFuelGage() {return m_pFuelGage; }                   //燃料ゲージの取得
 																	  
 	//作った数を取得する用の関数									     
-	int& GetGunCount() {return  m_nGunCount; }                        //銃の作った数
 	int& GetFieldBlockCount() {return  m_nNumFiledBlock; }            //床用のブロックの作った数
 	int& GetGoUpBlockCount() {return  m_nNumGoUpBlock; }              //上がる用のブロックの作った数
 	int& GetRoadBlockCount() {return  m_nRoadBlock; }                 //道用ブロックの作った数
@@ -183,7 +180,6 @@ private:
 
 	//2Dのインスタンス
 	CShopScreen* m_pShopScreen;      //ショップ時の背景スクリーンのUI
-	CBuyText* m_pBuyText;            //買う売るのtextUI
 	CManagerGage* m_pPlayerHPGage;   //プレイヤーのHPゲージ
 	CBossHPGage* m_pBossHPGage;      //プレイヤーのHPゲージ
 	CManagerScore* m_pGameScore;
@@ -192,7 +188,6 @@ private:
 	CFuelGage* m_pFuelGage;
 
 	//作られた数を保管する変数
-	int m_nGunCount;           //銃の数
 	int m_nNumFiledBlock;      //地面用のブロックの数
 	int m_nNumGoUpBlock;       //上がる用のブロックの数
 	int m_nRoadBlock;          //道用のブロックの数

@@ -434,7 +434,6 @@ void CPlayerX::Praticles()
 		//最大数に突入
 		else
 		{
-			CManager::GetInstance()->DesignationUninit(8);
 			m_nPraticlesCount = 0; //配列カウントを初期化する
 		}
 	}
