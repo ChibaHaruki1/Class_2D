@@ -13,21 +13,25 @@
 #include "stage_obj.h"
 #include <string>
 
+
+//===========================
+//文字列の設定（日本語）
 std::string u8TelephonPoleText = u8"電柱の情報設定"; //日本語対応
 std::string u8TelephonPoleNumberText = u8"番目の";   //日本語対応
 
+
 //===========================
 //static変数の初期化
-int CStageObj::m_nTelephonPoleCount = 0;
+int CStageObj::m_nTelephonPoleCount = 0; //電柱のファイルに書き込む数を初期化
+
 
 //============================
 //コンストラクタ
 //============================
 CStageObj::CStageObj(int nPriority) : CObjectX(nPriority)
 {
-	m_pFile = nullptr;
+	
 }
-
 
 //============================
 //デストラクタ
@@ -37,19 +41,18 @@ CStageObj::~CStageObj()
 
 }
 
-
 //============================
 //初期化処理
 //============================
 HRESULT CStageObj::Init()
 {
-	//頂点バッファ生成
+	//初期化に成功するかどうか
 	if (FAILED(CObjectX::Init()))
 	{
-		return E_FAIL;
+		return E_FAIL; //失敗を返す
 	}
 
-	return S_OK;
+	return S_OK;       //成功を返す
 }
 
 //==========================
@@ -57,11 +60,7 @@ HRESULT CStageObj::Init()
 //==========================
 void CStageObj::Uninit()
 {
-	if (m_pFile != nullptr)
-	{
-		m_pFile = nullptr;
-	}
-	CObjectX::Uninit();
+	CObjectX::Uninit(); //破棄処理を呼ぶ
 }
 
 //========================
@@ -69,7 +68,7 @@ void CStageObj::Uninit()
 //========================
 void CStageObj::Update()
 {
-	CObjectX::Update();
+	CObjectX::Update(); //更新処理を呼ぶ
 }
 
 //======================================
@@ -77,6 +76,7 @@ void CStageObj::Update()
 //======================================
 void CStageObj::TextFileWrite(CObjectX::TYPE type,float m_fPosX, float m_fPosY, float m_fPosZ)
 {
+	FILE* m_pFile;                                                //ファイルのポインター
 	m_pFile = fopen("data\\TEXT\\OBJECT\\TelephonPole.txt", "a"); //ファイルを読み込む
 
 	//ファイルの情報が無かった時
@@ -85,26 +85,26 @@ void CStageObj::TextFileWrite(CObjectX::TYPE type,float m_fPosX, float m_fPosY, 
 		return; //処理を抜ける
 	}
 
+	//タイプが電柱の時
 	if (type == CObjectX::TYPE::TELEPHONPOLE)
 	{
 		m_nTelephonPoleCount++;
-		fprintf(m_pFile, "%s", "\n\n"); //数字を書き込む
-		fprintf(m_pFile, "%s", "#=====================================\n"); //数字を書き込む
-		fprintf(m_pFile, "%s", "#"); //数字を書き込む
-		fprintf(m_pFile, "%d", m_nTelephonPoleCount); //数字を書き込む
-		fprintf(m_pFile, "%s", u8TelephonPoleNumberText.data()); //数字を書き込む
-		fprintf(m_pFile, "%s", u8TelephonPoleText.data()); //文字を書き込む(全角文字)
-		fprintf(m_pFile, "%s", "\n"); //改行を行う
-		fprintf(m_pFile, "%s", "#=====================================\n"); //数字を書き込む
-		fprintf(m_pFile, "%s", "TELEPHONPOLESET\n"); //数字を書き込む
-		fprintf(m_pFile, "%s", "		POS = "); //「POS」の文字を書き込む
-		fprintf(m_pFile, "%.1f ", m_fPosX); //「位置」の文字を書き込む(少数点第１まで)
-		fprintf(m_pFile, "%.1f ", m_fPosY); //「位置」の文字を書き込む(少数点第１まで)
-		fprintf(m_pFile, "%.1f ", m_fPosZ); //「位置」の文字を書き込む(少数点第１まで)
-		fprintf(m_pFile, "%s", "\n"); //改行を行う
-		fprintf(m_pFile, "%s", "END_TELEPHONPOLESET\n"); //文字を書き込む
-		//fprintf(m_pFile, "%s", "END_SCRIPT\n"); //文字を書き込む
-		fclose(m_pFile); //ファイルを閉じる
+		fprintf(m_pFile, "%s", "\n\n");                                     //改行
+		fprintf(m_pFile, "%s", "#=====================================\n"); //これを書き込む
+		fprintf(m_pFile, "%s", "#");                                        //これを書き込む
+		fprintf(m_pFile, "%d", m_nTelephonPoleCount);                       //数字を書き込む
+		fprintf(m_pFile, "%s", u8TelephonPoleNumberText.data());            //文字を書き込む
+		fprintf(m_pFile, "%s", u8TelephonPoleText.data());                  //文字を書き込む(全角文字)
+		fprintf(m_pFile, "%s", "\n");                                       //改行を行う
+		fprintf(m_pFile, "%s", "#=====================================\n"); //これを書き込む
+		fprintf(m_pFile, "%s", "TELEPHONPOLESET\n");                        //文字を書き込む
+		fprintf(m_pFile, "%s", "		POS = ");                           //「POS」の文字を書き込む
+		fprintf(m_pFile, "%.1f ", m_fPosX);                                 //「位置」の文字を書き込む(少数点第１まで)
+		fprintf(m_pFile, "%.1f ", m_fPosY);                                 //「位置」の文字を書き込む(少数点第１まで)
+		fprintf(m_pFile, "%.1f ", m_fPosZ);                                 //「位置」の文字を書き込む(少数点第１まで)
+		fprintf(m_pFile, "%s", "\n");                                       //改行を行う
+		fprintf(m_pFile, "%s", "END_TELEPHONPOLESET\n");                    //文字を書き込む
+		fclose(m_pFile);                                                    //ファイルを閉じる
 	}
 }
 
@@ -113,7 +113,7 @@ void CStageObj::TextFileWrite(CObjectX::TYPE type,float m_fPosX, float m_fPosY, 
 //======================
 void CStageObj::Draw()
 {
-	CObjectX::Draw();
+	CObjectX::Draw(); //描画処理を呼ぶ
 }
 
 //========================
@@ -126,69 +126,75 @@ CStageObj* CStageObj::Create(D3DXVECTOR3 pos, CObjectX::TYPE type)
 	//タイプが電柱の時
 	if (type == CObjectX::TYPE::TELEPHONPOLE)
 	{
-		pStageObj = new CTelephonPole(3);
+		pStageObj = new CTelephonPole(3); //動的確保
+
 		//情報がある時
 		if (pStageObj != nullptr)
 		{
-			pStageObj->SetFileName("data\\XFILE\\StageObj\\telephone_pole.x");
-			pStageObj->SetType(TYPE::TELEPHONPOLE);
+			pStageObj->SetFileName("data\\XFILE\\StageObj\\telephone_pole.x");  //パスの設定
+			pStageObj->SetType(TYPE::TELEPHONPOLE);                             //タイプの設定
 		}
 	}
 
 	//タイプが監視カメラの上部分の時
 	else if (type == CObjectX::TYPE::SURVEILLANCECAMERAUP)
 	{
-		pStageObj = new CSurveillanceCameraUP(3);
+		pStageObj = new CSurveillanceCameraUP(3); //動的確保
+
 		//情報がある時
 		if (pStageObj != nullptr)
 		{
-			pStageObj->SetFileName("data\\XFILE\\StageObj\\surveillance_cameraUP.x");
+			pStageObj->SetFileName("data\\XFILE\\StageObj\\surveillance_cameraUP.x"); //パスの設定
 		}
 	}
 
 	//タイプが監視カメラの下部分の時
 	else if (type == CObjectX::TYPE::SURVEILLANCECAMERADOWN)
 	{
-		pStageObj = new CSurveillanceCameraDown(3);
+		pStageObj = new CSurveillanceCameraDown(3); //動的確保
+
 		//情報がある時
 		if (pStageObj != nullptr)
 		{
-			pStageObj->SetFileName("data\\XFILE\\StageObj\\surveillance_cameraDown.x");
+			pStageObj->SetFileName("data\\XFILE\\StageObj\\surveillance_cameraDown.x"); //パスの設定
 		}
 	}
 
 	//タイプが監視カメラの下部分の時
 	else if (type == CObjectX::TYPE::SHOP)
 	{
-		pStageObj = new CShop(3);
+		pStageObj = new CShop(3); //動的確保
+
 		//情報がある時
 		if (pStageObj != nullptr)
 		{
-			pStageObj->SetFileName("data\\XFILE\\StageObj\\Shop.x");
+			pStageObj->SetFileName("data\\XFILE\\StageObj\\Shop.x"); //パスの設定
 		}
 	}
 
 	//タイプが壊れた家の時
 	else if (type == CObjectX::TYPE::BREAKHOUSE)
 	{
-		pStageObj = new CBreakHouse(3);
+		pStageObj = new CBreakHouse(3); //動的確保
+
 		//情報がある時
 		if (pStageObj != nullptr)
 		{
-			pStageObj->SetFileName("data\\XFILE\\StageObj\\BreakHouse000.x");
+			pStageObj->SetFileName("data\\XFILE\\StageObj\\BreakHouse000.x"); //パスの設定
 		}
 	}
 
+	//情報がある時
 	if (pStageObj != nullptr)
 	{
 		//初期化に成功
 		if (SUCCEEDED(pStageObj->Init()))
 		{
-			pStageObj->GetPos() = pos; //位置を同期させる
-			pStageObj->CObjectX::Lood(); //Xファイルを読み込む関数を呼ぶ
-			pStageObj->Size();
-			pStageObj->SetType(TYPE::SHOP);
-			return pStageObj; //情報を返す
+			pStageObj->GetPos() = pos;       //位置を同期させる
+			pStageObj->CObjectX::Lood();     //Xファイルを読み込む関数を呼ぶ
+			pStageObj->Size();               //サイズの取得
+			pStageObj->SetType(TYPE::SHOP);  //タイプの設定
+			return pStageObj;                //情報を返す
 		}
 	}
 
@@ -242,13 +248,13 @@ CSurveillanceCameraUP::~CSurveillanceCameraUP()
 //============================
 HRESULT CSurveillanceCameraUP::Init()
 {
-	//頂点バッファ生成
+	//初期化が成功するかどうか
 	if (FAILED(CStageObj::Init()))
 	{
-		return E_FAIL;
+		return E_FAIL; //失敗を返す
 	}
 
-	return S_OK;
+	return S_OK;       //成功を返す
 }
 
 //==========================
@@ -256,7 +262,7 @@ HRESULT CSurveillanceCameraUP::Init()
 //==========================
 void CSurveillanceCameraUP::Uninit()
 {
-	CStageObj::Uninit();
+	CStageObj::Uninit(); //終了処理を呼ぶ
 }
 
 //========================
@@ -264,9 +270,7 @@ void CSurveillanceCameraUP::Uninit()
 //========================
 void CSurveillanceCameraUP::Update()
 {
-	CStageObj::Update();
-
-
+	CStageObj::Update(); //更新処理を呼ぶ
 }
 
 //======================
@@ -274,7 +278,7 @@ void CSurveillanceCameraUP::Update()
 //======================
 void CSurveillanceCameraUP::Draw()
 {
-	CStageObj::Draw();
+	CStageObj::Draw();   //描画処理を呼ぶ
 }
 
 
@@ -297,6 +301,7 @@ CSurveillanceCameraDown::~CSurveillanceCameraDown()
 {
 
 }
+
 
 //==========================================================================================================================
 //店の処理
@@ -347,11 +352,11 @@ void CBreakHouse::Update()
 	//一回だけ処理を通す
 	if (GetOneFlag() == false)
 	{
-		CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::FIRE, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));  //炎エフェクトを呼ぶ
-		CManager::GetInstance()->GetFire()->GetLife() = 60 * 3;                                               //ライフを設定
-		CManager::GetInstance()->GetFire()->GetAlpha() = 150;                                                 //ライフを設定
-		CManager::GetInstance()->GetFire()->SetSize(920.0f, 700.0f, 0.0f);                                    //大きさを設定
-		CManager::GetInstance()->GetFire()->SetEffect(D3DXVECTOR3(GetPos().x+200.0f, GetPos().y+600.0f, GetPos().z));    //炎エフェクトを呼ぶ
+		CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::FIRE, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));    //炎エフェクトを呼ぶ
+		CManager::GetInstance()->GetFire()->GetLife() = 60 * 3;                                                       //ライフを設定
+		CManager::GetInstance()->GetFire()->GetAlpha() = 150;                                                         //ライフを設定
+		CManager::GetInstance()->GetFire()->SetSize(920.0f, 700.0f, 0.0f);                                            //大きさを設定
+		CManager::GetInstance()->GetFire()->SetEffect(D3DXVECTOR3(GetPos().x+200.0f, GetPos().y+600.0f, GetPos().z)); //炎エフェクトを呼ぶ
 		SetOneFlag(true); //二度と通らなくする
 	}
 
