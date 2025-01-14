@@ -155,9 +155,6 @@ void CBoss::AttackPatternSelect()
 		if (GetRandom() == 0)
 		{
 			AttackPattern();
-			//SpecialAttack();
-			//AttackPattern001();
-
 		}
 		else if (GetRandom() == 1)
 		{
@@ -176,7 +173,7 @@ void CBoss::AttackPatternSelect()
 		{
 			//srand((unsigned)time(NULL));  // —”Œn—ñ‚ğ‰Šú‰»
 			//SetRandom(rand() % 3);
-			SetRandom(2);
+			SetRandom(0);
 		}
 		m_nCoolTime++;
 	}

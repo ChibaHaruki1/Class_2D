@@ -64,8 +64,6 @@ public://外部からのアクセス可能
 	~CCharacter();                                         //デストラクタ
 	HRESULT Init();                                        //初期化処理
 	void Uninit();                                         //破棄処理
-	void SelectUninit(TYPE type);                          //何を破棄するか選択する破棄処理
-	void SelectUninitPrtas(TYPE type,int nNumber);         //何を破棄するか選択する破棄処理
 
 	//プレイヤー
     void Lood();
