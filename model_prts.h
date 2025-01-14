@@ -29,10 +29,20 @@ public:
 	D3DXMATRIX& GetWorldMtx() { return m_mtxWorld; }  //マトリックスの取得
 	static CModelPrts* Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot, const char* m_aPrtsPass, LPD3DXMESH pMesh, LPD3DXBUFFER pBufferMat, DWORD dw_NumMat, D3DXMATERIAL*pMat); //生成処理
 
-	int m_nIndexPrts;      //何番目のパーツ
-	int m_nIndexModelPrts; //親のパーツ
-	
-	D3DXVECTOR3 m_pos;        //位置
+	//=================================================
+	//情報の取得
+	D3DXVECTOR3& GetPos() { return m_pos; }
+	int& GetIndexPrts() { return m_nIndexPrts; }
+	int& GetIndexModelPrts() { return m_nIndexModelPrts; }
+
+
+	//=================================================
+	//情報の設定
+	void SetPos(D3DXVECTOR3 pos) { m_pos = pos; }
+
+	D3DXVECTOR3 m_pos;           //位置
+
+	int m_nIndexModelPrts;       //親のパーツ
 	D3DXVECTOR3 m_rot;        //向き
 	D3DXMATRIX m_mtxWorld;    //マトリックス
 	LPD3DXMESH m_pMesh;       //メッシュのへのポインタ
@@ -49,4 +59,6 @@ public:
 
 private:
 	CModelPrts* m_pParentlPrts;  //自分のポインター
+
+	int m_nIndexPrts;            //何番目のパーツ
 };

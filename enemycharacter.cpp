@@ -15,7 +15,7 @@
 
 //======================
 //コンストラクタ
-//=====================~
+//======================
 CEnemyCharacter::CEnemyCharacter(int nPriority) : CObjectX(nPriority)
 {
 	//敵のパーツ数分回す
@@ -252,16 +252,16 @@ void CEnemyCharacter::LoodEnemy(const char* aSelect)
 								//インデックスを読み取る条件
 								if (!strcmp(m_aDataSearch, "INDEX"))
 								{
-									(void)fscanf(m_pFile, "%s %d", &m_aDataSearch, &m_pModelPrtsEnemy[nCount]->m_nIndexPrts); //パーツのインデックスを読み取る
+									(void)fscanf(m_pFile, "%s %d", &m_aDataSearch, &m_pModelPrtsEnemy[nCount]->GetIndexPrts()); //パーツのインデックスを読み取る
 								}
 
 								//親パーツかどうかを読み取る条件
 								else if (!strcmp(m_aDataSearch, "PARENT"))
 								{
-									(void)fscanf(m_pFile, "%s %d", &m_aDataSearch, &m_pModelPrtsEnemy[nCount]->m_nIndexModelPrts); //親パーツかを読み取る
+									(void)fscanf(m_pFile, "%s %d", &m_aDataSearch, &m_pModelPrtsEnemy[nCount]->GetIndexModelPrts()); //親パーツかを読み取る
 
 									//読み込んだ値がー１の時
-									if (m_pModelPrtsEnemy[nCount]->m_nIndexModelPrts == -1)
+									if (m_pModelPrtsEnemy[nCount]->GetIndexModelPrts() == -1)
 									{
 										m_pModelPrtsEnemy[nCount]->SetParent(nullptr); //情報なし
 									}
@@ -269,15 +269,15 @@ void CEnemyCharacter::LoodEnemy(const char* aSelect)
 									//その他
 									else
 									{
-										m_pModelPrtsEnemy[nCount]->SetParent(m_pModelPrtsEnemy[m_pModelPrtsEnemy[nCount]->m_nIndexModelPrts]); //親である情報を入れる
+										m_pModelPrtsEnemy[nCount]->SetParent(m_pModelPrtsEnemy[m_pModelPrtsEnemy[nCount]->GetIndexModelPrts()]); //親である情報を入れる
 									}
 								}
 
 								//位置を読み取る条件
 								else if (!strcmp(m_aDataSearch, "POS"))
 								{
-									(void)fscanf(m_pFile, "%s %f %f %f", &m_aDataSearch, &m_pModelPrtsEnemy[nCount]->m_pos.x, &m_pModelPrtsEnemy[nCount]->m_pos.y, &m_pModelPrtsEnemy[nCount]->m_pos.z); //位置の同期
-									m_pSaveModelPrtInfo[nCount].pos = m_pModelPrtsEnemy[nCount]->m_pos;                //位置を保管する
+									(void)fscanf(m_pFile, "%s %f %f %f", &m_aDataSearch, &m_pModelPrtsEnemy[nCount]->GetPos().x, &m_pModelPrtsEnemy[nCount]->GetPos().y, &m_pModelPrtsEnemy[nCount]->GetPos().z); //位置の同期
+									m_pSaveModelPrtInfo[nCount].pos = m_pModelPrtsEnemy[nCount]->GetPos();                //位置を保管する
 									//m_pSaveModelPrtInfo[nCount].pos += MotionSetEnemy[0].KeySet[0].aKey[nCount].pos;
 								}
 
@@ -435,8 +435,8 @@ void CEnemyCharacter::LoodEnemy(const char* aSelect)
 			m_pSaveModelPrtUpdateInfo[nCount].pos = m_pSaveModelPrtInfo[nCount].pos; //値を複製する
 		}
 
-		m_pSaveModelPrtUpdateInfo[2].pos += m_pModelPrtsEnemy[0]->m_pos; //位置を加算する
-		m_pSaveModelPrtUpdateInfo[5].pos += m_pModelPrtsEnemy[0]->m_pos; //位置を加算する
+		m_pSaveModelPrtUpdateInfo[2].pos += m_pModelPrtsEnemy[0]->GetPos(); //位置を加算する
+		m_pSaveModelPrtUpdateInfo[5].pos += m_pModelPrtsEnemy[0]->GetPos(); //位置を加算する
 
 		//右肩から次のパーツ（２の次＝３）から終わりまで（終わりは武器まで（４番））
 		for (RightnCount = 3; RightnCount < 5; RightnCount++)
@@ -532,8 +532,8 @@ void CEnemyCharacter::MotionInfoEnemy()
 			}
 
 			//差分の分だけ加算
-			m_pModelPrtsEnemy[nModelCount]->m_pos += pos; //現在の位置を計算でだした位置と加算させる
-			m_pModelPrtsEnemy[nModelCount]->m_rot += rot; //向きの位置を計算でだした向きと加算させる
+			m_pModelPrtsEnemy[nModelCount]->GetPos() += pos; //現在の位置を計算でだした位置と加算させる
+			m_pModelPrtsEnemy[nModelCount]->GetPos() += rot; //向きの位置を計算でだした向きと加算させる
 		}
 	}
 	
@@ -580,9 +580,9 @@ void CEnemyCharacter::SetMotionEnemy(ENEMYMOTIONSTATE motiontype)
 			//パーツの情報がある時
 			if (m_pModelPrtsEnemy[nModelCount] != nullptr)
 			{
-				m_pModelPrtsEnemy[nModelCount]->m_pos = m_pSaveModelPrtInfo[nModelCount].pos;                          //現在の位置を読み取った値にする
+				m_pModelPrtsEnemy[nModelCount]->SetPos(m_pSaveModelPrtInfo[nModelCount].pos);                          //現在の位置を読み取った値にする
 				m_pModelPrtsEnemy[nModelCount]->m_rot = m_pSaveModelPrtInfo[nModelCount].rot;						   //現在の向きを読み取った値にする
-				m_pModelPrtsEnemy[nModelCount]->m_pos += MotionSetEnemy[motiontype].KeySet[0].aKey[nModelCount].pos;   //現在の位置を設定したモーションの位置と加算
+				m_pModelPrtsEnemy[nModelCount]->GetPos() += MotionSetEnemy[motiontype].KeySet[0].aKey[nModelCount].pos;   //現在の位置を設定したモーションの位置と加算
 				m_pModelPrtsEnemy[nModelCount]->m_rot += MotionSetEnemy[motiontype].KeySet[0].aKey[nModelCount].rot;   //現在の向きを設定したモーションの向きと加算
 			}
 		}

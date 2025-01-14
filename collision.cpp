@@ -334,9 +334,9 @@ bool CCollision::ColiisionBox3DLeft(D3DXVECTOR3 pos, D3DXVECTOR3 pos1, float X, 
 //=========================
 bool CCollision::Coliision3DcircleBoss(D3DXVECTOR3 pos, D3DXVECTOR3& pos1, float X, float Y, float Z, D3DXVECTOR3 Size1, float m_fSizeX, int nNumber) //QÆ“n‚µ‚¾‚ª•Ï‚¦‚é’l‚Ì‚İQÆ‚µ‚È‚¢‚Æstaic‚Æ“¯‚¶‚É‚È‚é
 {
-	float lengthX = pos.x - pos1.x + CManager::GetInstance()->GetBoss()->GetModelPrtasBoss(nNumber)->m_pos.x; //pos‚Æpos1‚Ì‚˜‚Ì‹——£‚ğí‚É”äŠr
-	float lengthY = pos.y - pos1.y + CManager::GetInstance()->GetBoss()->GetModelPrtasBoss(nNumber)->m_pos.y; //pos‚Æpos1‚Ì‚™‚Ì‹——£‚ğí‚É”äŠr
-	float lengthZ = pos.z - pos1.z + CManager::GetInstance()->GetBoss()->GetModelPrtasBoss(nNumber)->m_pos.z; //pos‚Æpos1‚Ì‚š‚Ì‹——£‚ğí‚É”äŠr
+	float lengthX = pos.x - pos1.x + CManager::GetInstance()->GetBoss()->GetModelPrtasBoss(nNumber)->GetPos().x; //pos‚Æpos1‚Ì‚˜‚Ì‹——£‚ğí‚É”äŠr
+	float lengthY = pos.y - pos1.y + CManager::GetInstance()->GetBoss()->GetModelPrtasBoss(nNumber)->GetPos().y; //pos‚Æpos1‚Ì‚™‚Ì‹——£‚ğí‚É”äŠr
+	float lengthZ = pos.z - pos1.z + CManager::GetInstance()->GetBoss()->GetModelPrtasBoss(nNumber)->GetPos().z; //pos‚Æpos1‚Ì‚š‚Ì‹——£‚ğí‚É”äŠr
 
 	float CenterDistance = sqrtf(lengthX * lengthX + lengthY * lengthY + lengthZ * lengthZ);//pos‚Æpos1‚Ì‹——£‚ğŒvZ
 

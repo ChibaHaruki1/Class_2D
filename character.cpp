@@ -335,7 +335,7 @@ void CCharacter::Lood()
 								//インデックスを読み取る条件
 								if (!strcmp(m_aDataSearch, "INDEX"))
 								{
-									(void)fscanf(m_pFile, "%s %d", &m_aDataSearch, &m_pModelPrts[nCount]->m_nIndexPrts); //パーツのインデックスを読み取る
+									(void)fscanf(m_pFile, "%s %d", &m_aDataSearch, &m_pModelPrts[nCount]->GetIndexPrts()); //パーツのインデックスを読み取る
 								}
 
 								//親パーツかどうかを読み取る条件
@@ -642,7 +642,7 @@ void CCharacter::LoodBoss()
 								//インデックスを読み取る条件
 								if (!strcmp(m_aDataSearch, "INDEX"))
 								{
-									(void)fscanf(m_pFile, "%s %d", &m_aDataSearch, &m_pModelPrtsBoss[nCount]->m_nIndexPrts); //パーツのインデックスを読み取る
+									(void)fscanf(m_pFile, "%s %d", &m_aDataSearch, &m_pModelPrtsBoss[nCount]->GetIndexPrts()); //パーツのインデックスを読み取る
 								}
 
 								//親パーツかどうかを読み取る条件

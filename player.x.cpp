@@ -231,7 +231,7 @@ void CPlayerX::Update()
 		{
 			m_nDieRandom = -1 + rand() % 3; //乱数を入れる
 		}
-		m_pModelPrts[0]->m_pos += D3DXVECTOR3(GetDieFrame() * 0.1f * m_nDieRandom, 0.0f, GetDieFrame() * 0.1f * m_nDieRandom);
+		m_pModelPrts[0]->GetPos() += D3DXVECTOR3(GetDieFrame() * 0.1f * m_nDieRandom, 0.0f, GetDieFrame() * 0.1f * m_nDieRandom);
 
 		CCharacter::Update();  //基底クラスの更新処理を呼ぶ
 		SetMotion(DIE);        //モーションを死亡に設定する
