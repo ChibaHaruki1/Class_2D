@@ -5,14 +5,13 @@
 //
 //===========================================================================================================
 
+
 //=============================
 //インクルード
 #include "character.h"
 #include "rendererh.h"
 #include "manager.h"
 
-//=============================
-//static変数の初期化
 
 //======================
 //コンストラクタ
@@ -281,7 +280,7 @@ void CCharacter::Lood()
 				{
 					(void)fscanf(m_pFile, "%s %s", &m_aDataSearch, &aPrtsPass[nModelPrtsCount]); //パーツ数取得
 
-					//モデルパーツカウントが最大数より小さいとき
+					//モデルパーツカウントが最大数より小さい時
 					if (nModelPrtsCount < MAX_PRTS)
 					{
 						if (m_pModelPrts[nModelPrtsCount] == nullptr)
@@ -403,12 +402,12 @@ void CCharacter::Lood()
 						}
 
 						//ループかどうか判定する条件
-						else if (!strcmp(m_aDataSearch, "LOOP")) //ループの読み込み
+						else if (!strcmp(m_aDataSearch, "LOOP"))
 						{
 							(void)fscanf(m_pFile, "%s", m_aDataSearch); //検索
 							(void)fscanf(m_pFile, "%d", &LoopType);     //ループするかどうか検索
 
-							//０の時
+							//読み込んだ値が０の時
 							if (LoopType == 0)
 							{
 								MotionSetPlayer[nMotionCount].Loop = false; //ループしない
@@ -422,7 +421,7 @@ void CCharacter::Lood()
 						} 
 
 						//キーの読み込み条件
-						else if (!strcmp(m_aDataSearch, "NUM_KEY")) //キー数の読み込み
+						else if (!strcmp(m_aDataSearch, "NUM_KEY"))
 						{
 							(void)fscanf(m_pFile, "%s", &m_aDataSearch);                         //検索
 							(void)fscanf(m_pFile, "%d", &MotionSetPlayer[nMotionCount].NumKey);  //キーの数を検索
@@ -452,7 +451,7 @@ void CCharacter::Lood()
 								//フレームを読み取る条件
 								if (!strcmp(m_aDataSearch, "FRAME"))
 								{
-									(void)fscanf(m_pFile, "%s %d", &m_aDataSearch, &MotionSetPlayer[nMotionCount].KeySet[nKeySetCount].Frame); //フレームを検索
+									(void)fscanf(m_pFile, "%s %d", &m_aDataSearch, &MotionSetPlayer[nMotionCount].KeySet[nKeySetCount].Frame); //フレーム数を検索
 								}
 									
 								//キーの中身の情報を読み取る条件
@@ -710,12 +709,12 @@ void CCharacter::LoodBoss()
 						}
 
 						//ループするかどうか読み取る条件
-						else if (!strcmp(m_aDataSearch, "LOOP")) //ループの読み込み
+						else if (!strcmp(m_aDataSearch, "LOOP"))
 						{
 							(void)fscanf(m_pFile, "%s", m_aDataSearch); //検索
 							(void)fscanf(m_pFile, "%d", &LoopType);     //ループするかどうか検索
 
-							//読み込んだ値が０も時
+							//読み込んだ値が０の時
 							if (LoopType == 0)
 							{
 								MotionSetBoss[nMotionCount].Loop = false; //ループしない
@@ -729,7 +728,7 @@ void CCharacter::LoodBoss()
 						}
 
 						//キーの読み取る条件
-						else if (!strcmp(m_aDataSearch, "NUM_KEY")) //キー数の読み込み
+						else if (!strcmp(m_aDataSearch, "NUM_KEY"))
 						{
 							(void)fscanf(m_pFile, "%s", &m_aDataSearch);                       //検索
 							(void)fscanf(m_pFile, "%d", &MotionSetBoss[nMotionCount].NumKey);  //キーの数を検索
@@ -759,7 +758,7 @@ void CCharacter::LoodBoss()
 								//フレームを読み込む条件
 								if (!strcmp(m_aDataSearch, "FRAME"))
 								{
-									(void)fscanf(m_pFile, "%s %d", &m_aDataSearch, &MotionSetBoss[nMotionCount].KeySet[nKeySetCount].Frame); //フレームを検索
+									(void)fscanf(m_pFile, "%s %d", &m_aDataSearch, &MotionSetBoss[nMotionCount].KeySet[nKeySetCount].Frame); //フレーム数を検索
 								}
 
 								//キーの中身の情報を読み取る条件
@@ -875,7 +874,7 @@ void CCharacter::MotionInfo()
 
 			//移動量の変数
 			D3DXVECTOR3 Movepos = MotionSetPlayer[m_MotionState].KeySet[MotionCount].aKey[nModelCount].pos; //位置を現在のモーションの位置と同期
-			D3DXVECTOR3 Moverot = MotionSetPlayer[m_MotionState].KeySet[MotionCount].aKey[nModelCount].rot; //向きを現在のモーションの位置と同期
+			D3DXVECTOR3 Moverot = MotionSetPlayer[m_MotionState].KeySet[MotionCount].aKey[nModelCount].rot; //向きを現在のモーションの向きと同期
 
 			//最初のキーじゃないなら差分を求める
 			if (MotionCount != MotionSetPlayer[m_MotionState].NumKey - 1)
@@ -940,7 +939,7 @@ void CCharacter::MotionInfoBoss()
 
 			//移動量の変数
 			D3DXVECTOR3 Movepos = MotionSetBoss[m_MotionStateBoss].KeySet[MotionCountBoss].aKey[nModelCount].pos; //位置を現在のモーションの位置と同期
-			D3DXVECTOR3 Moverot = MotionSetBoss[m_MotionStateBoss].KeySet[MotionCountBoss].aKey[nModelCount].rot; //向きを現在のモーションの位置と同期
+			D3DXVECTOR3 Moverot = MotionSetBoss[m_MotionStateBoss].KeySet[MotionCountBoss].aKey[nModelCount].rot; //向きを現在のモーションの向きと同期
 
 			//最初のキーじゃないなら差分を求める
 			if (MotionCountBoss != MotionSetBoss[m_MotionStateBoss].NumKey - 1)

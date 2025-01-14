@@ -239,13 +239,13 @@ void CObjectX::Junp(TYPE type,float fJumpPwer)
 		else if (type == TYPE::ENEMYINMOTION)
 		{
 			CManager::GetInstance()->GetEnemyInMotion(0)->CEnemyCharacter::SetMotionEnemy(CEnemyCharacter::ENEMYMOTIONSTATE::ENEMYJUMP);
-			CManager::GetInstance()->GetEnemyInMotion(0)->m_bMotionType = true;
+			CManager::GetInstance()->GetEnemyInMotion(0)->SetMotionType(true);
 			m_pos.x += 3.0f;
 		}
 		else if (type == TYPE::ENEMYINMOTION001)
 		{
 			CManager::GetInstance()->GetEnemyInMotion001(0)->CEnemyCharacter::SetMotionEnemy(CEnemyCharacter::ENEMYMOTIONSTATE::ENEMYJUMP);
-			CManager::GetInstance()->GetEnemyInMotion001(0)->m_bMotionType = true;
+			CManager::GetInstance()->GetEnemyInMotion001(0)->SetMotionType(true);
 			m_pos.x += 3.0f;
 		}
 	}
