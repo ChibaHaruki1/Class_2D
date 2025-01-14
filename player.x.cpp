@@ -89,7 +89,7 @@ HRESULT CPlayerX::Init()
 	CCharacter::Lood();                                                       //テキストファイルを読み込む処理
 	CCharacter::SetMotion(WALK);                                              //モーションの設定
 	SetRot(D3DXVECTOR3(0.0f, D3DX_PI * -0.5f, 0.0f));                         //向きの調整（右向き）
-	m_pModelPrts[18]->m_bCreateGun = false;                                   //パーツの銃部分を非表示に設定
+	m_pModelPrts[18]->SetDraw(false);                                   //パーツの銃部分を非表示に設定
 	SetPos(D3DXVECTOR3(3000.0f,0.0f,0.0f));                                   //位置の調整
 	CManager::GetSound()->PlaySound(CSound::SOUND_LABEL::SOUND_LABEL_NORMALBGM);  //BDMを流す
 	SetLife(1);                                                               //自身のライフ
@@ -459,7 +459,7 @@ void CPlayerX::KeySet()
 	if (CManager::GetKeyBorad()->GetKeyboardTrigger(DIK_K) == true|| CManager::GetJyoPad()->GetJoypadTrigger(CInputJoyPad::JOYKEY::JOYKEY_RB)==true)
 	{
 		//武器が買われた時
-		if (m_pModelPrts[18]->m_bCreateGun == true&& m_nSpecialAttackCount>= MAX_SPECIALATTACKCOUNT)
+		if (m_pModelPrts[18]->GetDraw() == true&& m_nSpecialAttackCount>= MAX_SPECIALATTACKCOUNT)
 		{
 			SpecialAttack = true;      
 			m_nSpecialAttackCount = 0;
@@ -817,9 +817,9 @@ void CPlayerX::CreateGun()
 	//一番目の武器が選ばれた時
 	if (m_nSelectShopCount == 0)
 	{
-		if (m_pModelPrts[18]->m_bCreateGun == false)
+		if (m_pModelPrts[18]->GetDraw() == false)
 		{
-			m_pModelPrts[18]->m_bCreateGun = true;
+			m_pModelPrts[18]->SetDraw(true);
 		}
 	}
 

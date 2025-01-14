@@ -18,19 +18,20 @@
 //======================
 CModelPrts::CModelPrts()
 {
-	m_nIndexPrts = 0;
-	m_nIndexModelPrts = 0;
-	m_bCreateGun = true;
-	m_nNumMat = 0;
-	m_pMesh = nullptr;
-	m_pBuffMat = nullptr;
-	m_pParentlPrts = nullptr;
+	m_nIndexPrts = 0;         //パーツ番号の初期化
+	m_nIndexModelPrts = 0;    //親パーツ番号の初期化
+	m_bDraw = true;           //描画をする
+	m_nNumMat = 0;            //マテリアルの数の初期化
+	m_pMesh = nullptr;        //メッシュの初期化
+	m_pBuffMat = nullptr;     //バッファの初期化
+	m_pParentlPrts = nullptr; //自身のポインターの初期化
+
+	//テクスチャの最大数分回す
 	for (int nCount = 0; nCount < MAX_MODEL_TEXTURE; nCount++)
 	{
-		m_pTexture[nCount] = {};
+		m_pTexture[nCount] = nullptr; //テクスチャの初期化
 	}
 }
-
 
 //=======================
 //デストラクタ
@@ -40,52 +41,44 @@ CModelPrts::~CModelPrts()
 
 }
 
-
 //======================
 //初期化処理
 //======================
 HRESULT CModelPrts::Init()
 {
-	return S_OK;
-
+	return S_OK; //成功を返す
 }
-
 
 //========================
 //破棄処理
 //========================
 void CModelPrts::Uninit()
 {
+	//メッシュの情報がある時
 	if (m_pMesh != nullptr)
 	{
-		m_pMesh->Release();
-		m_pMesh = nullptr;
+		m_pMesh->Release(); //メッシュの削除
+		m_pMesh = nullptr;  //情報を無くす
 	}
 
+	//バッファの情報がある時
 	if (m_pBuffMat != nullptr)
 	{
-		m_pBuffMat->Release();
-		m_pBuffMat = nullptr;
+		m_pBuffMat->Release(); //バッファの削除
+		m_pBuffMat = nullptr;  //情報を無くす
 	}
 
-	m_nNumMat = 0;
-
+	//テクスチャの最大数分回す
 	for (int nCntMat = 0; nCntMat < MAX_MODEL_TEXTURE; nCntMat++)
 	{
+		//テクスチャの情報がある時
 		if (m_pTexture[nCntMat] != nullptr)
 		{
-			m_pTexture[nCntMat]->Release();
-			m_pTexture[nCntMat] = nullptr;
+			m_pTexture[nCntMat]->Release(); //テクスチャの削除
+			m_pTexture[nCntMat] = nullptr;  //情報を無くす
 		}
 	}
-
-	//if (this != nullptr)
-	//{
-	//	delete this;
-	//	//this = nullptr;
-	//}
 }
-
 
 //========================
 //更新処理
@@ -95,20 +88,20 @@ void CModelPrts::Update()
 
 }
 
-
 //========================
 //描画処理
 //========================
 void CModelPrts::Draw(D3DXMATRIX MtxWolrd)
 {
-	if (m_bCreateGun == true)
+	//描画する時
+	if (m_bDraw == true)
 	{
-		CRenderer* pRenderer = CManager::GetRenderer();
+		CRenderer* pRenderer = CManager::GetRenderer();     //レンダラーの取得
 		LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice(); //デバイスのポインタ	
 
 		D3DXMATRIX mtxRot, mtxTrans, mtxScale, mtxParent; //計算用マトリックス
-		D3DMATERIAL9 matDef; //現在のマテリアルの保存用
-		D3DXMATERIAL* pMat;
+		D3DMATERIAL9 matDef;                              //現在のマテリアルの保存用
+		D3DXMATERIAL* pMat;                               //マテリアルのポインター
 
 		//ワールドマトリックスの初期化
 		D3DXMatrixIdentity(&m_mtxWorld);
@@ -125,19 +118,20 @@ void CModelPrts::Draw(D3DXMATRIX MtxWolrd)
 		//マトリックスに代入
 		D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxTrans);
 
+		//自身のポインターの情報がある時
 		if (m_pParentlPrts != nullptr)
 		{
-			mtxParent = m_pParentlPrts->GetWorldMtx();
+			mtxParent = m_pParentlPrts->GetWorldMtx(); //マトリックスを自身の物と同期させる
 		}
 		else
 		{
-			mtxParent = MtxWolrd;
-
+			mtxParent = MtxWolrd;                      //マトリックスを引数の物と同期させる
 		}
 
 		//マトリックスに代入
 		D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxParent);
 
+		//ワールドマトリックスの設定
 		pDevice->SetTransform(D3DTS_WORLD, &m_mtxWorld);
 
 		//現在のマテリアルを収得
@@ -146,6 +140,7 @@ void CModelPrts::Draw(D3DXMATRIX MtxWolrd)
 		//materialポインターの取得
 		pMat = (D3DXMATERIAL*)m_pBuffMat->GetBufferPointer();
 
+		//マテリアルの数分回す
 		for (int nCount = 0; nCount < (int)m_nNumMat; nCount++)
 		{
 			//マテリアルの設定
@@ -156,17 +151,15 @@ void CModelPrts::Draw(D3DXMATRIX MtxWolrd)
 
 			//モデルパーツの描画
 			m_pMesh->DrawSubset(nCount);
-
 		}
 		//保存していたマテリアルを戻す
 		pDevice->SetMaterial(&matDef);
 	}
 }
 
-
-//
-//
-//
+//============================================
+//パーツの読み込み処理
+//============================================
 void CModelPrts::Lood(const char* Filepass, LPD3DXMESH pMesh, LPD3DXBUFFER pBufferMat, DWORD dw_NumMat, D3DXMATERIAL* pMat)
 {
 	//CRenderer* pRenderer = CManager::GetRenderer();
@@ -175,49 +168,54 @@ void CModelPrts::Lood(const char* Filepass, LPD3DXMESH pMesh, LPD3DXBUFFER pBuff
 	//HRESULT result = D3DXLoadMeshFromX(Filepass, D3DXMESH_SYSTEMMEM, pDevice, NULL, &pBufferMat, NULL, &dw_NumMat, &pMesh);
 
 
-	CRenderer* pRenderer = CManager::GetRenderer(); //共通したメモリを持つインスタンスを獲得
+	CRenderer* pRenderer = CManager::GetRenderer();      //レンダラーの取得
 
-	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();  //デバイスの取得
 
 
-	HRESULT result = D3DXLoadMeshFromX(Filepass, D3DXMESH_SYSTEMMEM, pDevice, NULL, &pBufferMat, NULL, &dw_NumMat, &pMesh);
+	HRESULT result = D3DXLoadMeshFromX(Filepass, D3DXMESH_SYSTEMMEM, pDevice, NULL, &pBufferMat, NULL, &dw_NumMat, &pMesh); //Xファイルの読み込み
 
-	m_pMesh = pMesh;
-	m_pBuffMat = pBufferMat;
-	m_nNumMat = dw_NumMat;
+	m_pMesh = pMesh;          //メッシュを引数と同期させる
+	m_pBuffMat = pBufferMat;  //バッファを引数と同期させる
+	m_nNumMat = dw_NumMat;    //マテリアルの数を引数と同期させる
 
 	//マテリアルデータへのポインタを収得
 	pMat = (D3DXMATERIAL*)m_pBuffMat->GetBufferPointer();
 
-	int nNumTexture = 0;
+	int nNumTexture = 0; //テクスチャの数をカウントするための変数
 
+	//マテリアルの数分回す
 	for (int nCntMat = 0; nCntMat < (int)m_nNumMat; nCntMat++)
 	{
+		//テクスチャファイルが存在する
 		if (pMat[nCntMat].pTextureFilename != nullptr)
-		{//テクスチャファイルが存在する
-			D3DXCreateTextureFromFile(pDevice, pMat[nCntMat].pTextureFilename, &m_pTexture[nNumTexture]);
-			nNumTexture++;
+		{
+			D3DXCreateTextureFromFile(pDevice, pMat[nCntMat].pTextureFilename, &m_pTexture[nNumTexture]); //テクスチャファイルを作る
+			nNumTexture++;                                                                                //カウントを進める
 		}
 	}
 }
-
 
 //=========================
 //生成
 //=========================
 CModelPrts* CModelPrts::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot, const char* m_aPrtsPass, LPD3DXMESH pMesh, LPD3DXBUFFER pBufferMat, DWORD dw_NumMat, D3DXMATERIAL*pMat)
 {
-	CModelPrts* pModelPrts = new CModelPrts();
+	CModelPrts* pModelPrts = new CModelPrts(); //動的確保
 
+	//情報がある時
 	if (pModelPrts != nullptr)
 	{
-		pModelPrts->Init();
-		pModelPrts->m_pos = pos;
-		pModelPrts->m_rot = rot;
-		pModelPrts->Lood(m_aPrtsPass,pMesh,pBufferMat,dw_NumMat,pMat);
-		pModelPrts->Size();
+		pModelPrts->Init();                                             //初期化処理
+		pModelPrts->m_pos = pos;                                        //位置を引数と同期させる
+		pModelPrts->m_rot = rot;                                        //向きを引数と同期させる
+		pModelPrts->Lood(m_aPrtsPass,pMesh,pBufferMat,dw_NumMat,pMat);  //ｘファイルの読み込み処理(引数で情報を渡す)
+		pModelPrts->Size();                                             //サイズの取得
+
+		return pModelPrts; //情報を返す
 	}
-	return pModelPrts;
+
+	return nullptr; //無を返す
 }
 
 
@@ -227,7 +225,7 @@ CModelPrts* CModelPrts::Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot, const char* m_a
 void CModelPrts::Size()
 {
 	int nNumVertex; //頂点数の格納
-	DWORD dSIze; //頂点のフォーマットサイズ取得情報を保管する
+	DWORD dSIze;    //頂点のフォーマットサイズ取得情報を保管する
 	BYTE* pVtxByte; //頂点フォーマットの取得
 
 	//頂点数を取得
@@ -239,51 +237,78 @@ void CModelPrts::Size()
 	//頂点メッシュのロック
 	m_pMesh->LockVertexBuffer(D3DLOCK_READONLY, (void**)&pVtxByte);
 
+	//頂点数分回す
 	for (int nCount = 0; nCount < nNumVertex; nCount++)
 	{
 		//位置を代入するための変数
 		D3DXVECTOR3 mtx;
 
-		mtx = *(D3DXVECTOR3*)pVtxByte;
+		mtx = *(D3DXVECTOR3*)pVtxByte; //頂点フォーマットをD3DXVECTOR3に変換
 
+
+		//=================================
+		//X軸用
+		//================================= 
+
+		//取得した数値が一番大きい時
 		if (mtx.x > m_max.x)
 		{
-			m_max.x = mtx.x;
+			m_max.x = mtx.x; //代入
 		}
+
+		//取得した値が一番小さい時
 		else if (mtx.x < m_min.x)
 		{
-			m_min.x = mtx.x;
+			m_min.x = mtx.x; //代入
 		}
 
+
+		//=================================
+		//Y軸用
+		//=================================  
+
+		//取得した数値が一番大きい時
 		if (mtx.y > m_max.y)
 		{
-			m_max.y = mtx.y;
-		}
-		else if (mtx.y < m_min.y)
-		{
-			m_min.y = mtx.y;
+			m_max.y = mtx.y; //代入
 		}
 
+		//取得した値が一番小さい時
+		else if (mtx.y < m_min.y)
+		{
+			m_min.y = mtx.y; //代入
+		}
+
+
+		//=================================
+		//Z軸用
+		//================================= 
+		 
+		//取得した数値が一番大きい時
 		if (mtx.z > m_max.z)
 		{
-			m_max.z = mtx.z;
+			m_max.z = mtx.z; //代入
 		}
+
+		//取得した値が一番小さい時
 		else if (mtx.z < m_min.z)
 		{
-			m_min.z = mtx.z;
+			m_min.z = mtx.z; //代入
 		}
 
 		//頂点フォーマットのサイズ分ポインタを進める
 		pVtxByte += dSIze;
 	}
 
+	//最小値が０より小さい時
 	if (m_min.y < 0)
 	{
+		//最小値が最大値より大きい時
 		if (m_max.y < m_min.y)
 		{
-			m_max.y = m_min.y * -1.0f;
+			m_max.y = m_min.y * -1.0f; //最小値のプラス値を代入する
 		}
-		m_min.y = 0;
+		m_min.y = 0; //最小値の初期化
 	}
 
 	//オブジェクトのサイズを計算する
@@ -291,21 +316,13 @@ void CModelPrts::Size()
 }
 
 
-//
-//
-//
+//==================================================
+//情報を同期させる処理
+//==================================================
 void CModelPrts::BindSize(D3DXVECTOR3& max, D3DXVECTOR3& min, D3DXVECTOR3& ModelSize)
 {
-	max = m_max;
-	min = m_min;
-	ModelSize = m_ModelSize;
-}
-
-
-//
-//
-//
-void CModelPrts::SetParent(CModelPrts* pParent)
-{
-	m_pParentlPrts = pParent;
+	//引数の値を現在の値と同期させる
+	max = m_max;              //モデルの最大値を同期させる
+	min = m_min;              //モデルの最小値を同期させる
+	ModelSize = m_ModelSize;  //モデルの大きさを同期させる
 }

@@ -310,7 +310,7 @@ void CBullet3D::CollisionOnObject()
 	{
 		for (int nCount2 = 2; nCount2 < CObjectX::MAX_BOSSPARTS; nCount2++)
 		{
-			if (CManager::GetInstance()->GetBoss()->m_pModelPrtsBoss[nCount2]->m_bCreateGun == true)
+			if (CManager::GetInstance()->GetBoss()->m_pModelPrtsBoss[nCount2]->GetDraw() == true)
 			{
 				//ボスとの当たり判定
 				if (CManager::GetScene()->GetPlayerX()->GetCollision()->Coliision3DcircleBoss(GetPos(), CManager::GetInstance()->GetBoss()->GetPosPrtsBoss(nCount2),
@@ -320,9 +320,9 @@ void CBullet3D::CollisionOnObject()
 					CManager::GetInstance()->GetBossHPGage()->GetBossHPSizeX() -= CMain::SCREEN_WIDTH * 0.01f; //ボスのHPゲージを減らす
 
 					//指定のpartsを描画しない＋処理から外す条件にする
-					if (nCount2 == 6 || nCount2 == 7 || nCount2 == 8 || nCount2 == 9 || nCount2 == 11 || nCount2 == 12 || nCount2 == 13 || nCount2 == 15)
+					if (nCount2 == 6 || nCount2 == 7 || nCount2 == 8 || nCount2 == 9 || nCount2 == 11 || nCount2 == 12 || nCount2 == 13)
 					{
-						CManager::GetInstance()->GetBoss()->m_pModelPrtsBoss[nCount2]->m_bCreateGun = false;
+						CManager::GetInstance()->GetBoss()->m_pModelPrtsBoss[nCount2]->SetDraw(false);
 					}
 
 					CallEffect(true);         //エフェクト処理を呼ぶ
@@ -361,7 +361,7 @@ CSpecialBullet::~CSpecialBullet()
 //===========================
 void CSpecialBullet::Update()
 {
-	if (CManager::GetScene()->GetPlayerX()->m_pModelPrts[18]->m_bCreateGun == true)
+	if (CManager::GetScene()->GetPlayerX()->m_pModelPrts[18]->GetDraw() == true)
 	{
 		if (GetSizeX() <= 1000.0f)
 		{
@@ -407,7 +407,7 @@ void CSpecialBullet::CollisionOnObject()
 				40, 40.0f, MAX_BULLET3D_SIZE_Z,
 				CManager::GetInstance()->GetBoss()->GetModelSizePrtsBoss(nCount2), GetSizeX(), nCount2))
 			{
-				if (CManager::GetScene()->GetPlayerX()->m_pModelPrts[18]->m_bCreateGun == false)
+				if (CManager::GetScene()->GetPlayerX()->m_pModelPrts[18]->GetDraw() == false)
 				{
 					CManager::GetInstance()->GetBossHPGage()->GetBossHPSizeX() -= CMain::SCREEN_WIDTH * 0.01f; //ボスのHPゲージを減らす
 					CallEffect(true);         //エフェクト処理を呼ぶ
