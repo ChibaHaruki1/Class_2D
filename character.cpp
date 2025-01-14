@@ -341,10 +341,10 @@ void CCharacter::Lood()
 								//親パーツかどうかを読み取る条件
 								else if (!strcmp(m_aDataSearch, "PARENT"))
 								{
-									(void)fscanf(m_pFile, "%s %d", &m_aDataSearch, &m_pModelPrts[nCount]->m_nIndexModelPrts); //親パーツかを読み取る
+									(void)fscanf(m_pFile, "%s %d", &m_aDataSearch, &m_pModelPrts[nCount]->GetIndexModelPrts()); //親パーツかを読み取る
 
 									//読み込んだ値がー１の時
-									if (m_pModelPrts[nCount]->m_nIndexModelPrts == -1)
+									if (m_pModelPrts[nCount]->GetIndexModelPrts() == -1)
 									{
 										m_pModelPrts[nCount]->SetParent(nullptr); //情報無し
 									}
@@ -352,23 +352,23 @@ void CCharacter::Lood()
 									//その他
 									else
 									{
-										m_pModelPrts[nCount]->SetParent(m_pModelPrts[m_pModelPrts[nCount]->m_nIndexModelPrts]); //親である情報を入れる
+										m_pModelPrts[nCount]->SetParent(m_pModelPrts[m_pModelPrts[nCount]->GetIndexModelPrts()]); //親である情報を入れる
 									}
 								}
 
 								//位置の読み込み条件
 								else if (!strcmp(m_aDataSearch, "POS"))
 								{
-									(void)fscanf(m_pFile, "%s %f %f %f", &m_aDataSearch, &m_pModelPrts[nCount]->m_pos.x, &m_pModelPrts[nCount]->m_pos.y, &m_pModelPrts[nCount]->m_pos.z); //位置の同期
-									m_pSaveModelPrtInfo[nCount].pos = m_pModelPrts[nCount]->m_pos;                     //位置を保管する
+									(void)fscanf(m_pFile, "%s %f %f %f", &m_aDataSearch, &m_pModelPrts[nCount]->GetPos().x, &m_pModelPrts[nCount]->GetPos().y, &m_pModelPrts[nCount]->GetPos().z); //位置の同期
+									m_pSaveModelPrtInfo[nCount].pos = m_pModelPrts[nCount]->GetPos();                     //位置を保管する
 									//m_pSaveModelPrtInfo[nCount].pos += MotionSetPlayer[0].KeySet[0].aKey[nCount].pos;  
 								}
 
 								//向きの読み込み条件
 								else if (!strcmp(m_aDataSearch, "ROT"))
 								{
-									(void)fscanf(m_pFile, "%s %f %f %f", &m_aDataSearch, &m_pModelPrts[nCount]->m_rot.x, &m_pModelPrts[nCount]->m_rot.y, &m_pModelPrts[nCount]->m_rot.z); //位置の同期
-									m_pSaveModelPrtInfo[nCount].rot = m_pModelPrts[nCount]->m_rot;                     //向きを保管する
+									(void)fscanf(m_pFile, "%s %f %f %f", &m_aDataSearch, &m_pModelPrts[nCount]->GetRot().x, &m_pModelPrts[nCount]->GetRot().y, &m_pModelPrts[nCount]->GetRot().z); //位置の同期
+									m_pSaveModelPrtInfo[nCount].rot = m_pModelPrts[nCount]->GetRot();                     //向きを保管する
 									//m_pSaveModelPrtInfo[nCount].rot += MotionSetPlayer[0].KeySet[0].aKey[nCount].rot;
 								}
 							}
@@ -475,7 +475,7 @@ void CCharacter::Lood()
 											(void)fscanf(m_pFile, "%s %f %f %f", &m_aDataSearch, &MotionSetPlayer[nMotionCount].KeySet[nKeySetCount].aKey[nKeyCount].pos.x,
 												                                       &MotionSetPlayer[nMotionCount].KeySet[nKeySetCount].aKey[nKeyCount].pos.y,
 												                                       &MotionSetPlayer[nMotionCount].KeySet[nKeySetCount].aKey[nKeyCount].pos.z); //位置の同期
-											//m_pos = MotionSetPlayer[nMotionCount].KeySet[nKeySetCount].aKey[nCount].pos;
+											//GetPos() = MotionSetPlayer[nMotionCount].KeySet[nKeySetCount].aKey[nCount].pos;
 										}
 
 										//向きの情報を読み取る条件
@@ -518,25 +518,25 @@ void CCharacter::Lood()
 		//現在のパーツの次のパーツ分回す
 		for (int Next = 0; Next < nCount + 1; Next++)
 		{
-			SaveMotionPos[nCount + 2] += m_pModelPrts[Next + 2]->m_pos;  //左側のパーツ数
-			SaveMotionPos[nCount + 6] += m_pModelPrts[Next + 6]->m_pos;  //右側のパーツ数
+			SaveMotionPos[nCount + 2] += m_pModelPrts[Next + 2]->GetPos();  //左側のパーツ数
+			SaveMotionPos[nCount + 6] += m_pModelPrts[Next + 6]->GetPos();  //右側のパーツ数
 		}
 
-		SaveMotionPos[nCount + 6] += m_pModelPrts[0]->m_pos; //位置を加算
-		SaveMotionPos[nCount + 2] += m_pModelPrts[0]->m_pos; //位置を加算
+		SaveMotionPos[nCount + 6] += m_pModelPrts[0]->GetPos(); //位置を加算
+		SaveMotionPos[nCount + 2] += m_pModelPrts[0]->GetPos(); //位置を加算
 	}
 
 	//下半身のpartsの位置を取得
 	for (int nCount1 = 0; nCount1 < 6; nCount1++)
 	{
-		SaveMotionPos[nCount1 + 11] += m_pModelPrts[nCount1 + 11]->m_pos; //下半身の各パーツ
-		SaveMotionPos[nCount1 + 11] -= m_pModelPrts[10]->m_pos;           //腰の分引く
+		SaveMotionPos[nCount1 + 11] += m_pModelPrts[nCount1 + 11]->GetPos(); //下半身の各パーツ
+		SaveMotionPos[nCount1 + 11] -= m_pModelPrts[10]->GetPos();           //腰の分引く
 	}
 
 	//頭と体の位置を取得する
 	for (int nCount2 = 0; nCount2 < 2; nCount2++)
 	{
-		SaveMotionPos[nCount2] += m_pModelPrts[nCount2]->m_pos; //位置を加算
+		SaveMotionPos[nCount2] += m_pModelPrts[nCount2]->GetPos(); //位置を加算
 		GetPosPrts(nCount2) = D3DXVECTOR3(SaveMotionPos[nCount2].x + GetPos().x, SaveMotionPos[nCount2].y + GetPos().y + 20.0f, SaveMotionPos[nCount2].z + GetPos().z); //パーツの位置を修正
 	}
 
@@ -648,10 +648,10 @@ void CCharacter::LoodBoss()
 								//親パーツかどうかを読み取る条件
 								else if (!strcmp(m_aDataSearch, "PARENT"))
 								{
-									(void)fscanf(m_pFile, "%s %d", &m_aDataSearch, &m_pModelPrtsBoss[nCount]->m_nIndexModelPrts); //親パーツかを読み取る
+									(void)fscanf(m_pFile, "%s %d", &m_aDataSearch, &m_pModelPrtsBoss[nCount]->GetIndexModelPrts()); //親パーツかを読み取る
 
 									//読み込んだ値がー１の時
-									if (m_pModelPrtsBoss[nCount]->m_nIndexModelPrts == -1)
+									if (m_pModelPrtsBoss[nCount]->GetIndexModelPrts() == -1)
 									{
 										m_pModelPrtsBoss[nCount]->SetParent(nullptr); //情報無し
 									}
@@ -659,23 +659,23 @@ void CCharacter::LoodBoss()
 									//その他
 									else
 									{
-										m_pModelPrtsBoss[nCount]->SetParent(m_pModelPrtsBoss[m_pModelPrtsBoss[nCount]->m_nIndexModelPrts]); //親である情報を入れる
+										m_pModelPrtsBoss[nCount]->SetParent(m_pModelPrtsBoss[m_pModelPrtsBoss[nCount]->GetIndexModelPrts()]); //親である情報を入れる
 									}
 								}
 
 								//位置の読み取る条件
 								else if (!strcmp(m_aDataSearch, "POS"))
 								{
-									(void)fscanf(m_pFile, "%s %f %f %f", &m_aDataSearch, &m_pModelPrtsBoss[nCount]->m_pos.x, &m_pModelPrtsBoss[nCount]->m_pos.y, &m_pModelPrtsBoss[nCount]->m_pos.z); //位置の同期
-									m_pSaveModelPrtInfoBoss[nCount].pos = m_pModelPrtsBoss[nCount]->m_pos;                //位置を保管する
+									(void)fscanf(m_pFile, "%s %f %f %f", &m_aDataSearch, &m_pModelPrtsBoss[nCount]->GetPos().x, &m_pModelPrtsBoss[nCount]->GetPos().y, &m_pModelPrtsBoss[nCount]->GetPos().z); //位置の同期
+									m_pSaveModelPrtInfoBoss[nCount].pos = m_pModelPrtsBoss[nCount]->GetPos();                //位置を保管する
 									//m_pSaveModelPrtInfoBoss[nCount].pos += MotionSetBoss[0].KeySet[0].aKey[nCount].pos;
 								}
 
 								//向きの情報を読み取る条件
 								else if (!strcmp(m_aDataSearch, "ROT"))
 								{
-									(void)fscanf(m_pFile, "%s %f %f %f", &m_aDataSearch, &m_pModelPrtsBoss[nCount]->m_rot.x, &m_pModelPrtsBoss[nCount]->m_rot.y, &m_pModelPrtsBoss[nCount]->m_rot.z); //位置の同期
-									m_pSaveModelPrtInfoBoss[nCount].rot = m_pModelPrtsBoss[nCount]->m_rot;                //位置を保管する
+									(void)fscanf(m_pFile, "%s %f %f %f", &m_aDataSearch, &m_pModelPrtsBoss[nCount]->GetRot().x, &m_pModelPrtsBoss[nCount]->GetRot().y, &m_pModelPrtsBoss[nCount]->GetRot().z); //位置の同期
+									m_pSaveModelPrtInfoBoss[nCount].rot = m_pModelPrtsBoss[nCount]->GetRot();                //位置を保管する
 									//m_pSaveModelPrtInfoBoss[nCount].rot += MotionSetBoss[0].KeySet[0].aKey[nCount].rot;
 								}
 							}
@@ -825,26 +825,26 @@ void CCharacter::LoodBoss()
 		for (int nNext = 0; nNext < nCount + 1; nNext++)
 		{
 			//各パーツの位置を足し合わせる
-			SaveMotionPosBoss[nCount + 2] += m_pModelPrtsBoss[nNext + 2]->m_pos;  //左側のパーツ数
-			SaveMotionPosBoss[nCount + 6] += m_pModelPrtsBoss[nNext + 6]->m_pos;  //右側のパーツ数
+			SaveMotionPosBoss[nCount + 2] += m_pModelPrtsBoss[nNext + 2]->GetPos();  //左側のパーツ数
+			SaveMotionPosBoss[nCount + 6] += m_pModelPrtsBoss[nNext + 6]->GetPos();  //右側のパーツ数
 		}
 
 		//体の位置を足し合わせる
-		SaveMotionPosBoss[nCount + 2] += m_pModelPrtsBoss[0]->m_pos; //位置を加算
-		SaveMotionPosBoss[nCount + 6] += m_pModelPrtsBoss[0]->m_pos; //位置を加算
+		SaveMotionPosBoss[nCount + 2] += m_pModelPrtsBoss[0]->GetPos(); //位置を加算
+		SaveMotionPosBoss[nCount + 6] += m_pModelPrtsBoss[0]->GetPos(); //位置を加算
 	}
 
 	//下半身のpartsの位置を取得
 	for (int nCount1 = 0; nCount1 < 6; nCount1++)
 	{
-		SaveMotionPosBoss[nCount1 + 11] += m_pModelPrtsBoss[nCount1 + 11]->m_pos; //下半身の各パーツ
-		SaveMotionPosBoss[nCount1 + 11] -= m_pModelPrtsBoss[10]->m_pos;           //腰の分引く
+		SaveMotionPosBoss[nCount1 + 11] += m_pModelPrtsBoss[nCount1 + 11]->GetPos(); //下半身の各パーツ
+		SaveMotionPosBoss[nCount1 + 11] -= m_pModelPrtsBoss[10]->GetPos();           //腰の分引く
 	}
 
 	//頭と体の位置を取得
 	for (int nCount2 = 0; nCount2 < 2; nCount2++)
 	{
-		SaveMotionPosBoss[nCount2] += m_pModelPrtsBoss[nCount2]->m_pos;                                                                  //位置を加算
+		SaveMotionPosBoss[nCount2] += m_pModelPrtsBoss[nCount2]->GetPos();                                                                  //位置を加算
 		GetPosPrtsBoss(nCount2) = D3DXVECTOR3(SaveMotionPosBoss[nCount2].x, SaveMotionPosBoss[nCount2].y, SaveMotionPosBoss[nCount2].z); //位置を修正
 	}
 
@@ -893,8 +893,8 @@ void CCharacter::MotionInfo()
 			rot = Moverot / (float)MotionSetPlayer[m_MotionState].KeySet[MotionCount].Frame; //向きを代入した向きからフレームを割る
 
 			//差分の分だけ加算
-			m_pModelPrts[nModelCount]->m_pos += pos; //現在の位置を計算でだした位置と加算させる
-			m_pModelPrts[nModelCount]->m_rot += rot; //向きの位置を計算でだした向きと加算させる
+			m_pModelPrts[nModelCount]->GetPos() += pos; //現在の位置を計算でだした位置と加算させる
+			m_pModelPrts[nModelCount]->GetRot() += rot; //向きの位置を計算でだした向きと加算させる
 		}
 	}
 	
@@ -982,8 +982,8 @@ void CCharacter::MotionInfoBoss()
 			}
 
 			//差分の分だけ加算
-			m_pModelPrtsBoss[nModelCount]->m_pos += pos; //現在の位置を計算でだした位置と加算させる
-			m_pModelPrtsBoss[nModelCount]->m_rot += rot; //向きの位置を計算でだした向きと加算させる
+			m_pModelPrtsBoss[nModelCount]->GetPos() += pos; //現在の位置を計算でだした位置と加算させる
+			m_pModelPrtsBoss[nModelCount]->GetRot() += rot; //向きの位置を計算でだした向きと加算させる
 		}
 	}
 
@@ -1030,10 +1030,10 @@ void CCharacter::SetMotion(MOTIONSTATE motiontype)
 			//モデルパーツの情報がある時
 			if (m_pModelPrts[nModelCount] != nullptr)
 			{
-				m_pModelPrts[nModelCount]->m_pos = m_pSaveModelPrtInfo[nModelCount].pos;                         //現在の位置を読み取った値にする
-				m_pModelPrts[nModelCount]->m_rot = m_pSaveModelPrtInfo[nModelCount].rot;                         //現在の向きを読み取った値にする
-				m_pModelPrts[nModelCount]->m_pos += MotionSetPlayer[motiontype].KeySet[0].aKey[nModelCount].pos; //現在の位置を設定したモーションの位置と加算
-				m_pModelPrts[nModelCount]->m_rot += MotionSetPlayer[motiontype].KeySet[0].aKey[nModelCount].rot; //現在の向きを設定したモーションの向きと加算
+				m_pModelPrts[nModelCount]->SetPos(m_pSaveModelPrtInfo[nModelCount].pos);                            //現在の位置を読み取った値にする
+				m_pModelPrts[nModelCount]->SetRot(m_pSaveModelPrtInfo[nModelCount].rot);                            //現在の向きを読み取った値にする
+				m_pModelPrts[nModelCount]->GetPos() += MotionSetPlayer[motiontype].KeySet[0].aKey[nModelCount].pos; //現在の位置を設定したモーションの位置と加算
+				m_pModelPrts[nModelCount]->GetRot() += MotionSetPlayer[motiontype].KeySet[0].aKey[nModelCount].rot; //現在の向きを設定したモーションの向きと加算
 			}
 		}
 	}
@@ -1058,10 +1058,10 @@ void CCharacter::SetMotionBoss(BOSSMOTIONSTATE motiontype)
 			//モデルパーツの情報がある時
 			if (m_pModelPrtsBoss[nModelCount] != nullptr)
 			{
-				m_pModelPrtsBoss[nModelCount]->m_pos = m_pSaveModelPrtInfoBoss[nModelCount].pos;                    //現在の位置を読み取った値にする
-				m_pModelPrtsBoss[nModelCount]->m_rot = m_pSaveModelPrtInfoBoss[nModelCount].rot;					//現在の向きを読み取った値にする
-				m_pModelPrtsBoss[nModelCount]->m_pos += MotionSetBoss[motiontype].KeySet[0].aKey[nModelCount].pos;	//現在の位置を設定したモーションの位置と加算
-				m_pModelPrtsBoss[nModelCount]->m_rot += MotionSetBoss[motiontype].KeySet[0].aKey[nModelCount].rot;	//現在の向きを設定したモーションの向きと加算
+				m_pModelPrtsBoss[nModelCount]->SetPos(m_pSaveModelPrtInfoBoss[nModelCount].pos);                        //現在の位置を読み取った値にする
+				m_pModelPrtsBoss[nModelCount]->SetRot(m_pSaveModelPrtInfoBoss[nModelCount].rot);					    //現在の向きを読み取った値にする
+				m_pModelPrtsBoss[nModelCount]->GetPos() += MotionSetBoss[motiontype].KeySet[0].aKey[nModelCount].pos;	//現在の位置を設定したモーションの位置と加算
+				m_pModelPrtsBoss[nModelCount]->GetRot() += MotionSetBoss[motiontype].KeySet[0].aKey[nModelCount].rot;	//現在の向きを設定したモーションの向きと加算
 			}
 		}
 	}

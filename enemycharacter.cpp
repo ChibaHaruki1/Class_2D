@@ -283,8 +283,8 @@ void CEnemyCharacter::LoodEnemy(const char* aSelect)
 
 								else if (!strcmp(m_aDataSearch, "ROT"))
 								{
-									(void)fscanf(m_pFile, "%s %f %f %f", &m_aDataSearch, &m_pModelPrtsEnemy[nCount]->m_rot.x, &m_pModelPrtsEnemy[nCount]->m_rot.y, &m_pModelPrtsEnemy[nCount]->m_rot.z); //位置の同期
-									m_pSaveModelPrtInfo[nCount].rot = m_pModelPrtsEnemy[nCount]->m_rot;                //向きを保管する
+									(void)fscanf(m_pFile, "%s %f %f %f", &m_aDataSearch, &m_pModelPrtsEnemy[nCount]->GetRot().x, &m_pModelPrtsEnemy[nCount]->GetRot().y, &m_pModelPrtsEnemy[nCount]->GetRot().z); //位置の同期
+									m_pSaveModelPrtInfo[nCount].rot = m_pModelPrtsEnemy[nCount]->GetRot();                //向きを保管する
 									//m_pSaveModelPrtInfo[nCount].rot += MotionSetEnemy[0].KeySet[0].aKey[nCount].rot;
 								}
 							}
@@ -533,7 +533,7 @@ void CEnemyCharacter::MotionInfoEnemy()
 
 			//差分の分だけ加算
 			m_pModelPrtsEnemy[nModelCount]->GetPos() += pos; //現在の位置を計算でだした位置と加算させる
-			m_pModelPrtsEnemy[nModelCount]->GetPos() += rot; //向きの位置を計算でだした向きと加算させる
+			m_pModelPrtsEnemy[nModelCount]->GetRot() += rot; //向きの位置を計算でだした向きと加算させる
 		}
 	}
 	
@@ -580,10 +580,10 @@ void CEnemyCharacter::SetMotionEnemy(ENEMYMOTIONSTATE motiontype)
 			//パーツの情報がある時
 			if (m_pModelPrtsEnemy[nModelCount] != nullptr)
 			{
-				m_pModelPrtsEnemy[nModelCount]->SetPos(m_pSaveModelPrtInfo[nModelCount].pos);                          //現在の位置を読み取った値にする
-				m_pModelPrtsEnemy[nModelCount]->m_rot = m_pSaveModelPrtInfo[nModelCount].rot;						   //現在の向きを読み取った値にする
+				m_pModelPrtsEnemy[nModelCount]->SetPos(m_pSaveModelPrtInfo[nModelCount].pos);                             //現在の位置を読み取った値にする
+				m_pModelPrtsEnemy[nModelCount]->SetRot(m_pSaveModelPrtInfo[nModelCount].rot);						      //現在の向きを読み取った値にする
 				m_pModelPrtsEnemy[nModelCount]->GetPos() += MotionSetEnemy[motiontype].KeySet[0].aKey[nModelCount].pos;   //現在の位置を設定したモーションの位置と加算
-				m_pModelPrtsEnemy[nModelCount]->m_rot += MotionSetEnemy[motiontype].KeySet[0].aKey[nModelCount].rot;   //現在の向きを設定したモーションの向きと加算
+				m_pModelPrtsEnemy[nModelCount]->GetRot() += MotionSetEnemy[motiontype].KeySet[0].aKey[nModelCount].rot;   //現在の向きを設定したモーションの向きと加算
 			}
 		}
 	}

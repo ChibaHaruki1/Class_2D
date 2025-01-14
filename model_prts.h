@@ -26,25 +26,23 @@ public:
 	void BindSize(D3DXVECTOR3&max, D3DXVECTOR3&min, D3DXVECTOR3&ModelSize); //各モデルのパーツの大きさを渡す処理関数（ObjectXと同期の為引数）
 	void SetParent(CModelPrts* pParent);              //親パーツの設定
 	void Size();                                      //各モデルのパーツの大きさを求める処理関数
-	D3DXMATRIX& GetWorldMtx() { return m_mtxWorld; }  //マトリックスの取得
 	static CModelPrts* Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot, const char* m_aPrtsPass, LPD3DXMESH pMesh, LPD3DXBUFFER pBufferMat, DWORD dw_NumMat, D3DXMATERIAL*pMat); //生成処理
 
 	//=================================================
 	//情報の取得
-	D3DXVECTOR3& GetPos() { return m_pos; }
-	int& GetIndexPrts() { return m_nIndexPrts; }
-	int& GetIndexModelPrts() { return m_nIndexModelPrts; }
+	D3DXVECTOR3& GetPos() { return m_pos; }                  //位置の取得
+	D3DXVECTOR3& GetRot() { return m_rot; }                  //向きの取得
+	D3DXMATRIX& GetWorldMtx() { return m_mtxWorld; }         //マトリックスの取得
+
+	int& GetIndexPrts() { return m_nIndexPrts; }             //何番目のパーツか取得
+	int& GetIndexModelPrts() { return m_nIndexModelPrts; }   //親パーツの取得
 
 
 	//=================================================
 	//情報の設定
-	void SetPos(D3DXVECTOR3 pos) { m_pos = pos; }
+	void SetPos(D3DXVECTOR3 pos) { m_pos = pos; }            //位置の設定
+	void SetRot(D3DXVECTOR3 rot) { m_rot = rot; }            //向きの設定
 
-	D3DXVECTOR3 m_pos;           //位置
-
-	int m_nIndexModelPrts;       //親のパーツ
-	D3DXVECTOR3 m_rot;        //向き
-	D3DXMATRIX m_mtxWorld;    //マトリックス
 	LPD3DXMESH m_pMesh;       //メッシュのへのポインタ
 	LPD3DXBUFFER m_pBuffMat;  //バッファのポインタ
 	DWORD m_nNumMat;          //マテリアル数
@@ -59,6 +57,10 @@ public:
 
 private:
 	CModelPrts* m_pParentlPrts;  //自分のポインター
+	D3DXVECTOR3 m_pos;           //位置
+	D3DXVECTOR3 m_rot;           //向き
+	D3DXMATRIX m_mtxWorld;    //マトリックス
 
 	int m_nIndexPrts;            //何番目のパーツ
+	int m_nIndexModelPrts;       //親のパーツ
 };
