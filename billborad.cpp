@@ -5,15 +5,14 @@
 //
 //========================================
 
+
+//========================================
 //インクルード
 #include "billboard.h"
 #include "object3D.h"
 #include "rendererh.h"
 #include "manager.h"
 
-//マクロ定義
-#define MAX_BILLBOARD_SIZE_X (40.0f)
-#define MAX_BILLBOARD_SIZE_Y (40.0f)
 
 //=========================
 //コンストラクタ
@@ -38,15 +37,16 @@ CBillboard::~CBillboard()
 //=========================
 HRESULT CBillboard::Init()
 {
-	//頂点バッファ生成に失敗したとき
+	//初期化に失敗したとき
 	if (FAILED(CObject3D::Init()))
 	{
 		return E_FAIL; //失敗を返す
 	}
-	SetRot(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-	SetPos(D3DXVECTOR3(40.0f, MAX_BILLBOARD_SIZE_Y, 0.0f));
 
-	return S_OK;
+	SetPos(D3DXVECTOR3(MAX_BILLBOARD_SIZE_X, MAX_BILLBOARD_SIZE_Y, 0.0f)); //位置の設定
+	SetRot(D3DXVECTOR3(0.0f, 0.0f, 0.0f));                                 //向きの設定
+
+	return S_OK;       //成功を返す
 }
 
 
@@ -55,7 +55,7 @@ HRESULT CBillboard::Init()
 //=========================
 void CBillboard::Uninit()
 {
-	CObject3D::Uninit();
+	CObject3D::Uninit(); //破棄処理を呼ぶ
 }
 
 
@@ -73,7 +73,7 @@ void CBillboard::Update()
 //=========================
 void CBillboard::Draw()
 {
-   CObject3D::Draw();
+   CObject3D::Draw(); //描画処理を呼ぶ
 }
 
 //=========================
@@ -81,16 +81,18 @@ void CBillboard::Draw()
 //=========================
 CBillboard* CBillboard::Create()
 {
-	CBillboard* pBillboard = new CBillboard(3);
+	CBillboard* pBillboard = new CBillboard(3); //動的確保
 
-	if (SUCCEEDED(pBillboard->Init()))
+	//情報がある時
+	if (pBillboard != nullptr)
 	{
-		if (pBillboard != nullptr)
+		//初期化に成功した時
+		if (SUCCEEDED(pBillboard->Init()))
 		{
-			pBillboard->Lood();
-			return pBillboard;
+			pBillboard->Lood(); //テクスチャの読み込み
+			return pBillboard;  //情報を返す
 		}
 	}
 
-	return nullptr;
+	return nullptr;             //無を返す
 }
