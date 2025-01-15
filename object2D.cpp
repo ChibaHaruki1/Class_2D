@@ -185,7 +185,7 @@ void CObject2D::SetSIze(float SIZE_X, float SIZE1_X, float SIZE_Y, float SIZE1_Y
 //==================
 //サイズの設定
 //==================
-void CObject2D::SetCol(int Alph, int Alph1)
+void CObject2D::SetCol(int Red, int Green, int Blue, int Alph)
 {
 	VERTEX_2D* pVtx;
 
@@ -193,10 +193,10 @@ void CObject2D::SetCol(int Alph, int Alph1)
 	m_pVtxBuff->Lock(0U, 0U, (void**)&pVtx, 0);
 
 	//頂点座標の設定
-	pVtx[0].col = D3DCOLOR_RGBA(255, 255, 255, Alph);
-	pVtx[1].col = D3DCOLOR_RGBA(255, 255, 255, Alph);
-	pVtx[2].col = D3DCOLOR_RGBA(255, 255, 255, Alph1);
-	pVtx[3].col = D3DCOLOR_RGBA(255, 255, 255, Alph1);
+	pVtx[0].col = D3DCOLOR_RGBA(Red, Green, Blue, Alph);
+	pVtx[1].col = D3DCOLOR_RGBA(Red, Green, Blue, Alph);
+	pVtx[2].col = D3DCOLOR_RGBA(Red, Green, Blue, Alph);
+	pVtx[3].col = D3DCOLOR_RGBA(Red, Green, Blue, Alph);
 
 	//頂点バッファをアンロック
 	m_pVtxBuff->Unlock();

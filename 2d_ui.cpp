@@ -77,7 +77,7 @@ void CManager2DUI::Draw()
 //=====================
 CManager2DUI* CManager2DUI::Create(TYPE_UI TypeUI)
 {
-	CManager2DUI* pManager2DUI = nullptr;
+	CManager2DUI* pManager2DUI = nullptr; //基底クラスのポインター
 
 	//タイプが店のメニューの時
 	if (TypeUI== TYPE_UI::SHOPMENU)
@@ -238,7 +238,7 @@ HRESULT CBuyText::Init()
 	}
 
 	CObject2D::SetSIze(0.0f, SIZEX, 0.0f, CMain::SCREEN_HEIGHT); //サイズの設定
-	SetCol(COL, COL);                                            //色の設定
+	SetCol(RED, GREEN, BLUE, ALPHA);                             //色の設定
 
 	return S_OK; //成功を返す
 }
@@ -256,7 +256,7 @@ CBuyText* CBuyText::Create()
 		//初期化が成功した時
 		if (SUCCEEDED(pText->Init()))
 		{
-			pText->Lood(); //テクスチャの読み込む
+			pText->Lood(); //テクスチャの読み込み
 			return pText;  //情報を返す
 		}
 	}
@@ -303,7 +303,7 @@ HRESULT CSelectGage::Init()
 	}
 
 	CObject2D::SetSIze(0.0f, m_fSizeX, 0.0f,m_fSizeY); //サイズの設定
-	SetCol(COL, COL);                                  //色の設定
+	SetCol(RED, GREEN, BLUE, ALPHA);                   //色の設定
 
 	return S_OK; //成功を返す
 }
@@ -348,7 +348,7 @@ CSelectGage* CSelectGage::Create()
 		//初期化に成功した時
 		if (SUCCEEDED(pSelectGage->Init()))
 		{
-			pSelectGage->Lood(); //ｘファイルの読み込む
+			pSelectGage->Lood(); //ｘファイルの読み込み
 			return pSelectGage;  //情報を返す
 		}
 	}
@@ -417,7 +417,7 @@ CSelectGage001* CSelectGage001::Create()
 		//初期化が成功した時
 		if (SUCCEEDED(pSelectGage->Init()))
 		{
-			pSelectGage->Lood(); //ｘファイルを読み込む
+			pSelectGage->Lood(); //ｘファイルを読み込み
 			return pSelectGage;  //情報を返す
 		}
 	}

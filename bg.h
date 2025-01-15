@@ -26,9 +26,6 @@ public:
 	void Draw()override;						   //描画処理
 
 	static CManagerBg* Create(CScene::MODE mode);  //生成処理
-
-private:
-	int nCountAlpha; //alpha値を保管する用の変数
 };
 
 
@@ -40,6 +37,7 @@ public:
 	CTitleBg(int nPriority = DEFAULT_PRIORITY);    //コンストラクタ
 	~CTitleBg()override;                           //デストラクタ
 };
+
 
 //==================================================================
 //リザルト背景
@@ -59,6 +57,15 @@ public:
 	CGameOverBg(int nPriority = DEFAULT_PRIORITY);  //コンストラクタ
 	~CGameOverBg()override;                         //デストラクタ
 	void Update()override;                          //更新処理
+
+private:
+	constexpr static int MAX_RAND = 100;        //乱数の最大数
+	constexpr static int PROCESS_FRAME = 50;    //処理を行うフレーム数
+	constexpr static int ADJUSTMENT_FRAME = 20; //調整を行うフレーム数
+
+	constexpr static int RED = 255;          //赤色
+	constexpr static int GREEN = 255;        //緑色
+	constexpr static int BLUE = 255;         //青色
 };
 
 
@@ -73,4 +80,10 @@ public:
 	void Update()override;                          //更新処理
 
 	static CShopScreen* Create();                   //生成処理
+
+private:
+	constexpr static int RED = 255;          //赤色
+	constexpr static int GREEN = 255;        //緑色
+	constexpr static int BLUE = 255;         //青色
+	constexpr static int ALPHA = 50;         //アルファ値
 };

@@ -24,8 +24,8 @@ public:
 	void Draw() override;                       //描画処理
 	void BindTexture(LPDIRECT3DTEXTURE9 pTex);
 	void SetSIze(float SIZE_X,float SIZE1_X, float SIZE_Y, float SIZE1_Y); //polygonのサイズを調整する処理
-	void SetCol(int Alph,int Alph1);       //alpha値を設定
-	HRESULT Lood();	                       //テクスチャファイルの読み込み
+	void SetCol(int Red,int Green,int Blue,int Alph);                      //色を設定
+	HRESULT Lood();	                                                       //テクスチャファイルの読み込み
 
 	//==================================================
 	//それぞれの処理に必要な情報を取得する
