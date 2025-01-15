@@ -46,6 +46,9 @@ public: //アクセス可能
 	void HitAttack();          //特定の攻撃を受けたときの処理
 	void SceneMode(int nType); //sceneの分岐
 
+	void NowCreateObjectUI();                                    //現在作っているオブジェクトのUIを出す処理
+	void NowCreateNumberObj();                                   //番号で作るオブジェクトを指定する処理
+
 	//CObjectXで使用する用の取得
 	int& GetTelephonPoleCount() { return m_nTelephonCount; }             //電柱の配列を取得
 	int& GetAllTelephonPoleCount() { return m_nAllTelephonPoleCount; }   //全ての電柱の配列を取得
@@ -70,7 +73,8 @@ private: //アクセス不可能
 	//インスタンス
 	CUI* m_pTalkText;                    //「話す」textUI
 	CUI* m_pLaserUI;                     //レーザーUI
-	CShopMenu* m_pMenyu;                 //メニューUI
+	CManager2DUI* m_pNowCreateUI;        //今置こうとしているオブジェクトのUI
+	CManager2DUI* m_pMenyu;              //メニューUI
 	CBuyText* m_pBuyText;                //[買う、売る]textUI
 	CSelectGage* m_pSelectGage;          //選択時のゲージUI
 	CSelectGage001* m_pSelectGage001;    //選択時のゲージUI
@@ -127,7 +131,7 @@ private: //アクセス不可能
 
 	//==========================================
 	//マクロ定義
-	constexpr static int   MAX_TEXT_OBJECT = 9;             //今配置ツールに設定されてるオブジェクトの数ー１分（０スタートだから）
+	constexpr static int   MAX_TEXT_OBJECT = 1;             //今配置ツールに設定されてるオブジェクトの数ー１（０スタートだから）
 	constexpr static int   MAX_BUULET_SPEED = 30;           //必殺技の撃てる時間
 	constexpr static float MAX_JUMPPAWER = 10.0f;           //飛ぶ力
 	constexpr static float MAX_SPECIALATTACKCOUNT = 60*60;  //弾の速さ

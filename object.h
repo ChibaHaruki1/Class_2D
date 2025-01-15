@@ -65,6 +65,8 @@ public:
 		BUYTEXT,         //買うtext
 		TALKTEXTR,       //話すtext
 		LASER,           //レーザー
+		NOWCREATE,       //今作ろうとしているUI
+		SHOPMENU,
 	};
 
 	CObject(int nPriority= DEFAULT_PRIORITY);         //コンストラクタ

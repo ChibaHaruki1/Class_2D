@@ -13,49 +13,72 @@
 #include "object2D.h"
 
 
+//======================================
+//２DUIのマネージャー管理クラス
+class CManager2DUI : public CObject2D
+{
+public:
+	CManager2DUI(int nPriority = DEFAULT_PRIORITY);  //コンストラクタ
+	~CManager2DUI();                                 //デストラクタ
+	HRESULT Init()override;                          //初期化処理
+	void Uninit()override;                           //破棄処理
+	void Update()override;                           //更新処理
+	void Draw()override;                             //描画処理
+
+	static CManager2DUI* Create(TYPE_UI TypeUI);     //生成処理
+	static CManager2DUI* NowCreate(int nNumber);     //現在作られているオブジェクトUIの生成処理
+
+private:
+};
+
+
 //==================================================================
 //今作ろうとしているオブジェクトのUIクラス
-class CNowCreateUI : public CObject2D
+class CNowCreateUI : public CManager2DUI
 {
 public:
 	CNowCreateUI(int nPriority = DEFAULT_PRIORITY);  //コンストラクタ
 	~CNowCreateUI()override;                         //デストラクタ
 	HRESULT Init()override;                          //初期化処理
-	void Uninit()override;                           //破棄処理
-	void Update()override;                           //更新処理
-	void Draw()override;                             //描画処理
+
+private:
+	//マクロ定義
+	constexpr static float SIZEX = 100.0f; //サイズのX軸の大きさ
+	constexpr static float SIZEY = 100.0f; //サイズのY軸の大きさ
 };
+
 
 //==================================================================
 //店のメニュー一覧UIクラス
-class CShopMenu : public CObject2D
+class CShopMenu : public CManager2DUI
 {
 public:
 	CShopMenu(int nPriority = DEFAULT_PRIORITY);  //コンストラクタ
 	~CShopMenu()override;						  //デストラクタ
 	HRESULT Init()override;						  //初期化処理
-	void Uninit()override;						  //破棄処理
-	void  Update()override;						  //更新処理
-	void Draw()override;						  //描画処理
 
-	static CShopMenu* Create();                   //生成処理
+private:
+	constexpr static float SIZEX = 600.0f; //サイズのX軸の大きさ
+	constexpr static float SIZEY = 700.0f; //サイズのY軸の大きさ
 };
+
 
 //==================================================================
 //BuyText表示UIクラス
-class CBuyText : public CObject2D
+class CBuyText : public CManager2DUI
 {
 public:
 	CBuyText(int nPriority = DEFAULT_PRIORITY);  //コンストラクタ
 	~CBuyText()override;						 //デストラクタ
 	HRESULT Init()override;						 //初期化処理
-	void Uninit()override;						 //破棄処理
-	void  Update()override;						 //更新処理
-	void Draw()override;						 //描画処理
 
 	static CBuyText* Create();                   //生成処理
 
+private:
+	constexpr static int COL = 200;        //色
+	constexpr static float SIZEX = 600.0f; //サイズのX軸の大きさ
 };
+
 
 //==================================================================
 //選ぶ時のUIクラス
@@ -66,7 +89,7 @@ public:
 	~CSelectGage()override;							//デストラクタ
 	HRESULT Init()override;							//初期化処理
 	void Uninit()override;							//破棄処理
-	void  Update()override;							//更新処理
+	void Update()override;							//更新処理
 	void Draw()override;							//描画処理
 
 	float& GetSizeX() { return m_fSizeX; }          //選択ゲージのX軸の大きさの取得
@@ -77,11 +100,18 @@ public:
 	static CSelectGage* Create();                   //生成処理
 
 private:
-	float m_fSizeX;    //選択ゲージのX軸の大きさ
-	float m_fSizeY;    //選択ゲージのy軸の大きさ
-	float m_fSize1X;   //選択ゲージ001のx軸の大きさ
-	float m_fSize1Y;   //選択ゲージ001のy軸の大きさ
+	//マクロ定義
+	constexpr static float SIZE1X = 600.0f; //選択ゲージ２番目のX軸の大きさ
+	constexpr static float SIZEY = 50.0f;   //選択ゲージ１番目のY軸の大きさ
+	constexpr static float SIZE1Y = 150.0f; //選択ゲージ２番目のY軸の大きさ
+	constexpr static int COL = 100;         //色
+
+	float m_fSizeX;    //選択ゲージの１番目X軸の大きさを保管する用の変数
+	float m_fSizeY;    //選択ゲージの１番目y軸の大きさを保管する用の変数
+	float m_fSize1X;   //選択ゲージの２番目x軸の大きさを保管する用の変数
+	float m_fSize1Y;   //選択ゲージの２番目y軸の大きさを保管する用の変数
 };
+
 
 //==================================================================
 //選ぶ時のUIクラス
@@ -91,9 +121,7 @@ public:
 	CSelectGage001(int nPriority = DEFAULT_PRIORITY);  //コンストラクタ
 	~CSelectGage001()override;						   //デストラクタ
 	HRESULT Init()override;							   //初期化処理
-	void Uninit()override;							   //破棄処理
-	void  Update()override;							   //更新処理
-	void Draw()override;							   //描画処理
+	void Update()override;							   //更新処理
 
 	static CSelectGage001* Create();                   //生成処理
 };

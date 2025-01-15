@@ -68,6 +68,8 @@ CPlayerX::CPlayerX(int nPriority) : CCharacter(nPriority)
 	m_nRotNumber = 0;
 	m_nSpecialAttackCount = 0;
 	m_bOneCreate = false;
+
+	m_pNowCreateUI = CManager2DUI::Create(CObject::TYPE_UI::NOWCREATE);
 }
 
 
@@ -89,8 +91,8 @@ HRESULT CPlayerX::Init()
 	CCharacter::Lood();                                                       //テキストファイルを読み込む処理
 	CCharacter::SetMotion(WALK);                                              //モーションの設定
 	SetRot(D3DXVECTOR3(0.0f, D3DX_PI * -0.5f, 0.0f));                         //向きの調整（右向き）
-	m_pModelPrts[18]->SetDraw(false);                                   //パーツの銃部分を非表示に設定
-	SetPos(D3DXVECTOR3(3000.0f,0.0f,0.0f));                                   //位置の調整
+	m_pModelPrts[18]->SetDraw(false);                                         //パーツの銃部分を非表示に設定
+	SetPos(D3DXVECTOR3(000.0f,0.0f,0.0f));                                   //位置の調整
 	CManager::GetSound()->PlaySound(CSound::SOUND_LABEL::SOUND_LABEL_NORMALBGM);  //BDMを流す
 	SetLife(1);                                                               //自身のライフ
 	return S_OK;                                                              //成功を返す
@@ -168,6 +170,7 @@ void CPlayerX::Update()
 	//生きている時
 	if (GetLife() == 1)
 	{
+		NowCreateObjectUI();
 		if (CManager::GetScene()->GetPlayerX()->GetPos().x >= 9000.0f)
 		{
 			if (m_bOneCreate == false)
@@ -243,7 +246,7 @@ void CPlayerX::Update()
 			return;       //処理を抜ける
 		}
 	}
-	SceneMode(2);         //シーンを選択
+	//SceneMode(2);         //シーンを選択
 }
 
 
@@ -363,6 +366,8 @@ void CPlayerX::NormalStateSummarizeFunction()
 		}
 	}
 	BlockJudgement();   //オブジェクトとの当たり判定処理関数を呼ぶ
+
+	NowCreateNumberObj();
 
 	if (SpecialAttack == false)
 	{
@@ -715,7 +720,7 @@ void CPlayerX::ShopKeySet()
 		//メニューを生成する
 		if (m_pMenyu == nullptr)
 		{
-			m_pMenyu = CShopMenu::Create();
+			m_pMenyu = CManager2DUI::Create(CObject::TYPE_UI::SHOPMENU);
 		}
 
 
@@ -1150,4 +1155,85 @@ CPlayerX* CPlayerX::Create()
 	}
 
 	return nullptr; //情報なし
+}
+
+
+//===============================================================================================================================================================================
+//現在作っているオブジェクトのUIを出す処理
+//===============================================================================================================================================================================
+void CPlayerX::NowCreateObjectUI()
+{
+	//１キーが押された時
+	if (CManager::GetKeyBorad()->GetKeyboardTrigger(DIK_1) == true)
+	{
+		//今の対象のオブジェクトの番号が０以下
+		if (m_ObjectNumber <= 0)
+		{
+			m_ObjectNumber = MAX_TEXT_OBJECT; //今作られている数にする
+		}
+		else
+		{
+			m_ObjectNumber -= 1; //減らす
+		}
+
+		if (m_pNowCreateUI != nullptr)
+		{
+			m_pNowCreateUI->Release();
+			m_pNowCreateUI = nullptr;
+			m_pNowCreateUI = CManager2DUI::NowCreate(m_ObjectNumber);
+		}
+
+		if (m_pNowCreateUI == nullptr)
+		{
+			m_pNowCreateUI = CManager2DUI::NowCreate(m_ObjectNumber);
+		}
+	}
+
+	else if (CManager::GetKeyBorad()->GetKeyboardTrigger(DIK_2) == true)
+	{
+
+		if (m_ObjectNumber >= MAX_TEXT_OBJECT)
+		{
+			m_ObjectNumber = 0;
+		}
+		else
+		{
+			m_ObjectNumber += 1;
+		}
+
+		if (m_pNowCreateUI != nullptr)
+		{
+			m_pNowCreateUI->Release();
+			m_pNowCreateUI = nullptr;
+			m_pNowCreateUI = CManager2DUI::NowCreate(m_ObjectNumber);
+		}
+
+		if (m_pNowCreateUI == nullptr)
+		{
+			m_pNowCreateUI = CManager2DUI::NowCreate(m_ObjectNumber);
+		}
+	}
+}
+
+//===============================================================================================================================================================================
+//番号で作るオブジェクトを指定する処理
+//===============================================================================================================================================================================
+void CPlayerX::NowCreateNumberObj()
+{
+	//オブジェクトナンバー０の時
+	if (m_ObjectNumber == 0)
+	{
+		CObjectX::ObjectArrangement(TYPE::FIELDBLOCK, m_pLaserUI);
+	}
+
+	//オブジェクトナンバー１の時
+	else if (m_ObjectNumber == 1)
+	{
+		ObjectArrangementTelephonPole();
+	}
+
+	else if (m_ObjectNumber == 2)
+	{
+		CObjectX::ObjectArrangement(TYPE::GOUPBLOCK, m_pLaserUI);
+	}
 }
