@@ -96,7 +96,6 @@ HRESULT CObject2D:: Init()
 	pVtx[3].rhw = 1.0f;
 
 	//頂点カラーの設定
-	//頂点座標の設定
 	pVtx[0].col = D3DCOLOR_RGBA(255, 255, 255, 255);
 	pVtx[1].col = D3DCOLOR_RGBA(255, 255, 255, 255);
 	pVtx[2].col = D3DCOLOR_RGBA(255, 255, 255, 255);
@@ -107,6 +106,59 @@ HRESULT CObject2D:: Init()
 	pVtx[1].tex = D3DXVECTOR2(1.0f, 0.0f);
 	pVtx[2].tex = D3DXVECTOR2(0.0f, 1.0f);
 	pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f);
+
+	//頂点バッファをアンロック
+	m_pVtxBuff->Unlock();
+
+	return S_OK;
+}
+
+//=====================
+//選択式初期化処理
+//=====================
+HRESULT CObject2D::SelectInit(int nPieces,float nTexture)
+{
+	CRenderer* pRenderer = CManager::GetRenderer();
+	LPDIRECT3DDEVICE9 pDevice; //デバイスのポインタ	
+
+	//デバイスの取得
+	pDevice = pRenderer->GetDevice();
+
+	//頂点バッファの生成
+	pDevice->CreateVertexBuffer(sizeof(VERTEX_2D) * 4 * nPieces, D3DUSAGE_WRITEONLY, FVF_VERTEX_2D, D3DPOOL_MANAGED, &GetBuffer(), NULL);
+
+	VERTEX_2D* pVtx;
+
+	//頂点バッファをロックし、頂点情報へのポインタを取得
+	m_pVtxBuff->Lock(0U, 0U, (void**)&pVtx, 0);
+
+	for (int nCutScore = 0; nCutScore < nPieces; nCutScore++)
+	{
+		pVtx[0].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		pVtx[1].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		pVtx[2].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		pVtx[3].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+
+		//rhwの設定
+		pVtx[0].rhw = 1.0f;
+		pVtx[1].rhw = 1.0f;
+		pVtx[2].rhw = 1.0f;
+		pVtx[3].rhw = 1.0f;
+
+		//頂点カラーの設定
+		pVtx[0].col = D3DCOLOR_RGBA(255, 255, 255, 255);
+		pVtx[1].col = D3DCOLOR_RGBA(255, 255, 255, 255);
+		pVtx[2].col = D3DCOLOR_RGBA(255, 255, 255, 255);
+		pVtx[3].col = D3DCOLOR_RGBA(255, 255, 255, 255);
+
+		//テクスチャ座標の設定
+		pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f); //UV座標に注意（上限１．０ｆ）
+		pVtx[1].tex = D3DXVECTOR2(nTexture, 0.0f);
+		pVtx[2].tex = D3DXVECTOR2(0.0f, 1.0f);
+		pVtx[3].tex = D3DXVECTOR2(nTexture, 1.0f);
+
+		pVtx += 4; //頂点データのポインタを４つ分進める
+	}
 
 	//頂点バッファをアンロック
 	m_pVtxBuff->Unlock();
@@ -160,6 +212,31 @@ void CObject2D::Draw()
 	//ポリゴンの描画
 	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
 }
+
+//=====================
+//複数描画する処理
+//=====================
+void CObject2D::MultipleDraw(int nPieces)
+{
+	CRenderer* pRenderer = CManager::GetRenderer(); //レンダラーの取得
+	LPDIRECT3DDEVICE9 pDevice = nullptr;            //デバイスのポインタ	
+
+	//デバイスの取得
+	pDevice = pRenderer->GetDevice();
+
+	//頂点バッファをデータストリームに設定
+	pDevice->SetStreamSource(0, m_pVtxBuff, 0, sizeof(VERTEX_2D));
+
+	//頂点フォーマットの設定
+	pDevice->SetFVF(FVF_VERTEX_2D);
+
+	//テクスチャに設定
+	pDevice->SetTexture(0, m_pTexture);
+
+	//ポリゴンの描画
+	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, nPieces*4, 2);
+}
+
 
 
 //==================
@@ -217,12 +294,4 @@ HRESULT CObject2D::Lood()
 		return E_FAIL;
 	}
 	return S_OK;
-}
-
-//=========================
-//テクスチャ生成
-//=========================
-void CObject2D::BindTexture(LPDIRECT3DTEXTURE9 pTex)
-{
-	m_pTexture = pTex;
 }

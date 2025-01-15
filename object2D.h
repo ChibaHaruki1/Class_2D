@@ -16,13 +16,14 @@
 class CObject2D : public CObject
 {
 public:
-	CObject2D(int nPriority=DEFAULT_PRIORITY);  //コンストラクタ
-	~CObject2D() override;                      //デストラクタ
-	HRESULT Init() override;                    //初期化処理
-	void Uninit() override;                     //破棄処理
-	void Update() override;                     //更新処理
-	void Draw() override;                       //描画処理
-	void BindTexture(LPDIRECT3DTEXTURE9 pTex);
+	CObject2D(int nPriority=DEFAULT_PRIORITY);       //コンストラクタ
+	~CObject2D() override;                           //デストラクタ
+	HRESULT Init() override;                         //初期化処理
+	HRESULT SelectInit(int nPieces,float nTexture);  //個数、テクスチャのサイズの選択式初期化処理
+	void Uninit() override;                          //破棄処理
+	void Update() override;                          //更新処理
+	void Draw() override;                            //描画処理
+	void MultipleDraw(int nPieces) ;                 //複数描画する処理
 	void SetSIze(float SIZE_X,float SIZE1_X, float SIZE_Y, float SIZE1_Y); //polygonのサイズを調整する処理
 	void SetCol(int Red,int Green,int Blue,int Alph);                      //色を設定
 	HRESULT Lood();	                                                       //テクスチャファイルの読み込み
