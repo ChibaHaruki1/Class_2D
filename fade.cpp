@@ -5,20 +5,12 @@
 //
 //===================================
 
-//マクロ定義
+
+//===================================
+//インクルード
 #include "fade.h"
 #include "rendererh.h"
 #include "manager.h"
-
-//int CFade::nCountAlpha = 255;
-
-//======================
-//コンストラクタ
-//======================
-//CFade::CFade()
-//{
-//	
-//}
 
 
 //==========================
@@ -26,9 +18,9 @@
 //==========================
 CFade::CFade(int nPriority) : CObject2D(nPriority)
 {
-	nCountAlpha = 255;
-	m_Fade = FADE::FADE_IN;
-	SetFileNamePass("data\\TEXTURE\\black.jpg");
+	SetAlph(255);                                  //aruの設定
+	m_Fade = FADE::FADE_IN;                        //フェードのタイプの初期化
+	SetFileNamePass("data\\TEXTURE\\black.jpg");   //ファイルパスを設定
 }
 
 
@@ -42,113 +34,64 @@ CFade::~CFade()
 
 
 //======================
-//背景の初期化処理
+//初期化処理
 //======================
 HRESULT CFade::Init()
 {
-	//初期化の有無を判定
+	//初期化が失敗した時
 	if (FAILED(CObject2D::Init()))
 	{
 		return E_FAIL; //失敗を返す
 	}
 
-	return S_OK; //成功を返す
+	return S_OK;       //成功を返す
 }
 
 //======================
-//背景の終了処理
+//終了処理
 //======================
 void CFade::Uninit(void)
 {
-	//頂点バッファの破棄
-	if (GetBuffer() != nullptr)
-	{
-		GetBuffer()->Release();
-		GetBuffer() = nullptr;
-	}
-
-	//CObject2D::Uninit();
+	CObject2D::Uninit(); //破棄処理を呼ぶ
 }
 
-
 //=======================
-//背景の更新処理
+//更新処理
 //=======================
 void CFade::Update()
 {
+	//フェードインの時
 	if (m_Fade == FADE::FADE_IN)
 	{
-		if (nCountAlpha >= MAX_FADE_SPEED)
+		//アルファ地が規定値以上の時
+		if (GetAlph() >= MAX_FADE_SPEED)
 		{
-			nCountAlpha-= MAX_FADE_SPEED;
+			GetAlph() -= MAX_FADE_SPEED;       //アルファ値を減らす
 		}
 
-		VERTEX_2D* pVtx;
-
-		//頂点バッファをロックし、頂点データへのポインタを取得
-		GetBuffer()->Lock(0, 0, (void**)&pVtx, 0);
-
-		//頂点カラーの設定
-
-		//白色から徐々に移す
-	/*	pVtx[0].col = D3DCOLOR_RGBA(255, 255, 255, nCountAlpha);
-		pVtx[1].col = D3DCOLOR_RGBA(255, 255, 255, nCountAlpha);
-		pVtx[2].col = D3DCOLOR_RGBA(255, 255, 255, nCountAlpha);
-		pVtx[3].col = D3DCOLOR_RGBA(255, 255, 255, nCountAlpha);*/
-
-		//黒色から徐々に移す
-		pVtx[0].col = D3DCOLOR_RGBA(0, 0, 0, nCountAlpha);
-		pVtx[1].col = D3DCOLOR_RGBA(0, 0, 0, nCountAlpha);
-		pVtx[2].col = D3DCOLOR_RGBA(0, 0, 0, nCountAlpha);
-		pVtx[3].col = D3DCOLOR_RGBA(0, 0, 0, nCountAlpha);
-
-		//頂点バッファをアンロック
-		GetBuffer()->Unlock();
+		SetCol(RED, GREEN, BLUE, GetAlph());   //色の設定
 	}
 
+	//フェードアウトの時
 	else if (m_Fade == FADE::FADE_OUT)
 	{
-		if (nCountAlpha <= 255)
+		//アルファ値が規定値以下の時
+		if (GetAlph() <= FINISH_FADE_OUT)
 		{
-			nCountAlpha+= MAX_FADE_SPEED;
+			GetAlph() += MAX_FADE_SPEED;      //アルファ値を増やす
 		}
 
-		VERTEX_2D* pVtx;
-
-		//頂点バッファをロックし、頂点データへのポインタを取得
-		GetBuffer()->Lock(0, 0, (void**)&pVtx, 0);
-
-		//頂点カラーの設定
-
-		//白色から徐々に移す
-		/*pVtx[0].col = D3DCOLOR_RGBA(255, 255, 255, nCountAlpha);
-		pVtx[1].col = D3DCOLOR_RGBA(255, 255, 255, nCountAlpha);
-		pVtx[2].col = D3DCOLOR_RGBA(255, 255, 255, nCountAlpha);
-		pVtx[3].col = D3DCOLOR_RGBA(255, 255, 255, nCountAlpha);*/
-
-		//黒色から徐々に移す
-		pVtx[0].col = D3DCOLOR_RGBA(0, 0, 0, nCountAlpha);
-		pVtx[1].col = D3DCOLOR_RGBA(0, 0, 0, nCountAlpha);
-		pVtx[2].col = D3DCOLOR_RGBA(0, 0, 0, nCountAlpha);
-		pVtx[3].col = D3DCOLOR_RGBA(0, 0, 0, nCountAlpha);
-
-		//頂点バッファをアンロック
-		GetBuffer()->Unlock();
+		SetCol(RED, GREEN, BLUE, GetAlph());  //色の設定
 	}
 }
 
 
 //=====================
-//背景の描画処理
+//描画処理
 //=====================
 void CFade::Draw()
 {
-	CObject2D::Draw();
-}
-
-void CFade::SetFade(FADE fade)
-{
-	m_Fade = fade;
+	CObject2D::Draw(); //描画処理を呼ぶ
 }
 
 
@@ -157,15 +100,18 @@ void CFade::SetFade(FADE fade)
 //===================================
 CFade* CFade::Create()
 {
-	CFade* pFade = new CFade(0);
-	if (SUCCEEDED(pFade->Init()))
+	CFade* pFade = new CFade(0); //動的確保
+
+	//情報がある時
+	if (pFade != nullptr)
 	{
-		if (pFade != nullptr)
+		//初期化が成功した時
+		if (SUCCEEDED(pFade->Init()))
 		{
-			pFade->Lood();
-			return pFade;
+			pFade->Lood(); //テクスチャの読み込み
+			return pFade;  //情報を返す
 		}
 	}
 
-	return nullptr;
+	return nullptr;        //無を返す
 }
