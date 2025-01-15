@@ -1,15 +1,18 @@
-//===================================
+//==========================================
 //
-//エフェクトの処理[efect.cpp]
+//ボス用エフェクトの処理[bossefect.cpp]
 //Auther:Chiba Haruki
 //
-//===================================
+//==========================================
 
+
+//==========================================
 //インクルード
 #include "main.h"
 #include "rendererh.h"
 #include "bosseffect.h"
 #include "manager.h"
+
 
 //==================================================================================
 //演出用エフェクトのストラテジークラス基底処理
@@ -20,9 +23,9 @@
 //==========================================
 CBossEffectDirection::CBossEffectDirection()
 {
-	m_pEffectFileName = nullptr;
-	m_nLife = 0;
-	m_pVtxBuffMine = nullptr;
+	m_aEffectFileName = nullptr; //ファイルパスの初期化
+	m_nLife = 0;                 //ライフの初期化
+	m_pVtxBuffMine = nullptr;    //バッファの初期化
 }
 
 //==========================================
@@ -38,13 +41,13 @@ CBossEffectDirection::~CBossEffectDirection()
 //==================================================================================
 void CBossEffectDirection::SetInfo(LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff, float fTexSize)
 {
-	VERTEX_3D* pVtx;
+	VERTEX_3D* pVtx; //バーテクスのポインター
 
 	//頂点バッファをロックし、頂点情報へのポインタを取得
 	m_pVtxBuff->Lock(0U, 0U, (void**)&pVtx, 0);
 
 	//テクスチャ座標の設定
-	pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f); //UV座標に注意（上限１．０ｆ）
+	pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
 	pVtx[1].tex = D3DXVECTOR2(fTexSize, 0.0f);
 	pVtx[2].tex = D3DXVECTOR2(0.0f, 1.0f);
 	pVtx[3].tex = D3DXVECTOR2(fTexSize, 1.0f);
@@ -60,10 +63,10 @@ void CBossEffectDirection::Effect(LPDIRECT3DTEXTURE9 m_pTexture, LPDIRECT3DVERTE
 {
 	m_nLife++;  //カウントする
 
-	//ライフが既定の数値になった時
+	//ライフが既定の数値以上になった時
 	if (m_nLife >= CManagerBossEffect::MAX_BOSSANIMATION_LIFE * dLifeCount)
 	{
-		VERTEX_3D* pVtx;
+		VERTEX_3D* pVtx; //バーテクスのポインター
 
 		//頂点バッファをロックし、頂点情報へのポインタを取得
 		m_pVtxBuff->Lock(0U, 0U, (void**)&pVtx, 0);
@@ -91,7 +94,7 @@ void CBossEffectDirection::Effect(LPDIRECT3DTEXTURE9 m_pTexture, LPDIRECT3DVERTE
 //==========================================
 CAttackEffect::CAttackEffect()
 {
-	m_pEffectFileName = "data\\TEXTURE\\UI\\Impact.png";
+	SetFileNamePass("data\\TEXTURE\\UI\\Impact.png"); //ファイルパスを設定
 }
 
 //==========================================
@@ -112,7 +115,7 @@ CAttackEffect::~CAttackEffect()
 //==========================================
 CSourceSpecialAttackBoss::CSourceSpecialAttackBoss()
 {
-	m_pEffectFileName = "data\\TEXTURE\\UI\\SpecialGage\\BossSpecialAllGage002.png";
+	SetFileNamePass("data\\TEXTURE\\UI\\SpecialGage\\BossSpecialAllGage002.png"); //ファイルパスを設定
 }
 
 //==========================================
@@ -133,12 +136,11 @@ CSourceSpecialAttackBoss::~CSourceSpecialAttackBoss()
 //===========================
 CManagerBossEffect::CManagerBossEffect(int nPriority) : CObject3D(nPriority)
 {
-	SetLife(100);                         
-	m_pEffectDirection000 = nullptr;
-	m_nEffectNumber = -1;
-	m_nBossRotNumber = 0;
-	m_dLifeCount = 0.0;
-	m_bFly = false;
+	SetLife(100);                     //ライフの設定                       
+	m_pEffectDirection000 = nullptr;  //ストラテジー基底クラスのポインターの初期化
+	m_nBossRotNumber = 0;             //向きで大きさを判定する変数の初期化(必殺技)
+	m_nHitNumber = -1;                //当たった方向を番号で判定する変数の初期化(衝撃波)
+	m_dLifeCount = 0.0;               //アニメーションの速度の初期化
 }
 
 
@@ -147,10 +149,11 @@ CManagerBossEffect::CManagerBossEffect(int nPriority) : CObject3D(nPriority)
 //===========================
 CManagerBossEffect::~CManagerBossEffect()
 {
+	//基底クラスのポインターの情報がある時
 	if (m_pEffectDirection000 != nullptr)
 	{
-		delete m_pEffectDirection000;
-		m_pEffectDirection000 = nullptr;
+		delete m_pEffectDirection000;     //情報を消す
+		m_pEffectDirection000 = nullptr;  //情報を無くす
 	}
 }
 
@@ -160,15 +163,16 @@ CManagerBossEffect::~CManagerBossEffect()
 //============================
 HRESULT CManagerBossEffect::Init()
 {
-	//頂点バッファ生成
+	//初期化が失敗した時
 	if (FAILED(CObject3D::BillboardInit()))
 	{
-		return E_FAIL;
+		return E_FAIL; //失敗を返す
 	}
-	SetSizeX(40.0f);
-	SetSizeY(40.0f);
-	SetSize(GetSizeX(), GetSizeY(), 40.0f);  //大きさの設定
-	return S_OK;
+
+	SetSizeX(MAX_SIZEX);                         //ｘ軸の大きさの設定
+	SetSizeY(MAX_SIZEY);                         //ｙ軸の大きさの設定
+	SetSize(GetSizeX(), GetSizeY(), MAX_SIZEZ);  //大きさの設定
+	return S_OK;                                 //成功を返す
 }
 
 
@@ -177,7 +181,6 @@ HRESULT CManagerBossEffect::Init()
 //============================
 void CManagerBossEffect::Uninit()
 {
-	//m_pEffectDirection = std::make_shared<CEffectDirection>(1);
 	CObject3D::Uninit(); //基底クラスの破棄処理を呼ぶ
 }
 
@@ -208,7 +211,7 @@ void CManagerBossEffect::Update()
 //============================
 void CManagerBossEffect::Draw()
 {
-	CObject3D::DrawEffect();
+	CObject3D::DrawEffect(); //描画処理を呼ぶ
 }
 
 
@@ -217,9 +220,7 @@ void CManagerBossEffect::Draw()
 //============================
 void CManagerBossEffect::SetEffect(D3DXVECTOR3 pos)
 {
-	SetPos(pos);
-	//m_move = move;
-	//m_nLife = nLife;
+	SetPos(pos); //位置を引数と同期
 }
 
 
@@ -228,41 +229,46 @@ void CManagerBossEffect::SetEffect(D3DXVECTOR3 pos)
 //===========================
 CManagerBossEffect* CManagerBossEffect::Create(D3DXVECTOR3 pos, CObject3D::TYPE type)
 {
-	CManagerBossEffect* pEffect = nullptr;
+	CManagerBossEffect* pEffect = nullptr; //基底クラスのポインター
 
+
+	//タイプが衝撃波の時
 	if (type == CObject3D::TYPE::IMPACT)
 	{
-		pEffect = new CImpact();
+		pEffect = new CImpact(); //動的確保
 
+		//初期化に成功した時
 		if (SUCCEEDED(pEffect->Init()))
 		{
-			pEffect->m_nEffectNumber = 0;
-			pEffect->m_pEffectDirection000 = new CAttackEffect();
-			pEffect->m_pEffectDirection000->SetInfo(pEffect->GetBuffer(),1.0f);
+			pEffect->m_pEffectDirection000 = new CAttackEffect();                                   //ストラテジー継承クラスの動的確保
+			pEffect->m_pEffectDirection000->SetInfo(pEffect->GetBuffer(), MAX_IMPACT_TEXTURESIZE);  //テクスチャの設定
 		}
 	}
+
+	//タイプが必殺技の時
 	else if (type == CObject3D::TYPE::BOSSSPECIALATTACK)
 	{
-		pEffect = new CBossSpecialAttack();
+		pEffect = new CBossSpecialAttack(); //動的確保
 
+		//初期化に成功したとき
 		if (SUCCEEDED(pEffect->Init()))
 		{
-			pEffect->m_nEffectNumber = 0;
-			pEffect->m_pEffectDirection000 = new CSourceSpecialAttackBoss();
-			pEffect->m_pEffectDirection000->SetInfo(pEffect->GetBuffer(), MAX_BOSSANIMETION_TEX);
-			pEffect->SetSize(200.0f, 200.0f, 0.0f);   //大きさの設定
+			pEffect->m_pEffectDirection000 = new CSourceSpecialAttackBoss();                                                   //ストラテジー継承クラスの動的確保
+			pEffect->m_pEffectDirection000->SetInfo(pEffect->GetBuffer(), MAX_BOSSANIMETION_TEX);                              //テクスチャの設定
+			pEffect->SetSize(CBossSpecialAttack::MAX_SPECIALATTACK_SIZEX, CBossSpecialAttack::MAX_SPECIALATTACK_SIZEX, 0.0f);  //大きさの設定
 		}
 	}
 	
+	//情報がある時
 	if (pEffect != nullptr)
 	{
-		pEffect->SetFileNamePass(pEffect->m_pEffectDirection000->m_pEffectFileName);
-		pEffect->SetPos(pos);
-		pEffect->Lood();
-		return pEffect;
+		pEffect->SetFileNamePass(pEffect->m_pEffectDirection000->GetFileNamePass()); //ファイルパスを設定
+		pEffect->SetPos(pos);                                                        //位置を引数と同期
+		pEffect->Lood();                                                             //テクスチャの読み込み
+		return pEffect;                                                              //情報を返す
 	}
 
-	return nullptr;
+	return nullptr;                                                                  //無を返す
 }
 
 
@@ -291,35 +297,34 @@ CImpact::~CImpact()
 //============================
 void CImpact::Update()
 {
-	//m_pEffectDirection000->Effect(m_pTexture, m_pVtxBuff, 0.0f,1.0f);
-	GetLife()--;                           //ライフを減らす
-	GetSizeX() += 4.0f;                    //ｘ軸のサイズを大きくする
-	GetSizeY() += 1.0f;                    //ｙ軸のサイズを大きくする
+	GetLife()--;                                 //ライフを減らす
+	GetSizeX() += PLUS_SIZEX;                    //ｘ軸のサイズを大きくする
+	GetSizeY() += PLUS_SIZEY;                    //ｙ軸のサイズを大きくする
 
-	SetCol(255, 255, 255, GetAlpha());       //色の設定
-	SetSize(GetSizeX(), GetSizeY(), 40.0f);  //大きさの更新
+	SetCol(RED, GREEN, BLUE, GetAlpha());        //色の設定
+	SetSize(GetSizeX(), GetSizeY(), MAX_SIZEZ);  //大きさの更新
 
 	//右側に当たった時
 	if (CObject3D::CollisionPrts1Right(GetSizeX() * 1.5f, GetSizeY() * 1.1f, 40.0f) == true)
 	{
-		m_bFly = true;
+		SetHitNumber(0); //当たった方向の番号を設定
 	}
+
 	//左側に当たった時
 	else if (CObject3D::CollisionPrts1Left(GetSizeX() * 1.5f, GetSizeY() * 1.1f, 40.0f) == true)
 	{
-		CManager::GetScene()->GetPlayerX()->GetPos().x -= 100.0f;
-		CManager::GetScene()->GetPlayerX()->GetPos().y += 100.0f;
+		SetHitNumber(1); //当たった方向の番号を設定
 	}
 
 	//ライフが尽きた時
 	if (GetLife() <= 0)
 	{
-		CManager::GetInstance()->DesignationUninit3D(TYPE::IMPACT);
-		CObject3D::Release();
-		return;
+		CManager::GetInstance()->DesignationUninit3D(TYPE::IMPACT); //インスタンスのポインターの情報を無くす
+		CObject3D::Release();                                       //自身を破棄する
+		return;                                                     //処理を抜ける
 	}
 
-	CObject3D::Update();
+	CObject3D::Update();                                            //更新処理を呼ぶ
 }
 
 
@@ -348,29 +353,28 @@ CBossSpecialAttack::~CBossSpecialAttack()
 //============================
 void CBossSpecialAttack::Update()
 {
-	this->m_pEffectDirection000->Effect(GetTexture(), GetBuffer(), 0.3, MAX_BOSSANIMETION_TEX); //自身のストラテジー継承クラスの処理を呼ぶ
+	this->GetBossEffectDirection()->Effect(GetTexture(), GetBuffer(), ANIMETION_DLLIFE, MAX_BOSSANIMETION_TEX); //テクスチャのサイズの更新
 
-	SetCol(255, 255, 255, GetAlpha());          //色の設定
+	SetCol(RED, GREEN, BLUE, GetAlpha());          //色の設定
 
-	//サイズが規定値より大きくなった時
-	if (GetSizeX() <= 2000.0f)
+	//サイズが規定値より小さい時
+	if (GetSizeX() <= MAXIMUM_SIZEX)
 	{
-		GetSizeX() += 30.0f;                    //サイズを大きくする
+		GetSizeX() += PLUS_SIZEX;                  //サイズを大きくする
 	}
 
-	float a = GetPos().y - CManager::GetInstance()->GetBoss()->GetPosPrtsBoss(17).y * 1.5f;
-	float b = CManager::GetScene()->GetPlayerX()->GetPos().x;
+	float fPosY = GetPos().y - CManager::GetInstance()->GetBoss()->GetPosPrtsBoss(17).y * ADJUST_PLAYER_POSY; //プレイヤーのpos.yを計算+調整=当たり判定の一番下を設定
 
 	//向き番号が１の時
 	if (GetRotNumber() == 1)
 	{
 		SetEffectSize(GetSizeX(), MAX_BOSSSPECIALATTACK_Y, 0.0f);    //サイズの設定
 
-		//点Cは自機が右に居る時点で確定で小さいため現在のpos.xを足した上で計算する
+		//点BXがプレイヤーより大きい判定にしたいからサイズの更新処理を入れる
 		if (CManager::GetScene()->GetPlayerX()->GetCollision()->TenCricale(CManager::GetScene()->GetPlayerX()->GetPos(), GetPos().x, GetPos().y + PLUS_POS_Y,
-			GetSizeX() + GetPos().x, a) == true)
+			GetSizeX() + GetPos().x, fPosY) == true)
 		{
-			CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() -= CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() * MAX_DAMAGE;
+			CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() -= CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() * MAX_DAMAGE; //プレイヤーのHPゲージを減らす
 		}
 	}
 
@@ -379,17 +383,18 @@ void CBossSpecialAttack::Update()
 	{
 		SetEffectSize(-GetSizeX(), MAX_BOSSSPECIALATTACK_Y, 0.0f);   //サイズの設定
 
+		//点SXがプレイヤーより小さい判定にしたいからサイズの更新処理を入れる
 		if (CManager::GetScene()->GetPlayerX()->GetCollision()->TenCricale(CManager::GetScene()->GetPlayerX()->GetPos(), -GetSizeX() + GetPos().x, GetPos().y + PLUS_POS_Y,
-			GetPos().x, a) == true)
+			GetPos().x, fPosY) == true)
 		{
-			CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() -= CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() * MAX_DAMAGE;
+			CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() -= CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() * MAX_DAMAGE; //プレイヤーのHPゲージを減らす
 		}
 	}
 
 	//ライフが０以下の時
 	if (GetLife() <= 0)
 	{
-		GetAlpha() -= 5;          //alpha値を減らす
+		GetAlpha() -= MINUS_ALPHA;          //alpha値を減らす
 
 		//alpha値が０以下の時
 		if (GetAlpha() <= 0)

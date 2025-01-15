@@ -173,7 +173,7 @@ void CBoss::AttackPatternSelect()
 		{
 			//srand((unsigned)time(NULL));  // 乱数系列を初期化
 			//SetRandom(rand() % 3);
-			SetRandom(0);
+			SetRandom(2);
 		}
 		m_nCoolTime++;
 	}
@@ -358,7 +358,7 @@ void CBoss::SpecialAttack()
 
 			if (GetRot().y >= D3DX_PI_ORI)
 			{
-				CManager::GetInstance()->GetBossSpecialAttack()->GetRotNumber() = 2;                                           //サイズの設定用の番号を渡す
+				CManager::GetInstance()->GetBossSpecialAttack()->SetRotNumber(2);                                           //サイズの設定用の番号を渡す
 				//位置を銃に設定
 				CManager::GetInstance()->GetBossSpecialAttack()->SetEffect(D3DXVECTOR3(
 					GetPosPrtsBoss(17).x,
@@ -368,7 +368,7 @@ void CBoss::SpecialAttack()
 			}
 			else if (GetRot().y <= -D3DX_PI_ORI)
 			{
-				CManager::GetInstance()->GetBossSpecialAttack()->GetRotNumber() = 1;                                           //サイズの設定用の番号を渡す
+				CManager::GetInstance()->GetBossSpecialAttack()->SetRotNumber(1);                                           //サイズの設定用の番号を渡す
 
 				//位置を銃に設定
 				CManager::GetInstance()->GetBossSpecialAttack()->SetEffect(D3DXVECTOR3(

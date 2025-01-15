@@ -40,10 +40,8 @@ public://外部からのアクセス可能
 
 	//fSizeXでｘ軸の増量値を渡し半径を増加させる
 	bool Coliision3DcircleBoss(D3DXVECTOR3 pos, D3DXVECTOR3& pos1, float X, float Y, float Z, D3DXVECTOR3 Size1, float fSizeX, int nNumber); //ビーム系の当たり判定で使える
-	bool Coliision3Dcircle(D3DXVECTOR3 pos, D3DXVECTOR3& pos1, float X, float Y, float Z, D3DXVECTOR3 Size1, float fSizeX, int nNumber); //ビーム系の当たり判定で使える[
-	bool TenCricale(D3DXVECTOR3& pos1, float X, float Y, float Z, float D);
-
-private://外部からのアクセス不可能
+	bool Coliision3Dcircle(D3DXVECTOR3 pos, D3DXVECTOR3& pos1, float X, float Y, float Z, D3DXVECTOR3 Size1, float fSizeX, int nNumber);     //ビーム系の当たり判定で使える[
+	bool TenCricale(D3DXVECTOR3& pos1, float SX, float BY, float BX, float SY); //ひし形の当たり判定（Ｓ＝small,Ｂ＝bigの略）
 };
 
 #endif // !COLLISION_H_
