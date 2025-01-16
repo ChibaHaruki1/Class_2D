@@ -50,7 +50,7 @@ CObject2D::CObject2D(int nPriority) : CObject(nPriority)
 	m_nRandom = 0;
 	m_nFrame = 0;
 	m_aFileName = nullptr;
-	m_nAlph = 0;
+	m_nAlpha = 0;
 }
 
 

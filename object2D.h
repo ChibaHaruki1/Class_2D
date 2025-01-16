@@ -32,14 +32,14 @@ public:
 	//それぞれの処理に必要な情報を取得する
 	LPDIRECT3DVERTEXBUFFER9& GetBuffer() { return m_pVtxBuff; } //バッファの取得
 	D3DXVECTOR3& GetCol() {return m_col;}                       //色の取得
-	int& GetAlph() { return m_nAlph; }                          //アルファ値を取得
+	int& GetAlph() { return m_nAlpha; }                          //アルファ値を取得
 	int& GetRandom() { return m_nRandom; }                      //乱数を取得
 	int& GetFrame() { return m_nFrame; }                        //フレームを取得
 
 	//==================================================
 	//各情報の設定
 	void SetPos(D3DXVECTOR3 pos) { m_pos = pos; }               //位置の設定	
-	void SetAlph(int nAlph) { m_nAlph = nAlph; }                //アルファ値を設定
+	void SetAlph(int nAlph) { m_nAlpha = nAlph; }                //アルファ値を設定
 	void SetRandom(int nRandom) { m_nRandom = nRandom; }        //乱数を設定
 	void SetFrame(int nFrame) { m_nFrame = nFrame; }            //フレームを設定
 	void SetFileNamePass(const char* aFileName) { m_aFileName = aFileName; } //ファイルパスを設定
@@ -50,6 +50,11 @@ public:
 	D3DXVECTOR3& GetMove() { return m_move; }                   //移動量の取得
 	D3DXVECTOR3& GetRot() { return m_rot; }                     //向きの取得
 
+
+	//==================================================
+	//情報の値を計して設定
+	int& SetAddjustAlpha() { return m_nAlpha; }                 //アルファ値の変更したいときの設定
+
 private:
 	LPDIRECT3DTEXTURE9 m_pTexture;      //テクスチャへのポインタ
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff; //頂点バッファのポインタ
@@ -58,7 +63,7 @@ private:
 	D3DXVECTOR3 m_rot;  //向き
 	D3DXVECTOR3 m_col;  //色
 
-	int m_nAlph;        //アルファ値を保管する用の変数
+	int m_nAlpha;        //アルファ値を保管する用の変数
 	int m_nRandom;      //乱数を保管する用の変数
 	int m_nFrame;       //フレームを観測する用の変数
 
