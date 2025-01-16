@@ -286,7 +286,7 @@ bool CObject3D::CollisionPrtsPlayer(float X, float Y, float Z)
 	//プレイヤーの各パーツ毎の当たり判定処理
 	for (int nCount = 0; nCount < CObjectX::MAX_PRTS - 1; nCount++)
 	{
-		if (CManager::GetScene()->GetPlayerX()->GetCollision()->ColiisionBox3D(m_pos, CManager::GetScene()->GetPlayerX()->GetPosPrts(nCount), X, Y, Z, CManager::GetScene()->GetPlayerX()->GetModelSizePrts(nCount)*1.2f) == true)
+		if (CManager::GetScene()->GetPlayerX()->GetCollision()->ColiisionBox3D(m_pos, CManager::GetScene()->GetPlayerX()->GetPosPrts(nCount), X, Y, Z, CManager::GetScene()->GetPlayerX()->GetModelSizePrts(nCount)) == true)
 		{
 			return true; //成功
 		}

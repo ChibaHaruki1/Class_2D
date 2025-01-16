@@ -76,6 +76,7 @@ public:
 
 	int& SetAddjustLife() { return m_nLife; }                          //ライフの値を変更したいときの設定
 	int& SetAddjustAlpha() { return m_nAlpha; }                        //アルファ値の変更したいときの設定
+	int& SetAddjustFrame() { return m_nFrame; }                        //フレームの値を変更したいときの設定
 
 	float& SetAddjustSizeX() { return m_fSizeX; }                      //X軸の値を変更したいときの設定
 	float& SetAddjustSizeY() { return m_fSizeY; }                      //Y軸の値を変更したいときの設定

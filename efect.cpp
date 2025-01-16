@@ -251,7 +251,6 @@ HRESULT CManagerEffect::Init()
 		return E_FAIL;            //失敗を返す
 	}
 
-	SetSize(40.0f, 40.0f, 0.0f);  //大きさの設定
 	return S_OK;                  //成功を返す
 }
 
@@ -503,7 +502,7 @@ CExplosion::~CExplosion()
 //コンストラクタ
 CFire::CFire()
 {
-	SetLife(FIRELIFE);
+	SetLife(FIRELIFE); //ライフの設定
 }
 
 //===========================
@@ -518,7 +517,7 @@ CFire::~CFire()
 //===========================
 void CFire::Draw()
 {
-	CObject3D::DrawEffect1();
+	CObject3D::DrawEffect1(); //描画処理を呼ぶ
 }
 
 
@@ -530,7 +529,7 @@ void CFire::Draw()
 //コンストラクタ
 CPillarOfFire::CPillarOfFire()
 {
-	SetLife(PILLARFIRELIFE);
+	SetLife(PILLARFIRELIFE); //ライフの設定
 }
 
 //===========================
@@ -545,12 +544,13 @@ CPillarOfFire::~CPillarOfFire()
 //============================
 HRESULT CPillarOfFire::Init()
 {
-	//頂点バッファ生成
+	//初期化処理が成功した時
 	if (FAILED(CObject3D::Init()))
 	{
-		return E_FAIL;
+		return E_FAIL; //失敗を返す
 	}
-	return S_OK;
+
+	return S_OK;       //成功を返す
 }
 
 //============================
@@ -559,30 +559,20 @@ HRESULT CPillarOfFire::Init()
 void CPillarOfFire::Update()
 {
 	this->GetEffectDirection()->Effect(GetTexture(), GetBuffer(), 0.5, MAX_PILLAROFFIRE_TEX); //自身のストラテジー継承クラスの処理を呼ぶ
-	SetCol(255, 255, 255, GetAlpha());  //色の設定
+	SetCol(RED, GREEN, BLUE, GetAlpha());                                                     //色の設定
 
-	//フレームが規定値に行った時
-	if (GetFrame() >= 60)
+	//当たり判定
+	if (CObject3D::CollisionPrtsPlayer(PILLAROFFIRE_SIZEX, PILLAROFFIRE_SIZEY, PILLAROFFIRE_SIZEZ) == true)
 	{
-		if (CObject3D::CollisionPrtsPlayer(PILLAROFFIRE_SIZEX, PILLAROFFIRE_SIZEY, 40.0f) == true)
-		{
-			CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() -= CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() * 0.01f; //HPゲージを減らす
-			CManager::GetInstance()->GetPlayerHPGage()->SetSIze(0.0f, CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX(), 40.0f, 70.0f);  //大きさをあらかじめ決めないと
-			SetFrame(0);
-			SetLife(0);
-		}
-	}
-	else
-	{
-		GetFrame()++;
+		CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() -= CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() * 0.01f; //プレイヤーのHPゲージを減らす
 	}
 
 	//ライフが０以下の時
 	if (GetLife() <= 0)
 	{
-		GetAlpha() -= 5;  //alpha値を減らす
+		SetAddjustAlpha() -= MINUS_ALPHA;  //アルファ値を減らす
 
-		//alpha値が０以下の時
+		//アルファ値が０以下の時
 		if (GetAlpha() <= 0)
 		{
 			CObject::Release(); //自身を削除
@@ -591,7 +581,7 @@ void CPillarOfFire::Update()
 	}
 	else
 	{
-		GetLife()--; //ライフを減らす
+		SetAddjustLife()--;    //ライフを減らす
 	}
 }
 
@@ -624,13 +614,14 @@ CEffect::~CEffect()
 //============================
 HRESULT CEffect::Init()
 {
-	//頂点バッファ生成
+	//初期化が成功した時
 	if (FAILED(CObject3D::BillboardInit()))
 	{
-		return E_FAIL;
+		return E_FAIL;           //失敗を返す
 	}
-	SetSize(40.0f, 40.0f, 0.0f);
-	return S_OK;
+
+	SetSize(SIZEX, SIZEY, 0.0f); //大きさの設定
+	return S_OK;                 //成功を返す
 }
 
 
@@ -648,14 +639,16 @@ void CEffect::Uninit()
 //============================
 void CEffect::Update()
 {
-	GetLife()--;
+	SetAddjustLife()--; //ライフを減らす
+
+	//ライフが０以下の時
 	if (GetLife() <= 0)
 	{
-		CObject3D::Release();
-		return;
+		CObject3D::Release(); //自身を消す
+		return;               //処理を抜ける
 	}
 
-	CObject3D::Update();
+	CObject3D::Update();      //更新処理を呼ぶ
 }
 
 
@@ -664,7 +657,7 @@ void CEffect::Update()
 //============================
 void CEffect::Draw()
 {
-	CObject3D::DrawEffect();
+	CObject3D::DrawEffect(); //描画処理を呼ぶ
 }
 
 
@@ -673,9 +666,9 @@ void CEffect::Draw()
 //============================
 void CEffect::SetEffect(D3DXVECTOR3 pos, D3DXVECTOR3 move, int nLife)
 {
-	SetPos(pos);
-	SetMove(move);
-	SetLife(nLife);
+	SetPos(pos);    //位置を引数と同期させる
+	SetMove(move);  //移動量を引数と同期させる
+	SetLife(nLife); //ライフを引数と同期させる
 }
 
 
@@ -684,19 +677,21 @@ void CEffect::SetEffect(D3DXVECTOR3 pos, D3DXVECTOR3 move, int nLife)
 //===========================
 CEffect* CEffect::Create(D3DXVECTOR3 pos)
 {
-	CEffect* pEffect = new CEffect();
+	CEffect* pEffect = new CEffect(); //動的確保
 
-	if (SUCCEEDED(pEffect->Init()))
+	//情報がある時
+	if (pEffect != nullptr)
 	{
-		if (pEffect != nullptr)
+		//初期化が成功した時
+		if (SUCCEEDED(pEffect->Init()))
 		{
-			pEffect->SetPos(pos);
-			pEffect->Lood();
-			return pEffect;
+			pEffect->SetPos(pos); //位置を引数と同期させる
+			pEffect->Lood();      //テクスチャの読み込み
+			return pEffect;       //情報を返す
 		}
 	}
 
-	return nullptr;
+	return nullptr;               //無を返す
 }
 
 
@@ -730,8 +725,8 @@ CExplosion001::~CExplosion001()
 //===========================
 CDebris::CDebris()
 {
-	SetLife(DEBRISLIFE);
-	SetSizeX(50.0f);
+	SetLife(DEBRISLIFE); //ライフの設定
+	SetSizeX(SIZEX);     //ｘ軸の大きさを設定
 }
 
 
@@ -748,8 +743,8 @@ CDebris::~CDebris()
 //===========================
 void CDebris::Update()
 {
-	GetLife()--;                              //ライフを減らす
-	GetSizeX() += 4.0f;                       //サイズを大きくする
+	SetAddjustLife()--;                       //ライフを減らす
+	SetAddjustSizeX() += PLUS_SIZEX;          //ｘ軸のサイズを大きくする
 	SetSize(GetSizeX(), GetSizeX(), 0.0f);    //サイズの設定
 
 	//ライフが０以下の時
@@ -768,9 +763,9 @@ void CDebris::Update()
 //コンストラクタ
 CSpecialAttack::CSpecialAttack()
 {
-	SetLife(SPECIALATTACKLIFE);
-	SetSizeX(m_fSepecialAttackX);
-	m_nRotNumber = 0;
+	SetLife(SPECIALATTACKLIFE);   //ライフの設定
+	SetSizeX(m_fSepecialAttackX); //ｘ軸の大きさを設定
+	m_nRotNumber = 0;             //向き番号の初期化
 }
 
 //===========================
@@ -787,70 +782,34 @@ void CSpecialAttack::Update()
 {
 	this->GetEffectDirection()->Effect(GetTexture(), GetBuffer(), 0.3, MAX_SPECIALATTACK_TEX); //自身のストラテジー継承クラスの処理を呼ぶ
 
-	SetCol(255, 255, 255, GetAlpha());         //色の設定
+	SetCol(RED, GREEN, BLUE, GetAlpha());        //色の設定
 
-	if (GetSizeX() <= 2000.0f)
+	//ｘ軸の大きさが規定値より小さい時
+	if (GetSizeX() <= MAXIMUM_SIZEX)
 	{
-		GetSizeX() += 30.0f;                     //サイズを大きくする
+		SetAddjustSizeX() += PLUS_SIZEX;         //サイズを大きくする
 	}
 
+	//向き番号が１の時
 	if (m_nRotNumber == 1)
 	{
 		SetEffectSize(GetSizeX(), m_fSepecialAttackY, 0.0f);    //サイズの設定
 	}
+
+	//向き番号が２の時
 	else if (m_nRotNumber == 2)
 	{
 		SetEffectSize(-GetSizeX(), m_fSepecialAttackY, 0.0f);   //サイズの設定
 	}
 
-	if (CManager::GetScene()->GetPlayerX()->GetRot().y == CManager::GetScene()->GetCamera()->GetRot().y - D3DX_PI / 2)
-	{
-		//m_rot.y = CManager::GetScene()->GetCamera()->GetRot().y -D3DX_PI;
-	}
-
-	if (CManager::GetInstance()->GetBoss() != nullptr)
-	{
-		for (int nCount2 = 0; nCount2 < CObjectX::MAX_BOSSPARTS; nCount2++)
-		{
-			if (CManager::GetScene()->GetPlayerX()->GetCollision()->Coliision3Dcircle(GetPos(), CManager::GetInstance()->GetBoss()->GetPosPrtsBoss(nCount2),
-				m_fSepecialAttackX, m_fSepecialAttackY, CBullet3D::MAX_BULLET3D_SIZE_Z,
-				CManager::GetInstance()->GetBoss()->GetModelSizePrtsBoss(nCount2), GetSizeX()))
-			{
-				//CManager::GetInstance()->GetPlayerHPGage()->SetSIze(0.0f, CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX(), 40.0f, 70.0f); //大きさをあらかじめ決めないと
-				CManager::GetInstance()->GetBossHPGage()->GetBossHPSizeX() -= CMain::SCREEN_WIDTH * 0.00005f; //ボスのHPゲージを減らす
-			}
-		}
-	}
-
-	for (int nMotionInEnemy001 = 0; nMotionInEnemy001 < CManager::GetInstance()->GetMotionInEnemy001Count() + 1; nMotionInEnemy001++)
-	{
-		if (CManager::GetInstance()->GetEnemyInMotion001(nMotionInEnemy001) != nullptr)
-		{
-			for (int nCount1 = 0; nCount1 < CObjectX::MAX_ENEMYPARTS; nCount1++)
-			{
-				if (CManager::GetScene()->GetPlayerX()->GetCollision()->Coliision3Dcircle(GetPos(), CManager::GetInstance()->GetEnemyInMotion001(nMotionInEnemy001)->GetPosPrtsEnemy(nCount1),
-					m_fSepecialAttackX, m_fSepecialAttackY, CBullet3D::MAX_BULLET3D_SIZE_Z,
-					CManager::GetInstance()->GetEnemyInMotion001(nMotionInEnemy001)->GetModelSizePrtsEnemy(nCount1), GetSizeX()))
-				{
-					CManager::GetInstance()->GetEnemyInMotion001(nMotionInEnemy001)->GetLife() -= 1;
-
-					if (CManager::GetInstance()->GetEnemyInMotion001(nMotionInEnemy001)->GetLife() <= 0)
-					{
-						CManager::GetInstance()->DesignationUninitXEnemy(CObjectX::TYPE::ENEMYINMOTION001, nMotionInEnemy001);  //ポインターをnullptrにする
-						return;
-					}
-				}
-			}
-		}
-	}
-
+	HitEnemy(); //当たり判定処理を呼ぶ
 
 	//ライフが０以下の時
 	if (GetLife() <= 0)
 	{
-		GetAlpha() -= 5;          //alpha値を減らす
+		SetAddjustAlpha() -= MINUS_ALPHA;                       //アルファ値を減らす
 
-		//alpha値が０以下の時
+		//アルファ値が０以下の時
 		if (GetAlpha() <= 0)
 		{
 			CObject::Release(); //自身を削除
@@ -859,6 +818,55 @@ void CSpecialAttack::Update()
 	}
 	else
 	{
-		GetLife()--; //ライフを減らす
+		SetAddjustLife()--;     //ライフを減らす
+	}
+}
+
+//============================
+//敵との当たり判定処理
+//============================
+void CSpecialAttack::HitEnemy()
+{
+	//ボスの情報がある時
+	if (CManager::GetInstance()->GetBoss() != nullptr)
+	{
+		//ボスの最大パーツ数分回す
+		for (int nCount2 = 0; nCount2 < CObjectX::MAX_BOSSPARTS; nCount2++)
+		{
+			//当たり判定
+			if (CManager::GetScene()->GetPlayerX()->GetCollision()->Coliision3Dcircle(GetPos(), CManager::GetInstance()->GetBoss()->GetPosPrtsBoss(nCount2),
+				m_fSepecialAttackX, m_fSepecialAttackY, CBullet3D::MAX_BULLET3D_SIZE_Z,
+				CManager::GetInstance()->GetBoss()->GetModelSizePrtsBoss(nCount2), GetSizeX()))
+			{
+				CManager::GetInstance()->GetBossHPGage()->GetBossHPSizeX() -= CMain::SCREEN_WIDTH * MAX_DAMAGE_BOSS; //ボスのHPゲージを減らす
+			}
+		}
+	}
+
+	//モーション付きの敵の作られた分回す
+	for (int nMotionInEnemy001 = 0; nMotionInEnemy001 < CManager::GetInstance()->GetMotionInEnemy001Count() + 1; nMotionInEnemy001++)
+	{
+		//情報がある時
+		if (CManager::GetInstance()->GetEnemyInMotion001(nMotionInEnemy001) != nullptr)
+		{
+			//モーション付きの敵の最大パーツ数分回す
+			for (int nCount1 = 0; nCount1 < CObjectX::MAX_ENEMYPARTS; nCount1++)
+			{
+				//当たり判定
+				if (CManager::GetScene()->GetPlayerX()->GetCollision()->Coliision3Dcircle(GetPos(), CManager::GetInstance()->GetEnemyInMotion001(nMotionInEnemy001)->GetPosPrtsEnemy(nCount1),
+					m_fSepecialAttackX, m_fSepecialAttackY, CBullet3D::MAX_BULLET3D_SIZE_Z,
+					CManager::GetInstance()->GetEnemyInMotion001(nMotionInEnemy001)->GetModelSizePrtsEnemy(nCount1), GetSizeX()))
+				{
+					CManager::GetInstance()->GetEnemyInMotion001(nMotionInEnemy001)->GetLife() = 0; //ライフを消す
+
+					//モーション付きの敵のライフが尽きた時
+					if (CManager::GetInstance()->GetEnemyInMotion001(nMotionInEnemy001)->GetLife() <= 0)
+					{
+						CManager::GetInstance()->DesignationUninitXEnemy(CObjectX::TYPE::ENEMYINMOTION001, nMotionInEnemy001);  //ポインターをnullptrにする
+						return;                                                                                                 //処理を抜ける
+					}
+				}
+			}
+		}
 	}
 }

@@ -237,12 +237,18 @@ public:
 	//マクロ定義
 	constexpr static float PILLAROFFIRE_SIZEX = 200.0f;                 //柱状の炎エフェクトのX軸の大きさ
 	constexpr static float PILLAROFFIRE_SIZEY = 600.0f;                 //柱状の炎エフェクトのY軸の大きさ
+	constexpr static float PILLAROFFIRE_SIZEZ = 40.0f;                  //柱状の炎エフェクトのZ軸の大きさ
 	constexpr static float MAX_PILLAROFFIRE_TEX = 0.125f;               //アニメーションの分割数
 	constexpr static double MAX_PILLAROFFIRE_ANIMETION_SPEED = 0.5;     //アニメーションの速さ
 
 private:
 	//マクロ定義
 	constexpr static int PILLARFIRELIFE = 180; //ファイアのライフ
+
+	constexpr static int RED = 255;          //赤色
+	constexpr static int GREEN = 255;        //緑色
+	constexpr static int BLUE = 255;         //青色
+	constexpr static int MINUS_ALPHA = 5;    //アルファ値の減算値
 };
 
 
@@ -264,6 +270,9 @@ public:
 private:
 	//マクロ定義
 	constexpr static int SET_EFFECT_LIFE = 30; //ライフの最大数
+
+	constexpr static float SIZEX = 40.0f; //X軸の大きさ
+	constexpr static float SIZEY = 40.0f; //Y軸の大きさ
 };
 
 
@@ -285,6 +294,10 @@ public:
 private:
 	//マクロ定義
 	constexpr static int DEBRISLIFE = 10;         //ライフの最大数
+
+	constexpr static float SIZEX = 50.0f;         //X軸の大きさ
+	constexpr static float PLUS_SIZEX = 4.0f;     //X軸の大きさを増やす値
+
 };
 
 
@@ -296,6 +309,11 @@ public:
 	CSpecialAttack();                               //コンストラクタ
 	~CSpecialAttack()override;                      //デストラクタ
 	void Update()override;                          //更新処理
+	void HitEnemy();                                //敵との当たり判定処理
+
+
+	//==========================
+	//情報の取得
 	int& GetRotNumber() { return m_nRotNumber; }    //現在の向きを番号で取得する
 
 
@@ -308,7 +326,16 @@ public:
 
 private:
 	//マクロ定義
-	constexpr static int SPECIALATTACKLIFE = 180; //ライフの最大数
+	constexpr static int SPECIALATTACKLIFE = 180;      //ライフの最大数
 
-	int m_nRotNumber;                             //向きで大きさを変えるための変数
+	constexpr static int RED = 255;                    //赤色
+	constexpr static int GREEN = 255;                  //緑色
+	constexpr static int BLUE = 255;                   //青色
+	constexpr static int MINUS_ALPHA = 5;              //アルファ値の減算値
+
+	constexpr static float MAXIMUM_SIZEX = 2000.0f;    //サイズを加算していく時の最大値
+	constexpr static float MAX_DAMAGE_BOSS = 0.00005f; //サイズを加算していく時の最大値
+	constexpr static float PLUS_SIZEX = 30.0f;         //X軸の大きさを増やす値
+
+	int m_nRotNumber;                                  //向きで大きさを変えるための変数
 };

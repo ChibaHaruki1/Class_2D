@@ -208,19 +208,6 @@ void CBullet3D::CallEffect(bool bUse)
 //===============================
 void CBullet3D::CollisionOnObject()
 {
-	//地面用のブロックの生成数分回す
-	for (int nCount = 0; nCount < CManager::GetInstance()->GetFieldBlockCount() + 1; nCount++)
-	{
-		//ブロックとの当たり判定
-		if (CManager::GetScene()->GetPlayerX()->GetCollision()->ColiisionBox3D(GetPos(), CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), MAX_BULLET3D_SIZE_X, MAX_BULLET3D_SIZE_Y, MAX_BULLET3D_SIZE_Z, CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize()) == true)
-		{
-			CallEffect(true);         //エフェクト処理を呼ぶ
-
-			CObject3D::Release();     //自身の解放
-			return;                   //処理を抜けることによって、バッファのアクセス違反を防ぐ（破棄しているから）
-		}
-	}
-
 	//敵の情報がある時
 	if (CManager::GetInstance()->GetEnemy000() != nullptr)
 	{
@@ -232,7 +219,7 @@ void CBullet3D::CollisionOnObject()
 			//敵のライフが０以下の時
 			if (CManager::GetInstance()->GetEnemy000()->GetLife() <= 0)
 			{
-				CManager::GetInstance()->DesignationUninitXEnemy(CObjectX::TYPE::ENEMY, 0); //ポインターをnullptrにする
+				CManager::GetInstance()->DesignationUninitXEnemy(CObjectX::TYPE::ENEMY, 0);        //ポインターをnullptrにする
 			}
 
 			SetLife(0); //ライフを０にする
@@ -254,7 +241,7 @@ void CBullet3D::CollisionOnObject()
 				//敵のライフが０以下の時
 				if (CManager::GetInstance()->GetEnemy001(nCount1)->GetLife() <= 0)
 				{
-					CManager::GetInstance()->DesignationUninitXEnemy(CObjectX::TYPE::ENEMY001, nCount1);  //ポインターをnullptrにする
+					CManager::GetInstance()->DesignationUninitXEnemy(CObjectX::TYPE::ENEMY001, nCount1);         //ポインターをnullptrにする
 				}
 
 				SetLife(0); //ライフを０にする
