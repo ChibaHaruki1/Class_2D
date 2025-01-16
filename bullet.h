@@ -131,9 +131,12 @@ public: //外部からアクセス可能
 	constexpr static float MAX_BOSSBULLET_SIZE_Y = 40.0f; //Y軸の大きさ
 	constexpr static float MAX_BOSSBULLET_SIZE_Z = 40.0f; //Z軸の大きさ
 
+
 private: //外部からアクセス不可能
 	//マクロ定義
 	constexpr static int MINUS_ALPHA = 5;                //アルファ値を減算
+
 	constexpr static float  MINUS_PLAYER_HPGAGE = 0.05f; //プレイヤーのHPゲージを減らす値
+	constexpr static float  MINUS_POSY = 5.0f;           //Y軸の位置を減算する値
 };
 

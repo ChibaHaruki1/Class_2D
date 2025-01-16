@@ -44,7 +44,7 @@ class CThunder : public CEffectDirection
 {
 public:
 	CThunder();   //コンストラクタ
-	~CThunder();  //デストラクタ			
+	~CThunder();  //デストラクタ		
 };
 
 
@@ -114,34 +114,52 @@ public:
 
 	static CManagerEffect* Create(D3DXVECTOR3 pos, TYPE type); //生成処理
 
+
+	//============================
+	//情報の取得
 	CEffectDirection* GetEffectDirection() { return m_pEffectDirection000; } //ストラテジー基底クラスのポインターを取得
+
+
+	//============================
+	//情報の設定
+	void SetMaxTex(float fMaxTex) { m_fMaxTex = fMaxTex; }
+
 
 protected://継承クラスのみアクセス可能
 
 	//マクロ定義 （constexprでコンパイル時に初期化）
-	constexpr static int SET_BULLET_LIFE = 42;          //ライフの最大数
-	constexpr static float m_fPillarOfFireSizeX = 200.0f; //柱状の炎のX軸の大きさ
-	constexpr static float m_fPillarOfFireSizeY = 600.0f; //柱状の炎のY軸の大きさ
+	constexpr static int SET_BULLET_LIFE = 42;            //ライフの最大数
+	constexpr static int MINUS_ALPHA = 5;                 //アルファ値の減算値
 	constexpr static float m_fSepecialAttackX = 200.0f;   //必殺技のX軸の大きさ
 	constexpr static float m_fSepecialAttackY = 200.0f;   //必殺技のY軸の大きさ
-	constexpr static float MAX_EXPLOSION_TEX = 0.125f;    //アニメーションの分割数
 
 private:
-	int m_nEffectNumber;  //最後にエフェクトを呼ぶかどうか
-	double m_dLifeCount; //アニメーションの速度
-	float m_fMaxTex;     //テクスチャの最大のサイズ
+	//マクロ定義
+	constexpr static int RED = 255;          //赤色
+	constexpr static int GREEN = 255;        //緑色
+	constexpr static int BLUE = 255;         //青色
+	
+	int m_nEffectNumber;                      //最後にエフェクトを呼ぶかどうか
+	double m_dLifeCount;                      //アニメーションの速度
+	float m_fMaxTex;                          //テクスチャの最大のサイズ
 	CEffectDirection* m_pEffectDirection000;  //ストラテジー基底クラスのポインター
 };
 
 
 //========================================================================================================
-//こわれたときのエフェクト処理
-class CBreakEffect : public CManagerEffect
+//自然系のエフェクトクラス
+class CNatureEffect : public CManagerEffect
 {
 public:
-	CBreakEffect();            //コンストラクタ
-	~CBreakEffect()override;   //デストラクタ
+	CNatureEffect();            //コンストラクタ
+	~CNatureEffect()override;   //デストラクタ
 
+
+	//=========================
+	//マクロ定義
+	constexpr static float THANDER_SIZEX = 70.0f;  //雷エフェクトのX軸の大きさ
+	constexpr static float THANDER_SIZEY = 70.0f;  //雷エフェクトのY軸の大きさ
+	constexpr static float MAX_THANDER_TEX = 1.0f; //アニメーションの分割数
 };
 
 
@@ -152,6 +170,14 @@ class CExplosion : public CManagerEffect
 public:
 	CExplosion();          //コンストラクタ
 	~CExplosion()override; //デストラクタ
+
+
+	//=========================
+	//マクロ定義
+	constexpr static float EXPLSION_SIZEX = 70.0f;                 //爆発エフェクトのX軸の大きさ
+	constexpr static float EXPLSION_SIZEY = 70.0f;                 //爆発エフェクトのY軸の大きさ
+	constexpr static float MAX_EXPLOSION_TEX = 0.125f;             //アニメーションの分割数
+	constexpr static double MAX_EXPLOSION_ANIMETION_SPEED = 0.6;   //アニメーションの速さ
 };
 
 
@@ -162,6 +188,14 @@ class CExplosion001 : public CManagerEffect
 public:
 	CExplosion001();           //コンストラクタ
 	~CExplosion001()override;  //デストラクタ
+
+
+	//=========================
+	//マクロ定義
+	constexpr static float EXPLSION001_SIZEX = 70.0f;                 //爆発エフェクトのX軸の大きさ
+	constexpr static float EXPLSION001_SIZEY = 70.0f;                 //爆発エフェクトのY軸の大きさ
+	constexpr static float MAX_EXPLOSION001_TEX = 0.125f;             //アニメーションの分割数
+	constexpr static double MAX_EXPLOSION001_ANIMETION_SPEED = 0.6;   //アニメーションの速さ
 };
 
 
@@ -174,9 +208,17 @@ public:
 	~CFire()override;	  //デストラクタ
 	void Draw()override;  //描画処理
 
+
+	//=========================
+	//マクロ定義
+	constexpr static float FIRE_SIZEX = 92.0f;                 //炎エフェクトのX軸の大きさ
+	constexpr static float FIRE_SIZEY = 190.0f;                //炎エフェクトのY軸の大きさ
+	constexpr static float MAX_FIRE_TEX = 0.125f;              //アニメーションの分割数
+	constexpr static double MAX_FIRE_ANIMETION_SPEED = 0.5;    //アニメーションの速さ
+
 private:
 	//マクロ定義
-	constexpr static int FIRELIFE = 120; //ファイアのライフ
+	constexpr static int FIRELIFE = 120; //ライフの最大数
 };
 
 
@@ -189,6 +231,14 @@ public:
 	~CPillarOfFire()override;  //デストラクタ
 	HRESULT Init()override;    //初期化処理
 	void Update()override;     //更新処理
+
+
+	//=========================
+	//マクロ定義
+	constexpr static float PILLAROFFIRE_SIZEX = 200.0f;                 //柱状の炎エフェクトのX軸の大きさ
+	constexpr static float PILLAROFFIRE_SIZEY = 600.0f;                 //柱状の炎エフェクトのY軸の大きさ
+	constexpr static float MAX_PILLAROFFIRE_TEX = 0.125f;               //アニメーションの分割数
+	constexpr static double MAX_PILLAROFFIRE_ANIMETION_SPEED = 0.5;     //アニメーションの速さ
 
 private:
 	//マクロ定義
@@ -226,9 +276,15 @@ public:
 	~CDebris()override;     //デストラクタ
 	void Update()override;  //更新処理
 
+
+	//=========================
+	//マクロ定義
+	constexpr static float MAX_DEBRIS_TEX = 1.0f; //アニメーションの分割数
+
+
 private:
 	//マクロ定義
-	constexpr static int DEBRISLIFE = 10;
+	constexpr static int DEBRISLIFE = 10;         //ライフの最大数
 };
 
 
@@ -242,9 +298,17 @@ public:
 	void Update()override;                          //更新処理
 	int& GetRotNumber() { return m_nRotNumber; }    //現在の向きを番号で取得する
 
+
+	//=========================
+	//マクロ定義
+	constexpr static float SPECIALATTACK_SIZEX = 200.0f;   //必殺技エフェクトのX軸の大きさ
+	constexpr static float SPECIALATTACK_SIZEY = 200.0f;   //必殺技エフェクトのY軸の大きさ
+	constexpr static float MAX_SPECIALATTACK_TEX = 0.125f; //アニメーションの分割数
+
+
 private:
 	//マクロ定義
-	constexpr static int SPECIALATTACKLIFE = 180;
+	constexpr static int SPECIALATTACKLIFE = 180; //ライフの最大数
 
-	int m_nRotNumber; //向きで大きさを変えるための変数
+	int m_nRotNumber;                             //向きで大きさを変えるための変数
 };

@@ -227,7 +227,7 @@ void CBullet3D::CollisionOnObject()
 		//敵との当たり判定
 		if (CManager::GetScene()->GetPlayerX()->GetCollision()->Coliision3Dcircle(GetPos(), CManager::GetInstance()->GetEnemy000()->GetPos(), MAX_BULLET3D_SIZE_X, MAX_BULLET3D_SIZE_Y, MAX_BULLET3D_SIZE_Z, CManager::GetInstance()->GetEnemy000()->GetModelSize()*0.4f, GetSizeX()) == true)
 		{
-			CManager::GetInstance()->GetEnemy000()->GetLife() -= MINUS_ENEMY000_LIFE;       //敵のライフを減らす
+			CManager::GetInstance()->GetEnemy000()->SetAddjustLife() -= MINUS_ENEMY000_LIFE;       //敵のライフを減らす
 
 			//敵のライフが０以下の時
 			if (CManager::GetInstance()->GetEnemy000()->GetLife() <= 0)
@@ -249,7 +249,7 @@ void CBullet3D::CollisionOnObject()
 			//当たり判定
 			if (CManager::GetScene()->GetPlayerX()->GetCollision()->Coliision3Dcircle(GetPos(), CManager::GetInstance()->GetEnemy001(nCount1)->GetPos(), MAX_BULLET3D_SIZE_X, MAX_BULLET3D_SIZE_Y, MAX_BULLET3D_SIZE_Z, CManager::GetInstance()->GetEnemy001(nCount1)->GetModelSize() * 0.5f, GetSizeX()) == true)
 			{
-				CManager::GetInstance()->GetEnemy001(nCount1)->GetLife() -= MINUS_ENEMY001_LIFE;          //敵のライフを減らす
+				CManager::GetInstance()->GetEnemy001(nCount1)->SetAddjustLife() -= MINUS_ENEMY001_LIFE;          //敵のライフを減らす
 
 				//敵のライフが０以下の時
 				if (CManager::GetInstance()->GetEnemy001(nCount1)->GetLife() <= 0)
@@ -291,7 +291,7 @@ void CBullet3D::CollisionOnObject()
 					GetSizeX(), MAX_BULLET3D_SIZE_Y, MAX_BULLET3D_SIZE_Z,
 					CManager::GetInstance()->GetEnemyInMotion001(nMotionInEnemy001)->GetModelSizePrtsEnemy(nMotionEnemy001) * ADDJUST_HIT_MOTIONENENY001))
 				{
-					CManager::GetInstance()->GetEnemyInMotion001(nMotionInEnemy001)->GetLife() -= MINUS_ENEMYMOTION001_LIFE;
+					CManager::GetInstance()->GetEnemyInMotion001(nMotionInEnemy001)->SetAddjustLife() -= MINUS_ENEMYMOTION001_LIFE;
 
 					if (CManager::GetInstance()->GetEnemyInMotion001(nMotionInEnemy001)->GetLife() <= 0)
 					{                                     
@@ -376,7 +376,7 @@ void CEnemyBullet::Update()
 		SetAddjustAlpha() -= MINUS_ALPHA; //アルファ値を減算
 	}
 
-	GetLife()--; //寿命カウント
+	SetAddjustLife()--; //寿命カウント
 
 	//寿命が尽きた
 	if (GetLife() <= 0)
@@ -454,7 +454,7 @@ void CBossBullet::Update()
 	CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::EFFECT, 0, GetPos()); //エフェクト（軌跡）を生成する
 	CManager::GetInstance()->GetEffect()->SetCol(0, 0, 200, GetAlpha());                    //色の設定
 
-	SetAddjustPos().y -= 2.0f;
+	SetAddjustPos().y -= MINUS_POSY;                                                        //Y軸の位置を減算する
 
 	//アルファ値が0より大きい時
 	if (GetAlpha() >0)
@@ -462,7 +462,7 @@ void CBossBullet::Update()
 		SetAddjustAlpha() -= MINUS_ALPHA; //アルファ値を減算
 	}
 
-	SetAddjustLife()--; //寿命カウント
+	SetAddjustLife()--; //ライフを減らす
 
 	//寿命が尽きた
 	if (GetLife() <= 0)

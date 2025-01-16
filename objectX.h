@@ -98,10 +98,16 @@ public://外部からのアクセス可能
 
 	CCollision* GetCollision() { return m_pCollision; }                                       //当たり判定の情報を返す関数
 
-   //==================================================
-   //パーツごとのサイズ取得
+    //==================================================
+    //パーツごとのサイズ取得
 	inline D3DXVECTOR3& GetMinPrts(int nNumber) { return m_minPrts[nNumber]; }
 	inline D3DXVECTOR3& GetMaxPrts(int nNumber) { return m_maxPrts[nNumber]; }
+
+
+	//==================================================
+	//情報の値を計して設定
+	int& SetAddjustLife() { return m_nLife; }                          //ライフの値を変更したいときの設定
+
 
 	//==================================================
 	//マクロ定義
