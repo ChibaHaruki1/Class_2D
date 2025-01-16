@@ -25,12 +25,7 @@ public:
 	void Update()override;					//更新処理
 	void Draw()override;					//描画処理
 
-	bool& GetDraw() { return m_bDraw; }     //使われているかどうかを判定する情報を取得
-
 	static CUI* Create(CObject3D::TYPE_UI typeui); //生成処理
-
-private:
-	bool m_bDraw; //使われているかどうかを判定する変数
 };
 
 
@@ -53,6 +48,12 @@ public:
 	~CTalkText()override;                         //デストラクタ
 	HRESULT Init()override;                       //初期化処理
 	void Draw()override;                          //描画処理
+
+private:
+	//マクロ定義
+	constexpr static float SIZEX = 40.0f; //X軸の大きさ
+	constexpr static float SIZEY = 40.0f; //Y軸の大きさ
+	constexpr static float SIZEZ = 40.0f; //Z軸の大きさ
 };
 
 
@@ -66,4 +67,15 @@ public:
 	HRESULT Init()override;                          //初期化処理
 	void Update()override;                           //更新処理
 	void Draw()override;                             //描画処理
+
+private:
+	//マクロ定義
+	constexpr static float SIZEX = 80.0f;                //X軸の大きさ
+	constexpr static float SIZEY = 20.0f;                //Y軸の大きさ
+	constexpr static float SIZEZ = 20.0f;                //Z軸の大きさ
+	constexpr static float ADDJUST_POSY = 20.0f;         //Y軸の位置の調整値
+	constexpr static float ADDJUST_POSZ = 35.0f;         //Z軸の位置の調整値
+	constexpr static float ADDJUST_ROTY = 0.54f;         //Y軸の向きの調整値
+	constexpr static float ADDJUST_ROTZ = 1.54f;         //Z軸の向きの調整値
+	constexpr static float ADDJUST_CREATE_POSZ = 100.0f; //Z軸の生成位置の調整値
 };

@@ -452,7 +452,7 @@ void CObjectX::ObjectArrangement(CObjectX::TYPE type, CUI* pUI1)
 	{
 		if (pUI == nullptr)
 		{
-			pUI = CCreateInObject::Create(CObject3D::TYPE_UI::INUI);
+			pUI = CCreateInObject::Create(CObject3D::TYPE_UI::CLING);
 			pUI->SetSize(50.0f, 0.0f, 50.0f);
 		}
 

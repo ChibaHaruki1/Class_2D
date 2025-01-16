@@ -53,7 +53,7 @@ HRESULT CParticles001::Init()
 //==========================
 void CParticles001::Uninit()
 {
-	CObject3D::Uninit(); //”jŠüˆ—‚ğŒÄ‚Ô
+	CObject3D::Uninit(); //”jŠüˆ—
 }
 
 
@@ -82,7 +82,7 @@ void CParticles001::Update()
 //======================
 void CParticles001::Draw()
 {
-	CObject3D::DrawEffect(); //Šî’êƒNƒ‰ƒX‚Ì•`‰æˆ—‚ğŒÄ‚Ô
+	CObject3D::DrawEffect(); //•`‰æˆ—
 }
 
 

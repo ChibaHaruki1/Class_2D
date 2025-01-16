@@ -59,7 +59,7 @@ public:
 	enum class TYPE_UI
 	{
 		NONEUI = 0,      //無し
-		INUI,            //オブジェクトにつくUI
+		CLING,           //オブジェクトにつくUI
 		TELEPHONPOLEUI,  //電柱のUI
 		TELEPHONPOLEUI1, //電柱のUI
 		BUYTEXT,         //買うtext

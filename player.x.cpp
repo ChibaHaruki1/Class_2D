@@ -92,7 +92,7 @@ HRESULT CPlayerX::Init()
 	CCharacter::SetMotion(WALK);                                              //モーションの設定
 	SetRot(D3DXVECTOR3(0.0f, D3DX_PI * -0.5f, 0.0f));                         //向きの調整（右向き）
 	m_pModelPrts[18]->SetDraw(false);                                         //パーツの銃部分を非表示に設定
-	SetPos(D3DXVECTOR3(3000.0f,0.0f,0.0f));                                   //位置の調整
+	SetPos(D3DXVECTOR3(000.0f,0.0f,0.0f));                                   //位置の調整
 	CManager::GetSound()->PlaySound(CSound::SOUND_LABEL::SOUND_LABEL_NORMALBGM);  //BDMを流す
 	SetLife(1);                                                               //自身のライフ
 	return S_OK;                                                              //成功を返す
@@ -419,7 +419,7 @@ void CPlayerX::Random()
 //===============================================================================================================================================================================
 void CPlayerX::Praticles()
 {
-	Random();            //ランダム処理を呼ぶ
+	Random();         //ランダム処理を呼ぶ
 	m_nFrame++;       //フレームを加算させていく
 
 	//フレームが既定の数値まで行った時
@@ -1101,7 +1101,6 @@ void CPlayerX::BlockJudgement()
 			{
 				m_pTalkText = CUI::Create(CObject3D::TYPE_UI::TALKTEXTR);
 				m_pTalkText->GetPos() = D3DXVECTOR3(CManager::GetInstance()->GetShop()->GetPos().x, CManager::GetInstance()->GetShop()->GetPos().y + 150.0f, CManager::GetInstance()->GetShop()->GetPos().z); //位置の初期化
-				m_pTalkText->GetDraw() = true;
 			}
 
 			if (m_PlayerState == CPlayerX::PLAYER_STATE::NORMAI_MODE)
