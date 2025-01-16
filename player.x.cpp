@@ -557,30 +557,15 @@ void CPlayerX::KeySet()
 	{
 		if (CManager::GetInstance()->GetFuelGage() != nullptr)
 		{
-			if (CManager::GetInstance()->GetFuelGage()->GetSizeY() > 0.0f && CManager::GetInstance()->GetFuelGage()->GetUse() == true)
+			//Xキーが押された時
+			if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_X) == true || CManager::GetJyoPad()->GetJoypadPress(CInputJoyPad::JOYKEY::JOYKEY_A) == true)
 			{
-				//Xキーが押された時
-				if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_X) == true || CManager::GetJyoPad()->GetJoypadPress(CInputJoyPad::JOYKEY::JOYKEY_A) == true)
-				{
-					GetMove().y += 1.0f;
-					SetGravityFlag(false);//重力OFF
-
-					if (GetGravity() > 1.0f)
-					{
-						SetGravity(1.0f);
-					}
-				}
-				else
-				{
-					CManager::GetInstance()->GetFuelGage()->GetUse() = false;
-					SetGravityFlag(true);//重力ON
-				}
+				
 			}
-			else if (CManager::GetInstance()->GetFuelGage()->GetSizeY() <= 0.0f)
+			else
 			{
-				SetGravityFlag(true);//重力ON
 				CManager::GetInstance()->GetFuelGage()->GetUse() = false;
-				return;
+				SetGravityFlag(true);//重力ON
 			}
 		}
 	}

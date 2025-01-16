@@ -24,9 +24,9 @@ public:
 	void DrawBillboard();                                                    //ビルボードの描画処理
 	void DrawEffect();                                                       //エフェクト用の描画処理
 	void DrawEffect1();                                                      //エフェクト001用の描画処理
-	void SetSize(float SIZE_X, float SIZE_Y, float SIZE_Z);                  //polygonのサイズを調整する処理
+	void SetSize(float SIZE_X, float SIZE_Y, float SIZE_Z);                  //サイズを調整する処理
 	void SetEffectSize(float SIZE_X, float SIZE_Y, float SIZE_Z);            //エフェクト用polygonのサイズを調整する処理
-	void SetAdjustmentSizeY(float SIZE_X, float SIZE_Y, float SIZE_Z);       //polygonのY軸用のサイズを調整する処理
+	void SetAdjustmentSizeY(float SIZE_X, float SIZE_Y, float SIZE_Z);       //Y軸用のサイズを調整する処理
 	void SetCol(int Red, int Green, int Blue, int& Alpha);                     //色に関する設定
 	void SetTexture(float SizeX, float Size1X);                              //テクスチャのサイズを設定する
 

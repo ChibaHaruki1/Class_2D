@@ -190,17 +190,17 @@ void CObject3D::SetSize(float SIZE_X, float SIZE_Y, float SIZE_Z)
 	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
 	pVtx[0].pos = D3DXVECTOR3(-SIZE_X, SIZE_Y, -SIZE_Z);
-	pVtx[1].pos = D3DXVECTOR3(SIZE_X - SIZE_X*0.5f, SIZE_Y, -SIZE_Z);
+	pVtx[1].pos = D3DXVECTOR3(SIZE_X*0.5f, SIZE_Y, -SIZE_Z);
 	pVtx[2].pos = D3DXVECTOR3(-SIZE_X, -SIZE_Y, SIZE_Z);
-	pVtx[3].pos = D3DXVECTOR3(SIZE_X - SIZE_X*0.5f, -SIZE_Y, SIZE_Z);
+	pVtx[3].pos = D3DXVECTOR3(SIZE_X*0.5f, -SIZE_Y, SIZE_Z);
 
 	//頂点バッファをアンロック
 	m_pVtxBuff->Unlock();
 }
 
-//==================
-//サイズの設定
-//==================
+//=========================================
+//必殺エフェクト用のサイズの設定(X軸用)
+//=========================================
 void CObject3D::SetEffectSize(float SIZE_X, float SIZE_Y, float SIZE_Z)
 {
 	VERTEX_3D* pVtx; //頂点情報へのポインタ
@@ -209,17 +209,17 @@ void CObject3D::SetEffectSize(float SIZE_X, float SIZE_Y, float SIZE_Z)
 	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
 	pVtx[0].pos = D3DXVECTOR3(0.0f, SIZE_Y, -SIZE_Z);
-	pVtx[1].pos = D3DXVECTOR3(SIZE_X - SIZE_X * 0.5f, SIZE_Y, -SIZE_Z);
+	pVtx[1].pos = D3DXVECTOR3(SIZE_X * 0.5f, SIZE_Y, -SIZE_Z);
 	pVtx[2].pos = D3DXVECTOR3(0.0f, -SIZE_Y, SIZE_Z);
-	pVtx[3].pos = D3DXVECTOR3(SIZE_X - SIZE_X * 0.5f, -SIZE_Y, SIZE_Z);
+	pVtx[3].pos = D3DXVECTOR3(SIZE_X * 0.5f, -SIZE_Y, SIZE_Z);
 
 	//頂点バッファをアンロック
 	m_pVtxBuff->Unlock();
 }
 
-//==================
-//サイズの設定
-//==================
+//=======================
+//Y軸用のサイズの設定
+//=======================
 void CObject3D::SetAdjustmentSizeY(float SIZE_X, float SIZE_Y, float SIZE_Z)
 {
 	VERTEX_3D* pVtx; //頂点情報へのポインタ
@@ -228,9 +228,9 @@ void CObject3D::SetAdjustmentSizeY(float SIZE_X, float SIZE_Y, float SIZE_Z)
 	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
 	pVtx[0].pos = D3DXVECTOR3(-SIZE_X, SIZE_Y, -SIZE_Z);
-	pVtx[1].pos = D3DXVECTOR3(SIZE_X - SIZE_X * 0.5f, SIZE_Y, -SIZE_Z);
+	pVtx[1].pos = D3DXVECTOR3(SIZE_X * 0.5f, SIZE_Y, -SIZE_Z);
 	pVtx[2].pos = D3DXVECTOR3(-SIZE_X, 0.0f, SIZE_Z);
-	pVtx[3].pos = D3DXVECTOR3(SIZE_X - SIZE_X * 0.5f, 0.0f, SIZE_Z);
+	pVtx[3].pos = D3DXVECTOR3(SIZE_X * 0.5f, 0.0f, SIZE_Z);
 
 	//頂点バッファをアンロック
 	m_pVtxBuff->Unlock();
