@@ -173,7 +173,7 @@ void CBoss::AttackPatternSelect()
 		{
 			//srand((unsigned)time(NULL));  // —”Œn—ñ‚ğ‰Šú‰»
 			//SetRandom(rand() % 3);
-			SetRandom(2);
+			SetRandom(1);
 		}
 		m_nCoolTime++;
 	}

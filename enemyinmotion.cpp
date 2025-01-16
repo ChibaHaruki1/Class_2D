@@ -288,7 +288,7 @@ void CEnemyInMotion001::Update()
 			{
 				//向きの初期化
 				m_pModelPrtsEnemy[0]->GetRot().x = 0.0f;
-				CEnemyBullet::m_fAdditionPosY = CEnemyBullet::InitAddItion;
+				CEnemyBullet::SetAdditionPosY(CEnemyBullet::MINUS_ROTY);
 
 				//飛んでいないとき
 				if (GetJumpFlag() == false)
@@ -436,14 +436,14 @@ void CEnemyInMotion001::AdjustmentBulletAndRot()
 		if (CManager::GetScene()->GetPlayerX()->GetRotNumber()==1)
 		{
 			m_pModelPrtsEnemy[0]->GetRot().x += 0.01f;
-			CEnemyBullet::m_fAdditionPosY -= 0.3f;
+			CEnemyBullet::SetAddjustAdditionPosY() -= 0.3f;
 		}
 
 		//プレイヤーの向きが右向きの時
 		if (CManager::GetScene()->GetPlayerX()->GetRotNumber() == 2)
 		{
 			m_pModelPrtsEnemy[0]->GetRot().x -= 0.01f;
-			CEnemyBullet::m_fAdditionPosY += 0.3f;
+			CEnemyBullet::SetAddjustAdditionPosY() += 0.3f;
 		}
 	}
 
@@ -454,14 +454,14 @@ void CEnemyInMotion001::AdjustmentBulletAndRot()
 		if (CManager::GetScene()->GetPlayerX()->GetRotNumber() == 1)
 		{
 			m_pModelPrtsEnemy[0]->GetRot().x -= 0.01f; //
-			CEnemyBullet::m_fAdditionPosY += 0.3f;
+			CEnemyBullet::SetAddjustAdditionPosY() += 0.3f;
 		}
 
 		//プレイヤーの向きが右向きの時
 		if (CManager::GetScene()->GetPlayerX()->GetRotNumber() == 2)
 		{
 			m_pModelPrtsEnemy[0]->GetRot().x += 0.01f;
-			CEnemyBullet::m_fAdditionPosY -= 0.3f;
+			CEnemyBullet::SetAddjustAdditionPosY() -= 0.3f;
 		}
 	}
 
@@ -637,16 +637,16 @@ void CEnemyInMotion001::WhenCollisionBlock()
 void CEnemyInMotion001::Correctionrot()
 {
 	//加減算してきた変数の値が既定の位置の範囲内の時
-	if (CEnemyBullet::m_fAdditionPosY <= -CEnemyBullet::InitAddItion && CEnemyBullet::m_fAdditionPosY >= -8.0f)
+	if (CEnemyBullet::GetAdditionPosY() <= -CEnemyBullet::MINUS_ROTY && CEnemyBullet::GetAdditionPosY() >= -8.0f)
 	{
 		GetRot().y = -D3DX_PI_ORI;                                          //向きを逆に設定
 		m_pModelPrtsEnemy[0]->SetRot(D3DXVECTOR3(0.0f,0.0f,0.0f));          //向きの初期化
-		CEnemyBullet::m_fAdditionPosY = CEnemyBullet::InitAddItion * 4.0f;  //弾の出る向きを調整
+		CEnemyBullet::SetAdditionPosY(CEnemyBullet::MINUS_ROTY * 4.0f);     //弾の出る向きを調整
 	}
-	else if (CEnemyBullet::m_fAdditionPosY >= CEnemyBullet::InitAddItion * 3.0f && CEnemyBullet::m_fAdditionPosY <= 21.3f)
+	else if (CEnemyBullet::GetAdditionPosY() >= CEnemyBullet::MINUS_ROTY * 3.0f && CEnemyBullet::GetAdditionPosY() <= 21.3f)
 	{
 		GetRot().y = D3DX_PI_ORI;                                           //向きを逆に設定
 		m_pModelPrtsEnemy[0]->SetRot(D3DXVECTOR3(0.0f, 0.0f, 0.0f));        //向きの初期化
-		CEnemyBullet::m_fAdditionPosY = CEnemyBullet::InitAddItion * 4.0f;  //弾の出る向きを調整
+		CEnemyBullet::SetAdditionPosY(CEnemyBullet::MINUS_ROTY * 4.0f);     //弾の出る向きを調整
 	}
 }

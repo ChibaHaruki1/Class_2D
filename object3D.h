@@ -69,6 +69,16 @@ public:
 	void SetSizeX(float fSizeX) { m_fSizeX = fSizeX; }                        //X軸の大きさを引数と同期させる
 	void SetSizeY(float fSizeY) { m_fSizeY = fSizeY; }                        //X軸の大きさを引数と同期させる
 	void SetFileNamePass(const char* aFileName) { m_aFileName = aFileName; }  //ファイルパスを引数と同期させる
+	
+	//==================================================
+	//情報の値を計して設定
+	D3DXVECTOR3& SetAddjustPos() { return m_pos; }                     //位置の値を変更したいときの設定
+
+	int& SetAddjustLife() { return m_nLife; }                          //ライフの値を変更したいときの設定
+	int& SetAddjustAlpha() { return m_nAlpha; }                        //アルファ値の変更したいときの設定
+
+	float& SetAddjustSizeX() { return m_fSizeX; }                      //X軸の値を変更したいときの設定
+	float& SetAddjustSizeY() { return m_fSizeY; }                      //Y軸の値を変更したいときの設定
 
 private:
 	LPDIRECT3DTEXTURE9 m_pTexture;      //テクスチャへのポインタ

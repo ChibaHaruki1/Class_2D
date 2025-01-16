@@ -297,12 +297,12 @@ CImpact::~CImpact()
 //============================
 void CImpact::Update()
 {
-	GetLife()--;                                 //ライフを減らす
-	GetSizeX() += PLUS_SIZEX;                    //ｘ軸のサイズを大きくする
-	GetSizeY() += PLUS_SIZEY;                    //ｙ軸のサイズを大きくする
+	SetAddjustLife()--;                                 //ライフを減らす
+	SetAddjustSizeX() += PLUS_SIZEX;                    //ｘ軸のサイズを大きくする
+	SetAddjustSizeY() += PLUS_SIZEY;                    //ｙ軸のサイズを大きくする
 
-	SetCol(RED, GREEN, BLUE, GetAlpha());        //色の設定
-	SetSize(GetSizeX(), GetSizeY(), MAX_SIZEZ);  //大きさの更新
+	SetCol(RED, GREEN, BLUE, GetAlpha());               //色の設定
+	SetSize(GetSizeX(), GetSizeY(), MAX_SIZEZ);         //大きさの更新
 
 	//右側に当たった時
 	if (CObject3D::CollisionPrts1Right(GetSizeX() * 1.5f, GetSizeY() * 1.1f, 40.0f) == true)
@@ -360,7 +360,7 @@ void CBossSpecialAttack::Update()
 	//サイズが規定値より小さい時
 	if (GetSizeX() <= MAXIMUM_SIZEX)
 	{
-		GetSizeX() += PLUS_SIZEX;                  //サイズを大きくする
+		SetAddjustSizeX() += PLUS_SIZEX;           //サイズを大きくする
 	}
 
 	float fPosY = GetPos().y - CManager::GetInstance()->GetBoss()->GetPosPrtsBoss(17).y * ADJUST_PLAYER_POSY; //プレイヤーのpos.yを計算+調整=当たり判定の一番下を設定
@@ -394,7 +394,7 @@ void CBossSpecialAttack::Update()
 	//ライフが０以下の時
 	if (GetLife() <= 0)
 	{
-		GetAlpha() -= MINUS_ALPHA;          //alpha値を減らす
+		SetAddjustAlpha() -= MINUS_ALPHA;          //alpha値を減らす
 
 		//alpha値が０以下の時
 		if (GetAlpha() <= 0)
@@ -405,6 +405,6 @@ void CBossSpecialAttack::Update()
 	}
 	else
 	{
-		GetLife()--; //ライフを減らす
+		SetAddjustLife()--;     //ライフを減らす
 	}
 }

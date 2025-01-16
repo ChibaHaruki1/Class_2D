@@ -5,7 +5,9 @@
 //
 //======================================
 
+
 #pragma once
+
 
 //======================================
 //インクルード
@@ -32,6 +34,8 @@ public: //外部からアクセス可能
 
 	static CManagerBullet* Create(D3DXVECTOR3 pos, D3DXVECTOR3 move, int nLife, CObject3D::TYPE type); //3D弾の生成処理
 
+
+	//============================
 	//マクロ定義 （constexprでコンパイル時に初期化）
 	constexpr static float MAX_BULLET3D_SIZE_X = 40.0f; //3D弾のX軸の大きさ
 	constexpr static float MAX_BULLET3D_SIZE_Y = 40.0f; //3D弾のY軸の大きさ
@@ -39,9 +43,13 @@ public: //外部からアクセス可能
 	constexpr static int SET_BULLET_LIFE = 60;          //ライフの最大数
 
 private: //アクセス不可能
-
+    //マクロ定義 （constexprでコンパイル時に初期化）
+	constexpr static int MINUS_ALPHA = 5;                //アルファ値を減算
+	constexpr static float INIT_ROTY = 3.14f;            //ｙ軸の向き
 };
 
+
+//============================================================================
 //プレイヤー通常弾のクラス
 class CBullet3D : public CManagerBullet
 {
@@ -53,41 +61,59 @@ public: //外部からアクセス可能
 	void CollisionOnObject();                      //オブジェクトとの当たり判定
 
 private: //アクセス不可能
+	 //マクロ定義 （constexprでコンパイル時に初期化）
+	constexpr static int MINUS_ENEMY000_LIFE = 1;              //敵000のライフを減らす値
+	constexpr static int MINUS_ENEMY001_LIFE = 1;              //敵001のライフを減らす値
+	constexpr static int MINUS_ENEMYMOTION001_LIFE = 1;        //モーション付きの敵001のライフを減らす値
+
+	constexpr static float  ADDJUST_HIT_MOTIONENENY001 = 0.5f; //モーション付きの敵001の当たり判定の調整値
+	constexpr static float  MINUS_BOSS_HPGAGE = 0.01f;         //ボスのHPゲージを減らす値
 };
 
-//プレイヤー必殺技のクラス
-class CSpecialBullet : public CManagerBullet
-{
-public: //外部からアクセス可能
-	CSpecialBullet(int nPriority = DEFAULT_PRIORITY);   //引数付きコンストラクタ
-	~CSpecialBullet()override;                          //デストラクタ
-	void Update()override;                              //更新処理
-	void CallEffect(bool bUse);                         //エフェクトの処理を呼ぶ関数 (引数でエフェクトを追加するかどうか判定)
-	void CollisionOnObject();                           //オブジェクトとの当たり判定
 
-private: //アクセス不可能
-
-};
-
+//============================================================================
 //敵の通常弾のクラス
 class CEnemyBullet : public CManagerBullet
 {
 public: //外部からアクセス可能
 	CEnemyBullet(int nPriority = DEFAULT_PRIORITY);  //引数付きコンストラクタ
 	~CEnemyBullet()override;                         //デストラクタ
-	void Update()override;                          //更新処理
-	void CallEffect(bool bUse);                     //エフェクトの処理を呼ぶ関数 (引数でエフェクトを追加するかどうか判定)
-	void CollisionOnObject();                       //オブジェクトとの当たり判定
+	void Update()override;                           //更新処理
+	void CallEffect(bool bUse);                      //エフェクトの処理を呼ぶ関数 (引数でエフェクトを追加するかどうか判定)
+	void CollisionOnObject();                        //オブジェクトとの当たり判定
 
-	static float m_fAdditionPosY;                   //rot.yに値を追加していくための変数
 
-	//マクロ提議
-	constexpr static float InitAddItion = 7.0f;
+	//============================
+	//情報の取得
+	static float& GetAdditionPosY() { return m_fAdditionPosY; }                             //現在のY軸の位置を取得
+
+
+	//============================
+	//情報の設定
+	static void SetAdditionPosY(float fAdditionPosY) { m_fAdditionPosY = fAdditionPosY; }   //現在のY軸の位置を設定
+	static float& SetAddjustAdditionPosY() { return m_fAdditionPosY; }                      //値を変更したいときの設定
+
+
+	//============================
+	//マクロ定義
+	constexpr static float MINUS_ROTY = 7.0f;              //Y軸の向きを減算していく
+	constexpr static float MAX_ENEMYBULLET_SIZE_X = 40.0f; //X軸の大きさ
+	constexpr static float MAX_ENEMYBULLET_SIZE_Y = 40.0f; //Y軸の大きさ
+	constexpr static float MAX_ENEMYBULLET_SIZE_Z = 40.0f; //Z軸の大きさ
 
 private: //外部からアクセス不可能
+    //マクロ定義
+	constexpr static int BLUE = 200;                     //青色
+	constexpr static int MINUS_ALPHA = 5;                //アルファ値を減算
+													     
+	constexpr static float ADDJUST_HIT = 0.5;            //当たり判定の調整値
+	constexpr static float  MINUS_PLAYER_HPGAGE = 0.05f; //プレイヤーのHPゲージを減らす値
 
+	static float m_fAdditionPosY;                         //rot.yに値を追加していくための変数
 };
 
+
+//============================================================================
 //ボスの通常弾のクラス
 class CBossBullet : public CManagerBullet
 {
@@ -98,7 +124,16 @@ public: //外部からアクセス可能
 	void CallEffect(bool bUse);                     //エフェクトの処理を呼ぶ関数 (引数でエフェクトを追加するかどうか判定)
 	void CollisionOnObject();                       //オブジェクトとの当たり判定
 
-private: //外部からアクセス不可能
 
+	//============================
+	//マクロ定義
+	constexpr static float MAX_BOSSBULLET_SIZE_X = 40.0f; //X軸の大きさ
+	constexpr static float MAX_BOSSBULLET_SIZE_Y = 40.0f; //Y軸の大きさ
+	constexpr static float MAX_BOSSBULLET_SIZE_Z = 40.0f; //Z軸の大きさ
+
+private: //外部からアクセス不可能
+	//マクロ定義
+	constexpr static int MINUS_ALPHA = 5;                //アルファ値を減算
+	constexpr static float  MINUS_PLAYER_HPGAGE = 0.05f; //プレイヤーのHPゲージを減らす値
 };
 

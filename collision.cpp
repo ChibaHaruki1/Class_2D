@@ -356,7 +356,7 @@ bool CCollision::Coliision3DcircleBoss(D3DXVECTOR3 pos, D3DXVECTOR3& pos1, float
 //====================
 //円の当たり判定
 //====================
-bool CCollision::Coliision3Dcircle(D3DXVECTOR3 pos, D3DXVECTOR3& pos1, float X, float Y, float Z, D3DXVECTOR3 Size1, float m_fSizeX, int nNumber) //参照渡しだが変える値のみ参照しないとstaicと同じになる
+bool CCollision::Coliision3Dcircle(D3DXVECTOR3 pos, D3DXVECTOR3& pos1, float X, float Y, float Z, D3DXVECTOR3 Size1, float m_fSizeX) //参照渡しだが変える値のみ参照しないとstaicと同じになる
 {
 	float lengthX = pos.x - pos1.x; //posとpos1のｘの距離を常に比較
 	float lengthY = pos.y - pos1.y; //posとpos1のｙの距離を常に比較

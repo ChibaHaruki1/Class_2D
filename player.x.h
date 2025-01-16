@@ -134,6 +134,6 @@ private: //アクセス不可能
 	constexpr static int   MAX_TEXT_OBJECT = 1;             //今配置ツールに設定されてるオブジェクトの数ー１（０スタートだから）
 	constexpr static int   MAX_BUULET_SPEED = 30;           //必殺技の撃てる時間
 	constexpr static float MAX_JUMPPAWER = 10.0f;           //飛ぶ力
-	constexpr static float MAX_SPECIALATTACKCOUNT = 60*60;  //弾の速さ
+	constexpr static float MAX_SPECIALATTACKCOUNT = 60*60;  //必殺技のリキャストタイム
 };
 
