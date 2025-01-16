@@ -25,5 +25,8 @@ public:
 	static CField* Create(D3DXVECTOR3 pos);    //生成処理
 
 private:
+	//マクロ定義
+	constexpr static float SIZEX = 200.0f;     //ｘ軸の大きさ
+
 	static int m_nCountField;                  //生成された地面の数を格納する用の変数
 };
