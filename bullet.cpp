@@ -79,8 +79,7 @@ void CManagerBullet::Update()
 	//寿命が尽きた
 	if (GetLife() <= 0)
 	{
-		CallEffect(false);         //エフェクト処理を呼ぶ
-
+		
 		CObject3D::Release();      //自身の解放
 		return;                    //処理を抜けることによって、バッファのアクセス違反を防ぐ（破棄しているから）
 	}
@@ -222,8 +221,9 @@ void CBullet3D::CollisionOnObject()
 				CManager::GetInstance()->DesignationUninitXEnemy(CObjectX::TYPE::ENEMY, 0);        //ポインターをnullptrにする
 			}
 
-			SetLife(0); //ライフを０にする
-			return;     //処理を抜ける
+			CallEffect(false); //エフェクト処理を呼ぶ
+			SetLife(0);        //ライフを０にする
+			return;            //処理を抜ける
 		}
 	}
 
@@ -244,8 +244,9 @@ void CBullet3D::CollisionOnObject()
 					CManager::GetInstance()->DesignationUninitXEnemy(CObjectX::TYPE::ENEMY001, nCount1);         //ポインターをnullptrにする
 				}
 
-				SetLife(0); //ライフを０にする
-				return;     //処理を抜ける
+				CallEffect(false); //エフェクト処理を呼ぶ
+				SetLife(0);        //ライフを０にする
+				return;            //処理を抜ける
 			}
 		}
 	}
@@ -285,8 +286,9 @@ void CBullet3D::CollisionOnObject()
 						CManager::GetInstance()->DesignationUninitXEnemy(CObjectX::TYPE::ENEMYINMOTION001, nMotionInEnemy001);  //ポインターをnullptrにする
 					}
 
-					SetLife(0); //ライフを０にする
-					return;     //処理を抜ける
+					CallEffect(false); //エフェクト処理を呼ぶ
+					SetLife(0);        //ライフを０にする
+					return;            //処理を抜ける
 				}
 			}
 		}
@@ -314,9 +316,9 @@ void CBullet3D::CollisionOnObject()
 						CManager::GetInstance()->GetBoss()->m_pModelPrtsBoss[nCount2]->SetDraw(false); //描画をしないに設定
 					}
 
-					CallEffect(true);         //エフェクト処理を呼ぶ
-					CObject3D::Release();     //自身の解放
-					return;                   //処理を抜ける
+					CallEffect(false);       //エフェクト処理を呼ぶ
+					CObject3D::Release();    //自身の解放
+					return;                  //処理を抜ける
 				}
 			}
 		}

@@ -69,7 +69,6 @@ public:
 	CStageObj* GetShop() { return m_pShop; }                                                      //店の取得
 
 	//パーティクルの取得
-	CParticles* GetPraticles(int nNumber) { return m_pPraticles[nNumber]; }                       //破片パーティクルの取得
 	CParticles001* GetPraticles001(int nNumber) { return m_pPraticles001[nNumber]; }              //円状のパーティクルの取得
 
 	//エフェクトの取得
@@ -155,7 +154,6 @@ private:
 	CDebrisX* m_pDebrisX[MAX_OBJECT_DATA];             //Xファイル型の破片オブジェクト
 
 	//パーティクルのインスタンスを生成
-	CParticles* m_pPraticles[MAX_OBJECT_DATA];         //パーティクルの破片
 	CParticles001* m_pPraticles001[MAX_OBJECT_DATA];   //パーティクルの円
 
 	//ステージオブジェクトのインスタンス

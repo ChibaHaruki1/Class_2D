@@ -28,7 +28,6 @@ CInstance::CInstance()
 		m_pSmallBlock001[nCount] = nullptr;      //小さいブロック001のポインターの初期化
 		m_pUpWallBlock[nCount] = nullptr;        //上壁のポインターの初期化
 		m_pDebrisX[nCount] = nullptr;            //破片ポインターの初期化
-		m_pPraticles[nCount] = nullptr;          //パーティクルのポインターの初期化
 		m_pPraticles001[nCount] = nullptr;       //パーティクル001のポインターの初期化
 	}
 
@@ -144,7 +143,6 @@ void CInstance::Uninit()
 		m_pSmallBlock001[nCount] = nullptr;      //小さいブロック001のポインターの初期化
 		m_pUpWallBlock[nCount] = nullptr;        //上壁のポインターの初期化
 		m_pDebrisX[nCount] = nullptr;            //破片ポインターの初期化
-		m_pPraticles[nCount] = nullptr;          //パーティクルのポインターの初期化
 		m_pPraticles001[nCount] = nullptr;       //パーティクル001のポインターの初期化
 	}
 
@@ -334,14 +332,9 @@ CObject2D* CInstance::GetCreateObjectInstnace2D(CObject2D::TYPE type, int nNumbe
 //============================================================================================================================
 CObject3D* CInstance::GetCreateObjectInstnace(CObject3D::TYPE type, int nNumber, D3DXVECTOR3 pos)
 {
-	//タイプがパーティクルの時
-	if (type == CObject3D::TYPE::PRTICLES)
-	{
-		return m_pPraticles[nNumber] = CParticles::Create(pos);         //パーティクルの生成
-	}
 
 	//タイプがパーティクル001の時
-	else if (type == CObject3D::TYPE::PRTICLES001)
+	if (type == CObject3D::TYPE::PRTICLES001)
 	{
 		return m_pPraticles001[nNumber] = CParticles001::Create(pos);   //パーティクル001の生成
 	}
