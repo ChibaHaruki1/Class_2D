@@ -31,4 +31,9 @@ public:
 private:
 	//マクロ定義
 	constexpr static int MAX_PARTICLES001_LIFE = 60;  //パーティクル001のライフ
+
+	constexpr static float SIZEX = 10.0f;             //X軸の大きさ
+	constexpr static float SIZEY = 10.0f;             //X軸の大きさ
+	constexpr static float SIZEZ = 10.0f;             //X軸の大きさ
+	constexpr static float PLUS_POSY = 2.0f;          //Y軸の増減値
 };

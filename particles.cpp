@@ -19,8 +19,8 @@
 //============================
 CParticles001::CParticles001(int nPriority) : CObject3D(nPriority)
 {
-	SetSizeX(10.0f);
-	SetFileNamePass("data\\TEXTURE\\Circle003.png");
+	SetLife(MAX_PARTICLES001_LIFE);                  //ライフの設定
+	SetFileNamePass("data\\TEXTURE\\Circle003.png"); //ファイルパスの設定
 }
 
 
@@ -34,59 +34,55 @@ CParticles001::~CParticles001()
 
 
 //============================
-//ポリゴンの初期化処理
+//初期化処理
 //============================
 HRESULT CParticles001::Init()
 {
-	//頂点バッファ生成
+	//初期化が成功した時
 	if (FAILED(CObject3D::Init()))
 	{
-		return E_FAIL;
+		return E_FAIL; //失敗を返す
 	}
-	SetRot(D3DXVECTOR3(1.5f, 0.0f, 0.0f));
 
-	return S_OK;
+	return S_OK;       //成功を返す
 }
 
 
 //==========================
-//ポリゴンの終了処理
+//終了処理
 //==========================
 void CParticles001::Uninit()
 {
-	CObject3D::Uninit();
+	CObject3D::Uninit(); //破棄処理を呼ぶ
 }
 
 
 //========================
-//ポリゴンの更新処理
+//更新処理
 //========================
 void CParticles001::Update()
 {
-	SetSize(GetSizeX(), 0.0f, GetSizeX());
-	//SetCol(m_nRandom, 0, 0);
+	SetSize(SIZEX, SIZEY, SIZEZ);   //大きさの設定
 
-	GetLife()++;
+	SetAddjustLife()--;             //ライフを減らす
 
-	GetPos().y += 2.0f;
+	SetAddjustPos().y += PLUS_POSY; //Y軸の位置を増やす
 
-	if (GetLife() >= MAX_PARTICLES001_LIFE)
+	//ライフが０より大きい時
+	if (GetLife() <= 0)
 	{
-		CObject3D::Release(); //自身の解放
-		return; //処理を抜けることによって、バッファのアクセス違反を防ぐ（破棄しているから）
+		CObject3D::Release();       //自身の解放
+		return;                     //処理を抜けることによって、バッファのアクセス違反を防ぐ（破棄しているから）
 	}
-
-	CObject3D::Update();
 }
 
 
 //======================
-//ポリゴンの描画処理
+//描画処理
 //======================
 void CParticles001::Draw()
 {
 	CObject3D::DrawEffect(); //基底クラスの描画処理を呼ぶ
-	//CObject3D::Draw();
 }
 
 
@@ -97,15 +93,17 @@ CParticles001* CParticles001::Create(D3DXVECTOR3 pos)
 {
 	CParticles001* pPraticles = new CParticles001(2); //動的確保
 
-	if (SUCCEEDED(pPraticles->Init()))
+	//情報がある時
+	if (pPraticles != nullptr)
 	{
-		if (pPraticles != nullptr)
+		//初期化に成功した時
+		if (SUCCEEDED(pPraticles->Init()))
 		{
-			pPraticles->SetPos(pos);
-			pPraticles->CObject3D::Lood();
-			return pPraticles;
+			pPraticles->SetPos(pos);        //位置を引数と同期させる
+			pPraticles->CObject3D::Lood();  //テクスチャの読み込み
+			return pPraticles;              //情報を返す
 		}
 	}
 
-	return nullptr;
+	return nullptr;                         //無を返す
 }
