@@ -174,8 +174,8 @@ public:
 
 	//=========================
 	//マクロ定義
-	constexpr static float EXPLSION_SIZEX = 70.0f;                 //爆発エフェクトのX軸の大きさ
-	constexpr static float EXPLSION_SIZEY = 70.0f;                 //爆発エフェクトのY軸の大きさ
+	constexpr static float EXPLSION_SIZEX = 90.0f;                 //爆発エフェクトのX軸の大きさ
+	constexpr static float EXPLSION_SIZEY = 90.0f;                 //爆発エフェクトのY軸の大きさ
 	constexpr static float MAX_EXPLOSION_TEX = 0.125f;             //アニメーションの分割数
 	constexpr static double MAX_EXPLOSION_ANIMETION_SPEED = 0.6;   //アニメーションの速さ
 };
@@ -192,8 +192,8 @@ public:
 
 	//=========================
 	//マクロ定義
-	constexpr static float EXPLSION001_SIZEX = 70.0f;                 //爆発エフェクトのX軸の大きさ
-	constexpr static float EXPLSION001_SIZEY = 70.0f;                 //爆発エフェクトのY軸の大きさ
+	constexpr static float EXPLSION001_SIZEX = 90.0f;                 //爆発エフェクトのX軸の大きさ
+	constexpr static float EXPLSION001_SIZEY = 90.0f;                 //爆発エフェクトのY軸の大きさ
 	constexpr static float MAX_EXPLOSION001_TEX = 0.125f;             //アニメーションの分割数
 	constexpr static double MAX_EXPLOSION001_ANIMETION_SPEED = 0.6;   //アニメーションの速さ
 };

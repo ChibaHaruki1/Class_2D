@@ -5,14 +5,12 @@
 //
 //=========================================================
 
+
 //============================
 //インクルード
 #include "main.h"
 #include "direction_obj.h"
 #include "manager.h"
-
-//============================
-//static変数の初期化
 
 
 //============================
@@ -20,9 +18,8 @@
 //============================
 CDebrisX::CDebrisX(int nPriority) : CObjectX(nPriority)
 {
-	SetFileName("data\\XFILE\\DirectionObj\\Debris.x");
+	SetFileName("data\\XFILE\\DirectionObj\\Debris.x"); //ファイルパスの設定
 }
-
 
 //============================
 //デストラクタ
@@ -32,47 +29,44 @@ CDebrisX::~CDebrisX()
 
 }
 
-
 //============================
 //初期化処理
 //============================
 HRESULT CDebrisX::Init()
 {
-	//頂点バッファ生成
+	//初期化が成功した時
 	if (FAILED(CObjectX::Init()))
 	{
-		return E_FAIL;
+		return E_FAIL;  //失敗を返す
 	}
 
-	return S_OK;
-}
+	SetLife(MAX_LIFE);  //ライフの設定
 
+	return S_OK;        //成功した時
+}
 
 //==========================
 //終了処理
 //==========================
 void CDebrisX::Uninit()
 {
-	CObjectX::Uninit();
+	CObjectX::Uninit(); //破棄処理
 }
-
 
 //========================
 //更新処理
 //========================
 void CDebrisX::Update()
 {
-	GetLife()++;
+	SetAddjustLife()--; //ライフを減らす
 
-	if (GetLife() >= 30)
+	//ライフが尽きた時
+	if (GetLife()<=0)
 	{
-		SetLife(0);
-  		CObjectX::Release();
+  		CObjectX::Release(); //自身を削除
 		//CManager::GetInstance()->DesignationUninitX(CObjectX::TYPE::DEBRIS, m_nDirectionCount);
-		return;
+		return;              //処理を抜ける
 	}
-
-	CObjectX::Update();
 }
 
 
@@ -81,7 +75,7 @@ void CDebrisX::Update()
 //======================
 void CDebrisX::Draw()
 {
-	CObjectX::Draw();
+	CObjectX::Draw(); //描画処理
 }
 
 
@@ -90,20 +84,19 @@ void CDebrisX::Draw()
 //=====================
 CDebrisX* CDebrisX::Create(D3DXVECTOR3 pos)
 {
-	CDebrisX* m_pDebris3D = new CDebrisX();
+	CDebrisX* m_pDebris3D = new CDebrisX(); //動的確保
 
-	//初期化に成功
-	if (SUCCEEDED(m_pDebris3D->Init()))
+	//情報がある時
+	if (m_pDebris3D != nullptr)
 	{
-		//情報がある時
-		if (m_pDebris3D != nullptr)
+		//初期化に成功した時
+		if (SUCCEEDED(m_pDebris3D->Init()))
 		{
-			m_pDebris3D->GetPos() = pos; //位置を同期させる
-			m_pDebris3D->Lood(); //Xファイルを読み込む関数を呼ぶ
-			m_pDebris3D->SetType(TYPE::DEBRIS);
-			return m_pDebris3D; //情報を返す
+			m_pDebris3D->GetPos() = pos;       //位置を同期させる
+			m_pDebris3D->Lood();               //Xファイルを読み込む関数を呼ぶ
+			return m_pDebris3D;                //情報を返す
 		}
 	}
 	
-	return nullptr;
+	return nullptr;                            //無を返す
 }

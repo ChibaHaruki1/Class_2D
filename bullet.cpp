@@ -79,7 +79,7 @@ void CManagerBullet::Update()
 	//寿命が尽きた
 	if (GetLife() <= 0)
 	{
-		
+		//CallEffect(false);
 		CObject3D::Release();      //自身の解放
 		return;                    //処理を抜けることによって、バッファのアクセス違反を防ぐ（破棄しているから）
 	}
@@ -192,13 +192,13 @@ void CBullet3D::CallEffect(bool bUse)
 {
 	CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::EXPLOSION, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));         //爆発エフェクトを生成（1つ目）
 	CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::EXPLOSION001, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));      //爆発エフェクトを生成（2つ目）
-	CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::THENDER, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));           //雷エフェクトを呼ぶ
+	//CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::THENDER, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));           //雷エフェクトを呼ぶ
 	//CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::DEBRIS, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));            //破片エフェクトを呼ぶ
 
 
 	CManager::GetInstance()->GetExplosion()->SetEffect(GetPos());                                                        //爆発エフェクトの位置を設定
 	CManager::GetInstance()->GetExplosion001()->SetEffect(GetPos());                                                     //爆発エフェクトの位置を設定
-	CManager::GetInstance()->GetThander()->SetEffect(GetPos());                                                          //雷エフェクトの位置を設定
+	//CManager::GetInstance()->GetThander()->SetEffect(GetPos());                                                          //雷エフェクトの位置を設定
 	//CManager::GetInstance()->GetDebris()->SetEffect(GetPos());                                                           //破片エフェクトの位置を設定
 }
 

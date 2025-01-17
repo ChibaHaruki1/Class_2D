@@ -29,6 +29,7 @@ public: //外部からアクセス可能
 	void SetInfo(D3DXVECTOR3 m_pos, D3DXVECTOR3 m_move, int nLife); //弾の位置に関する設定処理
 
 	//純粋仮想関数にすることで基底クラスの処理をそのまま処理する
+	virtual void CallEffect(bool bUse) = 0;  //エフェクト呼ぶ処理
 	virtual void CollisionOnObject() = 0; ;  //オブジェクトとの当たり判定
 
 	static CManagerBullet* Create(D3DXVECTOR3 pos, D3DXVECTOR3 move, int nLife, CObject3D::TYPE type); //3D弾の生成処理

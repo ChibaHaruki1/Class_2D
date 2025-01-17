@@ -24,5 +24,8 @@ public:
 	void Update() override;                       //更新処理
 	void Draw()override;                          //描画処理
 
-	static CDebrisX* Create(D3DXVECTOR3 pos); //継承クラスをタイプごとに生成
+	static CDebrisX* Create(D3DXVECTOR3 pos);     //生成処理
+
+private:
+	constexpr static int MAX_LIFE = 30;
 };
