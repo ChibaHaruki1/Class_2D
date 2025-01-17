@@ -75,20 +75,20 @@ void CFuelGage::Update()
 	//使われている時とゲージが満タンの時
 	if (m_bUse == true && m_bCharge == true)
 	{
-		CManager::GetScene()->GetPlayerX()->GetMove().y += 1.0f;     //プレイヤーのや軸の移動量を増やす
+		CManager::GetScene()->GetPlayerX()->GetMove().y += MAX_PLUS_PLAYER_MOVE;   //プレイヤーのや軸の移動量を増やす
 
 		//プレイヤーの重力が規定値より高い時
-		if (CManager::GetScene()->GetPlayerX()->GetGravity() > 1.0f)
+		if (CManager::GetScene()->GetPlayerX()->GetGravity() > MAX_PLAYER_GRAVITY)
 		{
-			CManager::GetScene()->GetPlayerX()->SetGravity(1.0f);    //重力の設定
+			CManager::GetScene()->GetPlayerX()->SetGravity(MAX_PLAYER_GRAVITY);    //重力の設定
 		}
 
-		CManager::GetScene()->GetPlayerX()->SetGravityFlag(false);   //重力OFF
+		CManager::GetScene()->GetPlayerX()->SetGravityFlag(false);                 //重力OFF
 
 		//アルファ値が規定値以外の時
 		if (GetAlpha() != MAX_ALPHA)
 		{
-			SetAlpha(MAX_ALPHA); //アルファ値の設定
+			SetAlpha(MAX_ALPHA);                       //アルファ値の設定
 		}
 
 		//Y軸のサイズが規定値より高い時

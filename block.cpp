@@ -446,7 +446,7 @@ CManagerBlock* CManagerBlock::Create(D3DXVECTOR3 pos, STRATEGYTYPE type)
 //==================================
 void CManagerBlock::TextFileWrite(float m_fPosX, float m_fPosY, float m_fPosZ,CObjectX::TYPE type)
 {
-	FILE* pFile = nullptr;
+	FILE* pFile = nullptr;                               
 	pFile = fopen("data\\TEXT\\OBJECT\\Block.txt", "a"); //ファイルを読み込む
 	//ファイルの情報が無かった時
 	if (pFile == nullptr)

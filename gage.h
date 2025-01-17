@@ -36,13 +36,15 @@ private:
 	constexpr static int MIN_ALPHA = 10;     //アルファ値の最小数
 	constexpr static int MINUS_ALPHA = 5;    //アルファ値の減算値
 
-	constexpr static float MAX_SIZEX = 15.0f;            //Xのの大きさ
-	constexpr static float MAX_SIZEY = 100.0f;           //Y軸の大きさ
-	constexpr static float MAX_SIZEZ = 20.0f;            //Z軸の大きさ
-	constexpr static float MIN_SIZEY = 10.0f;            //Y軸の最小値
-	constexpr static float ADDJUST_POSX = 50.0f;         //X軸の位置の調整値
-	constexpr static float ADDJUST_POSY = 80.0f;         //Y軸の位置の調整値
+	constexpr static float MAX_SIZEX = 15.0f;             //Xのの大きさ
+	constexpr static float MAX_SIZEY = 100.0f;            //Y軸の大きさ
+	constexpr static float MAX_SIZEZ = 20.0f;             //Z軸の大きさ
+	constexpr static float MIN_SIZEY = 10.0f;             //Y軸の最小値
+	constexpr static float ADDJUST_POSX = 50.0f;          //X軸の位置の調整値
+	constexpr static float ADDJUST_POSY = 80.0f;          //Y軸の位置の調整値
 	constexpr static float MAX_MAINAS_GAGESPEED = 0.5f;   //ゲージの減る速さ
+	constexpr static float MAX_PLUS_PLAYER_MOVE = 1.0f;   //プレイヤー移動量の増える速さ
+	constexpr static float MAX_PLAYER_GRAVITY = 1.0f;     //プレイヤーの重力の限界値
 
 
 	bool m_bUse;                                          //ゲージを減らすかどうか判定するための変数
