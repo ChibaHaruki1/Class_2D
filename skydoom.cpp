@@ -57,7 +57,7 @@ void CSkyDoom::Uninit()
 void CSkyDoom::Update()
 {
 	////向きの更新（動いているように見せる）
-	GetRot().x += 0.0001f;
+	//GetRot().x += 0.0001f;
 	//m_rot.z += 0.0001f;
 
 	//Dキーが押された時

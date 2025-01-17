@@ -135,8 +135,7 @@ CSourceSpecialAttackBoss::~CSourceSpecialAttackBoss()
 //コンストラクタ
 //===========================
 CManagerBossEffect::CManagerBossEffect(int nPriority) : CObject3D(nPriority)
-{
-	SetLife(100);                     //ライフの設定                       
+{               
 	m_pEffectDirection000 = nullptr;  //ストラテジー基底クラスのポインターの初期化
 	m_nBossRotNumber = 0;             //向きで大きさを判定する変数の初期化(必殺技)
 	m_nHitNumber = -1;                //当たった方向を番号で判定する変数の初期化(衝撃波)
@@ -242,6 +241,7 @@ CManagerBossEffect* CManagerBossEffect::Create(D3DXVECTOR3 pos, CObject3D::TYPE 
 		{
 			pEffect->m_pEffectDirection000 = new CAttackEffect();                                   //ストラテジー継承クラスの動的確保
 			pEffect->m_pEffectDirection000->SetInfo(pEffect->GetBuffer(), MAX_IMPACT_TEXTURESIZE);  //テクスチャの設定
+			pEffect->SetLife(CImpact::MAX_IMPACT_LIFE);                                             //ライフの設定
 		}
 	}
 
@@ -256,6 +256,7 @@ CManagerBossEffect* CManagerBossEffect::Create(D3DXVECTOR3 pos, CObject3D::TYPE 
 			pEffect->m_pEffectDirection000 = new CSourceSpecialAttackBoss();                                                   //ストラテジー継承クラスの動的確保
 			pEffect->m_pEffectDirection000->SetInfo(pEffect->GetBuffer(), MAX_BOSSANIMETION_TEX);                              //テクスチャの設定
 			pEffect->SetSize(CBossSpecialAttack::MAX_SPECIALATTACK_SIZEX, CBossSpecialAttack::MAX_SPECIALATTACK_SIZEX, 0.0f);  //大きさの設定
+			pEffect->SetLife(CBossSpecialAttack::MAX_BOSSSPZECIALATTACK_LIFE);                                                 //ライフの設定
 		}
 	}
 	
@@ -281,7 +282,7 @@ CManagerBossEffect* CManagerBossEffect::Create(D3DXVECTOR3 pos, CObject3D::TYPE 
 //============================
 CImpact::CImpact()
 {
-
+	
 }
 
 //============================
@@ -337,7 +338,7 @@ void CImpact::Update()
 //============================
 CBossSpecialAttack::CBossSpecialAttack()
 {
-
+	
 }
 
 //============================
@@ -395,8 +396,7 @@ void CBossSpecialAttack::Update()
 	if (GetLife() <= 0)
 	{
 		SetAddjustAlpha() -= MINUS_ALPHA;          //alpha値を減らす
-
-		//alpha値が０以下の時
+		//アルファ値が０以下の時
 		if (GetAlpha() <= 0)
 		{
 			CObject::Release(); //自身を削除

@@ -96,7 +96,7 @@ public://外部からのアクセス可能
 	inline D3DXMATERIAL* GetMat() { return m_pMat; }                                                 //Matの情報を返す
 	inline D3DXMATRIX& GetmtxWorld() { return m_mtxWorld; }                                          //ワールドマトリックスの情報を返す関数
 
-	CCollision* GetCollision() { return m_pCollision; }                                       //当たり判定の情報を返す関数
+	CCollision* GetCollision() { return m_pCollision; }                                              //当たり判定の情報を返す関数
 
     //==================================================
     //パーツごとのサイズ取得
@@ -106,10 +106,14 @@ public://外部からのアクセス可能
 
 	//==================================================
 	//情報の値を計して設定
-	inline D3DXVECTOR3& SetAddjustMove() { return m_move; }  //派生クラスのrotの情報を返す関数
+	inline D3DXVECTOR3& SetAddjustPos() { return m_pos; }    //位置の値を変更したい時の設定
+	inline D3DXVECTOR3& SetAddjustRot() { return m_rot; }    //向きの値を変更したい時の設定
+	inline D3DXVECTOR3& SetAddjustMove() { return m_move; }  //移動量の値を変更したい時の設定
 
 	inline int& SetAddjustLife() { return m_nLife; }         //ライフの値を変更したいときの設定
 	inline int& SetAddjustDieFrame() { return m_nDieFrame; } //死亡時のフレームを観測する用の情報を取得
+	inline int& SetAddjustRandom() { return m_nRandom; }     //乱数の値を変更したい時の設定
+	inline int& SetAddjustFrame() { return m_nFrame; }       //フレームの値を変更したい時の設定
 
 
 	//==================================================
@@ -123,7 +127,7 @@ public://外部からのアクセス可能
 protected://継承クラスのみアクセス可能
 
 	//マクロ定義
-	constexpr static float D3DX_PI_ORI = 1.57f; //目標に向かう時の速さ
+	constexpr static float D3DX_PI_ORI = 1.57f;  //半円の角度
 
 private:
 	LPDIRECT3DTEXTURE9 m_pTexture[MAX_TEXTURE]; //テクスチャへのポインタ
@@ -142,21 +146,21 @@ private:
 
 	//パーツ毎の位置
 	D3DXVECTOR3 m_posPrts[MAX_PRTS];            //モデルの位置を格納
-	D3DXVECTOR3 m_posPrtsBoss[MAX_BOSSPARTS];         //ボスモデルの位置を格納
-	D3DXVECTOR3 m_posPrtsEnemy[MAX_ENEMYPARTS];       //敵モデルの位置を格納
+	D3DXVECTOR3 m_posPrtsBoss[MAX_BOSSPARTS];   //ボスモデルの位置を格納
+	D3DXVECTOR3 m_posPrtsEnemy[MAX_ENEMYPARTS]; //敵モデルの位置を格納
 
 	//パーツごとのサイズ
-	D3DXVECTOR3 m_minPrts[MAX_PRTS];            //頂点の最小値
-	D3DXVECTOR3 m_maxPrts[MAX_PRTS];            //頂点の最大値
-	D3DXVECTOR3 m_ModelSizePrts[MAX_PRTS];      //モデルのサイズを格納
+	D3DXVECTOR3 m_minPrts[MAX_PRTS];                  //頂点の最小値
+	D3DXVECTOR3 m_maxPrts[MAX_PRTS];                  //頂点の最大値
+	D3DXVECTOR3 m_ModelSizePrts[MAX_PRTS];            //モデルのサイズを格納
 	D3DXVECTOR3 m_ModelSizePrtsBoss[MAX_BOSSPARTS];   //ボスモデルのサイズを格納
 	D3DXVECTOR3 m_ModelSizePrtsEnemy[MAX_ENEMYPARTS]; //敵モデルのサイズを格納
 
-	CCollision* m_pCollision;                   //当たり判定関数のポインター
-	D3DXVECTOR3 m_col;                          //色
-	D3DXVECTOR3 m_pos;                          //位置
-	D3DXVECTOR3 m_rot;                          //向き
-	D3DXVECTOR3 m_move;                         //移動量
+	CCollision* m_pCollision;                         //当たり判定関数のポインター
+	D3DXVECTOR3 m_col;                                //色
+	D3DXVECTOR3 m_pos;                                //位置
+	D3DXVECTOR3 m_rot;                                //向き
+	D3DXVECTOR3 m_move;                               //移動量
 	CUI* pUI;
 
 	int m_nLife;                //Lifeを格納する変数（HP）

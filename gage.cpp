@@ -91,7 +91,7 @@ void CFuelGage::Update()
 			SetAlpha(MAX_ALPHA);                       //アルファ値の設定
 		}
 
-		//Y軸のサイズが規定値より高い時
+		//Y軸のサイズが最小値より高い時
 		if (GetSizeY() > MIN_SIZEY)
 		{
 			SetAddjustSizeY() -= MAX_MAINAS_GAGESPEED; //Y軸の大きさを減らす
@@ -111,6 +111,12 @@ void CFuelGage::Update()
 		if (GetAlpha() > 0)
 		{
 			SetAddjustAlpha() -= MINUS_ALPHA;          //アルファ値を減らす
+		}
+
+		//Y軸のサイズが最大値より低い
+		if (GetSizeY() < MAX_SIZEY)
+		{
+			SetAddjustSizeY() += MAX_MAINAS_GAGESPEED; //Y軸の大きさを増やす
 		}
 	}
 

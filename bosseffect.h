@@ -97,7 +97,7 @@ public: //外部からアクセス可能
 	constexpr static float MAX_BOSSSPECIALATTACK_X = 200.0f;   //ボスの必殺技のY軸の大きさ
 	constexpr static float MAX_BOSSSPECIALATTACK_Y = 200.0f;   //ボスの必殺技のY軸の大きさ
 	constexpr static float PLUS_POS_Y = 100.0f;                //必殺技のY軸の位置を足し合わせる為のマクロ
-	constexpr static float MAX_DAMAGE = 0.01f;                 //ボスの必殺技のダメージ数
+	constexpr static float MAX_DAMAGE = 0.005f;                //ボスの必殺技のダメージ数
 	constexpr static float MAX_SIZEX = 40.0f;                  //ｘ軸の大きさ
 	constexpr static float MAX_SIZEY = 40.0f;                  //ｙ軸の大きさ
 	constexpr static float MAX_SIZEZ = 40.0f;                  //ｚ軸の大きさ
@@ -121,14 +121,19 @@ public:
 	~CImpact()override;     //デストラクタ
 	void Update()override;  //更新処理
 
-private:
-	//マクロ提定義
-	constexpr static int RED = 255;          //赤色
-	constexpr static int GREEN = 255;        //緑色
-	constexpr static int BLUE = 255;         //青色
 
-	constexpr static float PLUS_SIZEX = 4.0f; //ｘ軸の大きさを加算する値
-	constexpr static float PLUS_SIZEY = 1.0f; //ｙ軸の大きさを加算する値
+	//================================
+	//マクロ定義
+	constexpr static int MAX_IMPACT_LIFE = 100; //ライフの最大値
+
+private:
+	//マクロ定義
+	constexpr static int RED = 255;             //赤色
+	constexpr static int GREEN = 255;           //緑色
+	constexpr static int BLUE = 255;            //青色
+
+	constexpr static float PLUS_SIZEX = 4.0f;   //ｘ軸の大きさを加算する値
+	constexpr static float PLUS_SIZEY = 1.0f;   //ｙ軸の大きさを加算する値
 };
 
 
@@ -141,18 +146,23 @@ public:
 	~CBossSpecialAttack()override;  //デストラクタ
 	void Update()override;          //更新処理
 
+	//==========================
+	//マクロ定義
+	constexpr static float MAX_SPECIALATTACK_SIZEX = 200.0f; //ｘ軸の大きさ
+	constexpr static float MAX_SPECIALATTACK_SIZEY = 200.0f; //ｙ軸の大きさ
+	constexpr static int MAX_BOSSSPZECIALATTACK_LIFE = 120;  //ライフの最大値
+
+private:
 	//マクロ定義
 	constexpr static int RED = 255;                          //赤色
 	constexpr static int GREEN = 255;                        //緑色
 	constexpr static int BLUE = 255;                         //青色
 	constexpr static int MINUS_ALPHA = 5;                    //アルファ値を減算していく値
 
-	constexpr static float MAX_SPECIALATTACK_SIZEX = 200.0f; //ｘ軸の大きさ
-	constexpr static float MAX_SPECIALATTACK_SIZEY = 200.0f; //ｙ軸の大きさ
+
 	constexpr static float MAXIMUM_SIZEX = 2000.0f;          //サイズを加算していく時の最大値
-	constexpr static float PLUS_SIZEX = 30.0f;               //ｘ軸の大きさを加算する値
+	constexpr static float PLUS_SIZEX = 20.0f;               //ｘ軸の大きさを加算する値
 	constexpr static float ADJUST_PLAYER_POSY = 1.5f;        //プレイヤーのpos.yの位置の値を調整する値
 
 	constexpr static double ANIMETION_DLLIFE = 0.3;          //アニメーションの速さの調整値
-
 };

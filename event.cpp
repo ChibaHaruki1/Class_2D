@@ -71,11 +71,7 @@ void CEvent::Update()
 			//プレイヤーと木の板の当たり判定
 			if (CManager::GetScene()->GetPlayerX()->CollisionPlayerSelect(CManager::GetInstance()->GetWoodenBoard(WoodenBoardCount)))
 			{
-				//Aキーが押された時
-				if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_A) == true)
-				{
 					CManager::GetScene()->GetPlayerX()->GetMove().x += CPlayerX::MAX_MOVESPEED; //プレイヤーを逆側へ押し出す
-				}
 			}
 		}
 	}

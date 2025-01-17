@@ -80,7 +80,7 @@ public:
 	CManagerEffect* GetDebris() { return m_pDebris; }                                             //一枚絵の破片エフェクトの取得
 	CManagerEffect* GetPillarOfFire() { return m_pPillarOfFire; }                                 //柱状の炎のエフェクトの取得
 	CSpecialAttack* GetSpecialAttack() { return m_pSepecialAttack; }                              //必殺技のエフェクトの取得
-	CManagerBossEffect* GetBossSpecialAttack() { return m_pBossSpecialAttack; }                   //必殺技のエフェクトの取得
+	CManagerBossEffect* GetBossSpecialAttack() { return m_pBossSpecialAttack; }                   //ボスの必殺技のエフェクトの取得
 	CManagerBossEffect* GetImpact() { return m_pImpact; }                                         //衝撃波エフェクトの取得
 
 	//敵系の取得
@@ -118,7 +118,7 @@ public:
 	constexpr static int MAX_OBJECT_DATA = 20;    //オブジェクトの最大数
 	constexpr static int MAX_STAGEOBJECT = 20;    //ステージに置く用の配列の最大数
 	constexpr static int MAX_BREAKHOUSE = 10;     //ステージに置く用の配列の最大数
-	constexpr static int MAX_RUBBLE = 35;         //瓦礫の最大数
+	constexpr static int MAX_RUBBLE = 40;         //瓦礫の最大数
 	constexpr static int MAX_ENEMY = 25;          //敵の最大数
 
 	//インライン展開
@@ -173,7 +173,7 @@ private:
 	CManagerEffect* m_pPillarOfFire;             //柱状の炎エフェクト
 	CSpecialAttack* m_pSepecialAttack;           //必殺技のエフェクト
 	CManagerBossEffect* m_pImpact;               //衝撃波エフェクトのインスタンス
-	CManagerBossEffect* m_pBossSpecialAttack;    //衝撃波エフェクトのインスタンス
+	CManagerBossEffect* m_pBossSpecialAttack;    //ボスの必殺技エフェクトのインスタンス
 
 
 	//2Dのインスタンス
