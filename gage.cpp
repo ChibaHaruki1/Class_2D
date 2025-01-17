@@ -47,7 +47,7 @@ HRESULT CFuelGage::Init()
 	
 	CObject3D::SetSize(MAX_SIZEX, GetSizeY(), MAX_SIZEZ); //大きさを設定
 
-	return S_OK;                                                     //成功を返す
+	return S_OK;										  //成功を返す
 }
 
 //============================
@@ -75,11 +75,12 @@ void CFuelGage::Update()
 	//使われている時とゲージが満タンの時
 	if (m_bUse == true && m_bCharge == true)
 	{
-		CManager::GetScene()->GetPlayerX()->GetMove().y += 1.0f;
+		CManager::GetScene()->GetPlayerX()->GetMove().y += 1.0f;     //プレイヤーのや軸の移動量を増やす
 
+		//プレイヤーの重力が規定値より高い時
 		if (CManager::GetScene()->GetPlayerX()->GetGravity() > 1.0f)
 		{
-			CManager::GetScene()->GetPlayerX()->SetGravity(1.0f);
+			CManager::GetScene()->GetPlayerX()->SetGravity(1.0f);    //重力の設定
 		}
 
 		CManager::GetScene()->GetPlayerX()->SetGravityFlag(false);   //重力OFF
@@ -90,16 +91,14 @@ void CFuelGage::Update()
 			SetAlpha(MAX_ALPHA); //アルファ値の設定
 		}
 
-		//Y軸のサイズが０以上の時
-		if (GetSizeY() > 0)
+		//Y軸のサイズが規定値より高い時
+		if (GetSizeY() > MIN_SIZEY)
 		{
 			SetAddjustSizeY() -= MAX_MAINAS_GAGESPEED; //Y軸の大きさを減らす
 		}
-
-		//Y軸の大きさが０より小さい時
-		else if (GetSizeY() <= 0)
+		else
 		{
-			SetSizeY(0.0f);                            //Y軸の大きさを初期化
+			SetSizeY(MIN_SIZEY);                       //Y軸の大きさを初期化
 			m_bCharge = false;                         //チャージ未完了
 			m_bUse = false;                            //未使用
 		}
@@ -142,11 +141,7 @@ void CFuelGage::Update()
 //============================
 void CFuelGage::Draw()
 {
-	//アルファ値が規定値よりも大きい時
-	if (GetAlpha() > MIN_ALPHA)
-	{
-		CObject3D::Draw(); //描画処理を呼ぶ
-	}
+	CObject3D::Draw(); //描画処理を呼ぶ
 }
 
 //============================

@@ -1,151 +1,238 @@
 //==================================
 //
-//障害物の処理[block.cpp]
+//ブロックの処理[block.cpp]
 //Auther:Chiba Haruki
 //
 //==================================
 
+
+//==================================
 //インクルード
 #include"manager.h"
 #include "rendererh.h"
 #include "block.h"
 #include <string>
 
+
+//==================================
 //staticメンバー変数の初期化
 int CManagerBlock::m_nCreateCount = 0; //初期化
 
+
+//==================================
 //文字列の設定
 std::string u8NormalBlockText = u8"ブロックの情報設定"; //日本語対応
 std::string u8NormalBlockNumberText = u8"番目の"; //日本語対応
 
-//============================
+
+//====================================================================================================================================
 //ストラテジー基底クラス
+//====================================================================================================================================
+
+//============================
+//コンストラクタ
 //============================
 CBlockXStrategy::CBlockXStrategy()
 {
-	m_aBlockFile = nullptr;
+	m_aBlockFile = nullptr; //ファイルパスの初期化
 }
+
+//============================
+//デストラクタ
+//============================
 CBlockXStrategy::~CBlockXStrategy()
 {
 
 }
 
-//============================
+
+//====================================================================================================================================
 //ブロック000
+//====================================================================================================================================
+
+//============================
+//コンストラクタ
 //============================
 CBlock000::CBlock000()
 {
-	SetBlockFileNamePass("data\\XFILE\\BLOCK\\Block002.x");
+	SetBlockFileNamePass("data\\XFILE\\BLOCK\\Block002.x"); //ファイルパス設定
 }
+
+//============================
+//デストラクタ
+//============================
 CBlock000::~CBlock000()
 {
 
 }
 
 
-//============================
+//====================================================================================================================================
 //ブロック001
+//====================================================================================================================================
+
+//============================
+//コンストラクタ
 //============================
 CBlock001::CBlock001()
 {
-	SetBlockFileNamePass("data\\XFILE\\BLOCK\\Block004.x");
+	SetBlockFileNamePass("data\\XFILE\\BLOCK\\Block004.x"); //ファイルパスの設定
 }
+
+//============================
+//デストラクタ
+//============================
 CBlock001::~CBlock001()
 {
 
 }
 
 
-//============================
+//====================================================================================================================================
 //ブロック002
+//====================================================================================================================================
+
+//============================
+//コンストラクタ
 //============================
 CBlock002::CBlock002()
 {
-	SetBlockFileNamePass("data\\XFILE\\BLOCK\\Block005.x");
+	SetBlockFileNamePass("data\\XFILE\\BLOCK\\Block005.x"); //ファイルパスの設定
 }
+
+//============================
+//デストラクタ
+//============================
 CBlock002::~CBlock002()
 {
 
 }
 
 
-//============================
+//====================================================================================================================================
 //ブロック003
+//====================================================================================================================================
+
+//============================
+//コンストラクタ
 //============================
 CBlock003::CBlock003()
 {
-	SetBlockFileNamePass("data\\XFILE\\BLOCK\\Block003.x");
+	SetBlockFileNamePass("data\\XFILE\\BLOCK\\Block003.x"); //ファイルパスの設定
 }
+
+//============================
+//デストラクタ
+//============================
 CBlock003::~CBlock003()
 {
 
 }
 
 
-//============================
+//====================================================================================================================================
 //ブロック004
+//====================================================================================================================================
+
+//============================
+//コンストラクタ
 //============================
 CBlock004::CBlock004()
 {
-	SetBlockFileNamePass("data\\XFILE\\BLOCK\\Block006.x");
+	SetBlockFileNamePass("data\\XFILE\\BLOCK\\Block006.x"); //ファイルパスの設定
 }
+
+//============================
+//デストラクタ
+//============================
 CBlock004::~CBlock004()
 {
 
 }
 
 
-//============================
+//====================================================================================================================================
 //ブロック005
+//====================================================================================================================================
+
+//============================
+//コンストラクタ
 //============================
 CBlock005::CBlock005()
 {
-	SetBlockFileNamePass("data\\XFILE\\BLOCK\\Block007.x");
+	SetBlockFileNamePass("data\\XFILE\\BLOCK\\Block007.x"); //ファイルパスの設定
 }
+
+//============================
+//デストラクタ
+//============================
 CBlock005::~CBlock005()
 {
 
 }
 
 
-//============================
+//====================================================================================================================================
 //ブロック006
+//====================================================================================================================================
+
+//============================
+//コンストラクタ
 //============================
 CBlock006::CBlock006()
 {
-	SetBlockFileNamePass("data\\XFILE\\BLOCK\\Block008.x");
+	SetBlockFileNamePass("data\\XFILE\\BLOCK\\Block008.x"); //ファイルパスの設定
 }
+
+//============================
+//デストラクタ
+//============================
 CBlock006::~CBlock006()
 {
 
 }
 
 
-//============================
+//====================================================================================================================================
 //次のステージへ行く用obj
+//====================================================================================================================================
+
+//============================
+//コンストラクタ
 //============================
 CSpaceBattleShip::CSpaceBattleShip()
 {
-	SetBlockFileNamePass("data\\XFILE\\BLOCK\\SpaceBattleship000.x");
+	SetBlockFileNamePass("data\\XFILE\\BLOCK\\SpaceBattleship000.x"); //ファイルパスの設定
 }
+
+//============================
+//デストラクタ
+//============================
 CSpaceBattleShip::~CSpaceBattleShip()
 {
 
 }
 
 
-//============================
+//====================================================================================================================================
 //最終ステージ用のブロック
+//====================================================================================================================================
+
+//============================
+//コンストラクタ
 //============================
 CFinalBlock::CFinalBlock()
 {
-	SetBlockFileNamePass("data\\XFILE\\BLOCK\\FianlStage.x");
+	SetBlockFileNamePass("data\\XFILE\\BLOCK\\FianlStage.x"); //ファイルパスの設定
 }
+
+//============================
+//デストラクタ
+//============================
 CFinalBlock::~CFinalBlock()
 {
 
 }
-
 
 
 //============================================================================================================================================================
@@ -157,7 +244,7 @@ CFinalBlock::~CFinalBlock()
 //============================
 CManagerBlock::CManagerBlock(int nPriority) : CObjectX(nPriority)
 {
-	m_pBlockXStrategy = nullptr;
+	m_pBlockXStrategy = nullptr; //ストラテジー基底クラスのポインターの初期化
 }
 
 //============================
@@ -165,10 +252,11 @@ CManagerBlock::CManagerBlock(int nPriority) : CObjectX(nPriority)
 //============================
 CManagerBlock::~CManagerBlock()
 {
+	//ストラテジー基底クラスのポインターの情報がある時
 	if (m_pBlockXStrategy != nullptr)
 	{
-		delete m_pBlockXStrategy;
-		m_pBlockXStrategy = nullptr;
+		delete m_pBlockXStrategy;     //情報を消す
+		m_pBlockXStrategy = nullptr;  //情報を無くす
 	}
 }
 
@@ -177,13 +265,13 @@ CManagerBlock::~CManagerBlock()
 //============================
 HRESULT CManagerBlock::Init()
 {
-	//頂点バッファ生成
+	//初期化に成功した時
 	if (FAILED(CObjectX::Init()))
 	{
-		return E_FAIL;
+		return E_FAIL; //失敗を返す
 	}
 
-	return S_OK;
+	return S_OK;       //成功を返す
 }
 
 //============================
@@ -191,7 +279,7 @@ HRESULT CManagerBlock::Init()
 //============================
 void CManagerBlock::Uninit()
 {
-	CObjectX::Uninit();
+	CObjectX::Uninit(); //破棄処理
 }
 
 //============================
@@ -199,7 +287,7 @@ void CManagerBlock::Uninit()
 //============================
 void CManagerBlock::Update()
 {
-	CObjectX::Update();
+	//CObjectX::Update(); //更新処理
 }
 
 //============================
@@ -207,7 +295,7 @@ void CManagerBlock::Update()
 //============================
 void CManagerBlock::Draw()
 {
-	CObjectX::Draw();
+	CObjectX::Draw(); //描画処理
 }
 
 //============================================================================
@@ -215,124 +303,128 @@ void CManagerBlock::Draw()
 //============================================================================
 CManagerBlock* CManagerBlock::Create(D3DXVECTOR3 pos, STRATEGYTYPE type)
 {
-	CManagerBlock* pManagerBlock = nullptr; //自身のポインター
+	CManagerBlock* pManagerBlock = nullptr; //基底クラスのポインター
 
+	//タイプが地面用ブロックの時
 	if (type == STRATEGYTYPE::FIELDBLOCK)
 	{
 		pManagerBlock = new CFiledBlock(); //継承クラスを動的確保する
 
-		//初期化
+		//初期化に成功した時
 		if (SUCCEEDED(pManagerBlock->Init()))
 		{
 			pManagerBlock->m_pBlockXStrategy = new CBlock000();  //ストラテジー継承クラス
 		}
 
 	}
+
+	//タイプが上に上がる用ブロックの時
 	else if (type==STRATEGYTYPE::GOUPBLOCK)
 	{
 		pManagerBlock = new CGoUpBlock(); //継承クラスを動的確保する
 
-		//初期化
+		//初期化に成功した時
 		if (SUCCEEDED(pManagerBlock->Init()))
 		{
 			pManagerBlock->m_pBlockXStrategy = new CBlock001();  //ストラテジー継承クラス
 		}
 	}
+
+	//タイプが道用ブロックの時
 	else if (type == STRATEGYTYPE::ROADBLOCK)
 	{
 		pManagerBlock = new CRoadBlock(); //継承クラスを動的確保する
 
-		//初期化
+		//初期化に成功した時
 		if (SUCCEEDED(pManagerBlock->Init()))
 		{
 			pManagerBlock->m_pBlockXStrategy = new CBlock002();  //ストラテジー継承クラス
 		}
 	}
+
+	//タイプが壁兼道用ブロックの時か壁兼道用ブロック001の時
 	else if (type == STRATEGYTYPE::WALLROADBLOCK|| type == STRATEGYTYPE::WALLROADBLOCK001)
 	{
 		pManagerBlock = new CWallRoadBlock(); //継承クラスを動的確保する
 
-		//初期化
+		//初期化に成功した時
 		if (SUCCEEDED(pManagerBlock->Init()))
 		{
 			pManagerBlock->m_pBlockXStrategy = new CBlock003();  //ストラテジー継承クラス
 		}
 	}
+
+	//タイプが小さいブロックの時か小さいブロック001の時
 	else if (type == STRATEGYTYPE::SMALLBLOCK||type== STRATEGYTYPE::SMALLBLOCK001)
 	{
 		pManagerBlock = new CSmallBlock(); //継承クラスを動的確保する
 
-		//初期化
+		//初期化に成功した時
 		if (SUCCEEDED(pManagerBlock->Init()))
 		{
 			pManagerBlock->m_pBlockXStrategy = new CBlock004();  //ストラテジー継承クラス
 		}
 	}
+
+	//タイプが上壁用ブロックの時
 	else if (type == STRATEGYTYPE::UPWALLBLOCK)
 	{
 		pManagerBlock = new CUpWallBlock(); //継承クラスを動的確保する
 
-		//初期化
+		//初期化に成功した時
 		if (SUCCEEDED(pManagerBlock->Init()))
 		{
 			pManagerBlock->m_pBlockXStrategy = new CBlock005();  //ストラテジー継承クラス
 		}
 	}
 
-	else if (type == STRATEGYTYPE::BLOCK006)
-	{
-		pManagerBlock = new CUpWallBlock(); //継承クラスを動的確保する
-
-		//初期化
-		if (SUCCEEDED(pManagerBlock->Init()))
-		{
-			pManagerBlock->m_pBlockXStrategy = new CBlock006();  //ストラテジー継承クラス
-		}
-	}
-
+	//タイプがバトルシップの時
 	else if (type == STRATEGYTYPE::SPECEBATTLESHIP000)
 	{
 		pManagerBlock = new CSpaceBattleShip000(); //継承クラスを動的確保する
 
-		//初期化
+		//初期化に成功した時
 		if (SUCCEEDED(pManagerBlock->Init()))
 		{
 			pManagerBlock->m_pBlockXStrategy = new CSpaceBattleShip();  //ストラテジー継承クラス
 		}
 	}
 
+	//タイプが最終ステージブロックの時
 	else if (type == STRATEGYTYPE::FINALBLOCK)
 	{
 		pManagerBlock = new CScaffold(); //継承クラスを動的確保する
 
-		//初期化
+		//初期化に成功した時
 		if (SUCCEEDED(pManagerBlock->Init()))
 		{
 			pManagerBlock->m_pBlockXStrategy = new CFinalBlock();  //ストラテジー継承クラス
 		}
 	}
 
+	//タイプが最終ステージ天井の時
 	else if (type == STRATEGYTYPE::FINALCEILLING)
 	{
 		pManagerBlock = new CCeiling(); //継承クラスを動的確保する
 
-		//初期化
+		//初期化に成功した時
 		if (SUCCEEDED(pManagerBlock->Init()))
 		{
-			pManagerBlock->m_pBlockXStrategy = new CFinalBlock1();  //ストラテジー継承クラス
-			pManagerBlock->m_pBlockXStrategy->SetBlockFileNamePass("data\\XFILE\\BLOCK\\FianlStageCeiling.x");
+			pManagerBlock->m_pBlockXStrategy = new CFinalBlock1();                                             //ストラテジー継承クラス
+			pManagerBlock->m_pBlockXStrategy->SetBlockFileNamePass("data\\XFILE\\BLOCK\\FianlStageCeiling.x"); //ファイルパスの設定
 		}
 	}
 
+	//タイプが木の板群の時
 	else if (type == STRATEGYTYPE::WODDENBORAD)
 	{
 		pManagerBlock = new CWoodenBorad(); //継承クラスを動的確保する
 
-		//初期化
+		//初期化に成功した時
 		if (SUCCEEDED(pManagerBlock->Init()))
 		{
-			pManagerBlock->m_pBlockXStrategy = new CRubble();  //ストラテジー継承クラス
-			pManagerBlock->m_pBlockXStrategy->SetBlockFileNamePass("data\\XFILE\\StageObj\\wooden_boards.x");
+			pManagerBlock->m_pBlockXStrategy = new CRubble();                                                 //ストラテジー継承クラス
+			pManagerBlock->m_pBlockXStrategy->SetBlockFileNamePass("data\\XFILE\\StageObj\\wooden_boards.x"); //ファイルパスの設定
 		}
 	}
 
