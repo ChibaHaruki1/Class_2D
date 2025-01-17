@@ -29,18 +29,19 @@ public:
 
 private:
 	//マクロ定義
-	constexpr static int CANERA_POSZ = 1400;                   //カメラのZ軸の位置
-	constexpr static int RAND_ROTX = 15;                       //木の板軍の落とすときの向きのX軸の値
-	constexpr static int RAND_ROTY = 31;                       //木の板軍の落とすときの向きのY軸の値
-	constexpr static int INIT_DROP_POS = 15;                   //木の板軍の落とす位置をあらかじめ設定するための値
-	constexpr static float ADJUST_ROT = 0.1f;                  //整数で出した値を少数に直す為の値
-	constexpr static float EVENT_BOSS_FIGHT_POS = 3450.0f;     //ボス戦の始まりになる位置
-	constexpr static float CREATE_BOSS_POSX = 4500.0f;         //ボスが生成させるX軸の位置
-	constexpr static float CREATE_WOODENBOARD_POSX = 3250.0f;  //木の板群が生成させるX軸の位置
-	constexpr static float CREATE_WOODENBOARD_POSY = 300.0f;   //木の板群が生成させるY軸の位置
-	constexpr static float CANERA_POSY = 400.0f;               //カメラのY軸の位置
-	constexpr static float WOODENBOARD_DROPY = 10.0f;          //木の板群の落とす位置を増やす値
-	constexpr static float WOODENBOARD_PLUSY = 0.08f;          //木の板群の落とす速度を増やす値
+	constexpr static int CANERA_POSZ = 1400;                    //カメラのZ軸の位置
+	constexpr static int RAND_ROTX = 15;                        //木の板軍の落とすときの向きのX軸の値
+	constexpr static int RAND_ROTY = 31;                        //木の板軍の落とすときの向きのY軸の値
+	constexpr static int INIT_DROP_POS = 18;                    //木の板軍の落とす位置をあらかじめ設定するための値
+	constexpr static float ADJUST_ROT = 0.1f;                   //整数で出した値を少数に直す為の値
+	constexpr static float EVENT_BOSS_FIGHT_POS = 3450.0f;      //ボス戦の始まりになる位置
+	constexpr static float CREATE_BOSS_POSX = 4500.0f;          //ボスが生成させるX軸の位置
+	constexpr static float CREATE_MOTIONINENEMY_POSX = 9500.0f; //モーション付きの敵が生成させるX軸の位置
+	constexpr static float CREATE_WOODENBOARD_POSX = 3250.0f;   //木の板群が生成させるX軸の位置
+	constexpr static float CREATE_WOODENBOARD_POSY = 350.0f;    //木の板群が生成させるY軸の位置
+	constexpr static float CANERA_POSY = 400.0f;                //カメラのY軸の位置
+	constexpr static float WOODENBOARD_DROPY = 10.0f;           //木の板群の落とす位置を増やす値
+	constexpr static float WOODENBOARD_PLUSY = 0.12f;           //木の板群の落とす速度を増やす値
 
 
 	int m_nCreateWoodenBoradsCounter;            //生成する数

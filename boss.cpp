@@ -1,35 +1,36 @@
-//==========================================
+//=====================================
 //
 //ボスの処理[boss.cpp]
 //Auther:Haruki Chiba
 //
-//==========================================
+//=====================================
 
+
+//=====================================
 //インクルード
 #include "boss.h"
 #include "manager.h"
 #include <time.h>
 #include <iostream>
 
+
 //========================
 //コンストラクタ
 //========================
 CBoss::CBoss(int nPriority) : CCharacter(nPriority)
 {
-	CManager::GetInstance()->GetCreateObjectInstnace2D(CObject2D::TYPE::BOSSHP, 0);                                  //ボスのHPゲージの生成
+	CManager::GetInstance()->GetCreateObjectInstnace2D(CObject2D::TYPE::BOSSHP, 0); //ボスのHPゲージの生成
+	
+	m_nCoolTime = 0;                              //クールタイムの初期化
+	SetRandom(-1);                                //乱数の初期化
+	m_nSize = 0;                                  //配列数の初期化
+	m_nWhichSideNumber = INIT_WICHI_SIDE_NUMBER;  //どちらにいるかの初期化
 
-	SetLife(10);
-	SetFrame(0);             //フレームの初期化
-	m_nCoolTime = 0;         //クールタイムの初期化
-	SetRandom(-1);           //乱数の初期化
-	m_nSize = 0;             //配列数の初期化
-	m_nWhichSideNumber = -1; //どちらにいるかの初期化
-
-	m_nSaveData.clear();
-	m_nDataX.clear();       //ｘ軸の位置の初期化
-	m_nDataY.clear();       //ｙ軸の位置の初期化
-
-	m_bOneCreateFlag = false;
+	m_nSaveData.clear();                          //保管用ベクターの初期化
+	m_nDataX.clear();                             //ｘ軸の位置の初期化
+	m_nDataY.clear();                             //ｙ軸の位置の初期化
+							                      
+	m_bOneCreateFlag = false;                     //生成フラグの初期化
 }
 
 //========================
@@ -37,15 +38,17 @@ CBoss::CBoss(int nPriority) : CCharacter(nPriority)
 //========================
 CBoss::~CBoss()
 {
-	//vector配列の初期化
-	m_nSaveData.clear();
-	m_nSaveData.shrink_to_fit();
+	//保管用ベクターの破棄
+	m_nSaveData.clear();         //情報を消す
+	m_nSaveData.shrink_to_fit(); //情報を無くす
 
-	m_nDataX.clear();
-	m_nDataX.shrink_to_fit();
+	//X軸用のベクターの破棄
+	m_nDataX.clear();            //情報を消す
+	m_nDataX.shrink_to_fit();    //情報を無くす
 
-	m_nDataY.clear();
-	m_nDataY.shrink_to_fit();
+	//Y軸用のベクターの破棄
+	m_nDataY.clear();            //情報を消す
+	m_nDataY.shrink_to_fit();    //情報を無くす
 }
 
 
@@ -54,7 +57,7 @@ CBoss::~CBoss()
 //========================
 HRESULT CBoss::Init()
 {
-	//軸の初期化
+	//ベクターの最大数分回す
 	for (int nCount = 0; nCount < MAX_VECTOR_SIZE; nCount++)
 	{
 		m_nSaveData.push_back((float)nCount); //nCountをfloat型にcastして代入する
@@ -65,9 +68,8 @@ HRESULT CBoss::Init()
 
 	CCharacter::Init();                       //初期化
 	CCharacter::LoodBoss();                   //ｘファイルの読み込み
-	//CCharacter::UpdateBoss();               //モーションの情報を更新する
 	CCharacter::SetMotionBoss(BOSSJUMP);      //モーションの初期設定
-	return S_OK; ///成功を返す
+	return S_OK;                              //成功を返す
 }
 
 
@@ -97,19 +99,18 @@ void CBoss::Update()
 	//ボスが死んだ時
 	else if (CManager::GetInstance()->GetBossHPGage()->GetSaveSizeX() <= 0)
 	{
-		GetDieFrame()++;                                                        //死亡カウントを増やす
-		SetMotionBoss(CCharacter::BOSSMOTIONSTATE::BOSSDIE);                  //モーションの種類を設定
+		SetAddjustDieFrame()++;                                                     //死亡カウントを増やす
+		SetMotionBoss(CCharacter::BOSSMOTIONSTATE::BOSSDIE);                        //モーションの種類を設定
 		CManager::GetInstance()->DesignationUninitXEnemy(CObjectX::TYPE::BOSS, 0);  //ボスの（自身）インスタンスの情報を無くす
 
-		if (GetDieFrame() >= 180)
+		//frameが規定値以上の時
+		if (GetDieFrame() >= DIE_FRAME)
 		{
-			CManager::SetMode(CScene::MODE::MODE_RESULT); //初めのシーンを設定
+			CManager::SetMode(CScene::MODE::MODE_RESULT); //リザルトへ移行
 		}
 	}
 
 	CObjectX::Update();      //基底クラスの基底クラスでm_moveを更新
-
-	
 }
 
 
@@ -121,18 +122,20 @@ void CBoss::Collision()
 	//右側にいる時
 	if (CollisionRightSelectPlayer(CManager::GetInstance()->GetFinalBlock()) == true)
 	{
-		if (m_nWhichSideNumber == -1)
+		//左右ナンバーがー１の時
+		if (m_nWhichSideNumber == INIT_WICHI_SIDE_NUMBER)
 		{
-			m_nWhichSideNumber = 1;	
+			m_nWhichSideNumber = WICHI_SIDE_RIGHT_NUMBER; //番号を設定
 		}
 	}
 
 	//左側にいる時
 	else if (CollisionLeftSelectPlayer(CManager::GetInstance()->GetFinalBlock()) == true)
 	{
-		if (m_nWhichSideNumber == -1)
+		//左右ナンバーがー１の時
+		if (m_nWhichSideNumber == INIT_WICHI_SIDE_NUMBER)
 		{
-			m_nWhichSideNumber = 0;
+			m_nWhichSideNumber = WICHI_SIDE_LEFT_NUMBER; //番号を設定
 		}
 	}
 
@@ -198,12 +201,12 @@ void CBoss::StatusInit()
 	std::copy(m_nSaveData.begin(), m_nSaveData.end(), std::back_inserter(m_nDataY)); //ｙ軸用の位置の初期化
 
 	//メンバ変数の初期化
-	SetFrame(0);                //フレームの初期化
-	m_nCoolTime = 0;            //クールタイムの初期化
-	SetRandom(-1);              //ランダム数の初期化
-	m_nSize = 0;                //vectorの配列数を初期化
-	m_nWhichSideNumber = -1;    //左右のどちらに居るかの初期化
-	m_bOneCreateFlag = false;   //衝撃波を出すフラグの初期化
+	SetFrame(0);                                   //フレームの初期化
+	m_nCoolTime = 0;                               //クールタイムの初期化
+	SetRandom(-1);                                 //ランダム数の初期化
+	m_nSize = 0;                                   //vectorの配列数を初期化
+	m_nWhichSideNumber = INIT_WICHI_SIDE_NUMBER;   //左右のどちらに居るかの初期化
+	m_bOneCreateFlag = false;                      //衝撃波を出すフラグの初期化
 }
 
 
@@ -310,12 +313,12 @@ void CBoss::AttackPattern001()
 	{
 		GetPos().y -= PopY() * 0.25f;
 
-		if (m_nWhichSideNumber == 0)
+		if (m_nWhichSideNumber == WICHI_SIDE_LEFT_NUMBER)
 		{
 			GetRot().y = 1.57f;
 			GetMove().x -= PopX() *0.1f;
 		}
-		else if (m_nWhichSideNumber == 1)
+		else if (m_nWhichSideNumber == WICHI_SIDE_RIGHT_NUMBER)
 		{
 			GetRot().y = -1.57f;
 			GetMove().x += PopX() * 0.1f;

@@ -118,7 +118,7 @@ public:
 	constexpr static int MAX_OBJECT_DATA = 20;    //オブジェクトの最大数
 	constexpr static int MAX_STAGEOBJECT = 20;    //ステージに置く用の配列の最大数
 	constexpr static int MAX_BREAKHOUSE = 10;     //ステージに置く用の配列の最大数
-	constexpr static int MAX_RUBBLE = 30;         //瓦礫の最大数
+	constexpr static int MAX_RUBBLE = 35;         //瓦礫の最大数
 	constexpr static int MAX_ENEMY = 25;          //敵の最大数
 
 	//インライン展開

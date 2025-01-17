@@ -676,3 +676,11 @@ CWoodenBorad::~CWoodenBorad()
 {
 
 }
+
+//============================
+//更新処理
+//============================
+void CWoodenBorad::Update()
+{
+	CObjectX::Update(); //更新処理
+}

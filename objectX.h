@@ -106,7 +106,10 @@ public://外部からのアクセス可能
 
 	//==================================================
 	//情報の値を計して設定
-	int& SetAddjustLife() { return m_nLife; }                          //ライフの値を変更したいときの設定
+	inline D3DXVECTOR3& SetAddjustMove() { return m_move; }  //派生クラスのrotの情報を返す関数
+
+	inline int& SetAddjustLife() { return m_nLife; }         //ライフの値を変更したいときの設定
+	inline int& SetAddjustDieFrame() { return m_nDieFrame; } //死亡時のフレームを観測する用の情報を取得
 
 
 	//==================================================

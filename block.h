@@ -165,8 +165,8 @@ private:
 class CFiledBlock : public  CManagerBlock
 {
 public:
-	CFiledBlock(int nPriority = DEFAULT_PRIORITY1);            //コンストラクタ
-	~CFiledBlock()override;   //デストラクタ
+	CFiledBlock(int nPriority = DEFAULT_PRIORITY1); //コンストラクタ
+	~CFiledBlock()override;                         //デストラクタ
 };
 
 
@@ -175,8 +175,8 @@ public:
 class CGoUpBlock : public CManagerBlock
 {
 public:
-	CGoUpBlock(int nPriority = DEFAULT_PRIORITY1);           //コンストラクタ
-	~CGoUpBlock()override;  //デストラクタ
+	CGoUpBlock(int nPriority = DEFAULT_PRIORITY1); //コンストラクタ
+	~CGoUpBlock()override;                         //デストラクタ
 };
 
 
@@ -185,8 +185,8 @@ public:
 class CRoadBlock : public CManagerBlock
 {
 public:
-	CRoadBlock(int nPriority = DEFAULT_PRIORITY1);           //コンストラクタ
-	~CRoadBlock()override;  //デストラクタ
+	CRoadBlock(int nPriority = DEFAULT_PRIORITY1); //コンストラクタ
+	~CRoadBlock()override;                         //デストラクタ
 };
 
 
@@ -195,8 +195,8 @@ public:
 class CWallRoadBlock : public CManagerBlock
 {
 public:
-	CWallRoadBlock(int nPriority = DEFAULT_PRIORITY1);           //コンストラクタ
-	~CWallRoadBlock()override; //デストラクタ
+	CWallRoadBlock(int nPriority = DEFAULT_PRIORITY1); //コンストラクタ
+	~CWallRoadBlock()override;                         //デストラクタ
 };
 
 
@@ -205,8 +205,8 @@ public:
 class CSmallBlock : public CManagerBlock
 {
 public:
-	CSmallBlock(int nPriority = DEFAULT_PRIORITY1);           //コンストラクタ
-	~CSmallBlock()override;  //デストラクタ
+	CSmallBlock(int nPriority = DEFAULT_PRIORITY1);//コンストラクタ
+	~CSmallBlock()override;                        //デストラクタ
 };
 
 
@@ -215,8 +215,8 @@ public:
 class CUpWallBlock : public CManagerBlock
 {
 public:
-	CUpWallBlock(int nPriority = DEFAULT_PRIORITY1);           //コンストラクタ
-	~CUpWallBlock()override;  //デストラクタ
+	CUpWallBlock(int nPriority = DEFAULT_PRIORITY1); //コンストラクタ
+	~CUpWallBlock()override;                         //デストラクタ
 };
 
 
@@ -225,8 +225,8 @@ public:
 class CSpaceBattleShip000 : public CManagerBlock
 {
 public:
-	CSpaceBattleShip000(int nPriority = DEFAULT_PRIORITY1);           //コンストラクタ
-	~CSpaceBattleShip000()override;  //デストラクタ
+	CSpaceBattleShip000(int nPriority = DEFAULT_PRIORITY1); //コンストラクタ
+	~CSpaceBattleShip000()override;                         //デストラクタ
 };
 
 
@@ -235,8 +235,8 @@ public:
 class CScaffold : public CManagerBlock
 {
 public:
-	CScaffold(int nPriority = DEFAULT_PRIORITY1);           //コンストラクタ
-	~CScaffold()override;  //デストラクタ
+	CScaffold(int nPriority = DEFAULT_PRIORITY1); //コンストラクタ
+	~CScaffold()override;                         //デストラクタ
 };
 
 
@@ -245,8 +245,8 @@ public:
 class CCeiling : public CManagerBlock
 {
 public:
-	CCeiling(int nPriority = DEFAULT_PRIORITY1);           //コンストラクタ
-	~CCeiling()override;  //デストラクタ
+	CCeiling(int nPriority = DEFAULT_PRIORITY1); //コンストラクタ
+	~CCeiling()override;                         //デストラクタ
 };
 
 
@@ -255,6 +255,7 @@ public:
 class CWoodenBorad : public CManagerBlock
 {
 public:
-	CWoodenBorad(int nPriority = DEFAULT_PRIORITY1);           //コンストラクタ
-	~CWoodenBorad()override;	 //デストラクタ
+	CWoodenBorad(int nPriority = DEFAULT_PRIORITY1); //コンストラクタ
+	~CWoodenBorad()override;	                     //デストラクタ
+	void Update()override;                           //更新処理
 };

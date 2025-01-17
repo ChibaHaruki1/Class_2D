@@ -83,7 +83,7 @@ void CEvent::Update()
 
 
 //============================
-//プレイヤーの必殺技
+//ボス戦の演出処理
 //============================
 void CEvent::BossDirection()
 {
@@ -133,7 +133,7 @@ void CEvent::DropObj()
 		if (CManager::GetInstance()->GetWoodenBoard(nCount)->GetPos().y >= m_fDropPosY[nCount])
 		{
 			m_fDropSpeed[nCount] += WOODENBOARD_PLUSY;                                             //落とす速度を増やす
-			CManager::GetInstance()->GetWoodenBoard(nCount)->GetMove().y -= m_fDropSpeed[nCount];  //木の板群を落とす
+			CManager::GetInstance()->GetWoodenBoard(nCount)->SetAddjustMove().y -= m_fDropSpeed[nCount];  //木の板群を落とす
 		}
 
 		//生成した木の板群の位置が設定した位置より小さい時
@@ -164,13 +164,13 @@ void CEvent::DropMeteorite()
 void CEvent::CreateEnemy()
 {
 	//プレイヤーが特定の場所へ行った時
-	if (CManager::GetScene()->GetPlayerX()->GetPos().x >= 9500.0f)
+	if (CManager::GetScene()->GetPlayerX()->GetPos().x >= CREATE_MOTIONINENEMY_POSX)
 	{
 		//生成フラグがOffの時
 		if (m_bOneCreate == false)
 		{
-			CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::ENEMYINMOTION001, 0, D3DXVECTOR3(9500.0f, 5000.0f, 0.0f));  //モーション付きの敵の生成
-			CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::ENEMYINMOTION001, 0, D3DXVECTOR3(10000.0f, 5000.0f, 0.0f)); //モーション付きの敵の生成
+			CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::ENEMYINMOTION001, 0, D3DXVECTOR3(CREATE_MOTIONINENEMY_POSX, 5000.0f, 0.0f));        //モーション付きの敵の生成
+			CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::ENEMYINMOTION001, 0, D3DXVECTOR3(CREATE_MOTIONINENEMY_POSX+500.0f, 5000.0f, 0.0f)); //モーション付きの敵の生成
 			m_bOneCreate = true; //Onにさせる
 		}
 	}

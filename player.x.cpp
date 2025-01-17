@@ -92,7 +92,7 @@ HRESULT CPlayerX::Init()
 	CCharacter::SetMotion(WALK);                                              //モーションの設定
 	SetRot(D3DXVECTOR3(0.0f, D3DX_PI * -0.5f, 0.0f));                         //向きの調整（右向き）
 	m_pModelPrts[18]->SetDraw(false);                                         //パーツの銃部分を非表示に設定
-	SetPos(D3DXVECTOR3(000.0f,0.0f,0.0f));                                   //位置の調整
+	SetPos(D3DXVECTOR3(3000.0f,0.0f,0.0f));                                   //位置の調整
 	CManager::GetSound()->PlaySound(CSound::SOUND_LABEL::SOUND_LABEL_NORMALBGM);  //BDMを流す
 	SetLife(1);                                                               //自身のライフ
 	return S_OK;                                                              //成功を返す
