@@ -100,6 +100,7 @@ CManagerEnemy* CManagerEnemy::Create(D3DXVECTOR3 pos, CObjectX::TYPE type)
 		if (SUCCEEDED(pManagerEnemy->Init()))
 		{
 			pManagerEnemy->SetFileName("data\\XFILE\\ENEMY\\Enemy001.x"); //ファイルパスの設定
+			pManagerEnemy->SetLife(CEnemy001X::MAX__ENEMY001_LIFE);       //ライフの設定
 		}
 	}
 
@@ -147,7 +148,7 @@ void CEnemyX::Update()
 	if (CollisionPlayerSelect(this) == true)
 	{
 		//プレイヤーのHPを減らす
-		CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() -= CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() * CManagerBossEffect::MAX_DAMAGE;
+		CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() -= CManagerGage::MAX_PLAYER_HP_SIZE * CManagerBossEffect::MAX_DAMAGE;
 	}
 
 	//ライフが尽きた時
@@ -197,7 +198,7 @@ void CEnemy001X::Update()
 	if (CollisionPlayerSelect(this) == true)
 	{
 		//プレイヤーのHPを削る
-		CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() -= CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() * MAX_DAMAGE;
+		CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() -= CManagerGage::MAX_PLAYER_HP_SIZE * CManagerBossEffect::MAX_DAMAGE;
 	}
 
 	//ライフが尽きた時

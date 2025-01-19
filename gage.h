@@ -27,6 +27,8 @@ public:
 	static CFuelGage* Create();                           //生成処理
 
 	inline bool& GetUse() { return m_bUse; }              //使われているかどうかの判定を取得する
+	inline bool& GetChage() { return m_bCharge; }         //チャージが完了しているどうかの判定を取得する
+
 private:
 	//マクロ定義
 	constexpr static int RED = 255;          //赤色
@@ -43,6 +45,7 @@ private:
 	constexpr static float ADDJUST_POSX = 50.0f;          //X軸の位置の調整値
 	constexpr static float ADDJUST_POSY = 80.0f;          //Y軸の位置の調整値
 	constexpr static float MAX_MAINAS_GAGESPEED = 0.5f;   //ゲージの減る速さ
+	constexpr static float MAX_PLUS_GAGESPEED = 0.5f;     //ゲージの増える速さ
 	constexpr static float MAX_PLUS_PLAYER_MOVE = 1.0f;   //プレイヤー移動量の増える速さ
 	constexpr static float MAX_PLAYER_GRAVITY = 1.0f;     //プレイヤーの重力の限界値
 
@@ -75,6 +78,12 @@ public:  //アクセス可能
 	float& GetBossHPSizeX() { return m_fBossHPSizeX; }        //ボスのHPゲージを取得
 	float& GetSaveSizeX() { return m_fSaveSizeX; }            //ゲージの保管を取得
 
+
+	//========================
+	//マクロ定義
+	constexpr static float MAX_PLAYER_HP_SIZE = 400.0f;   //プレイヤーのゲージ最大数
+
+
 protected://継承クラスのみアクセス可能
 	float m_fSaveSizeX;
 
@@ -85,8 +94,6 @@ protected://継承クラスのみアクセス可能
 	constexpr static float MAX_PLAYERGAGE_SIZE_Z = 70.0f; //プレイヤーのゲージのZ軸の大きさ
 
 private:  //アクセス不可能
-	//マクロ定義
-	constexpr static float MAX_PLAYER_HP_SIZE = 400.0f;   //プレイヤーのゲージ最大数
 
 	float m_fHPSizeX;      //プレイヤーのHPゲージの大きさを管理する用の変数
 	float m_fBossHPSizeX;  //ボスのHPゲージの大きさを管理する用の変数
@@ -105,7 +112,7 @@ public:
 
 private:
 	//マクロ定義
-	constexpr static float MINUS_HPSIZEX = 1.3f;       //HPゲージの減算値
+	constexpr static float MINUS_HPSIZEX = 1.8f;       //HPゲージの減算値
 };
 	
 

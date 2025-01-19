@@ -29,7 +29,6 @@ public: //アクセス可能
 	void Update()override;                                       //更新処理
 	void Draw()override;                                         //描画処理
 	//void ObjectArrangement();                                  //オブジェクトの配置処理（生成＆情報をファイルに書き込む）
-	void ObjectArrangementTelephonPole();                        //電柱の配置処理（生成＆情報をファイルに書き込む
 	void KeySet();                                               //キーごとの処理をまとめる関数
 	void ShopKeySet();                                           //モードがSHOP時のキーごとの処理をまとめる関数
 	void BlockJudgement();                                       //ブロックとの判定
@@ -99,7 +98,7 @@ private: //アクセス不可能
 
 	//==========================================
 	//パーティクルに関する変数
-	int m_nFrame;                //毎フレームを観測する為の変数
+	int m_nFrameParticle;        //毎フレームを観測する為の変数
 	int m_nPraticlesCount;       //パーティクルの配列をカウントする為の変数
 	int m_nRandomCol;            //乱数を保管する為の変数
 
@@ -132,8 +131,18 @@ private: //アクセス不可能
 	//==========================================
 	//マクロ定義
 	constexpr static int   MAX_TEXT_OBJECT = 1;             //今配置ツールに設定されてるオブジェクトの数ー１（０スタートだから）
-	constexpr static int   MAX_BUULET_SPEED = 30;           //必殺技の撃てる時間
+	constexpr static int   MAX_BUULET_SPEED = 30;           //弾の速さ
+	constexpr static int   MAX_DIE_COUNT = 180;             //死亡時のカウント
+	constexpr static int   ADDJUST_SELECT_SIZEY = 160;      //選択ゲージのY軸の位置を加算する値
+
+	//ぶっ飛び処理時マクロ定義
+	constexpr static int   BLOWAWAY_FRAME_1 = 40;           //第一行動時のフレーム
+	constexpr static int   BLOWAWAY_FRAME_2 = 90;           //第二行動時のフレーム
+	constexpr static float   BLOWAWAY_PLUS_POS_X = 20.0f;   //X軸の飛ぶ距離
+	constexpr static float   BLOWAWAY_PLUS_POS_Y = 30.0f;   //Y軸の飛ぶ距離
+
+
 	constexpr static float MAX_JUMPPAWER = 10.0f;           //飛ぶ力
-	constexpr static float MAX_SPECIALATTACKCOUNT = 60*0;  //必殺技のリキャストタイム
+	constexpr static float MAX_SPECIALATTACKCOUNT = 60*0;   //必殺技のリキャストタイム
 };
 

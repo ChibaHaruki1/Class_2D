@@ -116,7 +116,7 @@ void CFuelGage::Update()
 		//Y軸のサイズが最大値より低い
 		if (GetSizeY() < MAX_SIZEY)
 		{
-			SetAddjustSizeY() += MAX_MAINAS_GAGESPEED; //Y軸の大きさを増やす
+			SetAddjustSizeY() += MAX_PLUS_GAGESPEED;   //Y軸の大きさを増やす
 		}
 	}
 
@@ -128,7 +128,7 @@ void CFuelGage::Update()
 		//Y軸の大きさが規定値より小さい時
 		if (GetSizeY() < MAX_SIZEY)
 		{
-			SetAddjustSizeY() += MAX_MAINAS_GAGESPEED;            //Y軸の大きさを増やす
+			SetAddjustSizeY() += MAX_PLUS_GAGESPEED;              //Y軸の大きさを増やす
 		}
 
 		//Y軸の大きさが規定値以上の時

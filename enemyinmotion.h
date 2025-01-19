@@ -48,6 +48,10 @@ public: //アクセス可能
 	CEnemyInMotion(int nPriority = DEFAULT_PRIORITY1);   //コンストラクタ
 	~CEnemyInMotion()override;                           //デストラクタ
 	void Update() override;                              //更新処理
+
+private:
+	constexpr static int MAX_FRAME_BUULET = 60;          //弾を撃つまでの時間
+	constexpr static int MAX_FRAME_JUMP = 20;            //飛ぶまでの時間
 };
 
 
@@ -66,6 +70,15 @@ public: //アクセス可能
 
 
 private:
+	//マクロ定義
+	constexpr static int MAX_LIFE = 5;                                 //ライフの最大値
+	constexpr static int PLUS_SCORE = 2000;                            //スコアの加算値
+													                   
+	constexpr static float ADDJUST_PRTAS_ROTX = 0.01f;                 //パーツのX軸の向きを調整する値
+	constexpr static float ADDJUST_BULLET_ROTY = 0.3f;                 //弾のY軸の向きを調整する値
+	constexpr static float MULTIPLICATIOB_ADDJUST_BULLET_ROTY = 4.0f;  //弾のY軸の向きを調整する掛け算の値
+	constexpr static float IF_ADDJUST_BULLET_ROTY = 3.0f;              //弾のY軸の向きを調整する条件式の掛け算の値
+
 	int m_nHitFrame; //プレイヤーと当たった時のリキャストタイム
 	bool m_bHit;     //当たったかどうかの判定用変数
 };

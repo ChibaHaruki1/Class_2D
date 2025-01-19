@@ -5,20 +5,22 @@
 //
 //=========================================================================
 
+
 //==============================
 //インクルード
 #include "enemyinmotion.h"
 #include "manager.h"
 #include <time.h>
 
+
 //=============================
 //コンストラクタ
 //=============================
 CManagerEnemyInMotion::CManagerEnemyInMotion(int nPriority) : CEnemyCharacter(nPriority)
 {
-	m_nJumpFrame = 0;
-	JumpNumber = 0;
-	JumpRecastTime = 0;
+	m_nJumpFrame = 0;   //飛ぶまでの時間の初期化
+	JumpNumber = 0;     //飛ぶ番号の初期化
+	JumpRecastTime = 0; //飛ぶまでのリキャストタイムの初期化
 }
 
 //=============================
@@ -34,15 +36,16 @@ CManagerEnemyInMotion::~CManagerEnemyInMotion()
 //=============================
 HRESULT CManagerEnemyInMotion::Init()
 {
-	//頂点バッファ生成
+	//初期化に成功した時
 	if (FAILED(CObjectX::Init()))
 	{
-		return E_FAIL;
+		return E_FAIL;                           //失敗を返す
 	}
-	CEnemyCharacter::LoodEnemy(GetFileName());
-	CEnemyCharacter::SetMotionEnemy(ENEMYWALK);
 
-	return S_OK;
+	CEnemyCharacter::LoodEnemy(GetFileName());   //読み込むファイルパスを設定
+	CEnemyCharacter::SetMotionEnemy(ENEMYWALK);  //モーションの初期化
+
+	return S_OK;                                 //成功を返す
 }
 
 //==============================
@@ -50,7 +53,7 @@ HRESULT CManagerEnemyInMotion::Init()
 //==============================
 void CManagerEnemyInMotion::Uninit()
 {
-	CEnemyCharacter::Uninit();
+	CEnemyCharacter::Uninit(); //各パーツの破棄処理
 }
 
 //==============================
@@ -74,17 +77,20 @@ void CManagerEnemyInMotion::Draw()
 //==============================
 CManagerEnemyInMotion* CManagerEnemyInMotion::Create(D3DXVECTOR3 pos, CObjectX::TYPE type)
 {
-	CManagerEnemyInMotion* pEnemyInMotion = nullptr;
+	CManagerEnemyInMotion* pEnemyInMotion = nullptr; //基底クラスのポインター
 
+	//タイプがモーション付きの敵の時
 	if (type == CObjectX::TYPE::ENEMYINMOTION)
 	{
-		pEnemyInMotion = new CEnemyInMotion();
-		pEnemyInMotion->SetFileName("Enemy000");
+		pEnemyInMotion = new CEnemyInMotion();   //動的確保
+		pEnemyInMotion->SetFileName("Enemy000"); //ファイルパスの設定
 	}
+
+	//タイプがモーション付きの敵001の時
 	else if (type == CObjectX::TYPE::ENEMYINMOTION001)
 	{
-		pEnemyInMotion = new CEnemyInMotion001();
-		pEnemyInMotion->SetFileName("Enemy001");
+		pEnemyInMotion = new CEnemyInMotion001(); //動的確保
+		pEnemyInMotion->SetFileName("Enemy001");  //ファイルパスの設定
 	}
 
 	//情報がある時
@@ -93,7 +99,7 @@ CManagerEnemyInMotion* CManagerEnemyInMotion::Create(D3DXVECTOR3 pos, CObjectX::
 		//初期化に成功した時
 		if (SUCCEEDED(pEnemyInMotion->Init()))
 		{
-			pEnemyInMotion->GetPos() = pos; //位置の同期
+			pEnemyInMotion->SetPos(pos); //位置の同期
 			return pEnemyInMotion;       //情報を返す
 		}
 	}
@@ -111,7 +117,7 @@ CManagerEnemyInMotion* CManagerEnemyInMotion::Create(D3DXVECTOR3 pos, CObjectX::
 //=============================
 CEnemyInMotion::CEnemyInMotion(int nPriority) : CManagerEnemyInMotion(nPriority)
 {
-	GetRot().y = D3DX_PI*-0.5f;
+	SetAddjustRot().y -= D3DX_PI_ORI; //向きの設定
 }
 
 //=============================
@@ -129,20 +135,28 @@ void CEnemyInMotion::Update()
 {
 	CEnemyCharacter::UpdateEnemy001();                                                       //モーションの情報を更新する
 
+	//プレイヤーと当たっている時
 	if (CObjectX::CollisionPlayerInEnemy(this,4.0f)==true)
 	{
 		CEnemyCharacter::SetMotionEnemy(CEnemyCharacter::ENEMYMOTIONSTATE::ENEMYATTACK);     //モーションの種類を設定
 
-		GetFrame()++; //フレームを増やす
-		if (GetFrame()>= 60)
+		SetAddjustFrame()++; //フレームを増やす
+
+		//フレームが規定値より高い時	
+		if (GetFrame()>= MAX_FRAME_BUULET)
 		{
+			//弾の生成
 			CManagerBullet::Create(D3DXVECTOR3(this->GetPosPrtsEnemy(0).x, this->GetPosPrtsEnemy(0).y, this->GetPosPrtsEnemy(0).z), D3DXVECTOR3(-sinf(GetRot().y) * MAX_BUULET_SPEED, 0.0f, -cosf(GetRot().y) * MAX_BUULET_SPEED),
 				CManagerBullet:: SET_BULLET_LIFE, CObject3D::TYPE::ENEMYBULLET);
+
 			SetFrame(0); //フレームを０にする
 		}
 	}
+
+	//当たっていない時
 	else
 	{
+		//飛んでいない時
 		if (GetJumpFlag() == false)
 		{
 			CEnemyCharacter::SetMotionEnemy(CEnemyCharacter::ENEMYMOTIONSTATE::ENEMYWALK);  //モーションの種類を設定
@@ -158,26 +172,32 @@ void CEnemyInMotion::Update()
 		//地面用ブロックの情報がある時
 		if (CManager::GetInstance()->GetFiledBlock(nCount) != nullptr)
 		{
+			//飛ぶ
 			if (JumpNumber == -1)
 			{
 				//自機と地面用ブロックが当たったら
 				if (GetCollision() ->ColiisionBox1(GetPos(), CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), GetModelSize(), CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize() * 1.1f, GetMove()) == true)
 				{
+					//飛ぶ時のリキャストタイムが０以下の時
 					if (JumpRecastTime <= 0)
 					{
-						m_nJumpFrame++;
-						if (m_nJumpFrame >= 20)
-						{
-							SetJumpFlag(true);
+						m_nJumpFrame++; //飛ぶまでの時間を増やす
 
-							m_nJumpFrame = 0;
-							JumpNumber++;
+						//飛ぶまでの時間が規定値より高い時
+						if (m_nJumpFrame >= MAX_FRAME_JUMP)
+						{
+							SetJumpFlag(true); //飛ぶフラグをOnにする
+
+							m_nJumpFrame = 0;  //飛ぶまでの時間の初期化
+							JumpNumber++;      //飛ぶ番号の増加
 							return;            //処理を抜ける
 						}
 					}
+
+					//飛ぶ時間のリキャストタイムが０以上の時
 					else if (JumpRecastTime >= 0)
 					{
-						JumpRecastTime--;
+						JumpRecastTime--; //減らす
 					}
 
 				}
@@ -188,20 +208,22 @@ void CEnemyInMotion::Update()
 					{
 						GravityTogether(); //重力を同期させる
 
-						GetPos().y = CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize().y +
-							CManager::GetInstance()->GetFiledBlock(nCount)->GetPos().y;//y軸の位置を設定
+						//y軸の位置を設定
+						SetAddjustPos().y = CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize().y +
+							CManager::GetInstance()->GetFiledBlock(nCount)->GetPos().y;
 					}
 				}
 			}
 
+			//飛ばない
 			else if (JumpNumber == 0)
 			{
 				//自機と地面用ブロックが当たったら
 				if (GetCollision() ->ColiisionBox1(GetPos(), CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), GetModelSize(), CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize() * 1.0f, GetMove()) == true)
 				{
-					JumpRecastTime = 5;
-					JumpNumber = -1;
-					return;            //処理を抜ける
+					JumpRecastTime = 5; //リキャストタイムの設定
+					JumpNumber = -1;    //飛ぶ番号の次は飛ぶに設定
+					return;             //処理を抜ける
 				}
 				else
 				{
@@ -210,8 +232,9 @@ void CEnemyInMotion::Update()
 					{
 						GravityTogether(); //重力を同期させる
 
-						GetPos().y = CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize().y +
-							CManager::GetInstance()->GetFiledBlock(nCount)->GetPos().y;//y軸の位置を設定
+						//y軸の位置を設定
+						SetAddjustPos().y = CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize().y +
+							CManager::GetInstance()->GetFiledBlock(nCount)->GetPos().y;
 					}
 				}
 			}
@@ -232,10 +255,10 @@ void CEnemyInMotion::Update()
 //=============================
 CEnemyInMotion001::CEnemyInMotion001(int nPriority) : CManagerEnemyInMotion(nPriority)
 {
-	GetRot().y = D3DX_PI * -0.5f; //向きを設定（右向き）
-	m_nHitFrame = 0;
-	m_bHit = false;
-	SetLife(5);
+	GetRot().y = -D3DX_PI_ORI; //向きを設定（右向き）
+	m_nHitFrame = 0;           //当たった時にフレームの初期化
+	m_bHit = false;            //当たっていないに設定
+	SetLife(MAX_LIFE);         //ライフの設定
 }
 
 //=============================
@@ -255,6 +278,7 @@ void CEnemyInMotion001::Update()
 	//プレイヤーが判定の範囲内に来たら更新処理を実行する
 	if (CObjectX::CollisionPlayerInEnemy(this, 10.0f) == true)
 	{
+		//生きている時
 		if (GetLife() > 0)
 		{
 			CEnemyCharacter::UpdateEnemy001();                                                    //モーションの情報を更新する
@@ -264,13 +288,15 @@ void CEnemyInMotion001::Update()
 			{
 				CEnemyCharacter::SetMotionEnemy(CEnemyCharacter::ENEMYMOTIONSTATE::ENEMYATTACK);  //モーションの種類を設定
 
-				GetFrame()++;     //弾を撃つ際のフレームを増やす
+				SetAddjustFrame()++;     //弾を撃つ際のフレームを増やす
 
 				//フレームが規定数に達した時
 				if (GetFrame()>= 60)
 				{
+					//弾の生成
 					CManagerBullet::Create(D3DXVECTOR3(this->GetPosPrtsEnemy(4).x + 100.0f, this->GetPosPrtsEnemy(4).y + 30.0f, this->GetPosPrtsEnemy(4).z), D3DXVECTOR3(-sinf(GetRot().y) * MAX_BUULET_SPEED, 0.0f, -cosf(GetRot().y) * MAX_BUULET_SPEED),
 						CManagerBullet::SET_BULLET_LIFE, CObject3D::TYPE::ENEMYBULLET);
+
 					SetFrame(0); //フレームを０にする
 				}
 
@@ -279,16 +305,14 @@ void CEnemyInMotion001::Update()
 				{
 					m_bHit = true; //当たった判定をOnにする
 				}
-
-				//AdjustmentBulletAndRot(); //プレイヤーに対する機体と弾の調整処理を呼ぶ
 			}
 
 			//プレイヤーと当たってない時
 			else
 			{
 				//向きの初期化
-				m_pModelPrtsEnemy[0]->GetRot().x = 0.0f;
-				CEnemyBullet::SetAdditionPosY(CEnemyBullet::MINUS_ROTY);
+				m_pModelPrtsEnemy[0]->GetRot().x = 0.0f;                  //パーツの向きの初期化
+				CEnemyBullet::SetAdditionPosY(CEnemyBullet::MINUS_ROTY);  //弾の向きの初期化
 
 				//飛んでいないとき
 				if (GetJumpFlag() == false)
@@ -314,80 +338,94 @@ void CEnemyInMotion001::Update()
 			CObjectX::Update();                  //move値の更新
 		}
 
+		//死んだ時
 		else if (GetLife() <= 0)
 		{
-			GetDieFrame()++;
+			SetAddjustDieFrame()++; //死亡フレームを増やす
+
 			srand((unsigned)time(NULL));  //乱数系列を初期化
+
+			//第一行動
 			if (GetDieFrame() <= 1)
 			{
-				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::EXPLOSION, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));         //爆発エフェクトを呼ぶ（1つ目）
-				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::EXPLOSION001, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));      //爆発エフェクトを呼ぶ（2つ目）
+				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::EXPLOSION, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));    //爆発エフェクトを呼ぶ（1つ目）
+				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::EXPLOSION001, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f)); //爆発エフェクトを呼ぶ（2つ目）
 
-				CManager::GetInstance()->GetExplosion()->SetSize(200.0f, 200.0f, 0.0f);                                           //爆発エフェクトの位置を設定
-				CManager::GetInstance()->GetExplosion001()->SetSize(200.0f, 200.0f, 0.0);                                         //爆発エフェクトの位置を設定
+				CManager::GetInstance()->GetExplosion()->SetSize(200.0f, 200.0f, 0.0f);                                            //爆発エフェクトの位置を設定
+				CManager::GetInstance()->GetExplosion001()->SetSize(200.0f, 200.0f, 0.0);                                          //爆発エフェクト001の位置を設定
 
-				CManager::GetInstance()->GetExplosion()->SetEffect(GetPos());                                                        //爆発エフェクトの位置を設定
-				CManager::GetInstance()->GetExplosion001()->SetEffect(GetPos());
+				CManager::GetInstance()->GetExplosion()->SetEffect(GetPos());                                                      //爆発エフェクトの位置を設定
+				CManager::GetInstance()->GetExplosion001()->SetEffect(GetPos());                                                   //爆発エフェクト001の位置を設定
 			}
+
+			//第二行動
 			else if (GetDieFrame() <= 20)
 			{
 
 			}
 
+			//第三行動
 			else if (GetDieFrame() <= 21)
 			{
 				SetRandom(-100 + rand() % 200);
 
-				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::EXPLOSION, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));         //爆発エフェクトを呼ぶ（1つ目）
-				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::EXPLOSION001, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));      //爆発エフェクトを呼ぶ（2つ目）
+				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::EXPLOSION, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));    //爆発エフェクトを呼ぶ（1つ目）
+				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::EXPLOSION001, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f)); //爆発エフェクトを呼ぶ（2つ目）
 
-				CManager::GetInstance()->GetExplosion()->SetSize(200.0f, 200.0f, 0.0f);                                           //爆発エフェクトの位置を設定
-				CManager::GetInstance()->GetExplosion001()->SetSize(200.0f, 200.0f, 0.0);                                         //爆発エフェクトの位置を設定
+				CManager::GetInstance()->GetExplosion()->SetSize(200.0f, 200.0f, 0.0f);                                            //爆発エフェクトの位置を設定
+				CManager::GetInstance()->GetExplosion001()->SetSize(200.0f, 200.0f, 0.0);                                          //爆発エフェクト001の位置を設定
 
-				CManager::GetInstance()->GetExplosion()->SetEffect(D3DXVECTOR3(GetPos().x + GetRandom(), GetPos().y + GetRandom(), GetPos().z));                                                        //爆発エフェクトの位置を設定
-				CManager::GetInstance()->GetExplosion001()->SetEffect(D3DXVECTOR3(GetPos().x + GetRandom(), GetPos().y + GetRandom(), GetPos().z));
+				CManager::GetInstance()->GetExplosion()->SetEffect(D3DXVECTOR3(GetPos().x + GetRandom(), GetPos().y + GetRandom(), GetPos().z));    //爆発エフェクトの位置を設定
+				CManager::GetInstance()->GetExplosion001()->SetEffect(D3DXVECTOR3(GetPos().x + GetRandom(), GetPos().y + GetRandom(), GetPos().z)); //爆発エフェクト001の位置を設定
 			}
 
+			//第四行動
 			else if (GetDieFrame() <= 40)
 			{
 
 			}
+
+			//第五行動
 			else if (GetDieFrame() <= 41)
 			{
 				SetRandom(-100 + rand() % 200);
-				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::EXPLOSION, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));         //爆発エフェクトを呼ぶ（1つ目）
-				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::EXPLOSION001, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));      //爆発エフェクトを呼ぶ（2つ目）
+				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::EXPLOSION, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));     //爆発エフェクトを呼ぶ（1つ目）
+				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::EXPLOSION001, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));  //爆発エフェクトを呼ぶ（2つ目）
 
-				CManager::GetInstance()->GetExplosion()->SetSize(200.0f, 200.0f, 0.0f);                                           //爆発エフェクトの位置を設定
-				CManager::GetInstance()->GetExplosion001()->SetSize(200.0f, 200.0f, 0.0);                                         //爆発エフェクトの位置を設定
+				CManager::GetInstance()->GetExplosion()->SetSize(200.0f, 200.0f, 0.0f);                                             //爆発エフェクトの位置を設定
+				CManager::GetInstance()->GetExplosion001()->SetSize(200.0f, 200.0f, 0.0);                                           //爆発エフェクトの位置を設定
 
-				CManager::GetInstance()->GetExplosion()->SetEffect(D3DXVECTOR3(GetPos().x + GetRandom(), GetPos().y + GetRandom(), GetPos().z));                                                        //爆発エフェクトの位置を設定
-				CManager::GetInstance()->GetExplosion001()->SetEffect(D3DXVECTOR3(GetPos().x + GetRandom(), GetPos().y + GetRandom(), GetPos().z));
+				CManager::GetInstance()->GetExplosion()->SetEffect(D3DXVECTOR3(GetPos().x + GetRandom(), GetPos().y + GetRandom(), GetPos().z));    //爆発エフェクトの位置を設定
+				CManager::GetInstance()->GetExplosion001()->SetEffect(D3DXVECTOR3(GetPos().x + GetRandom(), GetPos().y + GetRandom(), GetPos().z)); //爆発エフェクト001の位置を設定
 			}
 
+			//第六行動
 			else if (GetDieFrame() <= 60)
 			{
 
 			}
+
+			//第七行動
 			else if (GetDieFrame() <= 61)
 			{
 
 				SetRandom(-100 + rand() % 200);
-				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::EXPLOSION, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));         //爆発エフェクトを呼ぶ（1つ目）
-				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::EXPLOSION001, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));      //爆発エフェクトを呼ぶ（2つ目）
+				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::EXPLOSION, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));    //爆発エフェクトを呼ぶ（1つ目）
+				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::EXPLOSION001, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f)); //爆発エフェクトを呼ぶ（2つ目）
 
-				CManager::GetInstance()->GetExplosion()->SetSize(250.0f, 250.0f, 0.0f);                                           //爆発エフェクトの位置を設定
-				CManager::GetInstance()->GetExplosion001()->SetSize(250.0f, 250.0f, 0.0);                                         //爆発エフェクトの位置を設定
+				CManager::GetInstance()->GetExplosion()->SetSize(250.0f, 250.0f, 0.0f);                                            //爆発エフェクトの位置を設定
+				CManager::GetInstance()->GetExplosion001()->SetSize(250.0f, 250.0f, 0.0);                                          //爆発エフェクトの位置を設定
 
-				CManager::GetInstance()->GetExplosion()->SetEffect(D3DXVECTOR3(GetPos().x + GetRandom(), GetPos().y + GetRandom(), GetPos().z));                                                        //爆発エフェクトの位置を設定
-				CManager::GetInstance()->GetExplosion001()->SetEffect(D3DXVECTOR3(GetPos().x + GetRandom(), GetPos().y + GetRandom(), GetPos().z));
+				CManager::GetInstance()->GetExplosion()->SetEffect(D3DXVECTOR3(GetPos().x + GetRandom(), GetPos().y + GetRandom(), GetPos().z));    //爆発エフェクトの位置を設定
+				CManager::GetInstance()->GetExplosion001()->SetEffect(D3DXVECTOR3(GetPos().x + GetRandom(), GetPos().y + GetRandom(), GetPos().z)); //爆発エフェクト001の位置を設定
 			}
 
+			//終了
 			else
 			{
-				CManager::GetInstance()->GetGameScore()->AddScore(2000);                                                          //スコアを加算
-				CObjectX::Release();
-				return;
+				CManager::GetInstance()->GetGameScore()->AddScore(PLUS_SCORE);  //スコアを加算
+				CObjectX::Release();                                            //自身を削除
+				return;                                                         //処理を抜ける
 			}
 		}
 	}
@@ -398,7 +436,7 @@ void CEnemyInMotion001::Update()
 //===============================================
 void CEnemyInMotion001::PlayerBloWwaway()
 {
-	m_nHitFrame++;  //当たった
+	m_nHitFrame++;  //当たったフレームを増やす
 
 	//Hitframeが既定値へいった時
 	if (m_nHitFrame <= 20)
@@ -435,15 +473,15 @@ void CEnemyInMotion001::AdjustmentBulletAndRot()
 		//プレイヤーの向きが左向きの時
 		if (CManager::GetScene()->GetPlayerX()->GetRotNumber()==1)
 		{
-			m_pModelPrtsEnemy[0]->GetRot().x += 0.01f;
-			CEnemyBullet::SetAddjustAdditionPosY() -= 0.3f;
+			m_pModelPrtsEnemy[0]->GetRot().x += ADDJUST_PRTAS_ROTX;         //パーツのX軸の向きを加算する
+			CEnemyBullet::SetAddjustAdditionPosY() -= ADDJUST_BULLET_ROTY;  //弾のX軸の向きを減算する
 		}
 
 		//プレイヤーの向きが右向きの時
 		if (CManager::GetScene()->GetPlayerX()->GetRotNumber() == 2)
 		{
-			m_pModelPrtsEnemy[0]->GetRot().x -= 0.01f;
-			CEnemyBullet::SetAddjustAdditionPosY() += 0.3f;
+			m_pModelPrtsEnemy[0]->GetRot().x -= ADDJUST_PRTAS_ROTX;        //パーツのX軸の向きを減算する
+			CEnemyBullet::SetAddjustAdditionPosY() += ADDJUST_BULLET_ROTY; //弾のX軸の向きを加算する
 		}
 	}
 
@@ -453,15 +491,15 @@ void CEnemyInMotion001::AdjustmentBulletAndRot()
 		//プレイヤーの向きが左向きの時
 		if (CManager::GetScene()->GetPlayerX()->GetRotNumber() == 1)
 		{
-			m_pModelPrtsEnemy[0]->GetRot().x -= 0.01f; //
-			CEnemyBullet::SetAddjustAdditionPosY() += 0.3f;
+			m_pModelPrtsEnemy[0]->GetRot().x -= ADDJUST_PRTAS_ROTX;        //パーツのX軸の向きを減算する
+			CEnemyBullet::SetAddjustAdditionPosY() += ADDJUST_BULLET_ROTY; //弾のX軸の向きを加算する
 		}
 
 		//プレイヤーの向きが右向きの時
 		if (CManager::GetScene()->GetPlayerX()->GetRotNumber() == 2)
 		{
-			m_pModelPrtsEnemy[0]->GetRot().x += 0.01f;
-			CEnemyBullet::SetAddjustAdditionPosY() -= 0.3f;
+			m_pModelPrtsEnemy[0]->GetRot().x += ADDJUST_PRTAS_ROTX;        //パーツのX軸の向きを加算する
+			CEnemyBullet::SetAddjustAdditionPosY() -= ADDJUST_BULLET_ROTY; //弾のX軸の向きを減算する
 		}
 	}
 
@@ -476,64 +514,80 @@ void CEnemyInMotion001::WhenCollisionBlock()
 	//地面用のブロックの生成数分回す
 	for (int nCount = 0; nCount < CManager::GetInstance()->GetFieldBlockCount() + 1; nCount++)
 	{
-		//地面用ブロックの情報がある時
-		if (CManager::GetInstance()->GetFiledBlock(nCount) != nullptr)
+		//敵の最大パーツ数分回す
+		for (int nEnemyCount = 0; nEnemyCount < MAX_ENEMYPARTS; nEnemyCount++)
 		{
-			if (JumpNumber == -1)
+			//地面用ブロックの情報がある時
+			if (CManager::GetInstance()->GetFiledBlock(nCount) != nullptr)
 			{
-				//自機と地面用ブロックが当たったら
-				if (GetCollision() ->ColiisionBox1(GetPos(), CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), GetModelSize(), CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize() * 1.1f, GetMove()) == true)
+				//飛ぶ
+				if (JumpNumber == -1)
 				{
-					if (JumpRecastTime <= 0)
+					//自機と地面用ブロックが当たったら
+					if (GetCollision()->ColiisionBox1(GetPos(), CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), GetModelSize(), CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize() * 1.1f, GetMove()) == true)
 					{
-						m_nJumpFrame++;
-						SetMotionEnemy(ENEMYJUMP);
-						if (m_nJumpFrame >= 40)
+						//リキャストタイムが０以下の時
+						if (JumpRecastTime <= 0)
 						{
-							SetJumpFlag(true);
-							m_nJumpFrame = 0;
-							JumpNumber++;
+							m_nJumpFrame++;             //飛ぶフレームを増やす
 
-							return;            //処理を抜ける
+							SetMotionEnemy(ENEMYJUMP);  //ジャンプモーションの設定
+
+							//ジャンプフレームが規定値より高い時
+							if (m_nJumpFrame >= 40)
+							{
+								SetJumpFlag(true); //飛ぶ
+								m_nJumpFrame = 0;  //フレームの初期化
+								JumpNumber++;      //ジャンプナンバーを増やす（次は飛ばないに設定）
+
+								return;            //処理を抜ける
+							}
+						}
+
+						//リキャストタイムが０以上の時
+						else if (JumpRecastTime >= 0)
+						{
+							JumpRecastTime--; //減らす
+						}
+						return; //処理を抜ける
+					}
+					else
+					{
+						//地面用ブロックの上に乗っている時
+						if (GetCollision()->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), GetModelSize(), CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize(), GetMove()) == true)
+						{
+							GravityTogether(); //重力を同期させる
+
+							//y軸の位置を設定
+							GetPos().y = CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize().y +
+								CManager::GetInstance()->GetFiledBlock(nCount)->GetPos().y;
 						}
 					}
-					else if (JumpRecastTime >= 0)
+				}
+
+				//飛ばない
+				else if (JumpNumber == 0)
+				{
+					//自機と地面用ブロックが当たったら
+					if (GetCollision()->ColiisionBox1(GetPos(), CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), GetModelSize(), CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize() * 1.0f, GetMove()) == true)
 					{
-						JumpRecastTime--;
+						JumpRecastTime = 5; //リキャストタイムの設定
+						JumpNumber = -1;    //ジャンプナンバーの設定（次は飛ぶに設定）
+						return;             //処理を抜ける
 					}
-					return;
-				}
-				else
-				{
-					//地面用ブロックの上に乗っている時
-					if (GetCollision() ->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), GetModelSize(), CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize(), GetMove()) == true)
+					else
 					{
-						GravityTogether(); //重力を同期させる
+						//地面用ブロックの上に乗っている時
+						if (GetCollision()->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), GetModelSize(), CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize(), GetMove()) == true)
+						{
+							GravityTogether(); //重力を同期させる
 
-						GetPos().y = CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize().y +
-							CManager::GetInstance()->GetFiledBlock(nCount)->GetPos().y;//y軸の位置を設定
-					}
-				}
-			}
+							//y軸の位置を設定
+							GetPos().y = CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize().y +
+								CManager::GetInstance()->GetFiledBlock(nCount)->GetPos().y;
 
-			else if (JumpNumber == 0)
-			{
-				//自機と地面用ブロックが当たったら
-				if (GetCollision() ->ColiisionBox1(GetPos(), CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), GetModelSize(), CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize() * 1.0f, GetMove()) == true)
-				{
-					JumpRecastTime = 5;
-					JumpNumber = -1;
-					return;            //処理を抜ける
-				}
-				else
-				{
-					//地面用ブロックの上に乗っている時
-					if (GetCollision() ->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetFiledBlock(nCount)->GetPos(), GetModelSize(), CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize(), GetMove()) == true)
-					{
-						GravityTogether(); //重力を同期させる
-
-						GetPos().y = CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize().y +
-							CManager::GetInstance()->GetFiledBlock(nCount)->GetPos().y;//y軸の位置を設定
+							SetJumpFlag(false); //飛ばない
+						}
 					}
 				}
 			}
@@ -543,22 +597,25 @@ void CEnemyInMotion001::WhenCollisionBlock()
 	//道用ブロック分回す
 	for (int nCount2 = 0; nCount2 < CManager::GetInstance()->GetRoadBlockCount() + 1; nCount2++)
 	{
+		//情報がある時
 		if (CManager::GetInstance()->GetRoadBlock(nCount2) != nullptr)
 		{
+			//当たっている時
 			if (GetCollision() ->ColiisionBox(GetPos(), CManager::GetInstance()->GetRoadBlock(nCount2)->GetPos(), GetModelSize(), CManager::GetInstance()->GetRoadBlock(nCount2)->GetModelSize() * 1.01f, GetMove()) == true)
 			{
 
 			}
 			else
 			{
+				//上に当たっている時
 				if (GetCollision() ->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetRoadBlock(nCount2)->GetPos(), GetModelSize(), CManager::GetInstance()->GetRoadBlock(nCount2)->GetModelSize(), GetMove()) == true)
 				{
-					GravityTogether();
-					GetPos().y = CManager::GetInstance()->GetRoadBlock(nCount2)->GetModelSize().y + CManager::GetInstance()->GetRoadBlock(nCount2)->GetPos().y;//y軸の位置を設定
-					if (GetJumpFlag() == true)
-					{
-						SetJumpFlag(false);
-					}
+					GravityTogether(); //重力の同期
+
+					//y軸の位置を設定
+					GetPos().y = CManager::GetInstance()->GetRoadBlock(nCount2)->GetModelSize().y + CManager::GetInstance()->GetRoadBlock(nCount2)->GetPos().y;
+
+					SetJumpFlag(false); //ジャンプフラグをOff
 				}
 			}
 		}
@@ -567,22 +624,25 @@ void CEnemyInMotion001::WhenCollisionBlock()
 	//壁兼道用ブロック分回す
 	for (int nCount3 = 0; nCount3 < CManager::GetInstance()->GetWallRoadBlockCount() + 1; nCount3++)
 	{
+		//情報がある時
 		if (CManager::GetInstance()->GetWallRoadBlock(nCount3) != nullptr)
 		{
+			//当たっている時
 			if (GetCollision() ->ColiisionBoxRoadBlock001(GetPos(), CManager::GetInstance()->GetWallRoadBlock(nCount3)->GetPos(), GetModelSize(), CManager::GetInstance()->GetWallRoadBlock(nCount3)->GetModelSize() * 1.01f, GetMove()) == true)
 			{
 
 			}
 			else
 			{
+				//上に当たっている時
 				if (GetCollision() ->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetWallRoadBlock(nCount3)->GetPos(), GetModelSize(), CManager::GetInstance()->GetWallRoadBlock(nCount3)->GetModelSize(), GetMove()) == true)
 				{
-					GravityTogether();
-					GetPos().y = CManager::GetInstance()->GetWallRoadBlock(nCount3)->GetModelSize().y + CManager::GetInstance()->GetWallRoadBlock(nCount3)->GetPos().y;//y軸の位置を設定
-					if (GetJumpFlag() == true)
-					{
-						SetJumpFlag(false); //フラグをflaseにする
-					}
+					GravityTogether(); //重力の同期
+
+					//y軸の位置を設定
+					GetPos().y = CManager::GetInstance()->GetWallRoadBlock(nCount3)->GetModelSize().y + CManager::GetInstance()->GetWallRoadBlock(nCount3)->GetPos().y;
+
+					SetJumpFlag(false); //フラグをOffにする
 				}
 			}
 		}
@@ -591,44 +651,22 @@ void CEnemyInMotion001::WhenCollisionBlock()
 	//壁兼道001用ブロック分回す
 	for (int nCount4 = 0; nCount4 < CManager::GetInstance()->GetWallRoadBlock001Count() + 1; nCount4++)
 	{
+		//情報がある時
 		if (CManager::GetInstance()->GetWallRoadBlock001(nCount4) != nullptr)
 		{
+			//上に当たっている時
 			if (GetCollision() ->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetWallRoadBlock001(nCount4)->GetPos(), GetModelSize(), CManager::GetInstance()->GetWallRoadBlock001(nCount4)->GetModelSize(), GetMove()) == true)
 			{
-				GravityTogether();
-				GetPos().y = CManager::GetInstance()->GetWallRoadBlock001(nCount4)->GetModelSize().y + CManager::GetInstance()->GetWallRoadBlock001(nCount4)->GetPos().y;//y軸の位置を設定
-				if (GetJumpFlag() == true)
-				{
-					SetJumpFlag(false); //フラグをflaseにする
-				}
+				GravityTogether(); //重力の同期
+
+				//y軸の位置を設定
+				GetPos().y = CManager::GetInstance()->GetWallRoadBlock001(nCount4)->GetModelSize().y + CManager::GetInstance()->GetWallRoadBlock001(nCount4)->GetPos().y;
+
+
+				SetJumpFlag(false); //フラグをOffにする
 			}
 		}
 	}
-
-	//小さいブロック分回す
-	for (int nCount5 = 0; nCount5 < CManager::GetInstance()->GetSmallBlockCount() + 1; nCount5++)
-	{
-		if (CManager::GetInstance()->GetSmallBlock(nCount5) != nullptr)
-		{
-			if (GetCollision() ->ColiisionBox(GetPos(), CManager::GetInstance()->GetSmallBlock(nCount5)->GetPos(), GetModelSize(), CManager::GetInstance()->GetSmallBlock(nCount5)->GetModelSize() * 1.3f, GetMove()) == true)
-			{
-
-			}
-			else
-			{
-				if (GetCollision() ->ColiisionBoxInside(GetPos(), CManager::GetInstance()->GetSmallBlock(nCount5)->GetPos(), GetModelSize(), CManager::GetInstance()->GetSmallBlock(nCount5)->GetModelSize(), GetMove()) == true)
-				{
-					GravityTogether();
-					GetPos().y = CManager::GetInstance()->GetSmallBlock(nCount5)->GetModelSize().y + CManager::GetInstance()->GetSmallBlock(nCount5)->GetPos().y;//y軸の位置を設定
-					if (GetJumpFlag() == true)
-					{
-						SetJumpFlag(false); //フラグをflaseにする
-					}
-				}
-			}
-		}
-	}
-
 }
 
 //===============================================
@@ -637,16 +675,16 @@ void CEnemyInMotion001::WhenCollisionBlock()
 void CEnemyInMotion001::Correctionrot()
 {
 	//加減算してきた変数の値が既定の位置の範囲内の時
-	if (CEnemyBullet::GetAdditionPosY() <= -CEnemyBullet::MINUS_ROTY && CEnemyBullet::GetAdditionPosY() >= -8.0f)
+	if (CEnemyBullet::GetAdditionPosY() <= -CEnemyBullet::MINUS_ROTY && CEnemyBullet::GetAdditionPosY() >= -CEnemyBullet::MINUS_ROTY+1.0f)
 	{
-		GetRot().y = -D3DX_PI_ORI;                                          //向きを逆に設定
-		m_pModelPrtsEnemy[0]->SetRot(D3DXVECTOR3(0.0f,0.0f,0.0f));          //向きの初期化
-		CEnemyBullet::SetAdditionPosY(CEnemyBullet::MINUS_ROTY * 4.0f);     //弾の出る向きを調整
+		GetRot().y = -D3DX_PI_ORI;                                                                     //向きを逆に設定
+		m_pModelPrtsEnemy[0]->SetRot(D3DXVECTOR3(0.0f,0.0f,0.0f));                                     //向きの初期化
+		CEnemyBullet::SetAdditionPosY(CEnemyBullet::MINUS_ROTY * MULTIPLICATIOB_ADDJUST_BULLET_ROTY);  //弾の出る向きを調整
 	}
-	else if (CEnemyBullet::GetAdditionPosY() >= CEnemyBullet::MINUS_ROTY * 3.0f && CEnemyBullet::GetAdditionPosY() <= 21.3f)
+	else if (CEnemyBullet::GetAdditionPosY() >= CEnemyBullet::MINUS_ROTY * IF_ADDJUST_BULLET_ROTY && CEnemyBullet::GetAdditionPosY() <= CEnemyBullet::MINUS_ROTY * IF_ADDJUST_BULLET_ROTY+1.0f)
 	{
-		GetRot().y = D3DX_PI_ORI;                                           //向きを逆に設定
-		m_pModelPrtsEnemy[0]->SetRot(D3DXVECTOR3(0.0f, 0.0f, 0.0f));        //向きの初期化
-		CEnemyBullet::SetAdditionPosY(CEnemyBullet::MINUS_ROTY * 4.0f);     //弾の出る向きを調整
+		GetRot().y = D3DX_PI_ORI;                                                                      //向きを逆に設定
+		m_pModelPrtsEnemy[0]->SetRot(D3DXVECTOR3(0.0f, 0.0f, 0.0f));                                   //向きの初期化
+		CEnemyBullet::SetAdditionPosY(CEnemyBullet::MINUS_ROTY * MULTIPLICATIOB_ADDJUST_BULLET_ROTY);  //弾の出る向きを調整
 	}
 }

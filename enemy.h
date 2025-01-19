@@ -53,11 +53,16 @@ public:
 	CEnemy001X(int nPriority = DEFAULT_PRIORITY1);  //コンストラクタ
 	~CEnemy001X()override; 							//デストラクタ
 	void Update()override;							//更新処理
+
+
+	//=======================
+	//マクロ定義
+	constexpr static int MAX__ENEMY001_LIFE = 3;   //スコアの加算値
 	
 private:
 	//マクロ定義
-	constexpr static int PLUS_SCORE = 100;      //スコアの加算値
-	constexpr static float MAX_DAMAGE = 0.005f; //プレイヤーに与えるダメージ数
-	constexpr static float PLUS_ROTY = 0.1f;    //Y軸の向きを加算する値
+	constexpr static int PLUS_SCORE = 100;         //スコアの加算値
+	constexpr static float MAX_DAMAGE = 0.005f;    //プレイヤーに与えるダメージ数
+	constexpr static float PLUS_ROTY = 0.1f;       //Y軸の向きを加算する値
 };
 

@@ -96,8 +96,6 @@ bool CCollision::ColiisionBox1(D3DXVECTOR3 pos, D3DXVECTOR3 pos1, D3DXVECTOR3 Si
 	//‰E‚Ì“–‚½‚è”»’è
 	if (pos.x - (Size.x / 2) >= pos1.x + (Size1.x / 2) - 10.0f
 		&& pos.x - (Size.x / 2) <= pos1.x + (Size1.x / 2)
-		&& pos.y + (Size.y / 2) >= pos1.y - (Size1.y / 2) - 10.0f
-		&& pos.y - (Size.y / 2) <= pos1.y + (Size1.y / 2)
 		&& pos.z + Size.z / 2 >= pos1.z - (Size1.z / 2)
 		&& pos.z - Size.z / 2 <= pos1.z + (Size1.z / 2))
 	{
@@ -107,8 +105,6 @@ bool CCollision::ColiisionBox1(D3DXVECTOR3 pos, D3DXVECTOR3 pos1, D3DXVECTOR3 Si
 	//¶‚Ì“–‚½‚è”»’è
 	else if (pos.x + (Size.x / 2) >= pos1.x - (Size1.x / 2)
 		&& pos.x + (Size.x / 2) <= pos1.x - (Size1.x / 2) + 10.0f
-		&& pos.y + (Size.y / 2) >= pos1.y - (Size1.y / 2) - 10.0f
-		&& pos.y - (Size.y / 2) <= pos1.y + (Size1.y / 2)
 		&& pos.z + Size.z / 2 >= pos1.z - (Size1.z / 2)
 		&& pos.z - Size.z / 2 <= pos1.z + (Size1.z / 2))
 	{
