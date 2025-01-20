@@ -1,16 +1,21 @@
 //=========================================
 //
-//全オブジェクトの処理[object.cpp] 
+//全Xオブジェクトの処理[objectmanagerX.cpp] 
 //Auther:Chiba Haruki
 //
 //=========================================
 
+
+//=========================================
+//インクルード
 #include "main.h"
 #include "manager.h"
 #include "objectmanagerX.h"
 
+
+//=========================================
 //静的メンバーの初期化
-CObjectManagerX* CObjectManagerX::m_apObjectManagerX[MAX_PRIORITY_MANAGER_OBJ][MAX_OBJECTMANAGERX] = {};
+CObjectManagerX* CObjectManagerX::m_apObjectManagerX[MAX_PRIORITY_MANAGER_OBJ][MAX_OBJECTMANAGERX] = {}; //全Xオブジェクトの初期化
 
 
 //==========================
@@ -18,20 +23,20 @@ CObjectManagerX* CObjectManagerX::m_apObjectManagerX[MAX_PRIORITY_MANAGER_OBJ][M
 //==========================
 CObjectManagerX::CObjectManagerX(int nPriority)
 {
-	m_nPriority = nPriority; //引数と同期する
-	m_type = TYPE::NONE; //初期化する
-	m_nID = 0; //初期化する
+	m_nPriority = nPriority; //プライオリティを引数と同期する
+	m_type = TYPE::NONE;     //タイプ初期化する
+	m_nID = 0;               //自身のIDを初期化する
 
 	//オブジェクト分回す
 	for (int nCnt = 0; nCnt < MAX_OBJECTMANAGERX; nCnt++)
 	{
 		//情報がない場合
 		if (m_apObjectManagerX[m_nPriority][nCnt] == nullptr)
-		{//空いている場所に自信を追加
+		{//空いている場所に自身を追加
 
 			m_apObjectManagerX[m_nPriority][nCnt] = this; //自分自身を代入
-			m_nID = nCnt; //自分自身のIDを代入
-			break; //抜ける
+			m_nID = nCnt;                                 //自分自身のIDを代入
+			break;                                        //抜ける
 		}
 	}
 }
@@ -60,7 +65,7 @@ HRESULT CObjectManagerX::Init()
 //====================
 void CObjectManagerX::Uninit()
 {
-	m_nID = 0;
+	//m_nID = 0;
 }
 
 
@@ -151,23 +156,14 @@ void CObjectManagerX::DrawAll()
 //=====================
 void CObjectManagerX::Release()
 {
-	int nID = m_nID; //自身のIDを代入
+	int nID = m_nID;             //自身のIDを代入
 	int nPriority = m_nPriority; //自身のpriorityを代入
 
 	//情報がある場合
 	if (m_apObjectManagerX[nPriority][nID] != nullptr)
 	{
 		m_apObjectManagerX[nPriority][nID]->Uninit(); //終了処理（破棄）を呼ぶ
-		delete m_apObjectManagerX[nPriority][nID]; //削除する
+		delete m_apObjectManagerX[nPriority][nID];    //削除する
 		m_apObjectManagerX[nPriority][nID] = nullptr; //情報を無くす
 	}
-}
-
-
-//=====================
-//オブジェクトの収得
-//=====================
-CObjectManagerX* CObjectManagerX::GetObjectManagerX(int nPri, int nIndex)
-{
-	return m_apObjectManagerX[nPri][nIndex];
 }

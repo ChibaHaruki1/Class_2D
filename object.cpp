@@ -31,11 +31,11 @@ CObject::CObject(int nPriority)
 	{
 		//情報がない場合
 		if (m_apObject[m_nPriority][nCnt] == nullptr)
-		{//空いている場所に自信を追加
+		{//空いている場所に自身を追加
 
 			m_apObject[m_nPriority][nCnt] = this; //自分自身を代入
-			m_nID = nCnt; //自分自身のIDを代入
-			break; //抜ける
+			m_nID = nCnt;                         //自分自身のIDを代入
+			break;                                //抜ける
 		}
 	}
 }

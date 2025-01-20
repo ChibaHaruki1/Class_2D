@@ -65,19 +65,19 @@ public:
 		WODDENBORAD,          //木の板群
 	};
 
-	CObjectManagerX(int nPriority = DEFAULT_PRIORITY1);               //コンストラクタ
-	virtual ~CObjectManagerX();                                       //デストラクタ
-	virtual HRESULT Init() = 0;                                       //初期化
-	virtual void Uninit() = 0;                                        //終了処理
-	virtual void Update() = 0;                                        //更新処理
-	virtual void Draw() = 0;                                          //描画処理
-	static void ReleaseAll();                                         //全オブジェクトの解放
-	static void UpdateAll();                                          //全オブジェクトの更新
-	static void DrawAll();                                            //全オブジェクトの描画
-	static CObjectManagerX* GetObjectManagerX(int nPri, int nIndex);  //オブジェクト取得
-	TYPE GetType() { return m_type; }                                 //タイプ取得
-	void SetType(TYPE type) { m_type = type; }                        //タイプ設定
-	void Release();                                                   //自分自身の解放
+	CObjectManagerX(int nPriority = DEFAULT_PRIORITY1);                                                           //コンストラクタ
+	virtual ~CObjectManagerX();                                                                                   //デストラクタ
+	virtual HRESULT Init() = 0;                                                                                   //初期化
+	virtual void Uninit() = 0;                                                                                    //終了処理
+	virtual void Update() = 0;                                                                                    //更新処理
+	virtual void Draw() = 0;                                                                                      //描画処理
+	static void ReleaseAll();                                                                                     //全オブジェクトの解放
+	static void UpdateAll();                                                                                      //全オブジェクトの更新
+	static void DrawAll();                                                                                        //全オブジェクトの描画
+	static CObjectManagerX* GetObjectManagerX(int nPri, int nIndex) { return m_apObjectManagerX[nPri][nIndex]; }  //オブジェクト取得
+	TYPE GetType() { return m_type; }                                                                             //タイプ取得
+	void SetType(TYPE type) { m_type = type; }                                                                    //タイプ設定
+	void Release();                                                                                               //自分自身の解放
 
 protected:
 	//マクロ定義
