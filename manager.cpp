@@ -41,6 +41,20 @@ CManager::~CManager()
 //==================
 HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 {
+	//音源の情報がない時
+	if (m_pSound == nullptr)
+	{
+		m_pSound = new CSound(); //サウンドの動的確保
+	}
+
+	m_pSound->InitSound(hWnd); //音源の初期化
+
+	//メイン情報がない時
+	if (m_pMain == nullptr)
+	{
+		m_pMain = new CMain();
+	}
+
 	//レンダラーの情報がない時
 	if (m_pRenderer == nullptr)
 	{
@@ -59,17 +73,6 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 		m_pJyoPad = new CInputJoyPad(); //ジョイパットの動的確保
 	}
 
-	//音源の情報がない時
-	if (m_pSound == nullptr)
-	{
-		m_pSound = new CSound(); //サウンドの動的確保
-	}
-
-	if (m_pMain == nullptr)
-	{
-		m_pMain = new CMain();
-	}
-
 	m_pRenderer->Init(hInstance,hWnd, bWindow); //レンダラーのWindowの処理を呼び出す
 
 	//CBlockManager::DataLood();
@@ -86,9 +89,6 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	{
 		return E_FAIL;
 	}
-
-
-	m_pSound->InitSound(hWnd); //音源の初期化
 
 	return S_OK;
 }

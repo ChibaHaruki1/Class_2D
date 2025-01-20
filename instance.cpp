@@ -72,7 +72,10 @@ CInstance::CInstance()
 
 	//３Dの初期化
 	m_pFuelGage = nullptr;
-	m_pSpeceBattleShip000 = nullptr; //次のステージへ行くオブジェクトの初期化
+	for (int nShip = 0; nShip < MAX_SHIP; nShip++)
+	{
+		m_pSpeceBattleShip000[nShip] = nullptr; //次のステージへ行くオブジェクトの初期化
+	}
 	m_pShop = nullptr;               //店の初期化
 	m_pEffect = nullptr;             //プレイヤーの弾につくエフェクトの初期化
 	m_pExplosion = nullptr;          //爆発エフェクトの初期化
@@ -105,6 +108,7 @@ CInstance::CInstance()
 	m_nEnemyInMotion001 = -1;        //モーション付きの敵001の数を初期化
 	m_nWoodenBoard = -1;             //木の板群の数を初期化
 	m_nBreakHouse = -1;              //壊れた家の数を初期化
+	m_nShip = -1;                    //スペースシップの数を初期化
 }
 
 
@@ -187,7 +191,11 @@ void CInstance::Uninit()
 
 	//３Dの初期化
 	m_pFuelGage = nullptr;
-	m_pSpeceBattleShip000 = nullptr; //次のステージへ行くオブジェクトの初期化
+
+	for (int nShip = 0; nShip < MAX_SHIP; nShip++)
+	{
+		m_pSpeceBattleShip000[nShip] = nullptr; //次のステージへ行くオブジェクトの初期化
+	}
 	m_pShop = nullptr;               //店の初期化
 	m_pEffect = nullptr;             //プレイヤーの弾につくエフェクトの初期化
 	m_pExplosion = nullptr;          //爆発エフェクトの初期化
@@ -552,7 +560,8 @@ CObjectX* CInstance::CreateBlock(CObjectX::STRATEGYTYPE type, D3DXVECTOR3 pos)
 	//タイプがスペースシップの時
 	else if (type == CObjectX::STRATEGYTYPE::SPECEBATTLESHIP000)
 	{
-		return m_pSpeceBattleShip000 = CManagerBlock::Create(pos, type);                     //スペースシップの生成
+		m_nShip++;
+		return m_pSpeceBattleShip000[m_nShip] = CManagerBlock::Create(pos, type);                     //スペースシップの生成
 	}
 
 	//タイプが最終ステージの地面の時

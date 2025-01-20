@@ -69,27 +69,24 @@ public:
 		SHOPMENU,
 	};
 
-	CObject(int nPriority= DEFAULT_PRIORITY);         //コンストラクタ
-	virtual ~CObject();                               //デストラクタ
-	virtual HRESULT Init()=0;                         //初期化処理
-	virtual void Uninit() = 0;                        //終了処理
-	virtual void Update() = 0;                        //更新処理
-	virtual void Draw() = 0;                          //描画処理
-	static void ReleaseAll();                         //全オブジェクトの解放
-	static void UpdateAll();                          //全オブジェクトの更新
-	static void DrawAll();                            //全オブジェクトの描画
-	static CObject* GetObject1(int nPri,int nIndex);  //オブジェクト取得
-	TYPE GetType();                                   //タイプ取得
-	void SetType(TYPE type);                          //タイプ設定
+	CObject(int nPriority= DEFAULT_PRIORITY);                                              //コンストラクタ
+	virtual ~CObject();                                                                    //デストラクタ
+	virtual HRESULT Init()=0;                                                              //初期化処理
+	virtual void Uninit() = 0;                                                             //終了処理
+	virtual void Update() = 0;                                                             //更新処理
+	virtual void Draw() = 0;                                                               //描画処理
+	static void ReleaseAll();                                                              //全オブジェクトの解放
+	static void UpdateAll();                                                               //全オブジェクトの更新
+	static void DrawAll();                                                                 //全オブジェクトの描画
+	static CObject* GetObject1(int nPri, int nIndex) { return m_apObject[nPri][nIndex]; }  //オブジェクト取得
+	TYPE GetType() {return m_type;}                                                        //タイプ取得
+	void SetType(TYPE type) { m_type = type; }                                             //タイプ設定
 	void Release();      
 	
 	//マクロ定義
 	constexpr static int MAX_OBJECT = 250;                    //オブジェクトの最大数
 	constexpr static int DEFAULT_PRIORITY = 3;                //描画順の初期値
 	constexpr static int MAX_PRIORITY_OBJ = 4;                //描画順の最大数//自分自身の解放
-
-protected:
-	static int m_nNumAll; //オブジェクトの総数
 
 private:
 

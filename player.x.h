@@ -60,6 +60,23 @@ public: //アクセス可能
 
 private: //アクセス不可能
 
+	//==========================================
+	//マクロ定義
+	constexpr static int   MAX_TEXT_OBJECT = 1;             //今配置ツールに設定されてるオブジェクトの数ー１（０スタートだから）
+	constexpr static int   MAX_BUULET_SPEED = 30;           //弾の速さ
+	constexpr static int   MAX_DIE_COUNT = 180;             //死亡時のカウント
+	constexpr static int   ADDJUST_SELECT_SIZEY = 160;      //選択ゲージのY軸の位置を加算する値
+
+	//ぶっ飛び処理時マクロ定義
+	constexpr static int   BLOWAWAY_FRAME_1 = 40;           //第一行動時のフレーム
+	constexpr static int   BLOWAWAY_FRAME_2 = 90;           //第二行動時のフレーム
+	constexpr static float   BLOWAWAY_PLUS_POS_X = 20.0f;   //X軸の飛ぶ距離
+	constexpr static float   BLOWAWAY_PLUS_POS_Y = 30.0f;   //Y軸の飛ぶ距離
+
+
+	constexpr static float MAX_JUMPPAWER = 10.0f;           //飛ぶ力
+	constexpr static float MAX_SPECIALATTACKCOUNT = 60 * 0;   //必殺技のリキャストタイム
+
 	//プレイヤーの状態
 	enum class PLAYER_STATE
 	{
@@ -127,22 +144,7 @@ private: //アクセス不可能
 	bool m_bFly;               //自機が吹っ飛んでいるかどうかの判定の為の変数（モーションの混雑を避けるため）
 	bool m_bOneCreate;         //一回だけ作る為の変数
 
-
-	//==========================================
-	//マクロ定義
-	constexpr static int   MAX_TEXT_OBJECT = 1;             //今配置ツールに設定されてるオブジェクトの数ー１（０スタートだから）
-	constexpr static int   MAX_BUULET_SPEED = 30;           //弾の速さ
-	constexpr static int   MAX_DIE_COUNT = 180;             //死亡時のカウント
-	constexpr static int   ADDJUST_SELECT_SIZEY = 160;      //選択ゲージのY軸の位置を加算する値
-
-	//ぶっ飛び処理時マクロ定義
-	constexpr static int   BLOWAWAY_FRAME_1 = 40;           //第一行動時のフレーム
-	constexpr static int   BLOWAWAY_FRAME_2 = 90;           //第二行動時のフレーム
-	constexpr static float   BLOWAWAY_PLUS_POS_X = 20.0f;   //X軸の飛ぶ距離
-	constexpr static float   BLOWAWAY_PLUS_POS_Y = 30.0f;   //Y軸の飛ぶ距離
-
-
-	constexpr static float MAX_JUMPPAWER = 10.0f;           //飛ぶ力
-	constexpr static float MAX_SPECIALATTACKCOUNT = 60*0;   //必殺技のリキャストタイム
+	int m_nLandingFrame;       //着地時のフレーム
+	bool m_bLandingFlag;       //着地したかどうかの判定用変数
 };
 

@@ -107,7 +107,7 @@ HRESULT CRenderer::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 	//デバック表示用のフォントの生成
 	D3DXCreateFont(m_pD3DDevice, 18, 0, 0, 0, FALSE, SHIFTJIS_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, "Terminal", &m_pFont);
 	
-	CManager::SetMode(CScene::MODE::MODE_TITLE); //初めのシーンを設定
+	CManager::SetMode(CScene::MODE::MODE_GAME01); //初めのシーンを設定
 
 	return S_OK; //成功を返す
 }

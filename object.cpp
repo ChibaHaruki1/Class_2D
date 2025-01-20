@@ -5,14 +5,16 @@
 //
 //=========================================
 
+
+//=========================================
+//インクルード
 #include "main.h"
 #include "object.h"
 #include "object3D.h"
 #include "manager.h"
 
 //静的メンバーの初期化
-int CObject::m_nNumAll = 0;
-CObject* CObject::m_apObject[MAX_PRIORITY_OBJ][MAX_OBJECT] = {};
+CObject* CObject::m_apObject[MAX_PRIORITY_OBJ][MAX_OBJECT] = {}; //全オブジェクトの初期化
 
 
 //==========================
@@ -20,9 +22,9 @@ CObject* CObject::m_apObject[MAX_PRIORITY_OBJ][MAX_OBJECT] = {};
 //==========================
 CObject::CObject(int nPriority)
 {
-	m_nPriority = nPriority; //引数と同期する
-	m_type = TYPE::NONE; //初期化する
-	m_nID = 0; //初期化する
+	m_nPriority = nPriority; //プライオリティを引数と同期する
+	m_type = TYPE::NONE;     //タイプを初期化する
+	m_nID = 0;               //自身のIDを初期化する
 
 	//オブジェクト分回す
 	for (int nCnt = 0; nCnt < MAX_OBJECT; nCnt++)
@@ -33,7 +35,6 @@ CObject::CObject(int nPriority)
 
 			m_apObject[m_nPriority][nCnt] = this; //自分自身を代入
 			m_nID = nCnt; //自分自身のIDを代入
-			m_nNumAll++; //総数カウント
 			break; //抜ける
 		}
 	}
@@ -154,42 +155,14 @@ void CObject::DrawAll()
 //=====================
 void CObject::Release()
 {
-	int nID = m_nID; //自身のIDを代入
+	int nID = m_nID;             //自身のIDを代入
 	int nPriority = m_nPriority; //自身のpriorityを代入
 
 	//情報がある場合
 	if (m_apObject[nPriority][nID] != nullptr)
 	{
 		m_apObject[nPriority][nID]->Uninit(); //終了処理（破棄）を呼ぶ
-		delete m_apObject[nPriority][nID]; //削除する
+		delete m_apObject[nPriority][nID];    //削除する
 		m_apObject[nPriority][nID] = nullptr; //情報を無くす
-		m_nNumAll--; //デクリメント
 	}
-}
-
-
-//=====================
-//オブジェクトの収得
-//=====================
-CObject*CObject::GetObject1(int nPri,int nIndex)
-{
-	return m_apObject[nPri][nIndex];
-}
-
-
-//=====================
-//タイプ取得
-//=====================
-CObject::TYPE CObject::GetType()
-{
-	return m_type; //タイプを返す
-}
-
-
-//=====================
-//設定処理
-//=====================
-void CObject::SetType(TYPE type)
-{
-	m_type = type; //引数と同期する
 }

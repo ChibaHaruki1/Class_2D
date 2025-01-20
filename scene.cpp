@@ -5,10 +5,12 @@
 //
 //====================================
 
+
+//====================================
+//インクルード
 #include "scene.h"
 #include "manager.h"
 #include "rendererh.h"
-#include "bg.h"
 #include "bullet.h"
 #include "enemy.h"
 #include "efect.h"
@@ -19,6 +21,7 @@
 #include "block.h"
 #include "gage.h"
 #include "enemyinmotion.h"
+#include "bg.h"
 
 
 //static変数の初期化
@@ -27,6 +30,8 @@
 //CPlayerX* CScene::m_pPlayerX = nullptr;
 //CTarget* CScene::m_pTragetUi = nullptr;
 //CMPTargetReTime* CScene::pMPTargetReTime = nullptr;
+
+CManagerBg* g_pBG; //背景のBGのグローバル変数
 
 
 //=======================
@@ -73,19 +78,17 @@ HRESULT CScene::Init()
 //=======================
 void CScene::Uninit()
 {
-	CObject::ReleaseAll(); //全てのUninit()を呼び、deleteする
+	CObject::ReleaseAll();         //全てのUninit()を呼び、deleteする
 	CObjectManagerX::ReleaseAll(); //全てのunitを呼び、deleteする
 
-	if (m_pPlayerX != nullptr)
-	{
-		m_pPlayerX = nullptr;
-	}
+
+	m_pPlayerX = nullptr;          //情報を無くす
 
 	//カメラの情報がある時
 	if (m_pCamera != nullptr)
 	{
 		m_pCamera->Uninit(); //カメラの終了処理
-		delete m_pCamera; //メモリの解放
+		delete m_pCamera;    //メモリの解放
 		m_pCamera = nullptr; //情報を無くす
 	}
 
@@ -93,7 +96,7 @@ void CScene::Uninit()
 	if (m_pLight != nullptr)
 	{
 		m_pLight->Uninit(); //光源の終了処理
-		delete m_pLight; //メモリの解放
+		delete m_pLight;    //メモリの解放
 		m_pLight = nullptr; //情報を無くす
 	}
 }
@@ -105,7 +108,7 @@ void CScene::Uninit()
 void CScene::Update()
 {
 	m_pCamera->Update(); //カメラの更新処理
-	m_pLight->Update(); //光源の更新処理
+	m_pLight->Update();  //光源の更新処理
 }
 
 //=======================
@@ -221,7 +224,7 @@ CScene* CScene::Create(MODE mode)
 //=======================
 CGame01::CGame01()
 {
-	
+	m_pFade = nullptr;
 }
 
 
@@ -239,13 +242,18 @@ CGame01::~CGame01()
 //=======================
 HRESULT CGame01::Init()
 {
+	g_pBG = CManagerBg::Create(MODE::MODE_TITLE);
+	m_pFade = CFade::Create();
+
 	CScene::Init();
 
-	GetCamera()->GetAdjustmentPosZ() = 700;
+	GetCamera()->GetAdjustmentPosZ() = 400; //カメラのZ軸の調整
 
-	CompileCreate(); //createしたいものを関数化して呼ぶ
+	CompileCreate();                        //createしたいものを関数化して呼ぶ
 
-	return S_OK;
+	GetPlayerX()->GetPos().y = 2000.0f;     //プレイヤーのY軸の位置を設定
+
+	return S_OK;                            //成功を返す
 }
 
 
@@ -254,7 +262,7 @@ HRESULT CGame01::Init()
 //=======================
 void CGame01::Uninit()
 {
-	CScene::Uninit();
+	CScene::Uninit(); //破棄処理
 }
 
 
@@ -263,7 +271,49 @@ void CGame01::Uninit()
 //=======================
 void CGame01::Update()
 {
-	CScene::Update();
+	if (GetOneScene() == true)
+	{
+		if (m_pFade != nullptr)
+		{
+			m_pFade->CFade::SetFade(CFade::FADE::FADE_OUT);
+
+			//フェードの処理が終わったら（完全に暗くなったら）
+			if (m_pFade->GetAlph() >= CFade::FINISH_FADE_OUT)
+			{
+				m_pFade->Release();
+				g_pBG->Release();
+				m_pFade = nullptr;
+				g_pBG = nullptr;
+				SetOneScene(true);
+				GetPlayerX()->SetGravityFlag(true);                                           //重力ON
+				GetCamera()->GetAdjustmentPosZ() = 700;                                       //カメラのZ軸の調整
+				GetPlayerX()->SetMotion(CCharacter::MOTIONSTATE::TITLE_JUMP);
+				return;
+			}
+		}
+	}
+
+	if (GetOneScene() == false)
+	{
+		GetPlayerX()->SetGravityFlag(false); //重力Off
+
+		//Enterキーが押された時かAキーを押された時
+		if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_RETURN) == true || CManager::GetJyoPad()->GetJoypadTrigger(CInputJoyPad::JOYKEY::JOYKEY_A) == true)
+		{
+			CManager::GetSound()->StopSound(CSound::SOUND_LABEL::SOUND_LABEL_SE_WING);    //指定の音源を止める
+			CManager::GetSound()->PlaySound(CSound::SOUND_LABEL::SOUND_LABEL_NORMALBGM);  //BDMを流す
+			SetOneScene(true);
+		}
+	}
+
+	//音源が流れていない時
+	if (GetOneSound() == false)
+	{
+		CManager::GetSound()->PlaySound(CSound::SOUND_LABEL::SOUND_LABEL_SE_WING); //BDMを流す
+		SetOneSound(true);                                                         //一度だけ流す
+	}
+
+	CScene::Update(); //更新処理
 }
 
 
@@ -276,6 +326,7 @@ void CGame01::CompileCreate()
 
 	GetPlayerX() = CPlayerX::Create(); //プレイヤーの生成
 	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::SHOP, 0, D3DXVECTOR3(200.0f, 0.0f, 150.0f));         //店の生成
+	CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::SPECEBATTLESHIP000, D3DXVECTOR3(0.0f, 2000.0f, 100.0f));            //次のステージへ行くobjの生成
 	CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::SPECEBATTLESHIP000, D3DXVECTOR3(12700.0f, 1900.0f, 0.0f));        //次のステージへ行くobjの生成
 	CSkyDoom::Create(D3DXVECTOR3(0.0f, 0.0f, 200.0f), 1);                                                                          //空の生成
 	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::ENEMYINMOTION001,0, D3DXVECTOR3(1000.0f, 100.0f, 0.0f));     //モーション付きの敵の生成
@@ -385,9 +436,14 @@ CTitle::~CTitle()
 //======================
 HRESULT CTitle::Init()
 {
-	CManagerBg::Create(MODE::MODE_TITLE);
-	////CBgText::Create();
-	pFade = CFade::Create();
+	//CManagerBg::Create(MODE::MODE_TITLE);
+	//////CBgText::Create();
+	//pFade = CFade::Create();
+
+	CScene::Init();
+
+	GetCamera()->GetAdjustmentPosZ() = 700;
+
 	return S_OK;
 }
 
@@ -407,32 +463,42 @@ void CTitle::Uninit()
 //=======================
 void CTitle::Update()
 {
+	////Enterキーが押されたとき
+	//if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_RETURN) == true || CManager::GetJyoPad()->GetJoypadTrigger(CInputJoyPad::JOYKEY::JOYKEY_A) == true && pFade->GetAlph() <= 245)
+	//{
+	//	SetOneScene(true);
+	//}
 
-	//Enterキーが押されたとき
-	if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_RETURN) == true || CManager::GetJyoPad()->GetJoypadTrigger(CInputJoyPad::JOYKEY::JOYKEY_A) == true && pFade->GetAlph() <= 245)
-	{
-		SetOneScene(true);
-	}
+	//else if (GetOneScene() == true)
+	//{
+	//	pFade->CFade::SetFade(CFade::FADE::FADE_OUT);
 
-	else if (GetOneScene() == true)
-	{
-		pFade->CFade::SetFade(CFade::FADE::FADE_OUT);
+	//	//フェードの処理が終わったら（完全に暗くなったら）
+	//	if (pFade->GetAlph() >= CFade::FINISH_FADE_OUT)
+	//	{
+	//		CManager::SetMode(CScene::MODE::MODE_GAME01);
+	//		return; //処理を抜ける
+	//	}
 
-		//フェードの処理が終わったら（完全に暗くなったら）
-		if (pFade->GetAlph() >= CFade::FINISH_FADE_OUT)
-		{
-			CManager::SetMode(CScene::MODE::MODE_GAME01);
-			return; //処理を抜ける
-		}
+	//	//CManager::SetMode(CScene::MODE_GAME01);
+	//}
 
-		//CManager::SetMode(CScene::MODE_GAME01);
-	}
+	//if (GetOneSound() == false)
+	//{
+	//	CManager::GetSound()->PlaySound(CSound::SOUND_LABEL::SOUND_LABEL_SE_WING); //BDMを流す
+	//	SetOneSound(true);
+	//}
 
-	if (GetOneSound() == false)
-	{
-		CManager::GetSound()->PlaySound(CSound::SOUND_LABEL::SOUND_LABEL_SE_WING); //BDMを流す
-		SetOneSound(true);
-	}
+	CScene::Update();
+}
+
+
+//=============================
+//タイトルゲーム画面処理
+//=============================
+void CTitle::Game()
+{
+
 }
 
 

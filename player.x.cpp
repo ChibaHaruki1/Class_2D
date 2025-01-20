@@ -68,6 +68,9 @@ CPlayerX::CPlayerX(int nPriority) : CCharacter(nPriority)
 	m_nSpecialAttackCount = 0;                            //必殺技のカウントの初期化
 	m_bOneCreate = false;                                 //一度だけ生成するフラグの初期化
 
+	m_bLandingFlag = false;                               //着地してない
+	m_nLandingFrame = 0;
+
 	m_pNowCreateUI = CManager2DUI::Create(CObject::TYPE_UI::NOWCREATE); //現在の配置オブジェクトのUIの生成
 }
 
@@ -91,8 +94,7 @@ HRESULT CPlayerX::Init()
 	CCharacter::SetMotion(WALK);                                                  //モーションの設定
 	SetRot(D3DXVECTOR3(0.0f, D3DX_PI * -0.5f, 0.0f));                             //向きの調整（右向き）
 	m_pModelPrts[18]->SetDraw(false);                                             //パーツの銃部分を非表示に設定
-	SetPos(D3DXVECTOR3(000.0f,0.0f,0.0f));                                       //位置の調整
-	CManager::GetSound()->PlaySound(CSound::SOUND_LABEL::SOUND_LABEL_NORMALBGM);  //BDMを流す
+	SetPos(D3DXVECTOR3(000.0f,0.0f,0.0f));                                        //位置の調整
 	SetLife(1);                                                                   //自身のライフ
 	return S_OK;                                                                  //成功を返す
 }
@@ -220,7 +222,7 @@ void CPlayerX::Update()
 	else if (GetLife() == 0)
 	{
 		GetDieFrame()++;                //死亡フレームを増やす
-		//GetPos().y = -50.0f;            //位置を低くする
+		//GetPos().y = -50.0f;          //位置を低くする
 		srand((unsigned)time(NULL));    //乱数系列を初期化
 
 		//乱数が入ってない時
@@ -242,7 +244,7 @@ void CPlayerX::Update()
 			return;       //処理を抜ける
 		}
 	}
-	SceneMode(2);         //シーンを選択
+	//SceneMode(2);         //シーンを選択
 }
 
 
@@ -536,7 +538,7 @@ void CPlayerX::KeySet()
 	else
 	{
 		//撃ってない時と吹っ飛んでない時
-		if (m_nMotionFrame <= 0 && m_nMotionFrame001 <= 0 && m_bFly == false)
+		if (m_nMotionFrame <= 0 && m_nMotionFrame001 <= 0 && m_bFly == false&& m_bLandingFlag==true)
 		{
 			SpecialAttack = false;                                   //必殺技フラグをOffにする  
 			CCharacter::SetMotion(CCharacter::MOTIONSTATE::NEUTRAL); //待機モーション
@@ -931,7 +933,26 @@ void CPlayerX::BlockJudgement()
 					//位置の同期
 					GetPos().y = CManager::GetInstance()->GetFiledBlock(nCount)->GetModelSize().y + CManager::GetInstance()->GetFiledBlock(nCount)->GetPos().y;
 
-					SetJumpFlag(false); //飛んでいないに設定
+					//飛んでいる
+					if (GetJumpFlag() == true)
+					{
+						SetJumpFlag(false); //飛んでいないに設定
+					}
+
+					//着地していない時
+					if (m_bLandingFlag == false)
+					{
+						m_nLandingFrame++; //着地フレームを設定
+
+						SetMotion(MOTIONSTATE::LANDING); //着地モーションの設定
+
+						//着地フレームが規定値より高い時
+						if (m_nLandingFrame >= 60)
+						{
+							m_bLandingFlag = true; //着地しているに設定
+							m_nLandingFrame = 0;   //着地フレームの初期化
+						}
+					}
 				}
 			}
 		}
@@ -964,7 +985,11 @@ void CPlayerX::BlockJudgement()
 					//位置の同期
 					GetPos().y = CManager::GetInstance()->GetGoUpBlock(nCount1)->GetModelSize().y + CManager::GetInstance()->GetGoUpBlock(nCount1)->GetPos().y;
 
-					SetJumpFlag(false); //飛んでいないに設定
+					//飛んでいる
+					if (GetJumpFlag() == true)
+					{
+						SetJumpFlag(false); //飛んでいないに設定
+					}
 				}
 			}
 		}
@@ -997,8 +1022,11 @@ void CPlayerX::BlockJudgement()
 					//位置の同期
 					GetPos().y = CManager::GetInstance()->GetRoadBlock(nCount2)->GetModelSize().y + CManager::GetInstance()->GetRoadBlock(nCount2)->GetPos().y;
 
-
-					SetJumpFlag(false); //飛んでいないに設定
+					//飛んでいる
+					if (GetJumpFlag() == true)
+					{
+						SetJumpFlag(false); //飛んでいないに設定
+					}
 				}
 			}
 		}
@@ -1028,7 +1056,11 @@ void CPlayerX::BlockJudgement()
 					//位置の同期
 					GetPos().y = CManager::GetInstance()->GetWallRoadBlock(nCount3)->GetModelSize().y + CManager::GetInstance()->GetWallRoadBlock(nCount3)->GetPos().y;
 
-					SetJumpFlag(false); //飛んでいないに設定
+					//飛んでいる
+					if (GetJumpFlag() == true)
+					{
+						SetJumpFlag(false); //飛んでいないに設定
+					}
 				}
 			}
 		}
@@ -1054,7 +1086,11 @@ void CPlayerX::BlockJudgement()
 				//位置の同期
 				GetPos().y = CManager::GetInstance()->GetWallRoadBlock001(nCount4)->GetModelSize().y + CManager::GetInstance()->GetWallRoadBlock001(nCount4)->GetPos().y;
 
-				SetJumpFlag(false); //飛んでいないに設定
+				//飛んでいる
+				if (GetJumpFlag() == true)
+				{
+					SetJumpFlag(false); //飛んでいないに設定
+				}
 			}
 		}
 	}
@@ -1085,7 +1121,11 @@ void CPlayerX::BlockJudgement()
 					//位置の同期
 					GetPos().y = CManager::GetInstance()->GetSmallBlock(nCount5)->GetModelSize().y + CManager::GetInstance()->GetSmallBlock(nCount5)->GetPos().y;
 
-					SetJumpFlag(false); //飛んでいないに設定
+					//飛んでいる
+					if (GetJumpFlag() == true)
+					{
+						SetJumpFlag(false); //飛んでいないに設定
+					}
 				}
 			}
 		}
@@ -1143,13 +1183,21 @@ void CPlayerX::BlockJudgement()
 				GetPos().y = CManager::GetInstance()->GetSmallBlock001(nCount7)->GetModelSize().y + CManager::GetInstance()->GetSmallBlock001(nCount7)->GetPos().y;
 
 
-				SetJumpFlag(false); //飛んでいないに設定
+				//飛んでいる
+				if (GetJumpFlag() == true)
+				{
+					SetJumpFlag(false); //飛んでいないに設定
+				}
 			}
 
 			//下に当たっている時
 			else if (GetCollision() ->ColiisionBoxOutside(GetPos(), CManager::GetInstance()->GetSmallBlock001(nCount7)->GetPos(), GetModelSize(), CManager::GetInstance()->GetSmallBlock001(nCount7)->GetModelSize(), GetMove()) == true)
 			{
-				SetJumpFlag(false); //飛んでいないに設定
+				//飛んでいる
+				if (GetJumpFlag() == true)
+				{
+					SetJumpFlag(false); //飛んでいないに設定
+				}
 			}
 		}
 	}
@@ -1171,7 +1219,11 @@ void CPlayerX::BlockJudgement()
 			//位置の同期
 			GetPos().y = CManager::GetInstance()->GetFinalBlock()->GetModelSize().y + CManager::GetInstance()->GetFinalBlock()->GetPos().y;
 
-			SetJumpFlag(false); //飛んでいないに設定
+			//飛んでいる
+			if (GetJumpFlag() == true)
+			{
+				SetJumpFlag(false); //飛んでいないに設定
+			}
 		}
 	}
 
@@ -1191,10 +1243,10 @@ void CPlayerX::BlockJudgement()
 	}
 
 	//バトルシップとの当たり判定
-	if (CManager::GetInstance()->GetSpeceBattleShip() != nullptr)
+	if (CManager::GetInstance()->GetSpeceBattleShip(1) != nullptr)
 	{
 		//当たり判定
-		if (GetCollision() ->CircleCollisionAll(GetPos(), CManager::GetInstance()->GetSpeceBattleShip()->GetPos(), GetModelSize(), CManager::GetInstance()->GetSpeceBattleShip()->GetModelSize() * 1.1f) == true)
+		if (GetCollision() ->CircleCollisionAll(GetPos(), CManager::GetInstance()->GetSpeceBattleShip(1)->GetPos(), GetModelSize(), CManager::GetInstance()->GetSpeceBattleShip(1)->GetModelSize() * 1.1f) == true)
 		{
 			m_bNextStage = true; //次のsceneへ行くフラフをONにする
 		}
@@ -1340,6 +1392,7 @@ void CPlayerX::NowCreateNumberObj()
 		ObjectArrangement(CObjectX::TYPE::TELEPHONPOLE, m_pLaserUI); //電柱の配置処理
 	}
 
+	//オブジェクトナンバー２の時
 	else if (m_ObjectNumber == 2)
 	{
 		CObjectX::ObjectArrangement(TYPE::GOUPBLOCK, nullptr);       //上がる用ブロックの配置処理

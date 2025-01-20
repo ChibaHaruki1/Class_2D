@@ -86,6 +86,9 @@ public:                      //アクセス可能
 	void Uninit()override;   //破棄処理
 	void Update()override;   //更新処理
 	void CompileCreate();    //create関数をまとめる関数
+
+private:           //アクセス不可能
+	CFade* m_pFade;  //フェードのポインター
 };
 
 
@@ -113,6 +116,7 @@ public:                     //アクセス可能
 	HRESULT Init()override; //初期化処理
 	void Uninit()override;  //破棄処理
 	void Update()override;  //更新処理
+	void Game();            //タイトルゲーム画面
 
 private:           //アクセス不可能
 	CFade* pFade;  //フェードのポインター

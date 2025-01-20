@@ -59,7 +59,7 @@ public:
 	CManagerBlock* GetWoodenBoard (int nNumber) { return m_pWoodenBoard[nNumber]; }               //木の板群の取得
 	CManagerBlock* GetFinalBlock () { return m_pFinalBlosk; }                                     //ボス戦時の地面の取得
 	CManagerBlock* GetFinalCeiling() { return m_pFinalCeiling; }                                  //ボス戦時の天井の取得
-	CManagerBlock* GetSpeceBattleShip() { return m_pSpeceBattleShip000; }                         //次のステージへ行く用のオブジェクトの取得
+	CManagerBlock* GetSpeceBattleShip(int nNumber) { return m_pSpeceBattleShip000[nNumber]; }     //次のステージへ行く用のオブジェクトの取得
 																							      
 	CDebrisX* GetDebrisX(int nNumber) { return m_pDebrisX[nNumber]; }                             //瓦礫の取得
 
@@ -120,6 +120,7 @@ public:
 	constexpr static int MAX_BREAKHOUSE = 10;     //ステージに置く用の配列の最大数
 	constexpr static int MAX_RUBBLE = 40;         //瓦礫の最大数
 	constexpr static int MAX_ENEMY = 25;          //敵の最大数
+	constexpr static int MAX_SHIP = 2;           //スペースシップの最大数
 
 	//インライン展開
 	inline void CreateFuelGage()
@@ -141,7 +142,7 @@ private:
 	CManagerBlock*m_pFinalBlosk;                         //ボス戦時の足場のインスタンス
 	CManagerBlock*m_pFinalCeiling;                       //ボス戦時の天井のインスタンス
 
-	CManagerBlock* m_pSpeceBattleShip000;                //次のステージへ行くオブジェクトのインスタンス
+	CManagerBlock* m_pSpeceBattleShip000[MAX_SHIP];      //次のステージへ行くオブジェクトのインスタンス
 
 	//敵のインスタンス
 	CManagerEnemy* m_pEnemy000;                                      //通常敵のインスタンス
@@ -199,6 +200,7 @@ private:
 	int m_nEnemyInMotion001;   //モーション付きの敵001の数
 	int m_nWoodenBoard;        //木の板群の数
 	int m_nBreakHouse;         //壊れた家の数
+	int m_nShip;               //スペースシップの数
 };
 
 #endif

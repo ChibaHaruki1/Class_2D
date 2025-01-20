@@ -97,7 +97,7 @@ CManagerBg* CManagerBg::Create(CScene::MODE mode)
 	if (mode == CScene::MODE::MODE_TITLE)
 	{
 		pBg = new CTitleBg(0);                                            //動的確保
-		pBg->SetFileNamePass("data\\TEXTURE\\UI\\scene\\Title.png");      //ファイルパスを設定
+		pBg->SetFileNamePass("data\\TEXTURE\\UI\\scene\\Title001.png");   //ファイルパスを設定
 	}																      
 																	      
 	//リザルト時														     

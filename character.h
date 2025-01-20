@@ -58,6 +58,9 @@ public://外部からのアクセス可能
 		JUMP,        //飛ぶ
 		BLOWAWAY,    //吹っ飛ぶ
 		DIE,         //死亡
+		SLOWSHOT,    //ゆっくり撃つ
+		TITLE_JUMP,  //タイトル時の飛ぶ
+		LANDING,     //着地
 	}MOTIONSTATE;
 
 	CCharacter(int nPriority = DEFAULT_PRIORITY1);         //コンストラクタ
