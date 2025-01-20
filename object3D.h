@@ -30,7 +30,7 @@ public:
 	void SetCol(int Red, int Green, int Blue, int& Alpha);                     //色に関する設定
 	void SetTexture(float SizeX, float Size1X);                              //テクスチャのサイズを設定する
 
-	//当たり判定処理
+	//当たり判定処理(ポリゴンとの当たり判定)
 	bool CollisionPrts1Right(float X, float Y, float Z);     //パーツ毎の当たり判定　右側
 	bool CollisionPrts1Left(float X, float Y, float Z);      //パーツ毎の当たり判定　左側
 	bool CollisionPrtsPlayer(float X, float Y, float Z);     //パーツ毎の当たり判定　全体

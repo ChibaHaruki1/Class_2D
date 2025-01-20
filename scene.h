@@ -57,12 +57,14 @@ public:
 	//情報の取得
 	bool& GetOneSound() { return m_bOneSound; }    //音源が再生されているかどうかの判定を取得
 	bool& GetOneScene() { return m_bOneScene; }    //シーンの移動するかどうかの情報を取得
+	bool& GetPlay() { return m_bPlay; }            //遊べるかどうかの情報を取得
 
 
 	//===========================================================
 	//情報の設定
 	void SetOneSound(bool bOneSound) { m_bOneSound = bOneSound; } //音源を生成するかどうかを設定
-	void SetOneScene(bool bOneScene) { m_bOneScene = bOneScene; } //シーンを移動するかどうかを設定
+	void SetOneScene(bool bOneScene) { m_bOneScene = bOneScene; } //シーンを移動するかどうかを設定	
+	void SetPlay(bool bPlay) { m_bPlay = bPlay; }                 //遊べるか設定する
 
 private:
 	CCamera* m_pCamera;        //カメラの情報
@@ -72,6 +74,7 @@ private:
 
 	bool m_bOneSound;          //１回だけ音源を流す為の変数
 	bool m_bOneScene;          //１回だけシーン移動する為の変数
+	bool m_bPlay;              //遊べるかどうかの判定用変数
 };
 
 

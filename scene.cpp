@@ -284,7 +284,7 @@ void CGame01::Update()
 				g_pBG->Release();
 				m_pFade = nullptr;
 				g_pBG = nullptr;
-				SetOneScene(true);
+				SetPlay(true);
 				GetPlayerX()->SetGravityFlag(true);                                           //d—ÍON
 				GetCamera()->GetAdjustmentPosZ() = 700;                                       //ƒJƒƒ‰‚ÌZŽ²‚Ì’²®
 				GetPlayerX()->SetMotion(CCharacter::MOTIONSTATE::TITLE_JUMP);
@@ -347,7 +347,7 @@ void CGame01::CompileCreate()
 //=======================
 CGame02::CGame02()
 {
-	
+	SetPlay(true);
 }
 
 

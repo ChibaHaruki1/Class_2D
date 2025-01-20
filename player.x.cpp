@@ -385,7 +385,10 @@ void CPlayerX::NormalStateSummarizeFunction()
 	//必殺技を撃っていない時
 	if (SpecialAttack == false)
 	{
-		KeySet();                  //キーごとの処理関数を呼ぶ
+		if (CManager::GetScene()->GetPlay() == true)
+		{
+			KeySet();                  //キーごとの処理関数を呼ぶ
+		}
 	}
 	else
 	{

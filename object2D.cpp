@@ -1,10 +1,13 @@
 //=========================================
 //
-//２Ｄオブジェクトの処理[object.cpp]
+//２Ｄオブジェクトの処理[object2D.cpp]
 //Auther:Chiba Haruki
 //
 //=========================================
 
+
+//=========================================
+//インクルード
 #include "main.h"
 #include "object2D.h"
 #include "rendererh.h"
@@ -16,41 +19,21 @@
 #include "collision.h"
 #include "score.h"
 
-//LPDIRECT3DTEXTURE9 m_pTexture = nullptr; //テクスチャへのポインタ
-//LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff = nullptr; //頂点バッファのポインタ
- 
-//=====================
-//コンストラクタ
-//=====================
-//CObject2D::CObject2D()
-//{
-//	m_pTexture = nullptr;
-//	m_pVtxBuff = nullptr;
-//	g_pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f); //位置を初期化(位置を調整できる）
-//	g_move = D3DXVECTOR3(0.0f, 0.0f, 0.0f); //移動量を初期化(移動速度を調整できる）
-//	g_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f); //向きを初期化する
-//	g_fAngle = 0;
-//	g_fLength = 0;
-//	m_nLife = 0;
-//	m_bUse = false;
-//	//pInputKeyBoard = nullptr;
-//}
-
 
 //=============================
 //引数付きコンストラクタ
 //=============================
 CObject2D::CObject2D(int nPriority) : CObject(nPriority)
 {
-	m_pTexture = nullptr;
-	m_pVtxBuff = nullptr;
-	m_pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f); //位置を初期化(位置を調整できる）
+	m_pTexture = nullptr;                   //テクスチャのポインターの初期化
+	m_pVtxBuff = nullptr;                   //バッファのポインターの初期化
+	m_pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);  //位置を初期化(位置を調整できる）
 	m_move = D3DXVECTOR3(0.0f, 0.0f, 0.0f); //移動量を初期化(移動速度を調整できる）
-	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f); //向きを初期化する
-	m_nRandom = 0;
-	m_nFrame = 0;
-	m_aFileName = nullptr;
-	m_nAlpha = 0;
+	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);  //向きを初期化する
+	m_nRandom = 0;                          //乱数の初期化
+	m_nFrame = 0;                           //フレームの初期化
+	m_aFileName = nullptr;                  //ファイルパスの初期化
+	m_nAlpha = 0;                           //アルファ値の初期化
 }
 
 
@@ -68,9 +51,9 @@ CObject2D::~CObject2D()
 //=====================
 HRESULT CObject2D:: Init()
 {
-	CRenderer *pRenderer = CManager::GetRenderer(); //共通したメモリを持つインスタンスを獲得
+	CRenderer *pRenderer = CManager::GetRenderer(); //レンダラーの取得
 
-	LPDIRECT3DDEVICE9 pDevice; //デバイスのポインタ	
+	LPDIRECT3DDEVICE9 pDevice;                      //デバイスのポインタ	
 
 	//デバイスの取得
 	pDevice = pRenderer->GetDevice();
@@ -78,7 +61,7 @@ HRESULT CObject2D:: Init()
 	//頂点バッファの生成
 	pDevice->CreateVertexBuffer(sizeof(VERTEX_2D) * 4, D3DUSAGE_WRITEONLY, FVF_VERTEX_2D, D3DPOOL_MANAGED, &m_pVtxBuff, NULL);
 
-	VERTEX_2D* pVtx;
+	VERTEX_2D* pVtx;  //頂点情報へのポインタ
 
 	//頂点バッファをロックし、頂点情報へのポインタを取得
 	m_pVtxBuff->Lock(0U, 0U, (void**)&pVtx, 0);
@@ -110,7 +93,7 @@ HRESULT CObject2D:: Init()
 	//頂点バッファをアンロック
 	m_pVtxBuff->Unlock();
 
-	return S_OK;
+	return S_OK; //成功を返す
 }
 
 //=====================
@@ -118,8 +101,8 @@ HRESULT CObject2D:: Init()
 //=====================
 HRESULT CObject2D::SelectInit(int nPieces,float nTexture)
 {
-	CRenderer* pRenderer = CManager::GetRenderer();
-	LPDIRECT3DDEVICE9 pDevice; //デバイスのポインタ	
+	CRenderer* pRenderer = CManager::GetRenderer(); //レンダラーの取得
+	LPDIRECT3DDEVICE9 pDevice;                      //デバイスのポインタ	
 
 	//デバイスの取得
 	pDevice = pRenderer->GetDevice();
@@ -127,11 +110,12 @@ HRESULT CObject2D::SelectInit(int nPieces,float nTexture)
 	//頂点バッファの生成
 	pDevice->CreateVertexBuffer(sizeof(VERTEX_2D) * 4 * nPieces, D3DUSAGE_WRITEONLY, FVF_VERTEX_2D, D3DPOOL_MANAGED, &GetBuffer(), NULL);
 
-	VERTEX_2D* pVtx;
+	VERTEX_2D* pVtx;  //頂点情報へのポインタ
 
 	//頂点バッファをロックし、頂点情報へのポインタを取得
 	m_pVtxBuff->Lock(0U, 0U, (void**)&pVtx, 0);
 
+	//引数分回す
 	for (int nCutScore = 0; nCutScore < nPieces; nCutScore++)
 	{
 		pVtx[0].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -175,8 +159,8 @@ void CObject2D::Uninit()
 	//頂点バッファの破棄
 	if (m_pVtxBuff != nullptr)
 	{
-		m_pVtxBuff->Release();
-		m_pVtxBuff = nullptr;
+		m_pVtxBuff->Release(); //情報を消す
+		m_pVtxBuff = nullptr;  //情報を無くす
 	}
 }
 
@@ -194,8 +178,8 @@ void CObject2D::Update ()
 //=====================
 void CObject2D::Draw()
 {
-	CRenderer* pRenderer = CManager::GetRenderer(); //プロセスクラスのインスタンス生成
-	LPDIRECT3DDEVICE9 pDevice = nullptr; //デバイスのポインタ	
+	CRenderer* pRenderer = CManager::GetRenderer(); //レンダラーの取得
+	LPDIRECT3DDEVICE9 pDevice = nullptr;            //デバイスのポインタ	
 
 	//デバイスの取得
 	pDevice = pRenderer->GetDevice();
@@ -285,13 +269,15 @@ void CObject2D::SetCol(int Red, int Green, int Blue, int Alph)
 //===============================
 HRESULT CObject2D::Lood()
 {
-	CRenderer* pRenderer = CManager::GetRenderer(); //共通したメモリを持つインスタンスを獲得
+	CRenderer* pRenderer = CManager::GetRenderer();     //レンダラーの取得
 
-	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice(); //デバイスの取得
 
+	//テクスチャのファイルがない時
 	if (FAILED(D3DXCreateTextureFromFile(pDevice, m_aFileName, &m_pTexture)))
 	{
-		return E_FAIL;
+		return E_FAIL; //失敗を返す
+
 	}
-	return S_OK;
+	return S_OK; //成功を返す
 }
