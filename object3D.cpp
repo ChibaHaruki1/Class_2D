@@ -307,7 +307,7 @@ bool CObject3D::CollisionPrtsPlayer(float X, float Y, float Z)
 bool CObject3D::CollisionPrts1Left(float X, float Y, float Z)
 {
 	//プレイヤーの左パーツ毎の当たり判定処理
-	for (int nCount = 0; nCount < CCharacter::NUM_RIGHTPRTS/2; nCount++)
+	for (int nCount = 0; nCount < CCharacter::NUM_RIGHTLEFTPRTS; nCount++)
 	{
 		//左肩～の左パーツの当たり判定
 		if (CManager::GetScene()->GetPlayerX()->GetCollision()->ColiisionBox3DLeft(m_pos, CManager::GetScene()->GetPlayerX()->GetPosPrts(nCount + 6), X, Y, Z, CManager::GetScene()->GetPlayerX()->GetModelSizePrts(nCount + 6)) == true)
@@ -337,7 +337,7 @@ bool CObject3D::CollisionPrts1Left(float X, float Y, float Z)
 bool CObject3D::CollisionPrts1Right(float X, float Y, float Z)
 {
 	//プレイヤーの各パーツ毎の当たり判定処理
-	for (int nCount = 0; nCount < CCharacter::NUM_RIGHTPRTS/2; nCount++)
+	for (int nCount = 0; nCount < CCharacter::NUM_RIGHTLEFTPRTS; nCount++)
 	{
 		//右肩からの右パーツの当たり判定
 		if (CManager::GetScene()->GetPlayerX()->GetCollision()->ColiisionBox3DRight(m_pos, CManager::GetScene()->GetPlayerX()->GetPosPrts(nCount + 2), X, Y, Z, CManager::GetScene()->GetPlayerX()->GetModelSizePrts(nCount + 2)) == true)

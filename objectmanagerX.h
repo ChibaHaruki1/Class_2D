@@ -81,7 +81,7 @@ public:
 
 protected:
 	//マクロ定義
-	constexpr static int MAX_OBJECTMANAGERX = 150;       //オブジェクトの最大数
+	constexpr static int MAX_OBJECTMANAGERX = 100;       //オブジェクトの最大数
 	constexpr static int DEFAULT_PRIORITY1 = 3;          //デフォルトの描画順
 	constexpr static int MAX_PRIORITY_MANAGER_OBJ = 4;   //描画順の最大数
 

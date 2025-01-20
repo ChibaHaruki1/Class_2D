@@ -88,6 +88,7 @@ public:                      //アクセス可能
 	HRESULT Init()override;  //初期化処理
 	void Uninit()override;   //破棄処理
 	void Update()override;   //更新処理
+	void InitCreate();       //初期化時に生成したい物をまとめる関数
 	void CompileCreate();    //create関数をまとめる関数
 
 private:           //アクセス不可能

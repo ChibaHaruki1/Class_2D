@@ -15,7 +15,6 @@
 #include "ui.h"
 
 #define MAX_TEXTURE (64) //保管できる最大のテクスチャー数
-#define MAX_OBJECTSPEED (2.0f)
 
 class CObjectX : public CObjectManagerX
 {
@@ -33,7 +32,6 @@ public://外部からのアクセス可能
 	void TargetHeadingTowards(CObjectX* pObject, float MAX_SPEED);           //目標に向かう処理
 	HRESULT Lood();                                                          //ｘファイルの読み込み関数（引数で読み込むファイルパスを渡す）
 	void ObjectArrangement(CObjectX::TYPE type, CUI* pUI1);                  //配置ツール
-	void BindTexture(LPDIRECT3DTEXTURE9 pTex, LPD3DXMESH pMesh, LPD3DXBUFFER BuffMat, DWORD NumMat, D3DXMATERIAL* pMat); //派生クラスの情報をもらうための関数（３Dモデル関連）
 
 	bool CollisionBossPrts();                                                   //プレイヤーとボスの当たり判定
 	bool CollisionRightSelectPlayer(CObjectX* pObject);                         //プレイヤーと指定したobjの当たり判定（単体）右側
@@ -130,8 +128,14 @@ protected://継承クラスのみアクセス可能
 	constexpr static float D3DX_PI_ORI = 1.57f;  //半円の角度
 
 private:
+	//マクロ定義
+	constexpr static float OBJECT_SET_PLUS_X = 1.0f;   //オブジェクトの配置時のX軸の右の移動の速さ
+	constexpr static float OBJECT_SET_MINUS_X = 1.0f;  //オブジェクトの配置時のX軸の左の移動の速さ
+	constexpr static float OBJECT_SET_PLUS_Y = 1.0f;   //オブジェクトの配置時のY軸の上の移動の速さ
+	constexpr static float OBJECT_SET_MINUS_Y = 1.0f;  //オブジェクトの配置時のY軸の下の移動の速さ
+
+
 	LPDIRECT3DTEXTURE9 m_pTexture[MAX_TEXTURE]; //テクスチャへのポインタ
-	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;         //頂点バッファのポインタ
 	D3DXMATRIX m_mtxWorld;                      //マトリックス
 
 	D3DXMATERIAL* m_pMat;                       //マテリアルのポインタ

@@ -242,18 +242,21 @@ CGame01::~CGame01()
 //=======================
 HRESULT CGame01::Init()
 {
-	g_pBG = CManagerBg::Create(MODE::MODE_TITLE);
-	m_pFade = CFade::Create();
-
-	CScene::Init();
-
-	GetCamera()->GetAdjustmentPosZ() = 400; //カメラのZ軸の調整
-
-	CompileCreate();                        //createしたいものを関数化して呼ぶ
-
-	GetPlayerX()->GetPos().y = 2000.0f;     //プレイヤーのY軸の位置を設定
-
-	return S_OK;                            //成功を返す
+	g_pBG = CManagerBg::Create(MODE::MODE_TITLE);             //背景のUI生成
+	m_pFade = CFade::Create();                                //フェードの生成
+												              
+	CScene::Init();                                           //初期化処理
+													          
+	GetCamera()->GetAdjustmentPosZ() = 500;                   //カメラのZ軸の調整
+	GetCamera()->SetRot(D3DXVECTOR3(0.0f,0.57f,0.0f));        //カメラの向きの設定
+													          
+	InitCreate();                                             //タイトルに必要な生成
+	GetPlayerX()->SetMotion(CCharacter::MOTIONSTATE::LOKING); //プレイヤーのモーションを探すに設定
+	GetPlayerX()->SetRot(D3DXVECTOR3(0.0f,0.57f,0.0f));       //プレイヤーの向きを設定
+	
+	GetPlayerX()->GetPos().y = 2050.0f;                //プレイヤーのY軸の位置を設定
+										               
+	return S_OK;                                       //成功を返す
 }
 
 
@@ -287,7 +290,9 @@ void CGame01::Update()
 				SetPlay(true);
 				GetPlayerX()->SetGravityFlag(true);                                           //重力ON
 				GetCamera()->GetAdjustmentPosZ() = 700;                                       //カメラのZ軸の調整
+				GetCamera()->SetRot(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 				GetPlayerX()->SetMotion(CCharacter::MOTIONSTATE::TITLE_JUMP);
+				CompileCreate();                        //createしたいものを関数化して呼ぶ
 				return;
 			}
 		}
@@ -320,20 +325,28 @@ void CGame01::Update()
 //=======================
 //Cretae関数を呼ぶ
 //=======================
+void CGame01::InitCreate()
+{
+	GetPlayerX() = CPlayerX::Create();                                                                                     //プレイヤーの生成
+	CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::SPECEBATTLESHIP000, D3DXVECTOR3(0.0f, 2000.0f, 100.0f));  //次のステージへ行くobjの生成
+	CSkyDoom::Create(D3DXVECTOR3(0.0f, 0.0f, 200.0f), 1);                                                                  //空の生成
+}
+
+
+//=======================
+//Cretae関数を呼ぶ
+//=======================
 void CGame01::CompileCreate()
 {
 	//Xファイルのcreate
-
-	GetPlayerX() = CPlayerX::Create(); //プレイヤーの生成
 	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::SHOP, 0, D3DXVECTOR3(200.0f, 0.0f, 150.0f));         //店の生成
-	CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::SPECEBATTLESHIP000, D3DXVECTOR3(0.0f, 2000.0f, 100.0f));            //次のステージへ行くobjの生成
 	CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::SPECEBATTLESHIP000, D3DXVECTOR3(12700.0f, 1900.0f, 0.0f));        //次のステージへ行くobjの生成
-	CSkyDoom::Create(D3DXVECTOR3(0.0f, 0.0f, 200.0f), 1);                                                                          //空の生成
 	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::ENEMYINMOTION001,0, D3DXVECTOR3(1000.0f, 100.0f, 0.0f));     //モーション付きの敵の生成
 	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::ENEMYINMOTION001,0, D3DXVECTOR3(2900.0f, 2000.0f, 0.0f));    //モーション付きの敵の生成
 	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::ENEMYINMOTION001,0, D3DXVECTOR3(7000.0f, 2000.0f, 0.0f));    //モーション付きの敵の生成
 
 	CManager::GetInstance()->GetCreateObjectInstnace2D(CObject2D::TYPE::SCORE,0);                                                   //スコアの生成
+	CManager::GetInstance()->GetCreateObjectInstnace2D(CObject2D::TYPE::HP, 0); //プレイヤーのHPゲージの生成
 }
 
 
@@ -405,7 +418,8 @@ void CGame02::CompileCreate()
 	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::SHOP, 0, D3DXVECTOR3(200.0f, 0.0f, 150.0f));         //店の生成
 	CSkyDoom::Create(D3DXVECTOR3(0.0f, 0.0f, 200.0f), 0);                                                          //空の生成
 	CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::FINALBLOCK, D3DXVECTOR3(4335.0f, -200.0f, 0.0f));   //ボス戦の足場
-	CManager::GetInstance()->GetCreateObjectInstnace2D(CObject2D::TYPE::SCORE, CManager::GetObjectSet()->GetClearScore());                                            //スコアの生成
+	CManager::GetInstance()->GetCreateObjectInstnace2D(CObject2D::TYPE::SCORE, CManager::GetObjectSet()->GetClearScore());          //スコアの生成
+	CManager::GetInstance()->GetCreateObjectInstnace2D(CObject2D::TYPE::HP, 0); //プレイヤーのHPゲージの生成
 }
 
 
@@ -558,7 +572,7 @@ void CResult::Update()
 
 	else if (GetOneScene() == true)
 	{
-		CManager::SetMode(CScene::MODE::MODE_TITLE);
+		CManager::SetMode(CScene::MODE::MODE_GAME01);
 		//CManager::UninitKey();
 		return; //処理を抜ける
 	}

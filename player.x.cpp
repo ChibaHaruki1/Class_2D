@@ -24,7 +24,6 @@
 //===================
 CPlayerX::CPlayerX(int nPriority) : CCharacter(nPriority)
 {
-	CManager::GetInstance()->GetCreateObjectInstnace2D(CObject2D::TYPE::HP, 0); //プレイヤーのHPゲージの生成
 	SetJumpFlag(false);                                                         //飛んでいないに設定
 	SetGravity(0.0f);                                                           //重力の初期化
 
@@ -177,45 +176,48 @@ void CPlayerX::Update()
 	if (GetLife() == 1)
 	{
 		CCharacter::UpdatePlayer();  //モーションの更新
-		HitAttack();                 //特定の攻撃を受けた時の処理関数を呼ぶ
-
-		//必殺技カウントが規定値より低い時
-		if (m_nSpecialAttackCount <= MAX_SPECIALATTACKCOUNT)
+		if (CManager::GetScene()->GetPlay() == true)
 		{
-			m_nSpecialAttackCount++; //カウントを進める
-		}
+			HitAttack();                 //特定の攻撃を受けた時の処理関数を呼ぶ
 
-		//次のsceneに行くフラグがOnの時
-		if (m_bNextStage == true)
-		{
-			SceneMode(1); //sceneの切り替え
-			return;		  //処理を抜ける
-		}
-
-		//ゲージのmanagerが生成されていた時
-		if (CManager::GetInstance()->GetPlayerHPGage() != nullptr)
-		{
-			//HPゲージが０以下の時
-			if (CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() <= 0)
+			//必殺技カウントが規定値より低い時
+			if (m_nSpecialAttackCount <= MAX_SPECIALATTACKCOUNT)
 			{
-				CManager::GetInstance()->GetPlayerHPGage()->GetSaveSizeX() = 0.0f;  //HPゲージのサイズを０にする
-				SetLife(0);                                                         //ライフを０に設定で死亡判定にする
+				m_nSpecialAttackCount++; //カウントを進める
 			}
-		}
 
-		//何もしていない時
-		if (m_PlayerState == CPlayerX::PLAYER_STATE::NORMAI_MODE)
-		{
-			NormalStateSummarizeFunction(); //専用の処理を呼ぶ
-		}
+			//次のsceneに行くフラグがOnの時
+			if (m_bNextStage == true)
+			{
+				SceneMode(1); //sceneの切り替え
+				return;		  //処理を抜ける
+			}
 
-		//SHOPで買い物をしている時
-		else if (m_PlayerState == CPlayerX::PLAYER_STATE::SHOP_MODE || m_PlayerState == CPlayerX::PLAYER_STATE::BUY_MODE)
-		{
-			ShopStateSummarizeFunction();   //専用の処理を呼ぶ
-		}
+			//ゲージのmanagerが生成されていた時
+			if (CManager::GetInstance()->GetPlayerHPGage() != nullptr)
+			{
+				//HPゲージが０以下の時
+				if (CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() <= 0)
+				{
+					CManager::GetInstance()->GetPlayerHPGage()->GetSaveSizeX() = 0.0f;  //HPゲージのサイズを０にする
+					SetLife(0);                                                         //ライフを０に設定で死亡判定にする
+				}
+			}
 
-		CObjectX::Update(); //基底クラスの基底クラスの更新処理を呼ぶ
+			//何もしていない時
+			if (m_PlayerState == CPlayerX::PLAYER_STATE::NORMAI_MODE)
+			{
+				NormalStateSummarizeFunction(); //専用の処理を呼ぶ
+			}
+
+			//SHOPで買い物をしている時
+			else if (m_PlayerState == CPlayerX::PLAYER_STATE::SHOP_MODE || m_PlayerState == CPlayerX::PLAYER_STATE::BUY_MODE)
+			{
+				ShopStateSummarizeFunction();   //専用の処理を呼ぶ
+			}
+
+			CObjectX::Update(); //基底クラスの基底クラスの更新処理を呼ぶ
+		}
 	}
 
 	//死んだ時
@@ -385,7 +387,7 @@ void CPlayerX::NormalStateSummarizeFunction()
 	//必殺技を撃っていない時
 	if (SpecialAttack == false)
 	{
-		if (CManager::GetScene()->GetPlay() == true)
+		//if (CManager::GetScene()->GetPlay() == true)
 		{
 			KeySet();                  //キーごとの処理関数を呼ぶ
 		}

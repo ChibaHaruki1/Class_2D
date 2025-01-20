@@ -541,7 +541,7 @@ void CCharacter::Lood()
 	}
 
 	//パーツごとの位置を常に更新＝もともとのパーツのposを足し合わせた物
-	for (int nCount3 = 0; nCount3 < NUM_RIGHTPRTS; nCount3++)
+	for (int nCount3 = 0; nCount3 < NUM_RIGHTLEFTPRTS*2; nCount3++)
 	{
 		GetPosPrts(nCount3 + 2) = D3DXVECTOR3(SaveMotionPos[nCount3 + 2].x + GetPos().x, SaveMotionPos[nCount3 + 2].y + GetPos().y+20.0f , SaveMotionPos[nCount3 + 2].z + GetPos().z);      //パーツの位置を修正
 		GetPosPrts(nCount3 + 10) = D3DXVECTOR3(SaveMotionPos[nCount3 + 10].x + GetPos().x, SaveMotionPos[nCount3 + 10].y + GetPos().y+20.0f , SaveMotionPos[nCount3 + 10].z + GetPos().z);  //パーツの位置を修正
@@ -917,7 +917,7 @@ void CCharacter::MotionInfo()
 		{
 			//特殊な行動の終わり
 			m_bMotionType = false; //モーションの判定をoffにする
-			SetMotion(NEUTRAL);    //モーションの情報の切り替え
+			//SetMotion(NEUTRAL);    //モーションの情報の切り替え
 		}
 	}
 }

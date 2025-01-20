@@ -61,6 +61,7 @@ public://外部からのアクセス可能
 		SLOWSHOT,    //ゆっくり撃つ
 		TITLE_JUMP,  //タイトル時の飛ぶ
 		LANDING,     //着地
+		LOKING ,     //探す(タイトル時)
 	}MOTIONSTATE;
 
 	CCharacter(int nPriority = DEFAULT_PRIORITY1);         //コンストラクタ
@@ -82,18 +83,27 @@ public://外部からのアクセス可能
 	void MotionInfoBoss();                                 //ボスモーションの情報を扱う処理
 	void SetMotionBoss(BOSSMOTIONSTATE motiontype);        //ボスモーションごとの処理
 
-	CModelPrts* GetModelPrtasBoss(int nNumber) { return m_pModelPrtsBoss[nNumber]; }
-
-	bool m_bMotionType, m_bMotionBossType;       //特殊なモーションかどうかを判定する為の変数
 	MOTIONSTATE m_MotionState;                   //プレイヤーのモーションの種類の情報を持つ
 	BOSSMOTIONSTATE m_MotionStateBoss;           //ボスのモーションの種類の情報を持つ
 	CModelPrts* m_pModelPrts[MAX_PRTS];          //モデルパーツの情報のポインター
 	CModelPrts* m_pModelPrtsBoss[MAX_BOSSPARTS]; //モデルパーツの情報のポインター
 
+
+	//=====================================
+	//情報の取得
+	CModelPrts* GetModelPrtasBoss(int nNumber) { return m_pModelPrtsBoss[nNumber]; } //ボスのパーツの情報の取得
+	//bool& GetMotionType() { return m_bMotionType; }                                  //プレイヤーのモーションタイプの取得
+
+
+	//=====================================
+	//情報の設定
+	void SetMotionType(bool bMotionType) { m_bMotionType = bMotionType; }            //プレイヤーのモーションタイプの設定
+
+
 	//マクロ定義 （constexprでコンパイル時に初期化）
-	constexpr static int MAX_KEYSET = 5;        //モーションに使うキーの数
-	constexpr static int NUM_MOTION = 10;       //プレイヤーモーションの総数
-	constexpr static int NUM_RIGHTPRTS = 8;     //プレイヤーの側のパーツ数
+	constexpr static int MAX_KEYSET = 7;        //モーションに使うキーの数
+	constexpr static int NUM_MOTION = 11;       //プレイヤーモーションの総数
+	constexpr static int NUM_RIGHTLEFTPRTS = 4; //プレイヤーの側のパーツ数
 	constexpr static int NUM_MOTIONBOSS = 10;   //ボスのモーションの総数
 	constexpr static int NUM_RIGHTPRTSBOSS = 8; //ボスの側のパーツ数
 
@@ -136,4 +146,6 @@ private://外部からのアクセス不可能
 
 	int m_nMotionFrameBoss;            //モーション時のフレームをカウントするための変数
 	int MotionCount, MotionCountBoss;  //現在のモーションをカウントするための変数(Keyカウント)
+
+	bool m_bMotionType, m_bMotionBossType;       //特殊なモーションかどうかを判定する為の変数
 };

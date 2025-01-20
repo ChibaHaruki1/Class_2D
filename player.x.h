@@ -75,7 +75,7 @@ private: //アクセス不可能
 
 
 	constexpr static float MAX_JUMPPAWER = 10.0f;           //飛ぶ力
-	constexpr static float MAX_SPECIALATTACKCOUNT = 60 * 0;   //必殺技のリキャストタイム
+	constexpr static float MAX_SPECIALATTACKCOUNT = 60 * 10;   //必殺技のリキャストタイム
 
 	//プレイヤーの状態
 	enum class PLAYER_STATE

@@ -64,7 +64,7 @@ public:
 	CDebrisX* GetDebrisX(int nNumber) { return m_pDebrisX[nNumber]; }                             //瓦礫の取得
 
 	//ステージに配置する用のオブジェクトのインスタンスを取得
-	CStageObj* GetStageObj(int nNumber) { return m_pTelephonPole[nNumber]; }                      //電柱の取得
+	CStageObj* GetTelephonPole(int nNumber) { return m_pTelephonPole[nNumber]; }                  //電柱の取得
 	CStageObj* GetSurveillanceCameraUp(int nNUmber) { return m_pSurveillanceCameraUp[nNUmber]; }  //カメラの上部分の取得
 	CStageObj* GetShop() { return m_pShop; }                                                      //店の取得
 
