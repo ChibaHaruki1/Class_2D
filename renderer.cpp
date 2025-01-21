@@ -5,6 +5,9 @@
 //
 //=======================================
 
+
+//=======================================
+//インクルード
 #include "main.h"
 #include "rendererh.h"
 #include "bg.h"
@@ -19,12 +22,12 @@
 //==================
 CRenderer::CRenderer()
 {
-	m_pD3D = nullptr;
-	m_pD3DDevice = nullptr;
+	m_pD3D = nullptr;        //DirectX9の情報の初期化
+	m_pD3DDevice = nullptr;  //DirectX9のデバイスの初期化
 
-	m_pFont = nullptr;
-	m_bPause = false;
-	m_bDrawShader = false;
+	m_pFont = nullptr;       //フォントの初期化
+	m_bPause = false;        //ポーズしていないに設定
+	m_bDrawShader = false;   //シェーダーを描画しないに設定
 }
 
 //==================
@@ -40,37 +43,36 @@ CRenderer::~CRenderer()
 //==================
 HRESULT CRenderer::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 {
-	D3DDISPLAYMODE d3ddm; //ディスプレイモード
+	D3DDISPLAYMODE d3ddm;        //ディスプレイモード
 	D3DPRESENT_PARAMETERS d3dpp; //プレゼンテーションパラメータ
-
-	//pScene = new CTitle();
 
 	//DirectXオブジェクトの作成
 	m_pD3D = Direct3DCreate9(D3D_SDK_VERSION);
 
+    //情報がない時
 	if (m_pD3D == nullptr)
 	{
-		return E_FAIL;
+		return E_FAIL; //失敗を返す
 	}
 
-	//現在のディスプレイモードを収得
+	//現在のディスプレイモードを収得できない時
 	if (FAILED(m_pD3D->GetAdapterDisplayMode(D3DADAPTER_DEFAULT, &d3ddm)))
 	{
-		return E_FAIL;
+		return E_FAIL; //失敗を返す
 	}
 
 	//デバイスのプレゼンテーションパラメータ設定
-	ZeroMemory(&d3dpp, sizeof(d3dpp)); //パラメータゼロクリア
-	d3dpp.BackBufferWidth = CMain::SCREEN_WIDTH; //ゲーム画面の幅
-	d3dpp.BackBufferHeight = CMain::SCREEN_HEIGHT; //ゲーム画面の高さ
-	d3dpp.BackBufferFormat = d3ddm.Format; //バックバッファの形式
-	d3dpp.BackBufferCount = 1; //バックバッファの数
-	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD; //ダブルバッファの切り替え（映像信号に同期）
-	d3dpp.EnableAutoDepthStencil = TRUE; //デプスバッファとステンシルバッファを作成
-	d3dpp.AutoDepthStencilFormat = D3DFMT_D16; //デプスバッファとして１６ビット使用
-	d3dpp.Windowed = bWindow; //ウィンドウモード
+	ZeroMemory(&d3dpp, sizeof(d3dpp));                          //パラメータゼロクリア
+	d3dpp.BackBufferWidth = CMain::SCREEN_WIDTH;                //ゲーム画面の幅
+	d3dpp.BackBufferHeight = CMain::SCREEN_HEIGHT;              //ゲーム画面の高さ
+	d3dpp.BackBufferFormat = d3ddm.Format;                      //バックバッファの形式
+	d3dpp.BackBufferCount = 1;                                  //バックバッファの数
+	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;                   //ダブルバッファの切り替え（映像信号に同期）
+	d3dpp.EnableAutoDepthStencil = TRUE;                        //デプスバッファとステンシルバッファを作成
+	d3dpp.AutoDepthStencilFormat = D3DFMT_D16;                  //デプスバッファとして１６ビット使用
+	d3dpp.Windowed = bWindow;                                   //ウィンドウモード
 	d3dpp.FullScreen_RefreshRateInHz = D3DPRESENT_RATE_DEFAULT; //リフレッシュレート
-	d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_DEFAULT; //インターバル
+	d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_DEFAULT;   //インターバル
 
 	//Direct3Dデバイスの生成（描画処理と頂点処理をハードウェアで行う）
 	if (FAILED(m_pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd, D3DCREATE_HARDWARE_VERTEXPROCESSING, &d3dpp, &m_pD3DDevice)))
@@ -116,24 +118,25 @@ HRESULT CRenderer::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 //==================
 void CRenderer::Uninit()
 {
-	//Direct3Dデバイスの破棄
-	if (m_pD3DDevice != NULL)
+	//Direct3Dデバイスの情報がある時
+	if (m_pD3DDevice != nullptr)
 	{
-		m_pD3DDevice->Release();
-		m_pD3DDevice = NULL;
+		m_pD3DDevice->Release(); //情報を消す
+		m_pD3DDevice = nullptr;  //情報を無くす
 	}
 
 	//Direct3Dオブジェクトの破棄
-	if (m_pD3D != NULL)
+	if (m_pD3D != nullptr)
 	{
-		m_pD3D->Release();
-		m_pD3D = NULL;
+		m_pD3D->Release();       //情報を消す
+		m_pD3D = nullptr;        //情報を無くす
 	}
+
 	//デバック表示用フォントの破壊
 	if (m_pFont != nullptr)
 	{
-		m_pFont->Release();
-		m_pFont = nullptr;
+		m_pFont->Release();      //情報を消す
+		m_pFont = nullptr;       //情報を無くす
 	}
 }
 
@@ -142,7 +145,7 @@ void CRenderer::Uninit()
 //==================
 void CRenderer::Update()
 {
-	//pKeyが押されたとき
+	//Pキーが押されたとき
 	if (CManager::GetKeyBorad()->GetKeyboardTrigger(DIK_P) == true)
 	{
 		m_bPause = m_bPause ? false : true;
@@ -151,8 +154,8 @@ void CRenderer::Update()
 	//pauseしてない
 	if (m_bPause == false)
 	{
-		CObject::UpdateAll(); //オブジェクトの更新処理
-		CObjectManagerX::UpdateAll();
+		CObjectManagerX::UpdateAll();  //オブジェクトの更新処理
+		CObject::UpdateAll();          //オブジェクトの更新処理
 	}
 
 	//pause中
@@ -190,7 +193,7 @@ void CRenderer::Draw()
 				//ボスの演出が開始
 				if (CManager::GetEvent()->GetBossDirection() == true)
 				{
-					//m_pD3DDevice->SetRenderState(D3DRS_SHADEMODE, D3DSHADE_FLAT);  //シェーダーを変更（３Dモデルを面表示）
+					m_pD3DDevice->SetRenderState(D3DRS_SHADEMODE, D3DSHADE_FLAT);  //シェーダーを変更（３Dモデルを面表示）
 					m_bDrawShader = true;                                          //シェーダーを描画した
 				}
 			}
@@ -219,9 +222,7 @@ void CRenderer::Draw()
 
 		//全ての描画
 		CObjectManagerX::DrawAll();
-		CObject::DrawAll(); 
-		//CObject::DrawNomlAll();
-
+		CObject::DrawAll();
 
 		DrawFPS(); //debug描画
 
@@ -242,7 +243,7 @@ void CRenderer::DrawFPS()
 	//表示用変数
 	RECT rect = { 0,0,CMain::SCREEN_WIDTH,CMain::SCREEN_HEIGHT }; //X,Y,大きさ（横、縦）で位置設定
 
-	char aStr[10];
+	char aStr[10];                                                //文字列を保管する用の変数
 
 	//文字列に代入
 	wsprintf(&aStr[0], "FPS;%d\n", CManager::GetMain()->GetFPS());

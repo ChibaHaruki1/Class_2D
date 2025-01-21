@@ -12,11 +12,15 @@
 #include "manager.h"
 #include "objectmanagerX.h"
 #include <ppl.h>
+//#include "StepTimer.h"
+#include <time.h>
 
 
 //=========================================
 //静的メンバーの初期化
 CObjectManagerX* CObjectManagerX::m_apObjectManagerX[MAX_PRIORITY_MANAGER_OBJ][MAX_OBJECTMANAGERX] = {}; //全Xオブジェクトの初期化
+
+//using namespace cv;
 
 
 //==========================
@@ -93,7 +97,7 @@ void CObjectManagerX::Draw()
 //====================
 void CObjectManagerX::ReleaseAll()
 {
-	//puriority分回す
+	//puriority分回す(平行処理)
 	Concurrency::parallel_for(0, CObject::MAX_PRIORITY_OBJ, [&](int nCountPri)
 		{
 			//オブジェクト分回す
@@ -114,20 +118,35 @@ void CObjectManagerX::ReleaseAll()
 //====================
 void CObjectManagerX::UpdateAll()
 {
-	//puriority分回す(PPLfor文)
-	Concurrency::parallel_for(0, CObject::MAX_PRIORITY_OBJ, [&](int nCountPri)
+	////puriority分回す(PPLfor文) 注意点：skydoom.cppのプレイヤーと位置の同期時、平行処理にするから空がかくかくした挙動になる
+	//Concurrency::parallel_for(0, CObject::MAX_PRIORITY_OBJ, [&](int nCountPri)
+	//	{
+	//		//オブジェクト分回す
+	//		for (int nCount = 0; nCount < MAX_OBJECTMANAGERX; nCount++)
+	//		{
+	//			//情報がある場合
+	//			if (m_apObjectManagerX[nCountPri][nCount] != nullptr)
+	//			{
+	//				m_apObjectManagerX[nCountPri][nCount]->Update(); //更新処理を呼ぶ
+	//			}
+	//		}
+	//	});
+	
+	//puriority分回す
+	for (int nCountPri = 0; nCountPri < CObject::MAX_PRIORITY_OBJ; nCountPri++)
+	{
+		//オブジェクト分回す
+		for (int nCount = 0; nCount < MAX_OBJECTMANAGERX; nCount++)
 		{
-			//オブジェクト分回す
-			for (int nCount = 0; nCount < MAX_OBJECTMANAGERX; nCount++)
+			//情報がある場合
+			if (m_apObjectManagerX[nCountPri][nCount] != nullptr)
 			{
-				//情報がある場合
-				if (m_apObjectManagerX[nCountPri][nCount] != nullptr)
-				{
-					m_apObjectManagerX[nCountPri][nCount]->Update(); //更新処理を呼ぶ
-				}
+				m_apObjectManagerX[nCountPri][nCount]->Update(); //更新処理を呼ぶ
 			}
-		});
-
+		}
+	};
+	 
+	time_t endTime = time(NULL); //終了
 }
 
 

@@ -5,6 +5,9 @@
 //
 //==================================
 
+
+//==================================
+//インクルード
 #include "main.h"
 #include"manager.h"
 #include "rendererh.h"
@@ -34,13 +37,13 @@ CSkyDoom::~CSkyDoom()
 //============================
 HRESULT CSkyDoom::Init()
 {
-	//頂点バッファ生成
+	//初期化処理に成功した時
 	if (FAILED(CObjectX::Init()))
 	{
-		return E_FAIL;
+		return E_FAIL; //失敗を返す
 	}
 
-	return S_OK;
+	return S_OK;       //成功を返す
 }
 
 //==========================
@@ -48,7 +51,7 @@ HRESULT CSkyDoom::Init()
 //==========================
 void CSkyDoom::Uninit()
 {
-	CObjectX::Uninit();
+	CObjectX::Uninit(); //破棄処理
 }
 
 //========================
@@ -57,28 +60,27 @@ void CSkyDoom::Uninit()
 void CSkyDoom::Update()
 {
 	////向きの更新（動いているように見せる）
-	//GetRot().x += 0.0001f;
-	//m_rot.z += 0.0001f;
+    //GetRot().x += 0.0001f;
+	//GetRot().z += 0.0001f;
 
 	//Dキーが押された時
 	if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_D) == true)
 	{
 		GetRot().y += 0.0001f; //動いた方向と同じ向きに傾く
-		GetMove().x += CManager::GetScene()->GetPlayerX()->GetMove().x;
+		SetAddjustMove().x += CManager::GetScene()->GetPlayerX()->GetMove().x;
 	}
 
 	//Aキーが押された時
 	else if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_A) == true)
 	{
 		GetRot().y -= 0.0001f; //動いた方向と同じ向きに傾く
-		GetMove().x += CManager::GetScene()->GetPlayerX()->GetMove().x;
+		SetAddjustMove().x += CManager::GetScene()->GetPlayerX()->GetMove().x;
 	}
 
 	GetPos().y = CManager::GetScene()->GetPlayerX()->GetPos().y; //プレイヤーのｙ軸と常に同期させる＝落ちた時に自然に見せれる
-	GetPos().x = CManager::GetScene()->GetPlayerX()->GetPos().x; //プレイヤーのｙ軸と常に同期させる＝落ちた時に自然に見せれる
+	GetPos().x = CManager::GetScene()->GetPlayerX()->GetPos().x; //プレイヤーのｘ軸と常に同期させる
 
 	CObjectX::Update(); //位置の更新処理
-
 }
 
 //======================

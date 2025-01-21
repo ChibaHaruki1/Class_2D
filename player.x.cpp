@@ -246,7 +246,7 @@ void CPlayerX::Update()
 			return;       //処理を抜ける
 		}
 	}
-	//SceneMode(2);         //シーンを選択
+	SceneMode(2);         //シーンを選択
 }
 
 
@@ -510,10 +510,10 @@ void CPlayerX::KeySet()
 	//Aキーが押された時（押され続けた時）
 	if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_A) == true || CManager::GetJyoPad()->GetJoypadPress(CInputJoyPad::JOYKEY::JOYKEY_LEFT) == true)
 	{
-		GetRot().y = CManager::GetScene()->GetCamera()->GetRot().y + D3DX_PI / 2;                         //カメラの向きに合わせて向く
-		GetMove().x -= sinf(D3DX_PI / 2 + CManager::GetScene()->GetCamera()->GetRot().y) * MAX_MOVESPEED; //X軸の移動量をカメラの向きから減算
-		GetMove().z -= cosf(D3DX_PI / 2 + CManager::GetScene()->GetCamera()->GetRot().y) * MAX_MOVESPEED; //Z軸の移動量をカメラの向きから減算
-		m_nRotNumber = 1;                                                                                 //向き番号の設定
+		GetRot().y = CManager::GetScene()->GetCamera()->GetRot().y + D3DX_PI / 2;                                //カメラの向きに合わせて向く
+		SetAddjustMove().x -= sinf(D3DX_PI / 2 + CManager::GetScene()->GetCamera()->GetRot().y) * MAX_MOVESPEED; //X軸の移動量をカメラの向きから減算
+		SetAddjustMove().z -= cosf(D3DX_PI / 2 + CManager::GetScene()->GetCamera()->GetRot().y) * MAX_MOVESPEED; //Z軸の移動量をカメラの向きから減算
+		m_nRotNumber = 1;                                                                                        //向き番号の設定
 
 		//撃ってない時
 		if (m_nMotionFrame <= 0 && m_nMotionFrame001 <= 0)
