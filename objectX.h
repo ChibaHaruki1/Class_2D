@@ -121,10 +121,6 @@ public://外部からのアクセス可能
 	constexpr static int MAX_ENEMYPARTS = 20;    //敵の最大パーツ数
 	constexpr static int NUM_MOTION_KEY = 5;     //キーの数
 	constexpr static float MAX_GRAVITY_G = 0.5f; //重力の最大値
-
-protected://継承クラスのみアクセス可能
-
-	//マクロ定義
 	constexpr static float D3DX_PI_ORI = 1.57f;  //半円の角度
 
 private:

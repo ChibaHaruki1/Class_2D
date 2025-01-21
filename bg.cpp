@@ -98,11 +98,11 @@ CManagerBg* CManagerBg::Create(CScene::MODE mode)
 	{
 		pBg = new CTitleBg(0);                                            //動的確保
 		pBg->SetFileNamePass("data\\TEXTURE\\UI\\scene\\Title001.png");   //ファイルパスを設定
-	}																      
-																	      
+	}
+
 	//リザルト時														     
-	else if (mode == CScene::MODE::MODE_RESULT)						      
-	{																      
+	else if (mode == CScene::MODE::MODE_RESULT)
+	{
 		pBg = new CResultBg(3);                                           //動的確保
 		pBg->SetFileNamePass("data\\TEXTURE\\UI\\scene\\utyuu.png");      //ファイルパスを設定
 	}
@@ -114,15 +114,11 @@ CManagerBg* CManagerBg::Create(CScene::MODE mode)
 		pBg->SetFileNamePass("data\\TEXTURE\\UI\\SCREEN\\GameOver.jpg");  //ファイルパスを設定
 	}
 
-	//情報がある時
-	if (pBg != nullptr)
+	//初期化が成功した時
+	if (SUCCEEDED(pBg->Init()))
 	{
-		//初期化が成功した時
-		if (SUCCEEDED(pBg->Init()))
-		{
-			pBg->Lood(); //テクスチャの読み込み関数を呼ぶ
-			return pBg;  //情報を返す
-		}
+		pBg->Lood(); //テクスチャの読み込み関数を呼ぶ
+		return pBg;  //情報を返す
 	}
 
 	return nullptr; //無を返す
@@ -303,15 +299,11 @@ CShopScreen* CShopScreen::Create()
 {
 	CShopScreen* pText = new CShopScreen(0); //動的確保
 
-	//情報がある時
-	if (pText != nullptr)
+    //初期化に成功した時
+	if (SUCCEEDED(pText->Init()))
 	{
-		//初期化に成功した時
-		if (SUCCEEDED(pText->Init()))
-		{
-			pText->Lood(); //テクスチャの読み込み
-			return pText;  //情報を返す
-		}
+		pText->Lood(); //テクスチャの読み込み
+		return pText;  //情報を返す
 	}
 	return nullptr; //無を返す
 }

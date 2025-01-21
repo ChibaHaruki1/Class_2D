@@ -101,7 +101,7 @@ public://外部からのアクセス可能
 
 
 	//マクロ定義 （constexprでコンパイル時に初期化）
-	constexpr static int MAX_KEYSET = 7;        //モーションに使うキーの数
+	constexpr static int MAX_KEYSET = 8;        //モーションに使うキーの数
 	constexpr static int NUM_MOTION = 11;       //プレイヤーモーションの総数
 	constexpr static int NUM_RIGHTLEFTPRTS = 4; //プレイヤーの側のパーツ数
 	constexpr static int NUM_MOTIONBOSS = 10;   //ボスのモーションの総数

@@ -90,7 +90,6 @@ HRESULT CPlayerX::Init()
 {
 	CCharacter::Init();                                                           //初期化処理を呼ぶ
 	CCharacter::Lood();                                                           //テキストファイルを読み込む処理
-	CCharacter::SetMotion(WALK);                                                  //モーションの設定
 	SetRot(D3DXVECTOR3(0.0f, D3DX_PI * -0.5f, 0.0f));                             //向きの調整（右向き）
 	m_pModelPrts[18]->SetDraw(false);                                             //パーツの銃部分を非表示に設定
 	SetPos(D3DXVECTOR3(000.0f,0.0f,0.0f));                                        //位置の調整
@@ -176,6 +175,7 @@ void CPlayerX::Update()
 	if (GetLife() == 1)
 	{
 		CCharacter::UpdatePlayer();  //モーションの更新
+
 		if (CManager::GetScene()->GetPlay() == true)
 		{
 			HitAttack();                 //特定の攻撃を受けた時の処理関数を呼ぶ
@@ -216,7 +216,14 @@ void CPlayerX::Update()
 				ShopStateSummarizeFunction();   //専用の処理を呼ぶ
 			}
 
-			CObjectX::Update(); //基底クラスの基底クラスの更新処理を呼ぶ
+			CObjectX::Update();                 //基底クラスの基底クラスの更新処理を呼ぶ
+		}
+
+		//着地までに必要な処理
+		else
+		{
+			BlockJudgement();              //地面に触れる事でようやく移動などができるようにするためブロックの当たり判定処理を呼ぶ
+			Junp(TYPE::PLAYER, 10.0f);     //重力処理関数を呼ぶ事で落ちるようにする
 		}
 	}
 
@@ -246,7 +253,7 @@ void CPlayerX::Update()
 			return;       //処理を抜ける
 		}
 	}
-	SceneMode(2);         //シーンを選択
+	//SceneMode(2);         //シーンを選択
 }
 
 
@@ -387,10 +394,7 @@ void CPlayerX::NormalStateSummarizeFunction()
 	//必殺技を撃っていない時
 	if (SpecialAttack == false)
 	{
-		//if (CManager::GetScene()->GetPlay() == true)
-		{
-			KeySet();                  //キーごとの処理関数を呼ぶ
-		}
+		KeySet();                  //キーごとの処理関数を呼ぶ
 	}
 	else
 	{
@@ -412,7 +416,7 @@ void CPlayerX::NormalStateSummarizeFunction()
 			SpecialAttack = false; //必殺技フラグをOffにする
 		}
 	}
-	Junp(TYPE::PLAYER, 10.0f);     //ジャンプと重力処理関数を呼ぶ
+	//Junp(TYPE::PLAYER, 10.0f);     //ジャンプと重力処理関数を呼ぶ
 }
 
 
@@ -476,10 +480,10 @@ void CPlayerX::KeySet()
 {
 	//=================================================
 	//必殺技の発動
-	if (CManager::GetKeyBorad()->GetKeyboardTrigger(DIK_K) == true|| CManager::GetJyoPad()->GetJoypadTrigger(CInputJoyPad::JOYKEY::JOYKEY_RB)==true)
+	if (CManager::GetKeyBorad()->GetKeyboardTrigger(DIK_K) == true || CManager::GetJyoPad()->GetJoypadTrigger(CInputJoyPad::JOYKEY::JOYKEY_RB) == true)
 	{
 		//武器が買われた時と必殺技カウントが規定値より高い時
-		if (m_pModelPrts[18]->GetDraw() == true&& m_nSpecialAttackCount>= MAX_SPECIALATTACKCOUNT)
+		if (m_pModelPrts[18]->GetDraw() == true && m_nSpecialAttackCount >= MAX_SPECIALATTACKCOUNT)
 		{
 			SpecialAttack = true;       //必殺技フラグをOnにする  
 			m_nSpecialAttackCount = 0;  //必殺技カウントの初期化
@@ -543,7 +547,7 @@ void CPlayerX::KeySet()
 	else
 	{
 		//撃ってない時と吹っ飛んでない時
-		if (m_nMotionFrame <= 0 && m_nMotionFrame001 <= 0 && m_bFly == false&& m_bLandingFlag==true)
+		if (m_nMotionFrame <= 0 && m_nMotionFrame001 <= 0 && m_bFly == false && m_bLandingFlag == true)
 		{
 			SpecialAttack = false;                                   //必殺技フラグをOffにする  
 			CCharacter::SetMotion(CCharacter::MOTIONSTATE::NEUTRAL); //待機モーション
@@ -954,8 +958,9 @@ void CPlayerX::BlockJudgement()
 						//着地フレームが規定値より高い時
 						if (m_nLandingFrame >= 60)
 						{
-							m_bLandingFlag = true; //着地しているに設定
-							m_nLandingFrame = 0;   //着地フレームの初期化
+							m_bLandingFlag = true;               //着地しているに設定
+							m_nLandingFrame = 0;                 //着地フレームの初期化
+							CManager::GetScene()->SetPlay(true); //遊べるに設定
 						}
 					}
 				}

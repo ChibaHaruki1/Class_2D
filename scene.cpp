@@ -40,7 +40,7 @@ CScene::CScene()
 	m_bOneSound = false;          //１度だけ音源を流すフラグの初期化
 	m_bOneScene = false;          //１度だけそのシーンの処理を通すフラグの初期化
 	m_bPlay = false;              //遊べる状態になっているかどうかのフラグの初期化
-	m_Mode = MODE::MODE_GAME01;   //モードの設定
+	m_Mode = MODE::MODE_RESULT;   //モードの設定
 }
 
 
@@ -228,8 +228,8 @@ CGame01::~CGame01()
 //=======================
 HRESULT CGame01::Init()
 {
-	//初期化に成功した時
-	if (SUCCEEDED(CScene::Init()))
+	//初期化に失敗した時
+	if (FAILED(CScene::Init()))
 	{
 		return E_FAIL;                                        //失敗を返す
 	}
@@ -279,10 +279,10 @@ void CGame01::Update()
 				g_pBG->Release();                                             //情報を消す
 				m_pFade = nullptr;                                            //情報を無くす
 				g_pBG = nullptr;                                              //情報を無くす
-				SetPlay(true);                                                //遊べるに設定
 				GetPlayerX()->SetGravityFlag(true);                           //重力ON
 				GetCamera()->GetAdjustmentPosZ() = 700;                       //カメラのZ軸の調整
 				GetCamera()->SetRot(D3DXVECTOR3(0.0f, 0.0f, 0.0f));           //カメラの向きの初期化
+				GetPlayerX()->SetRot(D3DXVECTOR3(0.0f, -CObjectX::D3DX_PI_ORI, 0.0f));           //カメラの向きの初期化
 				GetPlayerX()->SetMotion(CCharacter::MOTIONSTATE::TITLE_JUMP); //プレイヤーのモーションを設定
 				CompileCreate();                                              //createしたいものを関数化して呼ぶ
 				return;                                                       //処理を抜ける
@@ -370,10 +370,10 @@ CGame02::~CGame02()
 //=======================
 HRESULT CGame02::Init()
 {
-	//初期化に成功した時
-	if (SUCCEEDED(CScene::Init()))
+	//初期化に失敗した時
+	if (FAILED(CScene::Init()))
 	{
-		return E_FAIL; //失敗を返す
+		return E_FAIL;                                        //失敗を返す
 	}
 
 	CompileCreate();   //createしたいものを関数化して呼ぶ

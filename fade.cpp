@@ -102,15 +102,11 @@ CFade* CFade::Create()
 {
 	CFade* pFade = new CFade(0); //動的確保
 
-	//情報がある時
-	if (pFade != nullptr)
+    //初期化が成功した時
+	if (SUCCEEDED(pFade->Init()))
 	{
-		//初期化が成功した時
-		if (SUCCEEDED(pFade->Init()))
-		{
-			pFade->Lood(); //テクスチャの読み込み
-			return pFade;  //情報を返す
-		}
+		pFade->Lood(); //テクスチャの読み込み
+		return pFade;  //情報を返す
 	}
 
 	return nullptr;        //無を返す

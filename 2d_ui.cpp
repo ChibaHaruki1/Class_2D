@@ -411,15 +411,11 @@ CSelectGage001* CSelectGage001::Create()
 {
 	CSelectGage001* pSelectGage = new CSelectGage001(3); //動的確保
 
-	//情報がある時
-	if (pSelectGage != nullptr)
+    //初期化が成功した時
+	if (SUCCEEDED(pSelectGage->Init()))
 	{
-		//初期化が成功した時
-		if (SUCCEEDED(pSelectGage->Init()))
-		{
-			pSelectGage->Lood(); //ｘファイルを読み込み
-			return pSelectGage;  //情報を返す
-		}
+		pSelectGage->Lood(); //ｘファイルを読み込み
+		return pSelectGage;  //情報を返す
 	}
 
 	return nullptr;              //無を返す
