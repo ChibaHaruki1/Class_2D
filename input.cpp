@@ -1,14 +1,16 @@
 //=================================
 //
-//キーボードの処理[input.cpp]
+//入力処理[input.cpp]
 //Author:chiba haruki
 //
 //=================================
 
-#include "input.h"
 
-//static変数の初期化
- 
+//=================================
+//インクルード
+#include "input.h"
+#include <vector>
+
 
 //============================================基底クラスInputの処理============================================
 
@@ -17,8 +19,8 @@
 //======================
 CInput::CInput()
 {
-	m_Input = nullptr;
-	m_Device = nullptr;
+	m_Input = nullptr;  //入力処理の情報の初期化
+	m_Device = nullptr; //デバイスの初期化
 }
 
 //======================
@@ -35,15 +37,17 @@ CInput::~CInput()
 //=============================
 HRESULT CInput::Init(HINSTANCE hInstance, HWND hWnd)
 {
+	//情報がない時
 	if (m_Input == nullptr)
 	{
-		//DirectInputオブジェクトの生成
+		//DirectInputオブジェクトの生成に失敗
 		if (FAILED(DirectInput8Create(hInstance, DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&m_Input, NULL)))
 		{
-			return E_FAIL;
+			return E_FAIL; //失敗を返す
 		}
 	}
-	return S_OK;
+
+	return S_OK;           //成功を返す
 }
 
 
@@ -52,19 +56,19 @@ HRESULT CInput::Init(HINSTANCE hInstance, HWND hWnd)
 //======================
 void CInput::Uninit()
 {
-	//入力デバイス（キーボード）の破棄
+	//デバイスの情報がある時
 	if (m_Device != nullptr)
 	{
-		m_Device->Unacquire();
-		m_Device->Release();
-		m_Device = nullptr;
+		m_Device->Unacquire(); //モードの取り消し
+		m_Device->Release();   //情報を消す
+		m_Device = nullptr;    //情報を無くす
 	}
 
-	//DirectInputオブジェクトの破棄
+	//入力情報がある時
 	if (m_Input != nullptr)
 	{
-		m_Input->Release();
-		m_Input = nullptr;
+		m_Input->Release();    //情報を消す
+		m_Input = nullptr;     //情報を無くす
 	}
 }
 
@@ -85,10 +89,26 @@ void CInput::Update()
 //======================
 CInputKeyBoard::CInputKeyBoard()
 {
-	for (int a = 0; a < MAX_KEY;a++)
+	//std::vector<int>nMAX_KEY;
+	//nMAX_KEY.resize(MAX_KEY);
+
+	////キーの最大数分回す
+	//for(int& nKey : nMAX_KEY)
+	//{
+	//	m_aKeyState[nKey] = {};
+	//	m_aKeyStateTrigger[nKey] = {};
+
+	//	if (nKey >= MAX_KEY)
+	//	{
+	//		continue;
+	//	}
+	//}
+
+	//キーの最大数分回す
+	for (int nKey = 0; nKey < MAX_KEY; nKey++)
 	{
-		m_aKeyState[a] = {};
-		m_aKeyStateTrigger[a] = {};
+		m_aKeyState[nKey] = {};        //プレス情報の初期化
+		m_aKeyStateTrigger[nKey] = {}; //トリガー情報の初期化
 	}
 }
 
@@ -144,7 +164,6 @@ void CInputKeyBoard::Uninit(void)
 }
 
 
-
 //==========================
 //キーボードの更新処理
 //==========================
@@ -155,34 +174,17 @@ void CInputKeyBoard::Update(void)
 	//入力デバイスからデータを取得に成功した時
 	if (SUCCEEDED(GetDevice()->GetDeviceState(sizeof(aKeyState), &aKeyState[0])))
 	{
+		//キーの最大数分回す
 		for (int nCntKey = 0; nCntKey < MAX_KEY; nCntKey++)
 		{
 			m_aKeyStateTrigger[nCntKey] = (m_aKeyState[nCntKey] ^ aKeyState[nCntKey]) & aKeyState[nCntKey]; //キーボードのトリガー情報を保存	
-			m_aKeyState[nCntKey] = aKeyState[nCntKey]; //キーボードのプレス情報を保存	
+			m_aKeyState[nCntKey] = aKeyState[nCntKey];                                                      //キーボードのプレス情報を保存	
 		}
 	}
 	else
 	{
 		GetDevice()->Acquire(); //キーボードへのアクセス権を獲得
 	}
-}
-
-
-//=======================
-//キーボードプレス
-//=======================
-bool CInputKeyBoard ::GetKeyboardPress (int nKey)
-{
-	return ((m_aKeyState[nKey] & 0x80) != 0) ? true : false; //キーボードの情報を返す
-}
-
-
-//=======================
-//キーボードトリガー
-//=======================
-bool CInputKeyBoard::GetKeyboardTrigger(int nKey)
-{
-	return((m_aKeyStateTrigger[nKey] & 0x80) != 0) ? true : false; //キーボードトリガーの情報を返す
 }
 
 
@@ -212,16 +214,14 @@ CInputJoyPad::~CInputJoyPad()
 //==========================================
 HRESULT CInputJoyPad::Init(void)
 {
-	//for (int JoyCount = 0; JoyCount < MAX_PAD; JoyCount++)
-	{
-		//メモリのクリア
-		memset(&m_JyoPad.joykeyState, 0, sizeof(XINPUT_STATE));
-		memset(&m_JyoPad.joykeyStateTrigger, 0, sizeof(XINPUT_STATE));
+	//メモリのクリア
+	memset(&m_JyoPad.joykeyState, 0, sizeof(XINPUT_STATE));
+	memset(&m_JyoPad.joykeyStateTrigger, 0, sizeof(XINPUT_STATE));
 
-		//XInputのステート設定(有効にする)
-		XInputEnable(true);
-	}
-	return S_OK;
+	//XInputのステート設定(有効にする)
+	XInputEnable(true);
+
+	return S_OK; //成功を返す
 }
 
 //==========================================
@@ -239,37 +239,15 @@ void CInputJoyPad::Uninit(void)
 //==========================================
 void CInputJoyPad::Update(void)
 {
+	XINPUT_STATE joykeystate; //ジョイパッドの入力情報
 
-	//for (int JoyCount = 0; JoyCount < MAX_PAD; JoyCount++)
+	//ジョイパッドの情報を取得
+	if (XInputGetState(0, &joykeystate) == ERROR_SUCCESS)
 	{
-		XINPUT_STATE joykeystate; //ジョイパッドの入力情報
+		m_JyoPad.Button = m_JyoPad.joykeyState.Gamepad.wButtons;                              //ボタンの情報を設定
+		m_JyoPad.joykeyStateTrigger.Gamepad.wButtons = m_JyoPad.Button & ~m_JyoPad.OldButton; //トリガーの情報を設定
+		m_JyoPad.OldButton = m_JyoPad.joykeyState.Gamepad.wButtons;                           //古いボタンの情報を設定
 
-		//ジョイパッドの情報を取得
-		if (XInputGetState(0, &joykeystate) == ERROR_SUCCESS)
-		{
-			m_JyoPad.Button = m_JyoPad.joykeyState.Gamepad.wButtons;
-			m_JyoPad.joykeyStateTrigger.Gamepad.wButtons = m_JyoPad.Button & ~m_JyoPad.OldButton; //トリガーの情報を設定
-			m_JyoPad.OldButton = m_JyoPad.joykeyState.Gamepad.wButtons;
-
-			m_JyoPad.joykeyState = joykeystate; //ジョイパッドのプレス情報を保存
-		}
+		m_JyoPad.joykeyState = joykeystate;                                                   //ジョイパッドのプレス情報を保存
 	}
-
-}
-
-//==========================================
-//ジョイパッドのプレス情報を取得
-//==========================================
-bool CInputJoyPad::GetJoypadPress(JOYKEY key)
-{
-	return (m_JyoPad.joykeyState.Gamepad.wButtons & (0x01 << (int)key));
-}
-
-
-//==========================================================================================
-//ジョイパッドのトリガー情報を取得
-//==========================================================================================
-bool CInputJoyPad::GetJoypadTrigger(JOYKEY key)
-{
-	return (m_JyoPad.joykeyStateTrigger.Gamepad.wButtons & (0x01 << (int)key));
 }

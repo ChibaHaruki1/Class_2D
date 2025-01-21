@@ -96,7 +96,7 @@ CUI* CUI::Create(CObject3D::TYPE_UI typeui)
 	//タイプが話すテキストの時
 	else if (typeui == CObject3D::TYPE_UI::TALKTEXTR)
 	{
-		pUI = new CTalkText(); //動的確保
+		pUI = new CTalkText(0); //動的確保
 
 		//初期化に成功した時
 		if (SUCCEEDED(pUI->Init()))

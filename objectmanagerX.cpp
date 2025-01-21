@@ -11,6 +11,7 @@
 #include "main.h"
 #include "manager.h"
 #include "objectmanagerX.h"
+#include <ppl.h>
 
 
 //=========================================
@@ -93,18 +94,18 @@ void CObjectManagerX::Draw()
 void CObjectManagerX::ReleaseAll()
 {
 	//puriority分回す
-	for (int nCountPri = 0; nCountPri < CObject::MAX_PRIORITY_OBJ; nCountPri++)
-	{
-		//オブジェクト分回す
-		for (int nCount = 0; nCount < MAX_OBJECTMANAGERX; nCount++)
+	Concurrency::parallel_for(0, CObject::MAX_PRIORITY_OBJ, [&](int nCountPri)
 		{
-			//情報がある場合
-			if (m_apObjectManagerX[nCountPri][nCount] != nullptr)
+			//オブジェクト分回す
+			for (int nCount = 0; nCount < MAX_OBJECTMANAGERX; nCount++)
 			{
-				m_apObjectManagerX[nCountPri][nCount]->Release(); //削除処理を呼ぶ
+				//情報がある場合
+				if (m_apObjectManagerX[nCountPri][nCount] != nullptr)
+				{
+					m_apObjectManagerX[nCountPri][nCount]->Release(); //削除処理を呼ぶ
+				}
 			}
-		}
-	}
+		});
 }
 
 
@@ -113,19 +114,19 @@ void CObjectManagerX::ReleaseAll()
 //====================
 void CObjectManagerX::UpdateAll()
 {
-	//puriority分回す
-	for (int nCountPri = 0; nCountPri < CObject::MAX_PRIORITY_OBJ; nCountPri++)
-	{
-		//オブジェクト分回す
-		for (int nCount = 0; nCount < MAX_OBJECTMANAGERX; nCount++)
+	//puriority分回す(PPLfor文)
+	Concurrency::parallel_for(0, CObject::MAX_PRIORITY_OBJ, [&](int nCountPri)
 		{
-			//情報がある場合
-			if (m_apObjectManagerX[nCountPri][nCount] != nullptr)
+			//オブジェクト分回す
+			for (int nCount = 0; nCount < MAX_OBJECTMANAGERX; nCount++)
 			{
-				m_apObjectManagerX[nCountPri][nCount]->Update(); //更新処理を呼ぶ
+				//情報がある場合
+				if (m_apObjectManagerX[nCountPri][nCount] != nullptr)
+				{
+					m_apObjectManagerX[nCountPri][nCount]->Update(); //更新処理を呼ぶ
+				}
 			}
-		}
-	}
+		});
 
 }
 

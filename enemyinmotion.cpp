@@ -343,7 +343,7 @@ void CEnemyInMotion001::Update()
 		{
 			SetAddjustDieFrame()++; //€–SƒtƒŒ[ƒ€‚ğ‘‚â‚·
 
-			srand((unsigned)time(NULL));  //—”Œn—ñ‚ğ‰Šú‰»
+			//srand((unsigned)time(NULL));  //—”Œn—ñ‚ğ‰Šú‰»
 
 			//‘æˆês“®
 			if (GetDieFrame() <= 1)

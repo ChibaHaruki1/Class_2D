@@ -43,8 +43,11 @@ public:
 	void Uninit()override;                                  //破棄処理
 	void Update()override;                                  //更新処理
 
-	bool  GetKeyboardPress(int nKey);                       //プレスの情報を取得
-	bool GetKeyboardTrigger(int nKey);                      //トリガーの情報を取得
+
+	//==================================
+	//情報の取得
+	inline bool  GetKeyboardPress(int nKey) { return ((m_aKeyState[nKey] & 0x80) != 0) ? true : false; }        //プレスの情報を取得
+	inline bool GetKeyboardTrigger(int nKey) { return((m_aKeyStateTrigger[nKey] & 0x80) != 0) ? true : false; } //トリガーの情報を取得
 
 private:
 	//マクロ定義
@@ -87,8 +90,11 @@ public:
 	void Uninit(void);   //破棄処理
 	void Update(void);   //更新処理
 
-	bool GetJoypadPress(JOYKEY key);    //JyoPadのプレス情報を設定
-	bool GetJoypadTrigger(JOYKEY key);  //JyoPadのトリガー情報を設定
+
+	//==================================
+	//情報の取得
+	inline bool GetJoypadPress(JOYKEY key) { return (m_JyoPad.joykeyState.Gamepad.wButtons & (0x01 << (int)key)); }           //JyoPadのプレス情報を設定
+	inline bool GetJoypadTrigger(JOYKEY key) { return (m_JyoPad.joykeyStateTrigger.Gamepad.wButtons & (0x01 << (int)key)); }  //JyoPadのトリガー情報を設定
 
 private:
 
