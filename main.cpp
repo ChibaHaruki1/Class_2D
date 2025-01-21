@@ -5,19 +5,26 @@
 //
 //============================
 
-#include"main.h"
-#include "rendererh.h"
-#include "object2D.h"
-#include "manager.h"
-#include "DxLib.h"
 
+//============================
+//インクルード
+#include"main.h"      
+#include "manager.h"  
+#include "DxLib.h"   //外部ファイルの読み込み
+
+
+//============================
 //マクロ定義
 #define CLASS_NAME	"WindowClass" //ウィンドウクラスの名前
 #define WINDOWS_NAME	"狂戦士ケルベロス" //ウィンドウの名前
 
+
+//============================
 //プロトタイプ宣言
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
+
+//============================
 //グローバル宣言
 CManager* g_pMnager = nullptr;
 
@@ -64,26 +71,27 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hInstanceprev, _
 	//DxLib_End();
 
 
+	//ウィンドウクラスの設定
 	WNDCLASSEX wcex =
 	{
-		sizeof(WNDCLASSEX), //WNDCLASSEXのメモリサイズ
-		CS_CLASSDC, //ウィンドウのスタイル
-		WindowProc, //ウィンドウプロージャ
-		0, //０にする（通常は使用しない）
-		0, //０にする（通常は使用しない）
-		hInstance, //インスタンスハンドル
+		sizeof(WNDCLASSEX),             //WNDCLASSEXのメモリサイズ
+		CS_CLASSDC,                     //ウィンドウのスタイル
+		WindowProc,                     //ウィンドウプロージャ
+		0,                              //０にする（通常は使用しない）
+		0,                              //０にする（通常は使用しない）
+		hInstance,                      //インスタンスハンドル
 		LoadIcon(NULL,IDI_APPLICATION), //タスクバーのアイコン
-		LoadCursor(NULL,IDC_ARROW), //マウスカーソル
-		(HBRUSH)(COLOR_WINDOW + 1), //クライアント領域の背景色
-		NULL, //メニューバー
-		CLASS_NAME, //ウィンドウクラスの名前
-		LoadIcon(NULL,IDI_APPLICATION) //ファイルのアイコン
+		LoadCursor(NULL,IDC_ARROW),     //マウスカーソル
+		(HBRUSH)(COLOR_WINDOW + 1),     //クライアント領域の背景色
+		NULL,                           //メニューバー
+		CLASS_NAME,                     //ウィンドウクラスの名前
+		LoadIcon(NULL,IDI_APPLICATION)  //ファイルのアイコン
 	};
 
-	HWND hWnd;
-	MSG msg;
+	HWND hWnd;                          //ウィンドウハンドル
+	MSG msg;                            //メッセージ受信ハンドル
 
-	RECT rect = { 0,0,CMain::SCREEN_WIDTH,CMain::SCREEN_HEIGHT };
+	RECT rect = { 0,0,CMain::SCREEN_WIDTH,CMain::SCREEN_HEIGHT }; //ウィンドウの大きさ設定
 
 	//ウィンドウクラスの登録
 	RegisterClassEx(&wcex);
@@ -92,18 +100,18 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hInstanceprev, _
 	AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, FALSE);
 
 	//ウィンドウを生成
-	hWnd = CreateWindowEx(0,  //拡張ウィンドウスタイル
-		CLASS_NAME, //ウィンドウクラスの名前
-		WINDOWS_NAME, //ウィンドウの名前
-		WS_OVERLAPPEDWINDOW, //ウィンドウのスタイル
-		CW_USEDEFAULT, //ウィンドウの左上X座標
-		CW_USEDEFAULT, //ウィンドウの左上Y座標
-		(rect.right - rect.left), //ウィンドウの幅
-		(rect.bottom - rect.top), //ウィンドウの高さ
-		NULL, //親ウィンドウのハンドル
-		NULL, //メニューハンドルまたは子ウィンドウID
-		hInstance, //インスタンスハンドル
-		NULL); //ウィンドウ作成データ
+	hWnd = CreateWindowEx(0,       //拡張ウィンドウスタイル
+		CLASS_NAME,                //ウィンドウクラスの名前
+		WINDOWS_NAME,              //ウィンドウの名前
+		WS_OVERLAPPEDWINDOW,       //ウィンドウのスタイル
+		CW_USEDEFAULT,             //ウィンドウの左上X座標
+		CW_USEDEFAULT,             //ウィンドウの左上Y座標
+		(rect.right - rect.left),  //ウィンドウの幅
+		(rect.bottom - rect.top),  //ウィンドウの高さ
+		NULL,                      //親ウィンドウのハンドル
+		NULL,                      //メニューハンドルまたは子ウィンドウID
+		hInstance,                 //インスタンスハンドル
+		NULL);                     //ウィンドウ作成データ
 
 	//生成＆初期化
 	g_pMnager = new CManager(); //マネージャーの生成
@@ -116,37 +124,40 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hInstanceprev, _
 
 	//ウィンドウの表示
 	ShowWindow(hWnd, nCmdShow); //ウィンドウの表示状態を設定
-	UpdateWindow(hWnd); //クライアント領域を更新
+	UpdateWindow(hWnd);         //クライアント領域を更新
 
 	//時間の取得
-	DWORD dwCurrentTime; //現在時刻
+	DWORD dwCurrentTime;  //現在時刻
 	DWORD dwExecLastTime; //最後に処理した時刻
-	DWORD dwFrameCount; //フレームカウント
-	DWORD dwFPSLastTime; //最後にFPSを計測した時刻
+	DWORD dwFrameCount;   //フレームカウント
+	DWORD dwFPSLastTime;  //最後にFPSを計測した時刻
 
 	//分解能を設定
-	timeBeginPeriod(1);
-	dwCurrentTime = 0;
-	dwFrameCount = 0;
-	dwExecLastTime = timeGetTime();
-	dwFPSLastTime = timeGetTime();
+	timeBeginPeriod(1);              //定期的なタイマーの最小解像度を要求する関数 (禁断APIから安心APIへ変更済み)
+	dwCurrentTime = 0;               //現在時刻の初期化
+	dwFrameCount = 0;                //フレームの初期化
+	dwExecLastTime = timeGetTime();  //最後に処理した時刻の設定(ミリ秒)
+	dwFPSLastTime = timeGetTime();   //最後にFPSを観測した時刻の設定(ミリ秒)
 
 	// 描画先を裏画面にする
 	SetDrawScreen(DX_SCREEN_BACK);
 
-	//メッセージルーぷ
+	//メッセージループ
 	while (1)
 	{
+		//msgにあるhwndの情報がある時
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE) != 0)
 		{//Windowの処理
+
+			//終了メッセージを受け取った時
 			if (msg.message == WM_QUIT)
 			{
 				break;
 			}
 			else
 			{
-				TranslateMessage(&msg);
-				DispatchMessage(&msg);
+				TranslateMessage(&msg); //MSG構造体のポインター関数
+				DispatchMessage(&msg);  //メッセージを含む構造体へのポインター関数
 			}
 		}
 		else
@@ -154,15 +165,20 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hInstanceprev, _
 
 			dwCurrentTime = timeGetTime(); //現在時刻
 
+			//現在時刻ー最後に観測したFPSが0.5秒より高き時
 			if ((dwCurrentTime - dwFPSLastTime) >= 500)
 			{//0.5秒経過
+
 				//FPSを観測
-				CManager::GetMain()->GetFPS() = (dwFrameCount * 1000) / (dwCurrentTime - dwFPSLastTime);
-				dwFPSLastTime = dwCurrentTime; //FPSを測定した時刻を保存
-				dwFrameCount = 0; //フレイムカウントをクリア
+				CManager::GetMain()->GetFPS() = (dwFrameCount * 1000) / (dwCurrentTime - dwFPSLastTime); //FPSの値を設定
+				dwFPSLastTime = dwCurrentTime;                                                           //FPSを測定した時刻を保存
+				dwFrameCount = 0;                                                                        //フレイムカウントをクリア
 			}
+
+			//１フレーム経過
 			if ((dwCurrentTime - dwExecLastTime) >= (1000 / 60))
 			{//６０分の１秒経過
+
 				dwExecLastTime = dwCurrentTime; //処理開始の時刻（現在時刻）を保存
 
 				//更新処理
@@ -184,7 +200,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hInstanceprev, _
 	//ウィンドウクラスの登録を解除
 	UnregisterClass(CLASS_NAME, wcex.hInstance);
 
-	return (int)msg.wParam;
+	return (int)msg.wParam; //メッセージをint型で返す
 }
 
 //=============================
@@ -192,46 +208,54 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hInstanceprev, _
 //=============================
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	int nID;
 	//PAINTSTRUCT ps;
 	//HPEN hPen, hPenold;
-	static POINT pos = { 100.100 };
-	const RECT rect = { 0,0,CMain::SCREEN_WIDTH,CMain::SCREEN_HEIGHT };
+	int nID;                                                              //ID
+	static POINT pos = { 100.100 };                                       //ポイント（点）のXY軸の設定
+	const RECT rect = { 0,0,CMain::SCREEN_WIDTH,CMain::SCREEN_HEIGHT };   //ウィンドウの大きさ
 
+	//int型で判定
 	switch (uMsg)
 	{
 	case WM_DESTROY: //ウィンドウ破棄のメッセージ
 
 		//WM_QUITメッセージを送る
 		PostQuitMessage(0);
-		break;
+		break; //処理を抜ける
 
 		//ECS選択時の処理
 	case WM_KEYDOWN: //キー押下のメッセージ
+
+		//メッセージコードで判定
 		switch (wParam)
 		{
 		case VK_ESCAPE: //[ECS]キーが押された
 
-			nID = MessageBox(hWnd, "終了しますか？", "終了メッセージ", MB_YESNO | MB_ICONQUESTION);
+			nID = MessageBox(hWnd, "終了しますか？", "終了メッセージ", MB_YESNO | MB_ICONQUESTION); //メッセージボックスの生成
+
+			//YESが押された時
 			if (nID == IDYES)
 			{
-				//	ウィンドウを破棄する（WM_DESTOROYメッセージを送る）
+				//ウィンドウを破棄する（WM_DESTOROYメッセージを送る）
 				DestroyWindow(hWnd);
 			}
-			break;
+			break; //処理を抜ける
 		}
 
-	case VK_RIGHT:
-		pos.x++;
+	case VK_RIGHT: //ESCWindoe時のYesNoのどちらかが押された時に反応
+
+		pos.x++; //X軸を増やす
 
 		//無効領域の強制発生
 		InvalidateRect(hWnd, &rect, FALSE);
 
-		break;
+		break; //処理を抜ける
 
 		//×ボタン選択時の処理
 	case WM_CLOSE:
-		nID = MessageBox(hWnd, "ウィンドウを閉じますか？", "終了メッセージ", MB_YESNO | MB_ICONWARNING);
+		nID = MessageBox(hWnd, "ウィンドウを閉じますか？", "終了メッセージ", MB_YESNO | MB_ICONWARNING); //メッセージボックスの生成
+
+		//YESが押された時
 		if (nID == IDYES)
 		{
 			//ウィンドウを破棄する
@@ -241,7 +265,8 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		{
 			return 0; //ゼロを返さないと終了してしまう
 		}
-		break;
+
+		break; //処理を抜ける
 
 
 		//マウス左クリックの処理
@@ -249,8 +274,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 		//ウィンドウにフォーカスを合わせる
 		SetFocus(hWnd);
-		break;
-
+		break; //処理を抜ける
 	}
 
 	return DefWindowProc(hWnd, uMsg, wParam, lParam); //既定の処理を返す
@@ -261,10 +285,11 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 //======================
 void CMain::Uninit()
 {
+	//マネージャの情報がある時
 	if (g_pMnager != nullptr)
 	{
-		g_pMnager->Uninit();
-		delete g_pMnager;
-		g_pMnager = nullptr;
+		g_pMnager->Uninit();  //破棄処理を呼ぶ
+		delete g_pMnager;     //情報を消す
+		g_pMnager = nullptr;  //情報を無くす
 	}
 }
