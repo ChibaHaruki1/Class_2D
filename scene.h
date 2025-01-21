@@ -122,8 +122,8 @@ public:                     //アクセス可能
 	void Update()override;  //更新処理
 	void Game();            //タイトルゲーム画面
 
-private:           //アクセス不可能
-	CFade* pFade;  //フェードのポインター
+private:             //アクセス不可能
+	CFade* m_pFade;  //フェードのポインター
 };
 
 
