@@ -86,17 +86,13 @@ CDebrisX* CDebrisX::Create(D3DXVECTOR3 pos)
 {
 	CDebrisX* m_pDebris3D = new CDebrisX(); //動的確保
 
-	//情報がある時
-	if (m_pDebris3D != nullptr)
+	//初期化に成功した時
+	if (SUCCEEDED(m_pDebris3D->Init()))
 	{
-		//初期化に成功した時
-		if (SUCCEEDED(m_pDebris3D->Init()))
-		{
-			m_pDebris3D->GetPos() = pos;       //位置を同期させる
-			m_pDebris3D->Lood();               //Xファイルを読み込む関数を呼ぶ
-			return m_pDebris3D;                //情報を返す
-		}
+		m_pDebris3D->GetPos() = pos;       //位置を同期させる
+		m_pDebris3D->Lood();               //Xファイルを読み込む関数を呼ぶ
+		return m_pDebris3D;                //情報を返す
 	}
-	
-	return nullptr;                            //無を返す
+
+	return nullptr;                        //無を返す
 }

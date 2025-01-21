@@ -142,17 +142,13 @@ void CField::Draw()
 CField* CField::Create(D3DXVECTOR3 pos)
 {
 	CField* pCField = new CField(2); //動的確保
-	
-	//情報がある時
-	if (pCField != nullptr)
+
+    //初期化が成功した時
+	if (SUCCEEDED(pCField->Init()))
 	{
-		//初期化が成功した時
-		if (SUCCEEDED(pCField->Init()))
-		{
-			pCField->SetPos(pos); //位置を引数と同期させる
-			pCField->Lood();      //テクスチャの読み込み
-			return pCField;       //情報を返す
-		}
+		pCField->SetPos(pos); //位置を引数と同期させる
+		pCField->Lood();      //テクスチャの読み込み
+		return pCField;       //情報を返す
 	}
 
 	return nullptr;               //無を返す

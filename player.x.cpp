@@ -416,7 +416,7 @@ void CPlayerX::NormalStateSummarizeFunction()
 			SpecialAttack = false; //必殺技フラグをOffにする
 		}
 	}
-	//Junp(TYPE::PLAYER, 10.0f);     //ジャンプと重力処理関数を呼ぶ
+	Junp(TYPE::PLAYER, 10.0f);     //ジャンプと重力処理関数を呼ぶ
 }
 
 

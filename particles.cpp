@@ -87,7 +87,7 @@ void CParticles001::Draw()
 
 
 //========================
-//è∞Çê∂ê¨
+//ê∂ê¨èàóù
 //========================
 CParticles001* CParticles001::Create(D3DXVECTOR3 pos)
 {

@@ -83,15 +83,11 @@ CBillboard* CBillboard::Create()
 {
 	CBillboard* pBillboard = new CBillboard(3); //動的確保
 
-	//情報がある時
-	if (pBillboard != nullptr)
+    //初期化に成功した時
+	if (SUCCEEDED(pBillboard->Init()))
 	{
-		//初期化に成功した時
-		if (SUCCEEDED(pBillboard->Init()))
-		{
-			pBillboard->Lood(); //テクスチャの読み込み
-			return pBillboard;  //情報を返す
-		}
+		pBillboard->Lood(); //テクスチャの読み込み
+		return pBillboard;  //情報を返す
 	}
 
 	return nullptr;             //無を返す

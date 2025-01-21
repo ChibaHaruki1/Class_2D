@@ -211,12 +211,16 @@ CManagerScore* CManagerScore::Create(CScene::MODE mode, int Number)
 		pScore->m_fPosX = CORE_POS1X;									     //位置を調整
 	}
 
-	//初期化が成功した時
-	if (SUCCEEDED(pScore->Init()))
+	//情報がある時
+	if (pScore != nullptr)
 	{
-		pScore->Lood();                //テクスチャの読み込み
-		pScore->InitAddScore(Number);  //スコアの初期値を引数と同期
-		return pScore;                 //情報を返す
+		//初期化が成功した時
+		if (SUCCEEDED(pScore->Init()))
+		{
+			pScore->Lood();                //テクスチャの読み込み
+			pScore->InitAddScore(Number);  //スコアの初期値を引数と同期
+			return pScore;                 //情報を返す
+		}
 	}
 
 	return nullptr;                    //無を返す

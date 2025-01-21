@@ -95,31 +95,28 @@ void CSkyDoom::Draw()
 //========================
 //建物を生成
 //========================
-CSkyDoom* CSkyDoom::Create(D3DXVECTOR3 pos,int nNumber)
+CSkyDoom* CSkyDoom::Create(D3DXVECTOR3 pos, int nNumber)
 {
 	CSkyDoom* pCBlockX = new CSkyDoom(1); //動的確保
 
 	//初期化に成功
 	if (SUCCEEDED(pCBlockX->Init()))
 	{
-		//情報がある時
-		if (pCBlockX != nullptr)
+		//番号が０の時
+		if (nNumber == 0)
 		{
-			//番号が０の時
-			if (nNumber == 0)
-			{
-				pCBlockX->SetFileName("data\\XFILE\\StageObj\\SkyDoom.x");      //宇宙
-			}
-
-			//番号が１の時
-			else if(nNumber==1)
-			{
-				pCBlockX->SetFileName("data\\XFILE\\StageObj\\SkyDoom001.x");  //曇り空
-			}
-			pCBlockX->GetPos() = pos;   //位置を同期させる
-			pCBlockX->CObjectX::Lood(); //Xファイルを読み込む関数を呼ぶ
-			return pCBlockX;            //情報を返す
+			pCBlockX->SetFileName("data\\XFILE\\StageObj\\SkyDoom.x");      //宇宙
 		}
+
+		//番号が１の時
+		else if (nNumber == 1)
+		{
+			pCBlockX->SetFileName("data\\XFILE\\StageObj\\SkyDoom001.x");  //曇り空
+		}
+		pCBlockX->GetPos() = pos;   //位置を同期させる
+		pCBlockX->CObjectX::Lood(); //Xファイルを読み込む関数を呼ぶ
+		return pCBlockX;            //情報を返す
 	}
-	return nullptr; //無を返す
+
+	return nullptr;                 //無を返す
 }

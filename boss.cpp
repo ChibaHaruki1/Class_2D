@@ -449,19 +449,15 @@ void CBoss::Draw()
 //========================
 //生成処理
 //========================
-CBoss* CBoss::Create(D3DXVECTOR3 pos )
+CBoss* CBoss::Create(D3DXVECTOR3 pos)
 {
 	CBoss* pBoss = new CBoss(3); //動的確保
 
-	//情報がある時
-	if (pBoss != nullptr)
+	//初期化が成功した時
+	if (SUCCEEDED(pBoss->Init()))
 	{
-		//初期化が成功した時
-		if (SUCCEEDED(pBoss->Init()))
-		{
-			pBoss->SetPos(pos); //位置を引数と同期させる
-			return pBoss;       //プレイヤーの情報を返す
-		}
+		pBoss->SetPos(pos); //位置を引数と同期させる
+		return pBoss;       //プレイヤーの情報を返す
 	}
 
 	return nullptr;             //無を返す
