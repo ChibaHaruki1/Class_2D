@@ -5,7 +5,9 @@
 //
 //======================================
 
+
 #pragma once
+
 
 //======================================
 //インクルード
@@ -21,6 +23,7 @@
 #include "object_set.h"
 #include "event.h"
 
+
 class CManager
 {
 public:
@@ -31,15 +34,22 @@ public:
 	void Update();                                               //更新処理
 	void Draw();                                                 //描画処理
 
-	static CRenderer* GetRenderer();                             //レンダラーの情報を取得
-	static CInputKeyBoard* GetKeyBorad();                        //キーボードの情報を取得
-	static CInputJoyPad* GetJyoPad();                            //ジョイパットの情報を取得
-	static CSound* GetSound();                                   //音源の情報を取得
+
+	//==================================
+	//情報を取得
+	static CRenderer* GetRenderer() { return m_pRenderer; }      //レンダラーの情報を取得
+	static CInputKeyBoard* GetKeyBorad() { return m_pKeyBoard; } //キーボードの情報を取得
+	static CInputJoyPad* GetJyoPad() { return m_pJyoPad; }       //ジョイパットの情報を取得
+	static CSound* GetSound() { return m_pSound; }               //音源の情報を取得
 	static CInstance* GetInstance() { return m_pInstance; }      //インスタンス情報を取得する
 	static CScene* GetScene() { return m_pScene; }               //シーンの情報を取得
 	static CObjectSet* GetObjectSet() { return m_pObjectSet; }   //オブジェクト配置の情報を取得
 	static CEvent* GetEvent() { return m_pEvent; }               //イベントの情報を取得
 	static CMain* GetMain() { return m_pMain; }                  //メインの情報を取得
+
+
+   //==================================
+   //情報の設定
 	static void SetMode(CScene::MODE mode);                      //モードの設定
 
 private:

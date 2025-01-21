@@ -13,7 +13,6 @@
 #include "manager.h"
 #include "scene.h"
 
-//CScene* pScene = nullptr;
 
 //==================
 //コンストラクタ
