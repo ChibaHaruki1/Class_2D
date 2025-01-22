@@ -87,7 +87,7 @@ CManagerEnemy* CManagerEnemy::Create(D3DXVECTOR3 pos, CObjectX::TYPE type)
 		//初期化が成功した時
 		if (SUCCEEDED(pManagerEnemy->Init()))
 		{
-			pManagerEnemy->SetFileName("data\\XFILE\\ENEMY\\Enemy000.x"); //ファイルパスの設定
+			pManagerEnemy->SetFileName("data\\XFILE\\ENEMY\\BattleShip000.x"); //ファイルパスの設定
 		}
 	}
 
@@ -126,7 +126,7 @@ CManagerEnemy* CManagerEnemy::Create(D3DXVECTOR3 pos, CObjectX::TYPE type)
 //=========================
 CEnemyX::CEnemyX(int Priority) : CManagerEnemy(Priority)
 {
-
+	SetLife(1);
 }
 
 //=========================
@@ -142,13 +142,21 @@ CEnemyX::~CEnemyX()
 //=========================
 void CEnemyX::Update()
 {
-	TargetHeadingTowards(CManager::GetScene()->GetPlayerX(),2.0f);  //プレイヤーに向かう処理関数を呼ぶ
+	//TargetHeadingTowards(CManager::GetScene()->GetPlayerX(),2.0f);  //プレイヤーに向かう処理関数を呼ぶ
 
 	//プレイヤーと当たった時
-	if (CollisionPlayerSelect(this) == true)
+	if (CollisionPlayerInEnemy(this,65.0f) == true)
 	{
-		//プレイヤーのHPを減らす
-		CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() -= CManagerGage::MAX_PLAYER_HP_SIZE * CManagerBossEffect::MAX_DAMAGE;
+		SetAddjustFrame()++;     //弾を撃つ際のフレームを増やす
+
+		if (GetFrame() >= 60)
+		{
+			CManagerBullet::Create(D3DXVECTOR3(GetPos().x + 100.0f, GetPos().y + 230.0f, GetPos().z), D3DXVECTOR3(-sinf(GetRot().y) * MAX_BUULET_SPEED, 0.0f, -cosf(GetRot().y) * MAX_BUULET_SPEED),
+				SET_BULLET_LIFE, CObject3D::TYPE::BATTLESHIPBULLET);
+
+			SetFrame(0);
+		}
+		//GetPos().x += 10.0f;
 	}
 
 	//ライフが尽きた時

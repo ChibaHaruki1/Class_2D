@@ -255,7 +255,9 @@ void CObjectSet::LoodBreakHouse(FILE* pFile)
 //=================================
 void CObjectSet::LoodEnemy(FILE* pFile)
 {
+	int nNumber = 0;
 	float PosX, PosY, PosZ = 0.0f; //posÇÃà íuÇï€ä«Ç∑ÇÈÇΩÇﬂÇÃïœêî
+	
 
 	//Ç±ÇÍÇ™èëÇ©ÇÍÇƒÇ¢ÇΩéû
 	if (!strcmp(m_aData, "ENEMYSET"))
@@ -278,9 +280,17 @@ void CObjectSet::LoodEnemy(FILE* pFile)
 				(void)fscanf(pFile, "%f", &PosX);   //àÍî‘ñ⁄ÇÃílÇäiî[
 				(void)fscanf(pFile, "%f", &PosY);   //ìÒî‘ñ⁄ÇÃílÇäiî[
 				(void)fscanf(pFile, "%f", &PosZ);   //éOî‘ñ⁄ÇÃílÇäiî[
+				(void)fscanf(pFile, "%d", &nNumber);   //éOî‘ñ⁄ÇÃílÇäiî[
 
-				//ê∂ê¨Ç∑ÇÈ
-				CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::ENEMY001, 0, D3DXVECTOR3(PosX, PosY, PosZ)); //ìGÇÃê∂ê¨
+				if (nNumber == 0)
+				{
+					CManagerEnemy::Create(D3DXVECTOR3(100.0f, 200.0f, 1500.0f), CObjectX::TYPE::ENEMY);
+				}
+
+				else if(nNumber==1)
+				{
+					CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::ENEMY001, 0, D3DXVECTOR3(PosX, PosY, PosZ)); //ìGÇÃê∂ê¨
+				}
 			}
 		}
 	}

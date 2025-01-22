@@ -39,9 +39,12 @@ public:
 
 private:
 	//マクロ定義
-	constexpr  static int MAX_LIFE = 3;          //ライフの最大値
-	constexpr  static int PLUS_SCORE = 1000;     //加算するスコア値
-	constexpr  static float m_fMAX_SPPED = 2.0f; //移動速度
+	constexpr  static int MAX_LIFE = 3;                //ライフの最大値
+	constexpr  static int PLUS_SCORE = 1000;           //加算するスコア値
+	constexpr  static float m_fMAX_SPPED = 2.0f;       //移動速度
+	constexpr  static float MAX_ENEMY_DAMAGE = 0.001f; //ダメージ数
+	constexpr static int MAX_BUULET_SPEED = 30;        //弾の速さ
+	constexpr static int SET_BULLET_LIFE = 120;        //ライフの最大数
 };
 
 

@@ -280,7 +280,7 @@ void CGame01::Update()
 				m_pFade = nullptr;                                            //情報を無くす
 				g_pBG = nullptr;                                              //情報を無くす
 				GetPlayerX()->SetGravityFlag(true);                           //重力ON
-				GetCamera()->GetAdjustmentPosZ() = 700;                       //カメラのZ軸の調整
+				GetCamera()->GetAdjustmentPosZ() = 800;                       //カメラのZ軸の調整
 				GetCamera()->SetRot(D3DXVECTOR3(0.0f, 0.0f, 0.0f));           //カメラの向きの初期化
 				GetPlayerX()->SetRot(D3DXVECTOR3(0.0f, -CObjectX::D3DX_PI_ORI, 0.0f));           //カメラの向きの初期化
 				GetPlayerX()->SetMotion(CCharacter::MOTIONSTATE::TITLE_JUMP); //プレイヤーのモーションを設定

@@ -82,7 +82,7 @@ CManager2DUI* CManager2DUI::Create(TYPE_UI TypeUI)
 	//タイプが店のメニューの時
 	if (TypeUI== TYPE_UI::SHOPMENU)
 	{
-		pManager2DUI = new CShopMenu(); //動的確保
+		pManager2DUI = new CShopMenu(0); //動的確保
 
 		//初期化に成功した時
 		if (SUCCEEDED(pManager2DUI->Init()))

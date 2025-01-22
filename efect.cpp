@@ -595,7 +595,7 @@ void CPillarOfFire::Update()
 //===========================
 CEffect::CEffect(int nPriority) : CObject3D(nPriority)
 {
-	SetLife(SET_EFFECT_LIFE);                             //ライフを弾の設定されたライフと同じにする（同時に消すため）
+	SetLife(120);                             //ライフを設定
 	SetFileNamePass("data\\TEXTURE\\UI\\effect000.jpg");  //テクスチャのファイルパスを設定
 }
 
@@ -677,7 +677,7 @@ void CEffect::SetEffect(D3DXVECTOR3 pos, D3DXVECTOR3 move, int nLife)
 //===========================
 CEffect* CEffect::Create(D3DXVECTOR3 pos)
 {
-	CEffect* pEffect = new CEffect(); //動的確保
+	CEffect* pEffect = new CEffect(0); //動的確保
 
 	//情報がある時
 	if (pEffect != nullptr)

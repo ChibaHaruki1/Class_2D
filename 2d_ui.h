@@ -95,12 +95,23 @@ public:
 	void Update()override;							//更新処理
 	void Draw()override;							//描画処理
 
+
+	//========================================
+	//情報を取得
 	float& GetSizeX() { return m_fSizeX; }          //選択ゲージのX軸の大きさの取得
 	float& GetSizeY() { return m_fSizeY; }          //選択ゲージのy軸の大きさを取得
 	float& GetSize1X() { return m_fSize1X; }        //選択ゲージ001のx軸の大きさの取得
 	float& GetSize1Y() { return m_fSize1Y; }        //選択ゲージ001のy軸の大きさの取得
 
-	static CSelectGage* Create();                   //生成処理
+
+	//=========================================
+	//情報を設定
+	float& SetAddjustSizeX() { return m_fSizeX; }     //選択ゲージのX軸の大きさの設定
+	float& SetAddjustSize1X() { return m_fSize1X; }   //選択ゲージのy軸の大きさを設定
+	float& SetAddjustSizeY() { return m_fSizeY; }     //選択ゲージ001のx軸の大きさの設定
+	float& SetAddjustSize1Y(){ return m_fSize1Y; }    //選択ゲージ001のy軸の大きさの設定
+
+	static CSelectGage* Create();                     //生成処理
 
 private:
 	//マクロ定義

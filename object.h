@@ -27,6 +27,7 @@ public:
 		SPECIALBULLET,      //必殺弾
 		BOSSBULLET,         //ボスの弾
 		ENEMYBULLET,        //敵の弾
+		BATTLESHIPBULLET,   //敵の弾
 		BLOCK,              //ブロック
 		ITEM,               //アイテム
 		SCORE,              //スコア

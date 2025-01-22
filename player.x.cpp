@@ -766,8 +766,7 @@ void CPlayerX::ShopKeySet()
 		{
 			if (m_pSelectGage != nullptr)
 			{
-				m_pSelectGage->GetSizeY() += ADDJUST_SELECT_SIZEY;  //選択ゲージの１つ目のY軸の大きさを加算
-				m_pSelectGage->GetSize1Y() += ADDJUST_SELECT_SIZEY; //選択ゲージの２つ目のY軸の大きさを加算
+				SelectGageUISizeCalculation("Plus", ADDJUST_SELECT_SIZEY, ADDJUST_SELECT_SIZEY); //サイズを調整する
 
 				//選択ゲージ001の大きさを設定
 				m_pSelectGage001->SetSIze(m_pSelectGage->GetSizeX(), m_pSelectGage->GetSize1X(), m_pSelectGage->GetSizeY(), m_pSelectGage->GetSize1Y());
@@ -792,8 +791,7 @@ void CPlayerX::ShopKeySet()
 			//選択ゲージの情報がある時
 			if (m_pSelectGage != nullptr)
 			{
-				m_pSelectGage->GetSizeY() -= ADDJUST_SELECT_SIZEY;  //選択ゲージの１つ目のY軸の大きさを減算
-				m_pSelectGage->GetSize1Y() -= ADDJUST_SELECT_SIZEY;	//選択ゲージの２つ目のY軸の大きさを減算
+				SelectGageUISizeCalculation("Minus", ADDJUST_SELECT_SIZEY, ADDJUST_SELECT_SIZEY); //サイズを調整する
 
 				//選択ゲージ001のサイズを調整
 				m_pSelectGage001->SetSIze(m_pSelectGage->GetSizeX(), m_pSelectGage->GetSize1X(), m_pSelectGage->GetSizeY(), m_pSelectGage->GetSize1Y());
@@ -807,7 +805,7 @@ void CPlayerX::ShopKeySet()
 
 					//選択ゲージ001のサイズを調整
 					m_pSelectGage001->SetSIze(m_pSelectGage->GetSizeX(), m_pSelectGage->GetSize1X(), m_pSelectGage->GetSizeY(), m_pSelectGage->GetSize1Y());
-					m_nSelectShopCount = 3;  //選択カウントを設定
+					m_nSelectShopCount = 3;              //選択カウントを設定
 				}
 			}
 		}
@@ -841,13 +839,13 @@ void CPlayerX::SelectGageUISizeCalculation(const char* aSelect,float fSIzeX, flo
 	//文字列で判別
 	if (aSelect == "Plus")
 	{
-		m_pSelectGage->GetSizeY() += fSIzeX;    //選択ゲージの１つ目のY軸の大きさを引数と同期させ加算する
-		m_pSelectGage->GetSize1Y() += fSIze1X;  //選択ゲージの２つ目のY軸の大きさを引数と同期させ加算する
+		m_pSelectGage->SetAddjustSizeY() += fSIzeX;    //選択ゲージの１つ目のY軸の大きさを引数と同期させ加算する
+		m_pSelectGage->SetAddjustSize1Y() += fSIze1X;  //選択ゲージの２つ目のY軸の大きさを引数と同期させ加算する
 	}
 	else if (aSelect == "Minus")
 	{
-		m_pSelectGage->GetSizeY() -= fSIzeX;   //選択ゲージの１つ目のY軸の大きさを引数と同期させ減算する
-		m_pSelectGage->GetSize1Y() -= fSIze1X; //選択ゲージの２つ目のY軸の大きさを引数と同期させ減算する
+		m_pSelectGage->SetAddjustSizeY() -= fSIzeX;    //選択ゲージの１つ目のY軸の大きさを引数と同期させ減算する
+		m_pSelectGage->SetAddjustSize1Y() -= fSIze1X;  //選択ゲージの２つ目のY軸の大きさを引数と同期させ減算する
 	}
 
 	//選択ゲージ２つ目の大きさを設定

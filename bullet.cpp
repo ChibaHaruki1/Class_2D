@@ -140,6 +140,18 @@ CManagerBullet* CManagerBullet::Create(D3DXVECTOR3 pos, D3DXVECTOR3 move, int nL
 		}
 	}
 
+	//タイプが戦艦の弾の時
+	else if (type == CObject3D::TYPE::BATTLESHIPBULLET)
+	{
+		pBullet3D = new CEnemyBulletBattleShip(3); //動的確保
+
+		//初期化に成功した時
+		if (SUCCEEDED(pBullet3D->Init()))
+		{
+			pBullet3D->SetSize(CEnemyBullet::MAX_ENEMYBULLET_SIZE_X, CEnemyBullet::MAX_ENEMYBULLET_SIZE_Y, CEnemyBullet::MAX_ENEMYBULLET_SIZE_Z); //サイズの設定
+		}
+	}
+
 	//タイプがボスの弾の時
 	else if (type == CObject3D::TYPE::BOSSBULLET)
 	{
@@ -394,6 +406,93 @@ void CEnemyBullet::CallEffect(bool bUse)
 //オブジェクトとの当たり判定
 //===============================
 void CEnemyBullet::CollisionOnObject()
+{
+	//プレイヤーのパーツ数分回す
+	for (int nCount2 = 0; nCount2 < CObjectX::MAX_PRTS; nCount2++)
+	{
+		//プレイヤーの当たり判定
+		if (CManager::GetScene()->GetPlayerX()->GetCollision()->Coliision3Dcircle(GetPos(), CManager::GetScene()->GetPlayerX()->GetPosPrts(nCount2),
+			MAX_BULLET3D_SIZE_X * ADDJUST_HIT, MAX_BULLET3D_SIZE_Y * ADDJUST_HIT, 0.0f,
+			CManager::GetScene()->GetPlayerX()->GetModelSizePrts(nCount2), 0.0f))
+		{
+			CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() -=
+				CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() * MINUS_PLAYER_HPGAGE; //HPゲージを減らす
+
+			CallEffect(true);         //エフェクト処理を呼ぶ
+			CObject3D::Release();     //自身の解放
+			return;                   //処理を抜ける
+		}
+	}
+}
+
+
+//======================================================================================================================================================================
+//戦艦の弾の処理
+//======================================================================================================================================================================
+
+//=====================
+//コンストラクタ
+//=====================
+CEnemyBulletBattleShip::CEnemyBulletBattleShip(int nPriority) :CManagerBullet(nPriority)
+{
+
+}
+
+//=====================
+//デストラクタ
+//=====================
+CEnemyBulletBattleShip::~CEnemyBulletBattleShip()
+{
+
+}
+
+
+//=====================
+//更新処理
+//=====================
+void CEnemyBulletBattleShip::Update()
+{
+	CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::EFFECT, 0, GetPos()); //エフェクト（軌跡）を生成する
+	CManager::GetInstance()->GetEffect()->SetCol(0, 0, BLUE, GetAlpha());                   //色の設定
+	
+	//CManager::GetInstance()->GetEffect()->SetLife(120);
+	SetAddjustPos().y -= 4.0f;                                                              //Y軸の位置を減らす
+
+	//アルファ値が0より大きい時
+	if (GetAlpha() > 0)
+	{
+		SetAddjustAlpha() -= MINUS_ALPHA; //アルファ値を減算
+	}
+
+	SetAddjustLife()--; //寿命カウント
+
+	//寿命が尽きた
+	if (GetLife() <= 0)
+	{
+		CallEffect(false);         //エフェクト処理を呼ぶ
+
+		CObject3D::Release();      //自身の解放
+		return;                    //処理を抜けることによって、バッファのアクセス違反を防ぐ（破棄しているから）
+	}
+
+	CObject3D::Update();           //基底クラスの更新処理を呼ぶ
+	CollisionOnObject();           //当たり判定処理を呼ぶ　（処理を抜けたいから最後に呼ぶ）
+}
+
+
+//===========================
+//エフェクトの処理を呼ぶ
+//===========================
+void CEnemyBulletBattleShip::CallEffect(bool bUse)
+{
+
+}
+
+
+//===============================
+//オブジェクトとの当たり判定
+//===============================
+void CEnemyBulletBattleShip::CollisionOnObject()
 {
 	//プレイヤーのパーツ数分回す
 	for (int nCount2 = 0; nCount2 < CObjectX::MAX_PRTS; nCount2++)
