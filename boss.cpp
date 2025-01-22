@@ -104,6 +104,7 @@ void CBoss::Update()
 		if (GetDieFrame() >= DIE_FRAME)
 		{
 			CManager::SetMode(CScene::MODE::MODE_RESULT); //ƒŠƒUƒ‹ƒg‚ÖˆÚs
+			return;                                       //ˆ—‚ğ”²‚¯‚é
 		}
 	}
 

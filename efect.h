@@ -263,8 +263,7 @@ public:
 	void Uninit()override;						//”jŠüˆ—
 	void Update()override;						//XVˆ—
 	void Draw()override;						//•`‰æˆ—
-	void SetEffect(D3DXVECTOR3 pos, D3DXVECTOR3 move, int nLife);
-
+	
 	static CEffect* Create(D3DXVECTOR3 pos);    //¶¬ˆ—
 
 private:

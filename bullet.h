@@ -136,8 +136,9 @@ private: //外部からアクセス不可能
 	//マクロ定義
 	constexpr static int BLUE = 200;                     //青色
 	constexpr static int MINUS_ALPHA = 5;                //アルファ値を減算
+	constexpr static int SET_BULLET_LIFE = 90;          //ライフの最大値
 
-	constexpr static float ADDJUST_HIT = 0.5;            //当たり判定の調整値
+	constexpr static float ADDJUST_HIT = 1.0;            //当たり判定の調整値
 	constexpr static float  MINUS_PLAYER_HPGAGE = 0.05f; //プレイヤーのHPゲージを減らす値
 };
 

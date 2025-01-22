@@ -284,7 +284,7 @@ void CObjectSet::LoodEnemy(FILE* pFile)
 
 				if (nNumber == 0)
 				{
-					CManagerEnemy::Create(D3DXVECTOR3(100.0f, 200.0f, 1500.0f), CObjectX::TYPE::ENEMY);
+					CManagerEnemy::Create(D3DXVECTOR3(PosX, PosY, PosZ), CObjectX::TYPE::ENEMY);
 				}
 
 				else if(nNumber==1)

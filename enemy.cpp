@@ -149,14 +149,17 @@ void CEnemyX::Update()
 	{
 		SetAddjustFrame()++;     //弾を撃つ際のフレームを増やす
 
+		//フレームを
 		if (GetFrame() >= 60)
 		{
-			CManagerBullet::Create(D3DXVECTOR3(GetPos().x + 100.0f, GetPos().y + 230.0f, GetPos().z), D3DXVECTOR3(-sinf(GetRot().y) * MAX_BUULET_SPEED, 0.0f, -cosf(GetRot().y) * MAX_BUULET_SPEED),
+			CManagerBullet::Create(D3DXVECTOR3(GetPos().x - 250.0f, GetPos().y + 100.0f, GetPos().z), D3DXVECTOR3(-sinf(GetRot().y) * MAX_BUULET_SPEED, 0.0f, -cosf(GetRot().y) * MAX_BUULET_SPEED),
 				SET_BULLET_LIFE, CObject3D::TYPE::BATTLESHIPBULLET);
 
-			SetFrame(0);
+			CManagerBullet::Create(D3DXVECTOR3(GetPos().x + 250.0f, GetPos().y + 100.0f, GetPos().z), D3DXVECTOR3(-sinf(GetRot().y) * MAX_BUULET_SPEED, 0.0f, -cosf(GetRot().y) * MAX_BUULET_SPEED),
+				SET_BULLET_LIFE, CObject3D::TYPE::BATTLESHIPBULLET);
+
+			SetFrame(0); //
 		}
-		//GetPos().x += 10.0f;
 	}
 
 	//ライフが尽きた時

@@ -110,7 +110,7 @@ void CCharacter::UpdatePlayer()
 	//パーツごとの位置を常に更新＝もともとのパーツのposを足し合わせた物
 	for (int nCount = 0; nCount < MAX_PRTS-1; nCount++)
 	{
-		GetPosPrts(nCount) = D3DXVECTOR3(SaveMotionPos[nCount].x + GetPos().x, SaveMotionPos[nCount].y + GetPos().y, SaveMotionPos[nCount].z + GetPos().z);            //各パーツを保管値＋現在の値で修正
+		GetPosPrts(nCount) = D3DXVECTOR3(SaveMotionPos[nCount].x +CManager::GetScene()->GetPlayerX()->GetPos().x, SaveMotionPos[nCount].y + CManager::GetScene()->GetPlayerX()->GetPos().y, SaveMotionPos[nCount].z + CManager::GetScene()->GetPlayerX()->GetPos().z);            //各パーツを保管値＋現在の値で修正
 	}
 	
 	//武器の更新

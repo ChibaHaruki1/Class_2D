@@ -595,7 +595,6 @@ void CPillarOfFire::Update()
 //===========================
 CEffect::CEffect(int nPriority) : CObject3D(nPriority)
 {
-	SetLife(120);                             //ライフを設定
 	SetFileNamePass("data\\TEXTURE\\UI\\effect000.jpg");  //テクスチャのファイルパスを設定
 }
 
@@ -661,17 +660,6 @@ void CEffect::Draw()
 }
 
 
-//============================
-//エフェクトの設定
-//============================
-void CEffect::SetEffect(D3DXVECTOR3 pos, D3DXVECTOR3 move, int nLife)
-{
-	SetPos(pos);    //位置を引数と同期させる
-	SetMove(move);  //移動量を引数と同期させる
-	SetLife(nLife); //ライフを引数と同期させる
-}
-
-
 //===========================
 //エフェクトの生成
 //===========================
@@ -685,13 +673,13 @@ CEffect* CEffect::Create(D3DXVECTOR3 pos)
 		//初期化が成功した時
 		if (SUCCEEDED(pEffect->Init()))
 		{
-			pEffect->SetPos(pos); //位置を引数と同期させる
-			pEffect->Lood();      //テクスチャの読み込み
-			return pEffect;       //情報を返す
-		}
-	}
-
-	return nullptr;               //無を返す
+			pEffect->SetPos(pos);      //位置を引数と同期させる
+			pEffect->Lood();           //テクスチャの読み込み
+			return pEffect;            //情報を返す
+		}						       
+	}							       
+								       
+	return nullptr;                    //無を返す
 }
 
 
@@ -715,6 +703,7 @@ CExplosion001::~CExplosion001()
 {
 
 }
+
 
 //==============================================================================================================================================================
 //破片エフェクト

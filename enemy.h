@@ -60,7 +60,7 @@ public:
 
 	//=======================
 	//マクロ定義
-	constexpr static int MAX__ENEMY001_LIFE = 3;   //スコアの加算値
+	constexpr static int MAX__ENEMY001_LIFE = 3;   //ライフの最大値
 	
 private:
 	//マクロ定義
@@ -69,3 +69,24 @@ private:
 	constexpr static float PLUS_ROTY = 0.1f;       //Y軸の向きを加算する値
 };
 
+
+//==========================================================
+//敵001のクラス
+class CEnemy002X : public CManagerEnemy
+{
+public:
+	CEnemy002X(int nPriority = DEFAULT_PRIORITY1);  //コンストラクタ
+	~CEnemy002X()override; 							//デストラクタ
+	void Update()override;							//更新処理
+
+
+	//=======================
+	//マクロ定義
+	constexpr static int MAX__ENEMY002_LIFE = 3;   //ライフの最大値
+
+private:
+	//マクロ定義
+	constexpr static int PLUS_SCORE = 100;         //スコアの加算値
+	constexpr static float MAX_DAMAGE = 0.005f;    //プレイヤーに与えるダメージ数
+	constexpr static float PLUS_ROTY = 0.1f;       //Y軸の向きを加算する値
+};
