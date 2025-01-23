@@ -373,7 +373,7 @@ void CBossSpecialAttack::Update()
 
 		//点BXがプレイヤーより大きい判定にしたいからサイズの更新処理を入れる
 		if (CManager::GetScene()->GetPlayerX()->GetCollision()->TenCricale(CManager::GetScene()->GetPlayerX()->GetPos(), GetPos().x, GetPos().y + PLUS_POS_Y,
-			GetSizeX() + GetPos().x, fPosY) == true)
+			GetSizeX()*ADJUST_SIZE_X + GetPos().x, fPosY) == true)
 		{
 			CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() -= CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() * MAX_DAMAGE; //プレイヤーのHPゲージを減らす
 		}
@@ -385,7 +385,7 @@ void CBossSpecialAttack::Update()
 		SetEffectSize(-GetSizeX(), MAX_BOSSSPECIALATTACK_Y, 0.0f);   //サイズの設定
 
 		//点SXがプレイヤーより小さい判定にしたいからサイズの更新処理を入れる
-		if (CManager::GetScene()->GetPlayerX()->GetCollision()->TenCricale(CManager::GetScene()->GetPlayerX()->GetPos(), -GetSizeX() + GetPos().x, GetPos().y + PLUS_POS_Y,
+		if (CManager::GetScene()->GetPlayerX()->GetCollision()->TenCricale(CManager::GetScene()->GetPlayerX()->GetPos(), -GetSizeX()* ADJUST_SIZE_X + GetPos().x, GetPos().y + PLUS_POS_Y,
 			GetPos().x, fPosY) == true)
 		{
 			CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() -= CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() * MAX_DAMAGE; //プレイヤーのHPゲージを減らす
@@ -399,12 +399,12 @@ void CBossSpecialAttack::Update()
 		//アルファ値が０以下の時
 		if (GetAlpha() <= 0)
 		{
-			CObject::Release(); //自身を削除
-			return;             //処理を抜ける
-		}
-	}
-	else
-	{
-		SetAddjustLife()--;     //ライフを減らす
+			CObject::Release();                    //自身を削除
+			return;                                //処理を抜ける
+		}					                       
+	}						                       
+	else					                       
+	{						                       
+		SetAddjustLife()--;                        //ライフを減らす
 	}
 }

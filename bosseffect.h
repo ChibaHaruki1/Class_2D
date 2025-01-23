@@ -103,6 +103,7 @@ public: //外部からアクセス可能
 	constexpr static float MAX_SIZEZ = 40.0f;                  //ｚ軸の大きさ
 
 private://外部からのアクセス不可能
+
 	CBossEffectDirection* m_pEffectDirection000; //ストラテジー基底クラスのポインター
 
 	int m_nBossRotNumber; //向きで大きさを変えるための変数
@@ -160,6 +161,7 @@ private:
 	constexpr static int MINUS_ALPHA = 5;                    //アルファ値を減算していく値
 
 
+	constexpr static float ADJUST_SIZE_X = 0.8f;            //必殺技の当たり判定の乗算調整値
 	constexpr static float MAXIMUM_SIZEX = 2000.0f;          //サイズを加算していく時の最大値
 	constexpr static float PLUS_SIZEX = 20.0f;               //ｘ軸の大きさを加算する値
 	constexpr static float ADJUST_PLAYER_POSY = 1.5f;        //プレイヤーのpos.yの位置の値を調整する値
