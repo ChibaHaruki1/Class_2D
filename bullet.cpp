@@ -227,7 +227,7 @@ void CBullet3D::CollisionOnObject()
 		if (CManager::GetInstance()->GetEnemy001(nCount1) != nullptr)
 		{
 			//当たり判定
-			if (CManager::GetScene()->GetPlayerX()->GetCollision()->Coliision3Dcircle(GetPos(), CManager::GetInstance()->GetEnemy001(nCount1)->GetPos(), MAX_BULLET3D_SIZE_X, MAX_BULLET3D_SIZE_Y, MAX_BULLET3D_SIZE_Z, CManager::GetInstance()->GetEnemy001(nCount1)->GetModelSize() * 0.5f, GetSizeX()) == true)
+ 			if (CManager::GetScene()->GetPlayerX()->GetCollision()->Coliision3Dcircle(GetPos(), CManager::GetInstance()->GetEnemy001(nCount1)->GetPos(), MAX_BULLET3D_SIZE_X, MAX_BULLET3D_SIZE_Y, MAX_BULLET3D_SIZE_Z, CManager::GetInstance()->GetEnemy001(nCount1)->GetModelSize() * 0.5f, GetSizeX()) == true)
 			{
 				CManager::GetInstance()->GetEnemy001(nCount1)->SetAddjustLife() -= MINUS_ENEMY001_LIFE;          //敵のライフを減らす
 
@@ -251,7 +251,7 @@ void CBullet3D::CollisionOnObject()
 		if (CManager::GetInstance()->GetEnemy002(nCount2) != nullptr)
 		{
 			//当たり判定
-			if (CManager::GetScene()->GetPlayerX()->GetCollision()->Coliision3Dcircle(GetPos(), CManager::GetInstance()->GetEnemy002(nCount2)->GetPos(), MAX_BULLET3D_SIZE_X, MAX_BULLET3D_SIZE_Y, MAX_BULLET3D_SIZE_Z, CManager::GetInstance()->GetEnemy001(nCount2)->GetModelSize() * 0.5f, GetSizeX()) == true)
+			if (CManager::GetScene()->GetPlayerX()->GetCollision()->Coliision3Dcircle(GetPos(), CManager::GetInstance()->GetEnemy002(nCount2)->GetPos(), MAX_BULLET3D_SIZE_X, MAX_BULLET3D_SIZE_Y, MAX_BULLET3D_SIZE_Z, CManager::GetInstance()->GetEnemy002(nCount2)->GetModelSize() * 0.5f, GetSizeX()) == true)
 			{
 				CManager::GetInstance()->GetEnemy002(nCount2)->SetAddjustLife() -= MINUS_ENEMY001_LIFE;          //敵のライフを減らす
 
