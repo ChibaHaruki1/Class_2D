@@ -358,7 +358,7 @@ void CBoss::SpecialAttack()
 			CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::BOSSSPECIALATTACK, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f)); 
 
 			//向きの条件式
-			if (GetRot().y >= D3DX_PI_ORI)
+			if (GetRot().y >= D3DX_PI_ORI*0.5f)
 			{
 				//サイズの設定用の番号を渡す
 				CManager::GetInstance()->GetBossSpecialAttack()->SetRotNumber(2);
@@ -373,10 +373,10 @@ void CBoss::SpecialAttack()
 			}
 
 			//向きの条件式
-			else if (GetRot().y <= -D3DX_PI_ORI)
+			else if (GetRot().y <= -D3DX_PI_ORI*0.5f)
 			{
 				//サイズの設定用の番号を渡す
-				CManager::GetInstance()->GetBossSpecialAttack()->SetRotNumber(1);                                        
+			CManager::GetInstance()->GetBossSpecialAttack()->SetRotNumber(1);                                        
 
 				//位置を銃に設定
 				CManager::GetInstance()->GetBossSpecialAttack()->SetEffect(D3DXVECTOR3(
