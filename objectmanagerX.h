@@ -23,6 +23,7 @@ public:
 		NONE = 0,                    //無し
 		ENEMY,                       //敵
 		ENEMY001,                    //敵001
+		ENEMY002,                    //敵002
 		ENEMYINMOTION,               //モーション付きの敵
 		ENEMYINMOTION001,            //モーション付きの敵001
 
@@ -81,7 +82,7 @@ public:
 
 protected:
 	//マクロ定義
-	constexpr static int MAX_OBJECTMANAGERX = 100;       //オブジェクトの最大数
+	constexpr static int MAX_OBJECTMANAGERX = 200;       //オブジェクトの最大数
 	constexpr static int DEFAULT_PRIORITY1 = 3;          //デフォルトの描画順
 	constexpr static int MAX_PRIORITY_MANAGER_OBJ = 4;   //描画順の最大数
 

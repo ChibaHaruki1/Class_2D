@@ -40,7 +40,7 @@ public: //外部からアクセス可能
 	constexpr static float MAX_BULLET3D_SIZE_X = 40.0f; //3D弾のX軸の大きさ
 	constexpr static float MAX_BULLET3D_SIZE_Y = 40.0f; //3D弾のY軸の大きさ
 	constexpr static float MAX_BULLET3D_SIZE_Z = 40.0f; //3D弾のZ軸の大きさ
-	constexpr static int SET_BULLET_LIFE = 30;          //ライフの最大数
+	constexpr static int SET_BULLET_LIFE = 60;          //ライフの最大数
 
 private: //アクセス不可能
     //マクロ定義 （constexprでコンパイル時に初期化）

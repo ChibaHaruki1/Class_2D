@@ -49,6 +49,7 @@ CInstance::CInstance()
 	for (int nCount3 = 0; nCount3 < MAX_ENEMY; nCount3++)
 	{
 		m_pEnemy001[nCount3] = nullptr;     //敵001のポインターの初期化
+		m_pEnemy002[nCount3] = nullptr;     //敵001のポインターの初期化
 	}
 
 	//壊れた家分回す
@@ -103,7 +104,8 @@ CInstance::CInstance()
 	m_nSmallBlock = -1;              //小さいブロックの数を初期化
 	m_nSmallBlock001 = -1;           //小さいブロック001の数を初期化
 	m_nUpWallBlock = -1;             //上壁用ブロックの数を初期化
-	m_nEnemy = -1;                   //敵の数を初期化
+	m_nEnemy001 = -1;                //敵001の数を初期化
+	m_nEnemy002 = -1;                //敵002の数を初期化
 	m_nEnemyInMotion = -1;           //モーション付きの敵の数を初期化
 	m_nEnemyInMotion001 = -1;        //モーション付きの敵001の数を初期化
 	m_nWoodenBoard = -1;             //木の板群の数を初期化
@@ -168,6 +170,7 @@ void CInstance::Uninit()
 	for (int nCount3 = 0; nCount3 < MAX_ENEMY; nCount3++)
 	{
 		m_pEnemy001[nCount3] = nullptr;     //敵001のポインターの初期化
+		m_pEnemy002[nCount3] = nullptr;     //敵001のポインターの初期化
 	}
 
 	//壊れた家分回す
@@ -221,16 +224,22 @@ void CInstance::Uninit()
 //============================================================================================================================
 void CInstance::DesignationUninitXEnemy(CObjectX::TYPE type, int nNumber)
 {
+	//タイプが敵の時
+	if (type == CObjectX::TYPE::ENEMY)
+	{
+		m_pEnemy000 = nullptr;           //情報を無くす
+	}
+
 	//タイプが敵001の時
-	if (type == CObjectX::TYPE::ENEMY001)
+	else if (type == CObjectX::TYPE::ENEMY001)
 	{
 		m_pEnemy001[nNumber] = nullptr; //指定した番号の情報を無くす
 	}
 
-	//タイプが敵の時
-	else if (type == CObjectX::TYPE::ENEMY)
+	//タイプが敵002の時
+	else if (type == CObjectX::TYPE::ENEMY002)
 	{
-		m_pEnemy000 = nullptr;           //情報を無くす
+		m_pEnemy002[nNumber] = nullptr; //指定した番号の情報を無くす
 	}
 
 	//タイプがボスの時
@@ -468,8 +477,15 @@ CObjectX* CInstance::GetCreateObjectInstanceX(CObjectX::TYPE type, int nNumber, 
 	//タイプが敵001の時
 	else if (type == CObjectX::TYPE::ENEMY001)
 	{
-		m_nEnemy++;
-		return m_pEnemy001[m_nEnemy] = CManagerEnemy::Create(pos, type); //敵001の生成
+		m_nEnemy001++;
+		return m_pEnemy001[m_nEnemy001] = CManagerEnemy::Create(pos, type); //敵001の生成
+	}
+
+	//タイプが敵001の時
+	else if (type == CObjectX::TYPE::ENEMY002)
+	{
+		m_nEnemy002++;
+		return m_pEnemy002[m_nEnemy002] = CManagerEnemy::Create(pos, type); //敵002の生成
 	}
 
 	//タイプがモーション付きの時

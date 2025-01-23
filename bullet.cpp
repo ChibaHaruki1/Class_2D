@@ -86,7 +86,7 @@ void CManagerBullet::Update()
 	}
 
 	CObject3D::Update();           //基底クラスの更新処理を呼ぶ
-	CollisionOnObject();           //当たり判定処理を呼ぶ　（処理を抜けたいから最後に呼ぶ）
+	CollisionOnObject();           //当たり判定処理を呼ぶ　
 }
 
 
@@ -220,28 +220,8 @@ void CBullet3D::CallEffect(bool bUse)
 //===============================
 void CBullet3D::CollisionOnObject()
 {
-	//敵の情報がある時
-	if (CManager::GetInstance()->GetEnemy000() != nullptr)
-	{
-		//敵との当たり判定
-		if (CManager::GetScene()->GetPlayerX()->GetCollision()->Coliision3Dcircle(GetPos(), CManager::GetInstance()->GetEnemy000()->GetPos(), MAX_BULLET3D_SIZE_X, MAX_BULLET3D_SIZE_Y, MAX_BULLET3D_SIZE_Z, CManager::GetInstance()->GetEnemy000()->GetModelSize()*0.4f, GetSizeX()) == true)
-		{
-			CManager::GetInstance()->GetEnemy000()->SetAddjustLife() -= MINUS_ENEMY000_LIFE;       //敵のライフを減らす
-
-			//敵のライフが０以下の時
-			if (CManager::GetInstance()->GetEnemy000()->GetLife() <= 0)
-			{
-				CManager::GetInstance()->DesignationUninitXEnemy(CObjectX::TYPE::ENEMY, 0);        //ポインターをnullptrにする
-			}
-
-			CallEffect(false); //エフェクト処理を呼ぶ
-			SetLife(0);        //ライフを０にする
-			return;            //処理を抜ける
-		}
-	}
-
 	//敵001の情報がある時
-	for (int nCount1 = 0; nCount1 < CManager::GetInstance()->GetEnemyCount() + 1; nCount1++)
+	for (int nCount1 = 0; nCount1 < CManager::GetInstance()->GetEnemy001Count() + 1; nCount1++)
 	{
 		//情報がある時
 		if (CManager::GetInstance()->GetEnemy001(nCount1) != nullptr)
@@ -255,6 +235,30 @@ void CBullet3D::CollisionOnObject()
 				if (CManager::GetInstance()->GetEnemy001(nCount1)->GetLife() <= 0)
 				{
 					CManager::GetInstance()->DesignationUninitXEnemy(CObjectX::TYPE::ENEMY001, nCount1);         //ポインターをnullptrにする
+				}
+
+				CallEffect(false); //エフェクト処理を呼ぶ
+				SetLife(0);        //ライフを０にする
+				return;            //処理を抜ける
+			}
+		}
+	}
+
+	//敵002の情報がある時
+	for (int nCount2 = 0; nCount2 < CManager::GetInstance()->GetEnemy002Count() + 1; nCount2++)
+	{
+		//情報がある時
+		if (CManager::GetInstance()->GetEnemy002(nCount2) != nullptr)
+		{
+			//当たり判定
+			if (CManager::GetScene()->GetPlayerX()->GetCollision()->Coliision3Dcircle(GetPos(), CManager::GetInstance()->GetEnemy002(nCount2)->GetPos(), MAX_BULLET3D_SIZE_X, MAX_BULLET3D_SIZE_Y, MAX_BULLET3D_SIZE_Z, CManager::GetInstance()->GetEnemy001(nCount2)->GetModelSize() * 0.5f, GetSizeX()) == true)
+			{
+				CManager::GetInstance()->GetEnemy002(nCount2)->SetAddjustLife() -= MINUS_ENEMY001_LIFE;          //敵のライフを減らす
+
+				//敵のライフが０以下の時
+				if (CManager::GetInstance()->GetEnemy002(nCount2)->GetLife() <= 0)
+				{
+					CManager::GetInstance()->DesignationUninitXEnemy(CObjectX::TYPE::ENEMY002, nCount2);         //ポインターをnullptrにする
 				}
 
 				CallEffect(false); //エフェクト処理を呼ぶ

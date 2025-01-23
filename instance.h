@@ -86,6 +86,7 @@ public:
 	//敵系の取得
 	CManagerEnemy* GetEnemy000() { return m_pEnemy000; }                                              //通常敵の取得
 	CManagerEnemy* GetEnemy001(int nNumber) { return m_pEnemy001[nNumber]; }                          //通常敵001の取得
+	CManagerEnemy* GetEnemy002(int nNumber) { return m_pEnemy002[nNumber]; }                          //通常敵001の取得
 	CManagerEnemyInMotion* GetEnemyInMotion(int nNumber) { return m_pEnemyInMotion000[nNumber]; }     //モーション付きの敵の取得
 	CManagerEnemyInMotion* GetEnemyInMotion001(int nNumber) { return m_pEnemyInMotion001[nNumber]; }  //モーション付きの敵001の取得
 	CBoss* GetBoss() { return m_pBoss; }                                                              //ボスの取得
@@ -109,7 +110,8 @@ public:
 	int& GetSmallBlock001Count() {return  m_nSmallBlock001; }         //小さいブロックの作った数
 	int& GetUpWallBlockCount() {return  m_nUpWallBlock; }             //上がる用のブロックの作った数
 	int& GetWoodenBoardCount() { return m_nWoodenBoard; }             //木の板群の作った数
-	int& GetEnemyCount() { return m_nEnemy; }                         //敵の作った数
+	int& GetEnemy001Count() { return m_nEnemy001; }                   //敵の作った数
+	int& GetEnemy002Count() { return m_nEnemy001; }                   //敵の作った数
 	int& GetMotionInEnemyCount() { return m_nEnemyInMotion; }         //モーション付きの敵の生成数
 	int& GetMotionInEnemy001Count() { return m_nEnemyInMotion001; }   //モーション付きの敵001の生成数
 
@@ -123,10 +125,10 @@ public:
 	constexpr static int MAX_SHIP = 2;           //スペースシップの最大数
 
 	//インライン展開
-	inline void CreateFuelGage()
+	/*inline void CreateFuelGage()
 	{
-		//m_pFuelGage = CFuelGage::Create();
-	}
+		m_pFuelGage = CFuelGage::Create();
+	}*/
 
 private:
 	//ブロックのインスタンスを生成
@@ -147,6 +149,8 @@ private:
 	//敵のインスタンス
 	CManagerEnemy* m_pEnemy000;                                      //通常敵のインスタンス
 	CManagerEnemy* m_pEnemy001[MAX_ENEMY];                           //通常敵001のインスタンス
+	CManagerEnemy* m_pEnemy002[MAX_ENEMY];                           //通常敵002のインスタンス
+
 	CManagerEnemyInMotion* m_pEnemyInMotion000[MAX_ENEMYINMOTION];   //モーション付きの敵のインスタンス
 	CManagerEnemyInMotion* m_pEnemyInMotion001[MAX_ENEMYINMOTION];   //モーション付きの敵001のインスタンス
 	CBoss* m_pBoss;                                                  //ボスのインスタンス
@@ -195,7 +199,8 @@ private:
 	int m_nSmallBlock;         //小さいブロックの数
 	int m_nSmallBlock001;      //小さいブロック001の数
 	int m_nUpWallBlock;        //上の壁のブロックの数
-	int m_nEnemy;              //敵の数
+	int m_nEnemy001;           //敵の数
+	int m_nEnemy002;           //敵の数
 	int m_nEnemyInMotion;      //モーション付きの敵の数
 	int m_nEnemyInMotion001;   //モーション付きの敵001の数
 	int m_nWoodenBoard;        //木の板群の数

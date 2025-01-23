@@ -104,6 +104,19 @@ CManagerEnemy* CManagerEnemy::Create(D3DXVECTOR3 pos, CObjectX::TYPE type)
 		}
 	}
 
+	//タイプが敵001の時
+	else if (type == TYPE::ENEMY002)
+	{
+		pManagerEnemy = new CEnemy002X(); //動的確保
+
+		//初期化が成功した時
+		if (SUCCEEDED(pManagerEnemy->Init()))
+		{
+			pManagerEnemy->SetFileName("data\\XFILE\\ENEMY\\Enemy002.x"); //ファイルパスの設定
+			pManagerEnemy->SetLife(CEnemy002X::MAX__ENEMY002_LIFE);       //ライフの設定
+		}
+	}
+
 	//情報がある時
 	if (pManagerEnemy != nullptr)
 	{
@@ -152,13 +165,13 @@ void CEnemyX::Update()
 		//フレームを
 		if (GetFrame() >= 60)
 		{
-			CManagerBullet::Create(D3DXVECTOR3(GetPos().x - 250.0f, GetPos().y + 100.0f, GetPos().z), D3DXVECTOR3(-sinf(GetRot().y) * MAX_BUULET_SPEED, 0.0f, -cosf(GetRot().y) * MAX_BUULET_SPEED),
+			CManagerBullet::Create(D3DXVECTOR3(GetPos().x - 250.0f, GetPos().y + 70.0f, GetPos().z), D3DXVECTOR3(-sinf(GetRot().y) * MAX_BUULET_SPEED, 0.0f, -cosf(GetRot().y) * MAX_BUULET_SPEED),
 				SET_BULLET_LIFE, CObject3D::TYPE::BATTLESHIPBULLET);
 
-			CManagerBullet::Create(D3DXVECTOR3(GetPos().x + 250.0f, GetPos().y + 100.0f, GetPos().z), D3DXVECTOR3(-sinf(GetRot().y) * MAX_BUULET_SPEED, 0.0f, -cosf(GetRot().y) * MAX_BUULET_SPEED),
+			CManagerBullet::Create(D3DXVECTOR3(GetPos().x + 350.0f, GetPos().y + 70.0f, GetPos().z), D3DXVECTOR3(-sinf(GetRot().y) * MAX_BUULET_SPEED, 0.0f, -cosf(GetRot().y) * MAX_BUULET_SPEED),
 				SET_BULLET_LIFE, CObject3D::TYPE::BATTLESHIPBULLET);
 
-			SetFrame(0); //
+			SetFrame(0); //フレームの初期化
 		}
 	}
 
@@ -216,10 +229,85 @@ void CEnemy001X::Update()
 	if (GetLife() <= 0)
 	{
 		CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::EXPLOSION, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f)); //爆発エフェクトを呼ぶ（1つ目）
-
 		CManager::GetInstance()->GetExplosion()->SetEffect(D3DXVECTOR3(GetPos().x, GetPos().y+50.0f, GetPos().z));      //爆発エフェクトの位置を設定
 		CManager::GetInstance()->GetGameScore()->AddScore(PLUS_SCORE);                                                  //スコアを加算
 		CObjectX::Release(); //自身の削除
 		return;              //処理を抜ける
+	}
+}
+
+
+//=====================================================================================================================================
+//敵002の処理
+//=====================================================================================================================================
+
+//=========================
+//コンストラクタ
+//=========================
+CEnemy002X::CEnemy002X(int Priority) : CManagerEnemy(Priority)
+{
+
+}
+
+//=========================
+//デストラクタ
+//=========================
+CEnemy002X::~CEnemy002X()
+{
+
+}
+
+//=========================
+//更新処理
+//=========================
+void CEnemy002X::Update()
+{
+	SetAddjustRot().x += PLUS_ROTY; //Y軸の向きを加算
+
+	Move();                         //行動処理関数を呼ぶ
+
+	//プレイヤーと当たった時
+	if (CollisionPlayerSelect(this) == true)
+	{
+		//プレイヤーのHPを削る
+		CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() -= CManagerGage::MAX_PLAYER_HP_SIZE * CManagerBossEffect::MAX_DAMAGE;
+	}
+
+	//ライフが尽きた時
+	if (GetLife() <= 0)
+	{
+		CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::EXPLOSION, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f)); //爆発エフェクトを呼ぶ（1つ目）
+
+		CManager::GetInstance()->GetExplosion()->SetEffect(D3DXVECTOR3(GetPos().x, GetPos().y + 50.0f, GetPos().z));    //爆発エフェクトの位置を設定
+		CManager::GetInstance()->GetGameScore()->AddScore(PLUS_SCORE);                                                  //スコアを加算
+		CObjectX::Release(); //自身の削除
+		return;              //処理を抜ける
+	}
+}
+
+
+//=========================
+//行動処理
+//=========================
+void CEnemy002X::Move()
+{
+	SetAddjustFrame()++; //フレームを増やす
+
+	//第一行動
+	if (GetFrame() <= 60)
+	{
+		GetPos().y += ADDJUST_POSY; //Y軸の位置を加算
+	}
+
+	//第二行動
+	else if (GetFrame() <= 120)
+	{
+		GetPos().y -= ADDJUST_POSY; //Y軸の位置を減算
+	}
+
+	//終了
+	else
+	{
+		SetFrame(0);                //フレームの初期化
 	}
 }

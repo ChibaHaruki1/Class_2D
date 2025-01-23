@@ -255,7 +255,6 @@ void CObjectSet::LoodBreakHouse(FILE* pFile)
 //=================================
 void CObjectSet::LoodEnemy(FILE* pFile)
 {
-	int nNumber = 0;
 	float PosX, PosY, PosZ = 0.0f; //posÇÃà íuÇï€ä«Ç∑ÇÈÇΩÇﬂÇÃïœêî
 	
 
@@ -273,23 +272,43 @@ void CObjectSet::LoodEnemy(FILE* pFile)
 				break; //èàóùÇî≤ÇØÇÈ
 			}
 
+			int nNumber = 0;
 			//ëËñºÇ™POSÇæÇ¡ÇΩéû
 			if (!strcmp(m_aData, "POS"))
 			{
-				(void)fscanf(pFile, "%s", m_aData); //ï∂éöÇì«Ç›éÊÇÈ å¬ÅXÇÃèÍçáÅuÅÅÅvÇì«Ç›éÊÇÈ
-				(void)fscanf(pFile, "%f", &PosX);   //àÍî‘ñ⁄ÇÃílÇäiî[
-				(void)fscanf(pFile, "%f", &PosY);   //ìÒî‘ñ⁄ÇÃílÇäiî[
-				(void)fscanf(pFile, "%f", &PosZ);   //éOî‘ñ⁄ÇÃílÇäiî[
-				(void)fscanf(pFile, "%d", &nNumber);   //éOî‘ñ⁄ÇÃílÇäiî[
+				(void)fscanf(pFile, "%s", m_aData);    //ï∂éöÇì«Ç›éÊÇÈ å¬ÅXÇÃèÍçáÅuÅÅÅvÇì«Ç›éÊÇÈ
+				(void)fscanf(pFile, "%f", &PosX);      //àÍî‘ñ⁄ÇÃílÇäiî[
+				(void)fscanf(pFile, "%f", &PosY);      //ìÒî‘ñ⁄ÇÃílÇäiî[
+				(void)fscanf(pFile, "%f", &PosZ);      //éOî‘ñ⁄ÇÃílÇäiî[
+				(void)fscanf(pFile, "%d", &nNumber);   //ê∂ê¨Ç∑ÇÈìGÇÃèTóﬁÇî‘çÜÇ≈éÊìæ
+
+				////î‘çÜÇ≈îªíË
+				//switch (nNumber)
+				//{
+				//case 0:
+				//	CManagerEnemy::Create(D3DXVECTOR3(PosX, PosY, PosZ), CObjectX::TYPE::ENEMY);                                   //ìGÇÃê∂ê¨
+				//	break; //èàóùÇî≤ÇØÇÈ
+
+				//case 1:
+				//	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::ENEMY001, 0, D3DXVECTOR3(PosX, PosY, PosZ)); //ìG001ÇÃê∂ê¨
+				//	break; //èàóùÇî≤ÇØÇÈ
+
+				//case 2:
+				//	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::ENEMY002, 0, D3DXVECTOR3(PosX, PosY, PosZ)); //ìG002ÇÃê∂ê¨
+				//	break; //èàóùÇî≤ÇØÇÈ
+				//}
 
 				if (nNumber == 0)
 				{
-					CManagerEnemy::Create(D3DXVECTOR3(PosX, PosY, PosZ), CObjectX::TYPE::ENEMY);
+					CManagerEnemy::Create(D3DXVECTOR3(PosX, PosY, PosZ), CObjectX::TYPE::ENEMY);                                   //ìGÇÃê∂ê¨
 				}
-
-				else if(nNumber==1)
+				else if (nNumber == 1)
 				{
-					CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::ENEMY001, 0, D3DXVECTOR3(PosX, PosY, PosZ)); //ìGÇÃê∂ê¨
+					CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::ENEMY001, 0, D3DXVECTOR3(PosX, PosY, PosZ)); //ìG001ÇÃê∂ê¨
+				}
+				else if (nNumber == 2)
+				{
+					CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::ENEMY002, 0, D3DXVECTOR3(PosX, PosY, PosZ)); //ìG002ÇÃê∂ê¨
 				}
 			}
 		}

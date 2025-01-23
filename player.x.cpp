@@ -390,6 +390,7 @@ void CPlayerX::NormalStateSummarizeFunction()
 	BlockJudgement();              //オブジェクトとの当たり判定処理関数を呼ぶ
 						           
 	NowCreateNumberObj();          //配置オブジェクトのUIを生成する処理関数
+	NowCreateObjectUI();           //現在作っているオブジェクトのUIを出す処理
 
 	//必殺技を撃っていない時
 	if (SpecialAttack == false)
@@ -1388,21 +1389,18 @@ void CPlayerX::NowCreateNumberObj()
 {
 	//電柱を作る時のみm_pLaserUIが必要
 
-	//オブジェクトナンバー０の時
-	if (m_ObjectNumber == 0)
+	switch (m_ObjectNumber)
 	{
+	case 0:
 		CObjectX::ObjectArrangement(TYPE::FIELDBLOCK, nullptr);      //地面の配置処理
-	}
+		break;
 
-	//オブジェクトナンバー１の時
-	else if (m_ObjectNumber == 1)
-	{
-		ObjectArrangement(CObjectX::TYPE::TELEPHONPOLE, m_pLaserUI); //電柱の配置処理
-	}
+	case 1:
+		CObjectX::ObjectArrangement(CObjectX::TYPE::TELEPHONPOLE, m_pLaserUI); //電柱の配置処理
+		break;
 
-	//オブジェクトナンバー２の時
-	else if (m_ObjectNumber == 2)
-	{
+	case 2:
 		CObjectX::ObjectArrangement(TYPE::GOUPBLOCK, nullptr);       //上がる用ブロックの配置処理
+		break;
 	}
 }

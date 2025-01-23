@@ -62,16 +62,16 @@ private: //アクセス不可能
 
 	//==========================================
 	//マクロ定義
-	constexpr static int   MAX_TEXT_OBJECT = 1;             //今配置ツールに設定されてるオブジェクトの数ー１（０スタートだから）
-	constexpr static int   MAX_BUULET_SPEED = 30;           //弾の速さ
-	constexpr static int   MAX_DIE_COUNT = 180;             //死亡時のカウント
-	constexpr static float   ADDJUST_SELECT_SIZEY = 160.0f;      //選択ゲージのY軸の位置を加算する値
+	constexpr static int   MAX_TEXT_OBJECT = 2;               //今配置ツールに設定されてるオブジェクトの数ー１（０スタートだから）
+	constexpr static int   MAX_BUULET_SPEED = 30;             //弾の速さ
+	constexpr static int   MAX_DIE_COUNT = 180;               //死亡時のカウント
+	constexpr static float   ADDJUST_SELECT_SIZEY = 160.0f;   //選択ゲージのY軸の位置を加算する値
 
 	//ぶっ飛び処理時マクロ定義
-	constexpr static int   BLOWAWAY_FRAME_1 = 40;           //第一行動時のフレーム
-	constexpr static int   BLOWAWAY_FRAME_2 = 90;           //第二行動時のフレーム
-	constexpr static float   BLOWAWAY_PLUS_POS_X = 20.0f;   //X軸の飛ぶ距離
-	constexpr static float   BLOWAWAY_PLUS_POS_Y = 30.0f;   //Y軸の飛ぶ距離
+	constexpr static int   BLOWAWAY_FRAME_1 = 40;             //第一行動時のフレーム
+	constexpr static int   BLOWAWAY_FRAME_2 = 90;             //第二行動時のフレーム
+	constexpr static float   BLOWAWAY_PLUS_POS_X = 20.0f;     //X軸の飛ぶ距離
+	constexpr static float   BLOWAWAY_PLUS_POS_Y = 30.0f;     //Y軸の飛ぶ距離
 
 
 	constexpr static float MAX_JUMPPAWER = 10.0f;           //飛ぶ力
