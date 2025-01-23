@@ -94,7 +94,7 @@ HRESULT CPlayerX::Init()
 	CCharacter::Lood();                                                           //テキストファイルを読み込む処理
 	SetRot(D3DXVECTOR3(0.0f, D3DX_PI * -0.5f, 0.0f));                             //向きの調整（右向き）
 	m_pModelPrts[18]->SetDraw(false);                                             //パーツの銃部分を非表示に設定
-	SetPos(D3DXVECTOR3(3000.0f,0.0f,0.0f));                                        //位置の調整
+	SetPos(D3DXVECTOR3(000.0f,0.0f,0.0f));                                        //位置の調整
 	SetLife(1);                                                                   //自身のライフ
 	return S_OK;                                                                  //成功を返す
 }
@@ -263,7 +263,7 @@ void CPlayerX::Update()
 			return;       //処理を抜ける
 		}
 	}
-	SceneMode(2);         //シーンを選択
+	//SceneMode(2);         //シーンを選択
 }
 
 
@@ -1251,10 +1251,19 @@ void CPlayerX::BlockJudgement()
 	if (CManager::GetInstance()->GetFinalCeiling() != nullptr)
 	{
 		//下に当たっている時
-		if (GetCollision() ->ColiisionBoxOutside(GetPos(), CManager::GetInstance()->GetFinalCeiling()->GetPos(), GetModelSize(), CManager::GetInstance()->GetFinalCeiling()->GetModelSize(), GetMove()) == true)
+		if (GetCollision() ->ColiisionBoxOutside(GetPos(), CManager::GetInstance()->GetFinalCeiling()->GetPos(), GetModelSize(), CManager::GetInstance()->GetFinalCeiling()->GetModelSize()*5.0f, GetMove()) == true)
 		{
-			SetGravityFlag(true);//重力ON
+			//下に当たっている時
+			if (GetCollision()->ColiisionBoxOutside(GetPos(), CManager::GetInstance()->GetFinalCeiling()->GetPos(), GetModelSize(), CManager::GetInstance()->GetFinalCeiling()->GetModelSize() * 3.0f, GetMove()) == true)
+			{
+				SetGravityFlag(true);//重力ON
+			}
+			CManager::GetScene()->GetCamera()->GetAdjustmentPosY() = 0.0f;
 		}
+		//else
+		//{
+		//	CManager::GetScene()->GetCamera()->GetAdjustmentPosY() = CEvent::CANERA_POSY;    //カメラのＹ軸の値を設定
+		//}
 	}
 
 	//バトルシップとの当たり判定

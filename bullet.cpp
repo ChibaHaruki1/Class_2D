@@ -420,8 +420,8 @@ void CEnemyBullet::CollisionOnObject()
 			MAX_BULLET3D_SIZE_X * ADDJUST_HIT, MAX_BULLET3D_SIZE_Y * ADDJUST_HIT, 0.0f,
 			CManager::GetScene()->GetPlayerX()->GetModelSizePrts(nCount2), 0.0f))
 		{
-			//CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() -=
-			//	CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() * MINUS_PLAYER_HPGAGE; //HPゲージを減らす
+			CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() -=
+				CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() * MINUS_PLAYER_HPGAGE; //HPゲージを減らす
 
 			CallEffect(true);         //エフェクト処理を呼ぶ
 			CObject3D::Release();     //自身の解放

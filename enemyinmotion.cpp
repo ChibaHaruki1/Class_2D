@@ -462,7 +462,7 @@ void CEnemyInMotion001::PlayerBloWwaway()
 	if (m_nHitFrame <= 1)
 	{
 		//プレイヤーのHPを削る
-//		CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() -= CManagerGage::MAX_PLAYER_HP_SIZE * MAX_DAMAGE;
+		CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() -= CManagerGage::MAX_PLAYER_HP_SIZE * MAX_DAMAGE;
 	}
 
 	//Hitframeが既定値へいった時
