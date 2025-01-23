@@ -44,6 +44,7 @@ public:
 		SHOP,                        //店
 		DEBRIS,                      //破片
 		BREAKHOUSE,                  //壊れた家
+		SPECEBATTLESHIP000,          //TYPE用のスペースシップ
 		MAX
 	};
 

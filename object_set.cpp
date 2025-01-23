@@ -74,6 +74,7 @@ HRESULT CObjectSet::Init()
 		StageOneInformation("data\\TEXT\\OBJECT\\Block.txt");        //ブロックの読み込み
 		StageOneInformation("data\\TEXT\\OBJECT\\BreakHouse.txt");   //壊れた家の読み込み
 		StageOneInformation("data\\TEXT\\OBJECT\\Enemy.txt");        //敵の読み込み
+		StageOneInformation("data\\TEXT\\OBJECT\\MotionEnemy.txt");  //モーション付きの敵の読み込み
 
 		return S_OK;  //処理を抜ける
 
@@ -112,7 +113,7 @@ void CObjectSet::StageOneInformation(const char* pFileName)
 	//外部ファイル読み込み (無限)
 	while (1)
 	{
-		fscanf(pFile, "%s", m_aData); //文字を読み取る
+		(void)fscanf(pFile, "%s", m_aData); //文字を読み取る
 
 		//コメントを読み込んだ時
 		if (m_aData[0] == '#')
@@ -123,15 +124,16 @@ void CObjectSet::StageOneInformation(const char* pFileName)
 		//この文字を見つけた時
 		if (!strcmp(m_aData, "END_SCRIPT"))
 		{
-			fclose(pFile);       //ファイルを閉じる
-			pFile = nullptr;     //ファイルの情報を無くす
-			break;               //処理を抜ける
-		}
-
-		LoodTelephonPole(pFile); //電柱の情報を読み取る
-		LoodBlock(pFile);        //ブロックの情報を読み取る
-		LoodBreakHouse(pFile);   //壊れた家の情報を読み取る
-		LoodEnemy(pFile);
+			fclose(pFile);        //ファイルを閉じる
+			pFile = nullptr;      //ファイルの情報を無くす
+			break;                //処理を抜ける
+		}						  
+								  
+		LoodTelephonPole(pFile);  //電柱の情報を読み取る
+		LoodBlock(pFile);         //ブロックの情報を読み取る
+		LoodBreakHouse(pFile);    //壊れた家の情報を読み取る
+		LoodEnemy(pFile);         //敵の情報を読み込む
+		LoodMotionInEnemy(pFile); //モーション付きの敵の情報を読み込む
 	}
 }
 
@@ -255,8 +257,8 @@ void CObjectSet::LoodBreakHouse(FILE* pFile)
 //=================================
 void CObjectSet::LoodEnemy(FILE* pFile)
 {
+	int nNumber = 0;               //生成番号
 	float PosX, PosY, PosZ = 0.0f; //posの位置を保管するための変数
-	
 
 	//これが書かれていた時
 	if (!strcmp(m_aData, "ENEMYSET"))
@@ -272,7 +274,6 @@ void CObjectSet::LoodEnemy(FILE* pFile)
 				break; //処理を抜ける
 			}
 
-			int nNumber = 0;
 			//題名がPOSだった時
 			if (!strcmp(m_aData, "POS"))
 			{
@@ -282,39 +283,62 @@ void CObjectSet::LoodEnemy(FILE* pFile)
 				(void)fscanf(pFile, "%f", &PosZ);      //三番目の値を格納
 				(void)fscanf(pFile, "%d", &nNumber);   //生成する敵の週類を番号で取得
 
-				////番号で判定
-				//switch (nNumber)
-				//{
-				//case 0:
-				//	CManagerEnemy::Create(D3DXVECTOR3(PosX, PosY, PosZ), CObjectX::TYPE::ENEMY);                                   //敵の生成
-				//	break; //処理を抜ける
-
-				//case 1:
-				//	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::ENEMY001, 0, D3DXVECTOR3(PosX, PosY, PosZ)); //敵001の生成
-				//	break; //処理を抜ける
-
-				//case 2:
-				//	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::ENEMY002, 0, D3DXVECTOR3(PosX, PosY, PosZ)); //敵002の生成
-				//	break; //処理を抜ける
-				//}
-
-				if (nNumber == 0)
+				//番号で判定
+				switch (nNumber)
 				{
+				case 0:
 					CManagerEnemy::Create(D3DXVECTOR3(PosX, PosY, PosZ), CObjectX::TYPE::ENEMY);                                   //敵の生成
-				}
-				else if (nNumber == 1)
-				{
+					break; //処理を抜ける
+
+				case 1:
 					CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::ENEMY001, 0, D3DXVECTOR3(PosX, PosY, PosZ)); //敵001の生成
-				}
-				else if (nNumber == 2)
-				{
+					break; //処理を抜ける
+
+				case 2:
 					CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::ENEMY002, 0, D3DXVECTOR3(PosX, PosY, PosZ)); //敵002の生成
+					break; //処理を抜ける
 				}
 			}
 		}
 	}
 }
 
+//==============================================
+//モーション付きの敵の情報を読み込む処理
+//==============================================
+void CObjectSet::LoodMotionInEnemy(FILE*pFile)
+{
+	//int nNumber = 0;               //生成番号
+	float PosX, PosY, PosZ = 0.0f; //posの位置を保管するための変数
+
+	//これが書かれていた時
+	if (!strcmp(m_aData, "MOTIONENEMYSET"))
+	{
+		//ループ(無限月読)
+		while (1)
+		{
+			(void)fscanf(pFile, "%s", m_aData); //文字を読み取る
+
+			//題名がEND_TELEPHONPOLESETだった時
+			if (!strcmp(m_aData, "END_MOTIONENEMYSET"))
+			{
+				break; //処理を抜ける
+			}
+
+			//題名がPOSだった時
+			if (!strcmp(m_aData, "POS"))
+			{
+				(void)fscanf(pFile, "%s", m_aData);    //文字を読み取る 個々の場合「＝」を読み取る
+				(void)fscanf(pFile, "%f", &PosX);      //一番目の値を格納
+				(void)fscanf(pFile, "%f", &PosY);      //二番目の値を格納
+				(void)fscanf(pFile, "%f", &PosZ);      //三番目の値を格納
+				//(void)fscanf(pFile, "%d", &nNumber);   //生成する敵の週類を番号で取得
+
+				CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::ENEMYINMOTION001, 0, D3DXVECTOR3(PosX, PosY, PosZ)); //敵001の生成
+			}
+		}
+	}
+}
 
 //========================================
 //ブロックの情報を読み込む処理

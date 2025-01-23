@@ -21,7 +21,6 @@
 CCamera::CCamera()
 {
 	m_fAdjustmentPosY = 200.0f; //カメラの高さを調整
-	m_fAdjustmentPosVZ = 0.0f;
 	m_fAdjustmentPosZ = 1000;  //カメラを手前に引くよう調整
 }
 
@@ -40,7 +39,7 @@ CCamera::~CCamera()
 //========================
 HRESULT CCamera::Init()
 {
-	m_posV = D3DXVECTOR3(0.0f, 100.0f, 0.0f); //視点を調整
+	m_posV = D3DXVECTOR3(0.0f, 100.0f, 1000.0f); //視点を調整
 	m_posR = D3DXVECTOR3(0.0f, 0.0f, 0.0f);   //注視点を調整
 	m_vecU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);   //上方向の調整
 	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);      //向きの調整
@@ -124,12 +123,9 @@ void CCamera::Update()
 	m_posR.y = CManager::GetScene()->GetPlayerX()->GetPos().y; //注視点のＹ軸をプレイヤーのＹ軸と同期させる
 	m_posR.z = CManager::GetScene()->GetPlayerX()->GetPos().z; //注視点のＺ軸をプレイヤーのＺ軸と同期させる
 
-	m_posV.x = CManager::GetScene()->GetPlayerX()->GetPos().x; //視点のＸ軸をプレイヤーのＸ軸と同期させる
-	m_posV.y = CManager::GetScene()->GetPlayerX()->GetPos().y + m_fAdjustmentPosY; //視点のＹ軸をプレイヤーのＹ軸と調整用の値と同期させる
-	m_posV.z = CManager::GetScene()->GetPlayerX()->GetPos().z + m_fAdjustmentPosVZ;  //視点のＺ軸をプレイヤーのＺ軸とと調整用の値と同期させる
-
 	//カメラ自体もプレイヤーに合わせて動く(直接モデルの値を代入するとカメラ回転時強制的に正面に戻されるため）
 	m_posV.x = m_posR.x + sinf(D3DX_PI + m_rot.y) * m_fAdjustmentPosZ; //視点のＸ軸を注視点のＸ軸と向きとそれをかけた調整用の値と同期させる
+	m_posV.y = CManager::GetScene()->GetPlayerX()->GetPos().y + m_fAdjustmentPosY; //視点のＹ軸をプレイヤーのＹ軸と調整用の値と同期させる
 	m_posV.z = m_posR.z + cosf(D3DX_PI + m_rot.y) * m_fAdjustmentPosZ; //視点のＺ軸を注視点のＺ軸と向きとそれをかけた調整用の値と同期させる
 }
 

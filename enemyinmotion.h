@@ -70,12 +70,12 @@ public: //アクセス可能
 
 private:
 	//マクロ定義
-	constexpr static int MAX_LIFE = 5;                                 //ライフの最大値
+	constexpr static int MAX_LIFE = 10;                                //ライフの最大値
 	constexpr static int PLUS_SCORE = 2000;                            //スコアの加算値
-	constexpr static int MIN_RANDOM1 = 250;                            //乱数の最小値
-	constexpr static int MAX_RANDOM1 = 250;                            //乱数の最大値
-	constexpr static int MIN_RANDOM2 = 50;                            //乱数の最小値
-	constexpr static int MAX_RANDOM2 = 50;                            //乱数の最大値
+	constexpr static int MIN_RANDOM1 = 250;                            //乱数1の最小値
+	constexpr static int MAX_RANDOM1 = 250;                            //乱数1の最大値
+	constexpr static int MIN_RANDOM2 = 50;                             //乱数2の最小値
+	constexpr static int MAX_RANDOM2 = 50;                             //乱数2の最大値
 													                   
 	constexpr static float ADDJUST_PRTAS_ROTX = 0.01f;                 //パーツのX軸の向きを調整する値
 	constexpr static float ADDJUST_BULLET_ROTY = 0.3f;                 //弾のY軸の向きを調整する値
@@ -83,6 +83,7 @@ private:
 	constexpr static float IF_ADDJUST_BULLET_ROTY = 3.0f;              //弾のY軸の向きを調整する条件式の掛け算の値
 	constexpr static float MAX_EXPLOSION_SIZE1 = 200.0f;               //爆発エフェクトの大きさの値１
 	constexpr static float MAX_EXPLOSION_SIZE2 = 300.0f;               //爆発エフェクトの大きさの値２
+	constexpr static float MAX_DAMAGE = 0.1f;                          //ダメージ数
 
 	int m_nHitFrame; //プレイヤーと当たった時のリキャストタイム
 	bool m_bHit;     //当たったかどうかの判定用変数

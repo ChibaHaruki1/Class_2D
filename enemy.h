@@ -91,5 +91,5 @@ private:
 	constexpr static int PLUS_SCORE = 200;         //スコアの加算値
 	constexpr static float MAX_DAMAGE = 0.005f;    //プレイヤーに与えるダメージ数
 	constexpr static float PLUS_ROTY = 0.1f;       //Y軸の向きを加算する値
-	constexpr static float ADDJUST_POSY = 3.0f;    //Y軸の位置を加算する値
+	constexpr static float ADDJUST_POSY = 10.0f;    //Y軸の位置を加算する値
 };

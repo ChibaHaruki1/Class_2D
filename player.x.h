@@ -42,8 +42,9 @@ public: //アクセス可能
 	void SelectGageUISize(float SIzeX,float SIze1X);             //選択ゲージの大きさを設定する関数
 	void SelectGageUISizeCalculation(const char*aSelect,float SIzeX,float SIze1X);  //選択ゲージの大きさを計算（加算や減算など）する関数
 	void BlowAway();
-	void HitAttack();          //特定の攻撃を受けたときの処理
-	void SceneMode(int nType); //sceneの分岐
+	void HitAttack();                                            //特定の攻撃を受けたときの処理
+	void SceneMode(int nType);                                   //sceneの分岐
+	void NextStageMotion();                                      //次のステージに行くと時のモーション処理
 
 	void NowCreateObjectUI();                                    //現在作っているオブジェクトのUIを出す処理
 	void NowCreateNumberObj();                                   //番号で作るオブジェクトを指定する処理
@@ -74,8 +75,9 @@ private: //アクセス不可能
 	constexpr static float   BLOWAWAY_PLUS_POS_Y = 30.0f;     //Y軸の飛ぶ距離
 
 
-	constexpr static float MAX_JUMPPAWER = 10.0f;           //飛ぶ力
-	constexpr static float MAX_SPECIALATTACKCOUNT = 60 * 10;   //必殺技のリキャストタイム
+	constexpr static float MAX_JUMPPAWER = 10.0f;             //飛ぶ力
+	constexpr static float MAX_SPECIALATTACKCOUNT = 60 * 60;  //必殺技のリキャストタイム
+	constexpr static float MAX_POS_NEXTSTAGE = 0.4f;          //次のステージへ行く時の位置の乗算値
 
 	//プレイヤーの状態
 	enum class PLAYER_STATE
@@ -125,6 +127,7 @@ private: //アクセス不可能
 	int m_nMotionFrame;          //銃を打つ際のカウント
 	int m_nMotionFrame001;       //銃を撃つ際のカウント
 	int m_ObjectNumber;          //現在のオブジェクトの種類の番号を保管する変数
+	bool m_bPlayerMoveNext;      //次のステージへ行く時のプレイヤーの動きの判定用の変数
 	bool m_bNextStage;           //次のステージへ行く為の判定を取る用の変数
 	bool SpecialAttack;          //必殺技を使っているときは動けない
 
@@ -144,6 +147,7 @@ private: //アクセス不可能
 	bool m_bFly;               //自機が吹っ飛んでいるかどうかの判定の為の変数（モーションの混雑を避けるため）
 	bool m_bOneCreate;         //一回だけ作る為の変数
 
+	int m_nNextStageFrame;        //次のステージに行くまでのフレーム
 	int m_nLandingFrame;       //着地時のフレーム
 	bool m_bLandingFlag;       //着地したかどうかの判定用変数
 };

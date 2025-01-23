@@ -256,9 +256,9 @@ void CEnemyInMotion::Update()
 CEnemyInMotion001::CEnemyInMotion001(int nPriority) : CManagerEnemyInMotion(nPriority)
 {
 	GetRot().y = -D3DX_PI_ORI; //向きを設定（右向き）
+	SetLife(MAX_LIFE);         //ライフの設定
 	m_nHitFrame = 0;           //当たった時にフレームの初期化
 	m_bHit = false;            //当たっていないに設定
-	SetLife(MAX_LIFE);         //ライフの設定
 }
 
 //=============================
@@ -458,9 +458,17 @@ void CEnemyInMotion001::PlayerBloWwaway()
 {
 	m_nHitFrame++;  //当たったフレームを増やす
 
-	//Hitframeが既定値へいった時
-	if (m_nHitFrame <= 20)
+	//当たった瞬間
+	if (m_nHitFrame <= 1)
 	{
+		//プレイヤーのHPを削る
+		CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() -= CManagerGage::MAX_PLAYER_HP_SIZE * MAX_DAMAGE;
+	}
+
+	//Hitframeが既定値へいった時
+	else if (m_nHitFrame <= 20)
+	{
+
 		//左向きの時
 		if (CManager::GetScene()->GetPlayerX()->GetRotNumber() == 1)
 		{
@@ -473,10 +481,10 @@ void CEnemyInMotion001::PlayerBloWwaway()
 			CManager::GetScene()->GetPlayerX()->GetMove().x -= 10.0f;  //左に移動
 		}
 	}
+
+	//終了
 	else
 	{
-		CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() -= 
-		CManager::GetInstance()->GetPlayerHPGage()->GetPlayerHPSizeX() * 0.001f; //HPゲージを減らす
 		m_nHitFrame = 0; //hitframeを初期化
 		m_bHit = false;  //当たった判定をoffにする
 	}

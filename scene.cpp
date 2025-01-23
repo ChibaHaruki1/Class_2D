@@ -41,6 +41,7 @@ CScene::CScene()
 	m_bOneScene = false;          //１度だけそのシーンの処理を通すフラグの初期化
 	m_bPlay = false;              //遊べる状態になっているかどうかのフラグの初期化
 	m_Mode = MODE::MODE_RESULT;   //モードの設定
+	m_nFrame = 0;
 }
 
 
@@ -244,7 +245,7 @@ HRESULT CGame01::Init()
 	GetPlayerX()->SetMotion(CCharacter::MOTIONSTATE::LOKING); //プレイヤーのモーションを探すに設定
 	GetPlayerX()->SetRot(D3DXVECTOR3(0.0f,0.57f,0.0f));       //プレイヤーの向きを設定
 	
-	GetPlayerX()->GetPos().y = 2050.0f;                       //プレイヤーのY軸の位置を設定
+	GetPlayerX()->SetAddjustPos().y = 2050.0f;                //プレイヤーのY軸の位置を設定
 										                      
 	return S_OK;                                              //成功を返す
 }
@@ -288,6 +289,19 @@ void CGame01::Update()
 				return;                                                       //処理を抜ける
 			}
 		}
+
+		//スペースシップ０番目の情報がある時
+		if (CManager::GetInstance()->GetSpeceBattleShip(0) != nullptr)
+		{
+			SetAddjustFrame()++; //フレームを増やす
+
+			//フレームが規定値より高い時
+			if (GetFrame() >= 180)
+			{
+				CManager::GetInstance()->GetSpeceBattleShip(0)->Release();							//スペースシップを消す
+				CManager::GetInstance()->DesignationUninitX(CObjectX::TYPE::SPECEBATTLESHIP000, 0); //スペースシップのポインターの初期化
+			}
+		}
 	}
 
 	//シーンの処理が通っていない時
@@ -316,12 +330,12 @@ void CGame01::Update()
 
 
 //=======================
-//Cretae関数を呼ぶ
+//初期化時のCretae関数を呼ぶ
 //=======================
 void CGame01::InitCreate()
 {
 	GetPlayerX() = CPlayerX::Create();                                                                                     //プレイヤーの生成
-	CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::SPECEBATTLESHIP000, D3DXVECTOR3(0.0f, 2000.0f, 100.0f));  //次のステージへ行くobjの生成
+	CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::SPECEBATTLESHIP000, D3DXVECTOR3(0.0f, 2000.0f, 100.0f));  //スペースシップ1番目の生成
 	CSkyDoom::Create(D3DXVECTOR3(0.0f, 0.0f, 200.0f), 1);                                                                  //空の生成
 }
 
@@ -332,13 +346,10 @@ void CGame01::InitCreate()
 void CGame01::CompileCreate()
 {
 	//Xファイルのcreate
-	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::SHOP, 0, D3DXVECTOR3(200.0f, 0.0f, 150.0f));              //店の生成
-	CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::SPECEBATTLESHIP000, D3DXVECTOR3(12700.0f, 1900.0f, 0.0f));     //次のステージへ行くobjの生成
-	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::ENEMYINMOTION001,0, D3DXVECTOR3(1000.0f, 100.0f, 0.0f));  //モーション付きの敵の生成
-	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::ENEMYINMOTION001,0, D3DXVECTOR3(2900.0f, 2000.0f, 0.0f)); //モーション付きの敵の生成
-	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::ENEMYINMOTION001,0, D3DXVECTOR3(7000.0f, 2000.0f, 0.0f)); //モーション付きの敵の生成
-	CManager::GetInstance()->GetCreateObjectInstnace2D(CObject2D::TYPE::SCORE,0);                                               //スコアの生成
-	CManager::GetInstance()->GetCreateObjectInstnace2D(CObject2D::TYPE::HP, 0);                                                 //プレイヤーのHPゲージの生成
+	//CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::SHOP, 0, D3DXVECTOR3(200.0f, 0.0f, 150.0f));          //店の生成
+	CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::SPECEBATTLESHIP000, D3DXVECTOR3(-700.0f, 100.0f, 0.0f));   //スペースシップ２番目の生成
+	CManager::GetInstance()->GetCreateObjectInstnace2D(CObject2D::TYPE::SCORE,0);                                           //スコアの生成
+	CManager::GetInstance()->GetCreateObjectInstnace2D(CObject2D::TYPE::HP, 0);                                             //プレイヤーのHPゲージの生成
 }
 
 
@@ -352,7 +363,7 @@ void CGame01::CompileCreate()
 //=======================
 CGame02::CGame02()
 {
-	SetPlay(true); //遊べるに設定
+	SetPlay(false); //遊べるに設定
 }
 
 
@@ -373,11 +384,13 @@ HRESULT CGame02::Init()
 	//初期化に失敗した時
 	if (FAILED(CScene::Init()))
 	{
-		return E_FAIL;                                        //失敗を返す
+		return E_FAIL; //失敗を返す
 	}
 
-	CompileCreate();   //createしたいものを関数化して呼ぶ
-
+	CompileCreate();                                                                      //createしたいものを関数化して呼ぶ
+	GetPlayerX()->SetPos(D3DXVECTOR3(-POS_X,200.0f,0.0f));                                //プレイヤーの位置の設定
+	GetPlayerX()->SetMotion(CCharacter::MOTIONSTATE::LOKING);                             //プレイヤーのモーションを探すに設定
+	CManager::GetInstance()->GetSpeceBattleShip(0)->GetRot().y = -CObjectX::D3DX_PI_ORI;  //Y軸の向きを設定
 
 	return S_OK;       //成功を返す
 }
@@ -397,6 +410,35 @@ void CGame02::Uninit()
 //=======================
 void CGame02::Update()
 {
+	//シーンの処理が通った時
+	if (GetOneScene() == false)
+	{
+		SetAddjustFrame()++;
+
+		if (GetFrame() <= 80)
+		{
+			GetPlayerX()->SetGravityFlag(false);                                                //プレイヤーの重力Off
+			CManager::GetInstance()->GetSpeceBattleShip(0)->SetAddjustPos().x += PLUS_POS_X;    //X軸の位置の増加
+			GetPlayerX()->SetAddjustPos().x += PLUS_POS_X;                                      //X軸の位置の増加
+		}																					   
+		else if(GetFrame ()<=81)															   
+		{																					   
+			GetPlayerX()->SetMotion(CCharacter::MOTIONSTATE::TITLE_JUMP);                       //プレイヤーのモーションを設定
+			GetPlayerX()->SetGravityFlag(true);                                                 //重力ON
+		}																					   
+		else if (GetFrame() <= 300)															   
+		{																					   
+			CManager::GetInstance()->GetSpeceBattleShip(0)->SetAddjustPos().x += PLUS_POS_X;    //X軸の位置の増加
+			CManager::GetInstance()->GetSpeceBattleShip(0)->SetAddjustPos().y += 3.0f;         //X軸の位置の増加
+		}																					   
+		else																				   
+		{
+			SetOneScene(true);                                                                  //フラグのOff
+			CManager::GetInstance()->GetSpeceBattleShip(0)->Release();                          //スペースシップを消す
+			CManager::GetInstance()->DesignationUninitX(CObjectX::TYPE::SPECEBATTLESHIP000, 0); //スペースシップのポインターの初期化
+			return;
+		}
+	}
 	CScene::Update(); //更新処理
 }
 
@@ -407,13 +449,13 @@ void CGame02::Update()
 void CGame02::CompileCreate()
 {
 	//Xファイルのcreate
-	GetPlayerX() = CPlayerX::Create(); //プレイヤーの生成
-
-	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::SHOP, 0, D3DXVECTOR3(200.0f, 0.0f, 150.0f));         //店の生成
-	CSkyDoom::Create(D3DXVECTOR3(0.0f, 0.0f, 200.0f), 0);                                                                  //空の生成
-	CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::FINALBLOCK, D3DXVECTOR3(4335.0f, -200.0f, 0.0f));         //ボス戦の足場
-	CManager::GetInstance()->GetCreateObjectInstnace2D(CObject2D::TYPE::SCORE, CManager::GetObjectSet()->GetClearScore()); //スコアの生成
-	CManager::GetInstance()->GetCreateObjectInstnace2D(CObject2D::TYPE::HP, 0);                                            //プレイヤーのHPゲージの生成
+	GetPlayerX() = CPlayerX::Create();                                                                                        //プレイヤーの生成
+	CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::SPECEBATTLESHIP000, D3DXVECTOR3(-POS_X, 200.0f, 100.0f));    //スペースシップの生成
+	CSkyDoom::Create(D3DXVECTOR3(0.0f, 0.0f, 200.0f), 0);                                                                     //空の生成
+	CManager::GetInstance()->GetCreateObjectInstanceX(CObjectX::TYPE::SHOP, 0, D3DXVECTOR3(200.0f, 0.0f, 150.0f));            //店の生成
+	CManager::GetInstance()->CreateBlock(CObjectX::STRATEGYTYPE::FINALBLOCK, D3DXVECTOR3(4335.0f, -200.0f, 0.0f));            //ボス戦の足場
+	CManager::GetInstance()->GetCreateObjectInstnace2D(CObject2D::TYPE::SCORE, CManager::GetObjectSet()->GetClearScore());    //スコアの生成
+	CManager::GetInstance()->GetCreateObjectInstnace2D(CObject2D::TYPE::HP, 0);                                               //プレイヤーのHPゲージの生成
 }
 
 

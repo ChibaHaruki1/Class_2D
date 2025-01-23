@@ -294,13 +294,13 @@ void CEnemy002X::Move()
 	SetAddjustFrame()++; //フレームを増やす
 
 	//第一行動
-	if (GetFrame() <= 60)
+	if (GetFrame() <= 30)
 	{
 		GetPos().y += ADDJUST_POSY; //Y軸の位置を加算
 	}
 
 	//第二行動
-	else if (GetFrame() <= 120)
+	else if (GetFrame() <= 60)
 	{
 		GetPos().y -= ADDJUST_POSY; //Y軸の位置を減算
 	}

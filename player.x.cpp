@@ -56,6 +56,7 @@ CPlayerX::CPlayerX(int nPriority) : CCharacter(nPriority)
 
 	m_nMotionFrame = 0;                                   //銃を撃つ時のフレームの初期化
 	m_nMotionFrame001 = 0;                                //銃001を撃つ時のフレームの初期化
+	m_bPlayerMoveNext = false;                            //次のステージへ行く時のプレイヤーの動きの判定用の変数の初期化
 	m_bNextStage = false;                                 //次のステージに行くかどうかの変数の初期化
 
 	//吹っ飛ぶ処理の初期化
@@ -67,8 +68,9 @@ CPlayerX::CPlayerX(int nPriority) : CCharacter(nPriority)
 	m_nSpecialAttackCount = 0;                            //必殺技のカウントの初期化
 	m_bOneCreate = false;                                 //一度だけ生成するフラグの初期化
 
+	m_nNextStageFrame = 0;                                   //次のステージに行くまでのフレームの初期化
 	m_bLandingFlag = false;                               //着地してない
-	m_nLandingFrame = 0;
+	m_nLandingFrame = 0;                                  //着地時の次の動きへのフレームの初期化
 
 	m_pNowCreateUI = CManager2DUI::Create(CObject::TYPE_UI::NOWCREATE); //現在の配置オブジェクトのUIの生成
 }
@@ -186,13 +188,6 @@ void CPlayerX::Update()
 				m_nSpecialAttackCount++; //カウントを進める
 			}
 
-			//次のsceneに行くフラグがOnの時
-			if (m_bNextStage == true)
-			{
-				SceneMode(1); //sceneの切り替え
-				return;		  //処理を抜ける
-			}
-
 			//ゲージのmanagerが生成されていた時
 			if (CManager::GetInstance()->GetPlayerHPGage() != nullptr)
 			{
@@ -214,6 +209,21 @@ void CPlayerX::Update()
 			else if (m_PlayerState == CPlayerX::PLAYER_STATE::SHOP_MODE || m_PlayerState == CPlayerX::PLAYER_STATE::BUY_MODE)
 			{
 				ShopStateSummarizeFunction();   //専用の処理を呼ぶ
+			}
+
+			//次のステージへ行くときのプレーヤーの動きがOnの時
+			if (m_bPlayerMoveNext == true)
+			{
+				//SceneMode(1); //sceneの切り替え
+				//return;		  //処理を抜ける
+				NextStageMotion();
+			}
+
+			//次のsceneに行くフラグがOnの時
+			if (m_bNextStage == true)
+			{
+				SceneMode(1); //sceneの切り替え
+				return;		  //処理を抜ける
 			}
 
 			CObjectX::Update();                 //基底クラスの基底クラスの更新処理を呼ぶ
@@ -490,7 +500,7 @@ void CPlayerX::KeySet()
 			m_nSpecialAttackCount = 0;  //必殺技カウントの初期化
 
 			//右向きの時
-			if (GetRot().y == CManager::GetScene()->GetCamera()->GetRot().y - D3DX_PI / 2)
+			if (GetRot().y == CManager::GetScene()->GetCamera()->GetRot().y - D3DX_PI_ORI)
 			{
 				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::SPECIALATTACK, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));  //必殺技のエフェクトの生成
 				m_nMotionFrame = CManager::GetInstance()->GetSpecialAttack()->GetLife();                                             //モーションのライフを同期させる
@@ -500,7 +510,7 @@ void CPlayerX::KeySet()
 			}
 
 			//左向きの時
-			else if (GetRot().y == CManager::GetScene()->GetCamera()->GetRot().y + D3DX_PI / 2)
+			else if (GetRot().y == CManager::GetScene()->GetCamera()->GetRot().y + D3DX_PI_ORI)
 			{
 				CManager::GetInstance()->GetCreateObjectInstnace(CObject3D::TYPE::SPECIALATTACK, 0, D3DXVECTOR3(0.0f, 0.0f, 0.0f));  //必殺技のエフェクトの生成
 				m_nMotionFrame001 = CManager::GetInstance()->GetSpecialAttack()->GetLife();                                          //モーションのライフを同期させる
@@ -515,9 +525,9 @@ void CPlayerX::KeySet()
 	//Aキーが押された時（押され続けた時）
 	if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_A) == true || CManager::GetJyoPad()->GetJoypadPress(CInputJoyPad::JOYKEY::JOYKEY_LEFT) == true)
 	{
-		GetRot().y = CManager::GetScene()->GetCamera()->GetRot().y + D3DX_PI / 2;                                //カメラの向きに合わせて向く
-		SetAddjustMove().x -= sinf(D3DX_PI / 2 + CManager::GetScene()->GetCamera()->GetRot().y) * MAX_MOVESPEED; //X軸の移動量をカメラの向きから減算
-		SetAddjustMove().z -= cosf(D3DX_PI / 2 + CManager::GetScene()->GetCamera()->GetRot().y) * MAX_MOVESPEED; //Z軸の移動量をカメラの向きから減算
+		GetRot().y = CManager::GetScene()->GetCamera()->GetRot().y + D3DX_PI_ORI;                                //カメラの向きに合わせて向く
+		SetAddjustMove().x -= sinf(D3DX_PI_ORI + CManager::GetScene()->GetCamera()->GetRot().y) * MAX_MOVESPEED; //X軸の移動量をカメラの向きから減算
+		SetAddjustMove().z -= cosf(D3DX_PI_ORI + CManager::GetScene()->GetCamera()->GetRot().y) * MAX_MOVESPEED; //Z軸の移動量をカメラの向きから減算
 		m_nRotNumber = 1;                                                                                        //向き番号の設定
 
 		//撃ってない時
@@ -531,9 +541,9 @@ void CPlayerX::KeySet()
 	//Dキーが押された時（押され続けた時）
 	else if (CManager::GetKeyBorad()->GetKeyboardPress(DIK_D) == true || CManager::GetJyoPad()->GetJoypadPress(CInputJoyPad::JOYKEY::JOYKEY_RIGHT) == true)
 	{
-		GetRot().y = CManager::GetScene()->GetCamera()->GetRot().y - D3DX_PI / 2;                         //カメラの向きに合わせて向く
-		GetMove().x += sinf(D3DX_PI / 2 + CManager::GetScene()->GetCamera()->GetRot().y) * MAX_MOVESPEED; //X軸の移動量をカメラの向きから加算
-		GetMove().z += cosf(D3DX_PI / 2 + CManager::GetScene()->GetCamera()->GetRot().y) * MAX_MOVESPEED; //Z軸の移動量をカメラの向きから加算
+		GetRot().y = CManager::GetScene()->GetCamera()->GetRot().y - D3DX_PI_ORI;                         //カメラの向きに合わせて向く
+		GetMove().x += sinf(D3DX_PI_ORI + CManager::GetScene()->GetCamera()->GetRot().y) * MAX_MOVESPEED; //X軸の移動量をカメラの向きから加算
+		GetMove().z += cosf(D3DX_PI_ORI + CManager::GetScene()->GetCamera()->GetRot().y) * MAX_MOVESPEED; //Z軸の移動量をカメラの向きから加算
 		m_nRotNumber = 2;                                                                                 //向き番号の設定
 
 		//撃ってない時
@@ -548,7 +558,7 @@ void CPlayerX::KeySet()
 	else
 	{
 		//撃ってない時と吹っ飛んでない時
-		if (m_nMotionFrame <= 0 && m_nMotionFrame001 <= 0 && m_bFly == false && m_bLandingFlag == true)
+		if (m_nMotionFrame <= 0 && m_nMotionFrame001 <= 0 && m_bFly == false)
 		{
 			SpecialAttack = false;                                   //必殺技フラグをOffにする  
 			CCharacter::SetMotion(CCharacter::MOTIONSTATE::NEUTRAL); //待機モーション
@@ -562,7 +572,7 @@ void CPlayerX::KeySet()
 		CManager::GetSound()->PlaySound(CSound::SOUND_LABEL::SOUND_LABEL_SE_SHOT); //BDMを流す
 
 		//右向きの時
-		if (GetRot().y == CManager::GetScene()->GetCamera()->GetRot().y - D3DX_PI / 2)
+		if (GetRot().y == CManager::GetScene()->GetCamera()->GetRot().y - D3DX_PI_ORI)
 		{
 			m_nMotionFrame = 60;   //銃を撃つフレームを設定
 
@@ -571,7 +581,7 @@ void CPlayerX::KeySet()
 		}
 
 		//左向きの時
-		else if (GetRot().y == CManager::GetScene()->GetCamera()->GetRot().y + D3DX_PI / 2)
+		else if (GetRot().y == CManager::GetScene()->GetCamera()->GetRot().y + D3DX_PI_ORI)
 		{
 			m_nMotionFrame001 = 60; //銃を撃つフレームを設定
 
@@ -957,9 +967,10 @@ void CPlayerX::BlockJudgement()
 						//着地フレームが規定値より高い時
 						if (m_nLandingFrame >= 60)
 						{
-							m_bLandingFlag = true;               //着地しているに設定
-							m_nLandingFrame = 0;                 //着地フレームの初期化
-							CManager::GetScene()->SetPlay(true); //遊べるに設定
+							m_bLandingFlag = true;                                                              //着地しているに設定
+							m_nLandingFrame = 0;                                                                //着地フレームの初期化
+							CManager::GetScene()->SetPlay(true);                                                //遊べるに設定
+						
 						}
 					}
 				}
@@ -1244,11 +1255,6 @@ void CPlayerX::BlockJudgement()
 		{
 			SetGravityFlag(true);//重力ON
 		}
-		//その他
-		else
-		{
-			SetGravityFlag(true);//重力ON
-		}
 	}
 
 	//バトルシップとの当たり判定
@@ -1257,7 +1263,8 @@ void CPlayerX::BlockJudgement()
 		//当たり判定
 		if (GetCollision() ->CircleCollisionAll(GetPos(), CManager::GetInstance()->GetSpeceBattleShip(1)->GetPos(), GetModelSize(), CManager::GetInstance()->GetSpeceBattleShip(1)->GetModelSize() * 1.1f) == true)
 		{
-			m_bNextStage = true; //次のsceneへ行くフラフをONにする
+			//NextStageMotion();
+			m_bPlayerMoveNext = true; //次のsceneへ行くフラフをONにする
 		}
 	}
 
@@ -1299,6 +1306,40 @@ void CPlayerX::BlockJudgement()
 				m_pTalkText = nullptr;  //情報を無くす
 			}
 		}
+	}
+}
+
+//=====================================================================
+//次のステージに行く時のモーション処理(主にスペースシップの処理)
+//=====================================================================
+void CPlayerX::NextStageMotion()
+{
+	m_nNextStageFrame++;        //フレームを増やす
+
+	SetPos(D3DXVECTOR3(
+		CManager::GetInstance()->GetSpeceBattleShip(1)->GetPos().x,
+		CManager::GetInstance()->GetSpeceBattleShip(1)->GetPos().y+100.0f,
+		CManager::GetInstance()->GetSpeceBattleShip(1)->GetPos().z-250.0f));
+	//GetPos().y= CManager::GetInstance()->GetSpeceBattleShip(1)->GetPos().y;
+
+	//第一行動
+	if (m_nNextStageFrame <= 1)
+	{
+		CManager::GetInstance()->GetSpeceBattleShip(1)->GetRot().y = -D3DX_PI_ORI;  //Y軸の向きを設定
+	}
+
+	//第二行動
+	else if (m_nNextStageFrame <= 60*3)
+	{
+		//X軸の移動
+		CManager::GetInstance()->GetSpeceBattleShip(1)->SetAddjustPos().x += (float)m_nNextStageFrame* MAX_POS_NEXTSTAGE; 
+		SetAddjustPos().x+= (float)m_nNextStageFrame * MAX_POS_NEXTSTAGE;                                                
+	}
+
+	//終了
+	else
+	{
+		m_bNextStage = true; //次のsceneへ行くフラフをONにする
 	}
 }
 

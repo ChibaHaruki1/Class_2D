@@ -6,15 +6,20 @@
 //
 //====================================================
 
+
+#pragma once
+
 #ifndef _OBJECTX_H_
 #define _OBJECTX_H_
 
+
+//====================================================
+//インクルード
 #include "objectmanagerX.h"
 #include "input.h"
 #include "collision.h"
 #include "ui.h"
 
-#define MAX_TEXTURE (64) //保管できる最大のテクスチャー数
 
 class CObjectX : public CObjectManagerX
 {
@@ -125,6 +130,7 @@ public://外部からのアクセス可能
 
 private:
 	//マクロ定義
+	constexpr static int MAX_TEXTURE = 32;             //保管できる最大のテクスチャー数
 	constexpr static float OBJECT_SET_PLUS_X = 1.0f;   //オブジェクトの配置時のX軸の右の移動の速さ
 	constexpr static float OBJECT_SET_MINUS_X = 1.0f;  //オブジェクトの配置時のX軸の左の移動の速さ
 	constexpr static float OBJECT_SET_PLUS_Y = 1.0f;   //オブジェクトの配置時のY軸の上の移動の速さ

@@ -49,9 +49,21 @@ public:
 
 	static CScene* Create(MODE mode);  //modeに合わせて生成をする
 
-	CCamera* GetCamera() { return m_pCamera; }     //カメラの情報を取得
-	CLight* GetLight() { return m_pLight; }        //光源の情報を取得
-	CPlayerX*& GetPlayerX() { return m_pPlayerX; } //プレイヤーの情報を取得する
+
+	//==================================
+	//情報の取得
+	CCamera* GetCamera() { return m_pCamera; }       //カメラの情報を取得
+	CLight* GetLight() { return m_pLight; }          //光源の情報を取得
+	CPlayerX*& GetPlayerX() { return m_pPlayerX; }   //プレイヤーの情報を取得する
+
+	int& GetFrame() { return m_nFrame; }
+
+
+	//==================================
+	//情報の設定
+	void SetFrame(int nFrame) { m_nFrame = nFrame; } //フレームの設定
+	int& SetAddjustFrame() { return m_nFrame; }      //フレームの調整
+
 
 	//===========================================================
 	//情報の取得
@@ -72,6 +84,8 @@ private:
 	CPlayerX* m_pPlayerX;      //プレイヤーのポインター
 	MODE m_Mode;               //現在のモードの管理変数
 
+	int m_nFrame;
+
 	bool m_bOneSound;          //１回だけ音源を流す為の変数
 	bool m_bOneScene;          //１回だけシーン移動する為の変数
 	bool m_bPlay;              //遊べるかどうかの判定用変数
@@ -91,7 +105,7 @@ public:                      //アクセス可能
 	void InitCreate();       //初期化時に生成したい物をまとめる関数
 	void CompileCreate();    //create関数をまとめる関数
 
-private:           //アクセス不可能
+private:          
 	CFade* m_pFade;  //フェードのポインター
 };
 
@@ -107,6 +121,12 @@ public:                       //アクセス可能
 	void Uninit()override;    //破棄処理
 	void Update()override;    //更新処理
 	void CompileCreate();     //create関数をまとめる関数
+
+private:
+	//マクロ定義
+	static constexpr float POS_X = 1500.0f;
+	static constexpr float PLUS_POS_X = 20.0f;
+
 };
 
 

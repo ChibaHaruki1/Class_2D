@@ -38,7 +38,6 @@ public:
 	//======================================
 	//情報の設定
 	void SetRot(D3DXVECTOR3 rot) { m_rot = rot; }
-	void SetAdjustmentPosVX(float fAdjustmentPosVZ) { m_fAdjustmentPosVZ = fAdjustmentPosVZ; } //PosVのZ軸の位置を設定
 
 private:
 	//マクロ定義
@@ -54,7 +53,6 @@ private:
 	D3DXMATRIX m_mtxView;             //ビュー行列
 	int m_fAdjustmentPosZ;            //Z軸用の位置を調整する用の変数
 	float m_fAdjustmentPosY;          //Y軸用の位置を調整する用の変数
-	float m_fAdjustmentPosVZ;          //Z軸用の位置を調整する用の変数
 };
 
 #endif // !_CAMERA_H_

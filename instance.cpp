@@ -282,6 +282,15 @@ void CInstance::DesignationUninitX(CObjectX::TYPE type, int nNumber)
 			m_pDebrisX[nNumber] = nullptr;          //指定した番号の情報をなくす
 		}
 	}
+
+	//タイプがスペースシップの時
+	else if (type == CObjectX::TYPE::SPECEBATTLESHIP000)
+	{
+		if (m_pSpeceBattleShip000[nNumber] != nullptr)
+		{
+			m_pSpeceBattleShip000[nNumber] = nullptr; //指定した番号の情報をなくす
+		}
+	}
 }
 
 
