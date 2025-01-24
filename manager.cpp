@@ -204,7 +204,7 @@ void CManager::SetMode(CScene::MODE mode)
 	m_pInstance = new CInstance();   //インスタンスの生成
 	m_pScene = CScene::Create(mode); //シーンの生成
 
-	//タイトルとリザルト時以外の時textファイルの情報を読み込む
+	//タイトルの時以外の時textファイルの情報を読み込む
 	if (mode != CScene::MODE::MODE_TITLE)
 	{
 		m_pObjectSet = CObjectSet::Create(); //textから読み取ったオブジェクトを配置する
